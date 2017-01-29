@@ -7,6 +7,7 @@ import {
   View,
   TouchableHighlight,
   Dimensions,
+  Platform
 } from 'react-native';
 import React, { Component } from 'react';
 
@@ -26,12 +27,14 @@ import ActionMan from '../../../actions'
 import styles from '../../modals/purpleModalStyles'
 import {SlideHorizontalIOS, FloatHorizontal} from '../../../ExNavigationStylesCustom'
 
+const iOS = Platform.OS == 'ios';
+
 @withNavigation
 class JoinCouple extends Component{
   static route = {
     navigationBar: {
       visible: true,
-      translucent: true,
+      translucent: false,
       backgroundColor: colors.shuttleGrayAnimate,
       borderBottomWidth: 0,
       tintColor: '#fff',
@@ -40,8 +43,6 @@ class JoinCouple extends Component{
         top: 24,
         paddingTop: 24
       },
-      top: 50,
-      paddingTop: 50,
       titleStyle: {
         color: '#fff',
         fontFamily: 'montserrat',
@@ -49,7 +50,10 @@ class JoinCouple extends Component{
       },
       title(params){
         return 'JOIN COUPLE'
-      }
+      },
+      statusBar: {
+        translucent: iOS,
+      },
     },
   };
 
@@ -96,7 +100,7 @@ class JoinCouple extends Component{
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          top: 50, paddingBottom: 150
+          paddingBottom: 150
         }}
         style={{flexGrow: 1,
           backgroundColor: colors.outerSpace

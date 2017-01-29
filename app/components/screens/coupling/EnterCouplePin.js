@@ -41,12 +41,7 @@ class EnterCouplePin extends React.Component{
       borderBottomWidth: 0,
       tintColor: '#fff',
       borderWidth: 0,
-      style:{
-        top:24,
-        paddingTop:24
-      },
-      top:24,
-      paddingTop:24,
+
       titleStyle: {
         color: '#fff',
         fontFamily: 'montserrat',

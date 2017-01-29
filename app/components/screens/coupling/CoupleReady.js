@@ -28,17 +28,12 @@ class CoupleReady extends React.Component{
     styles: FloatHorizontal,
     navigationBar: {
       visible: false,
-      translucent: true,
+      translucent: false,
       backgroundColor: colors.shuttleGrayAnimate,
       borderBottomWidth: 0,
       tintColor: '#fff',
       borderWidth: 0,
-      style: {
-        top: 24,
-        paddingTop: 24
-      },
-      top: 24,
-      paddingTop: 24,
+
       titleStyle: {
         color: '#fff',
         fontFamily: 'montserrat',
@@ -96,6 +91,9 @@ class CoupleReady extends React.Component{
     return this.props.user && this.props.user.partner ? (
       <View style={{flexGrow: 1, backgroundColor: colors.outerSpace}}>
       <ScrollView
+
+        showsVerticalScrollIndicator={false}
+        vertical
         contentContainerStyle={[{
           width: DeviceWidth,
           backgroundColor: colors.outerSpace,

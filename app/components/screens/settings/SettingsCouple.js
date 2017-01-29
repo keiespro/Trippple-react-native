@@ -48,9 +48,12 @@ class SettingsCouple extends React.Component{
     sceneStyle: {
 
     },
+    statusBar: {
+      translucent: false,
+    },
     navigationBar: {
       visible: true,
-      translucent: true,
+      translucent: false,
       titleStyle: {
         color: '#fff',
         fontFamily: 'montserrat',
@@ -123,12 +126,15 @@ class SettingsCouple extends React.Component{
           height: DeviceHeight,
           overflow: 'hidden',
           flex: 1,
-          paddingTop: 60
+          paddingTop: 0
         }}
       >
         <ScrollView
           showsVerticalScrollIndicator={false}
-          style={{height: DeviceHeight-110}}
+
+
+
+
         >
 
           { (partner.id) &&
@@ -174,7 +180,7 @@ class SettingsCouple extends React.Component{
                   navigator={this.props.navigator}
                   navigation={this.props.navigation}
                   fieldName={'birthday'}
-                  fieldValue={new Date(this.props.user.birthday || MIN_DATE)}
+                  fieldValue={new Date(this.props.user.partner.birthday || MIN_DATE)}
                   field_type={'date'}
                   dispatch={this.props.dispatch}
                   field={settingOptions[field]}
@@ -194,6 +200,8 @@ class SettingsCouple extends React.Component{
                   navigation={this.props.navigation}
                   fieldName={field}
                   field={settingOptions[field]}
+                  fieldValue={this.props.user.partner.gender}
+
                 />
                         )
             })}

@@ -25,7 +25,7 @@ class AlbumView extends React.Component {
     navigationBar: {
       backgroundColor: colors.shuttleGrayAnimate,
       visible: true,
-      translucent: true,
+      translucent: false,
       titleStyle: {
         color: colors.white,
         fontFamily: 'montserrat',
@@ -108,7 +108,6 @@ class AlbumView extends React.Component {
         <ListView
           style={{
             flexGrow: 1,
-            top:50,
             backgroundColor: colors.outerSpace,
 
           }}
@@ -127,7 +126,6 @@ class AlbumView extends React.Component {
           dataSource={this.state.photoSource}
           horizontal={false}
           showsVerticalScrollIndicator={false}
-          automaticallyAdjustContentInsets
           vertical
           initialListSize={24}
           onEndReached={this.getMore.bind(this)}

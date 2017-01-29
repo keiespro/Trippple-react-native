@@ -33,17 +33,10 @@ class CouplePin extends React.Component{
     styles: FloatHorizontal,
     navigationBar: {
       visible: true,
-      translucent: true,
       backgroundColor: colors.shuttleGrayAnimate,
       borderBottomWidth: 0,
       tintColor: '#fff',
       borderWidth: 0,
-      style: {
-        top: 24,
-        paddingTop: 24
-      },
-      top: 24,
-      paddingTop: 24,
       titleStyle: {
         color: '#fff',
         fontFamily: 'montserrat',
@@ -299,7 +292,10 @@ class CouplePin extends React.Component{
     top:0,position:'absolute',
     width: DeviceWidth,flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
 
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        vertical
+      >
         { this.state.success ? this.renderSuccess() : this.renderMain() }
         <View style={{width: 100, height: 20, left: 10, top: 0, flex: 1, position: 'absolute', alignSelf: 'flex-start', zIndex: 9999}}>
           <TouchableOpacity onPress={() => this.props.navigator.pop()}>

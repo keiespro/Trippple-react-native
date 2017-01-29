@@ -33,7 +33,7 @@ class NoPartner extends React.Component{
     styles: FloatHorizontal,
     navigationBar: {
       visible: true,
-      translucent: true,
+      translucent: false,
       backgroundColor: colors.shuttleGrayAnimate,
       borderBottomWidth: 0,
       tintColor: '#fff',

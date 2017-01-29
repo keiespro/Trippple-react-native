@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import ReactNative, {
   StyleSheet,
   Text,
@@ -8,37 +8,55 @@ import ReactNative, {
   Image,
   Dimensions
 } from 'react-native';
-
+import { NavigationActions, withNavigation } from '@exponent/ex-navigation';
+import {connect} from 'react-redux'
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
 import colors from '../utils/colors';
 
-const UserImageCircle = ({id, thumbUrl, onPress,overrideStyles = {}}) => (
-  <TouchableOpacity
-    onPress={onPress}
-    style={{marginTop: 0, }}
-  >
-    <View>
-      <Image
-        style={[styles.userimage, overrideStyles]}
-        key={`${id}thumb`}
-        defaultSource={require('./screens/settings/assets/placeholderUser@3x.png')}
-        resizeMode={Image.resizeMode.cover}
-        source={thumbUrl ? {uri: thumbUrl} : require('./screens/settings/assets/placeholderUser@3x.png')}
-      />
-      <View style={styles.circle}>
-        <Image
-          style={{width: 18, height: 18}}
-          source={require('./screens/settings/assets/cog@3x.png')}
-          resizeMode={Image.resizeMode.contain}
-        />
-      </View>
-    </View>
-  </TouchableOpacity>
-)
+@withNavigation
+class UserImageCircle extends Component{
 
-export default UserImageCircle
+  render(){
+
+    const {id, thumbUrl, onPress,dispatch,overrideStyles = {}} = this.props
+
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          const nav = this.props.navigation.getNavigatorByUID(this.props.navState.currentNavigatorUID)
+          nav.push('FBPhotoAlbums', {});
+        }}
+        style={{marginTop: 0, }}
+      >
+        <View>
+          <Image
+            style={[styles.userimage, overrideStyles]}
+            key={`${id}thumb`}
+            defaultSource={require('./screens/settings/assets/placeholderUser@3x.png')}
+            resizeMode={Image.resizeMode.cover}
+            source={thumbUrl ? {uri: thumbUrl} : require('./screens/settings/assets/placeholderUser@3x.png')}
+          />
+          <View style={styles.circle}>
+            <Image
+              style={{width: 18, height: 18}}
+              source={require('./screens/settings/assets/cog@3x.png')}
+              resizeMode={Image.resizeMode.contain}
+            />
+          </View>
+        </View>
+      </TouchableOpacity>
+    )
+  }
+}
+
+
+const mapStateToProps = (state, ownProps) => ({ ...ownProps, navState: state.navigation })
+
+const mapDispatchToProps = (dispatch) => ({ dispatch })
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserImageCircle);
 
 const styles = StyleSheet.create({
 

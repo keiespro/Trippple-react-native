@@ -22,9 +22,12 @@ class SettingsSettings extends React.Component{
     sceneStyle:{
 
     },
+    statusBar: {
+      translucent: false,
+    },
     navigationBar: {
       visible:true,
-      translucent:true,
+      translucent:false,
       titleStyle: {
         color: '#fff',
         fontFamily: 'montserrat',
@@ -149,13 +152,14 @@ class SettingsSettings extends React.Component{
     const {privacy} = this.state
 
     return (
-      <View style={{backgroundColor: colors.outerSpace, width: DeviceWidth, height: DeviceHeight, overflow: 'hidden', flex: 1, paddingTop: 50}}>
+      <View style={{backgroundColor: colors.outerSpace, width: DeviceWidth, height: DeviceHeight, overflow: 'hidden', flex: 1, paddingTop: 0}}>
 
         <ScrollView
           style={{height: DeviceHeight, marginTop: 0, }}
           contentContainerStyle={{paddingHorizontal: 0, paddingBottom: 60}}
           alwaysBounceVertical
-          automaticallyAdjustContentInsets
+
+
 
           showsVerticalScrollIndicator={false}
         >

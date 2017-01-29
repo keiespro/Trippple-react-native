@@ -30,9 +30,12 @@ class SettingsBasic extends React.Component{
     sceneStyle:{
 
     },
+    statusBar: {
+      translucent: false,
+    },
     navigationBar: {
       visible:true,
-      translucent:true,
+      translucent: false,
       titleStyle: {
         color: '#fff',
         fontFamily: 'montserrat',
@@ -75,12 +78,16 @@ class SettingsBasic extends React.Component{
 
 
 
-      <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,paddingTop:50,height:DeviceHeight,overflow:'hidden',flex:1}}>
+      <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,paddingTop:0,height:DeviceHeight,overflow:'hidden',flex:1}}>
 
         <ScrollView
             showsVerticalScrollIndicator={false}
             style={{height:DeviceHeight-110}}
             tabLabel={'GENERAL'}
+
+
+
+
         >
           <View style={[{ paddingBottom:40}]}>
 

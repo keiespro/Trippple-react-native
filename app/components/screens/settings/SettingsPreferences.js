@@ -46,7 +46,7 @@ class SettingsPreferences extends React.Component{
     navigationBar: {
       backgroundColor: colors.shuttleGrayAnimate,
       visible: true,
-      translucent: true,
+      translucent: false,
       tintColor: '#fff',
       titleStyle: {
         color: '#fff',
@@ -57,7 +57,10 @@ class SettingsPreferences extends React.Component{
       title(){
         return 'PREFERENCES'
       }
-    }
+    },
+    statusBar: {
+      translucent: false,
+    },
   };
   constructor(props){
     super()
@@ -115,10 +118,12 @@ class SettingsPreferences extends React.Component{
     const values = {looking_for_mf, looking_for_mm, looking_for_ff, looking_for_f, looking_for_m}
     return (
 
-      <View style={{backgroundColor: colors.outerSpace, flex: 1, paddingTop: 50}}>
+      <View style={{backgroundColor: colors.outerSpace, flex: 1, paddingTop: 0}}>
         <ScrollView
           showsVerticalScrollIndicator={false}
-          automaticallyAdjustContentInsets
+
+
+
           style={{}}
           scrollEnabled={this.state.scroll == 'on' ? true : false}
         >

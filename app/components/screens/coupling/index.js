@@ -1,4 +1,4 @@
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions,Platform } from 'react-native';
 import React, { Component } from 'react';
 
 import {NavigationContext, createRouter, withNavigation, NavigationProvider, StackNavigation} from '@exponent/ex-navigation'
@@ -21,6 +21,8 @@ import JoinCouple from './JoinCouple';
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
+const iOS = Platform.OS == 'ios';
+
 
 const couplingRouter = createRouter(() => ({
   CouplePin: () => CouplePin,
@@ -40,7 +42,10 @@ class Coupling extends Component{
       title(params){
         return ''
       }
-    }
+    },
+    statusBar: {
+        translucent: false,
+    },
   };
 
   constructor(props){

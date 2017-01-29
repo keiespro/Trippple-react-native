@@ -11,7 +11,7 @@ import ReactNative, {
   Dimensions,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
+import { NavigationActions, NavigationStyles, withNavigation } from '@exponent/ex-navigation';
 import Analytics from '../../../utils/Analytics';
 import LogoutButton from '../../buttons/LogoutButton';
 import XButton from '../../buttons/XButton';
@@ -25,6 +25,7 @@ import config from '../../../../config'
 import {SlideVerticalNoGesturesIOS} from '../../../ExNavigationStylesCustom'
 import SettingsRow from './SettingsRow'
 import UserImageCircle from '../../UserImageCircle'
+import Router from '../../../Router'
 
 
 const iOS = Platform.OS == 'ios';
@@ -33,14 +34,13 @@ const DeviceWidth = Dimensions.get('window').width
 const {FBAppInviteDialog} = NativeModules;
 const {INVITE_FRIENDS_APP_LINK} = config
 
-
 @withNavigation
 class Settings extends React.Component{
   static route = {
     styles: SlideVerticalNoGesturesIOS,
     navigationBar: {
       visible: false,
-      translucent: true,
+      translucent: false,
       backgroundColor: colors.transparent,
 
     },
@@ -53,13 +53,14 @@ class Settings extends React.Component{
   };
 
   constructor(props){
-    super();
+    super(props);
     this.state = {
       index: 0,
       settingOptions: profileOptions,
     }
   }
   componentDidMount(){
+    console.log(this.props.navigation,Router);
   }
   getScrollResponder() {
     return this._scrollView.getScrollResponder();
@@ -123,20 +124,18 @@ class Settings extends React.Component{
       potential = selfAsPotential
     }
 
-    this.props.navigator.push(this.props.navigation.router.getRoute('UserProfile', {
+    const nav = this.props.navigation.getNavigatorByUID(this.props.navState.currentNavigatorUID)
+    nav.push('UserProfile', {
       potential,
       user: this.props.user,
       profileVisible: true
-    }));
-  }
-
-  _pressNewImage(){
-    this.props.navigator.push(this.props.navigation.router.getRoute('FBPhotoAlbums', {}));
+    });
   }
 
   _updateAttr(updatedAttribute){
     this.setState(() => updatedAttribute);
   }
+
   render(){
     const wh = DeviceHeight / 2;
     return (
@@ -157,7 +156,7 @@ class Settings extends React.Component{
           key={this.props.user.id}
           windowHeight={wh}
           navigator={this.props.navigator}
-          automaticallyAdjustContentInsets
+
           scrollsToTop
           backgroundSource={this.props.user.image_url ? {uri: this.props.user.image_url} : require('./assets/defaultuser.png')}
           style={{backgroundColor: colors.outerSpace, flex: 1, height: DeviceHeight}}
@@ -176,7 +175,6 @@ class Settings extends React.Component{
               <UserImageCircle
                 id={this.props.user.id}
                 thumbUrl={this.props.user.thumb_url}
-                onPress={this._pressNewImage.bind(this)}
               />
 
               <TouchableOpacity onPress={this._openProfile.bind(this)} style={{alignSelf: 'stretch', }} >
@@ -220,7 +218,7 @@ class Settings extends React.Component{
               title={'PROFILE'}
               subtitle={'Edit your information'}
               pushScreen={() => {
-                this.props.navigator.push(this.props.navigation.router.getRoute('SettingsBasic', {
+                this.props.dispatch(ActionMan.pushRoute('SettingsBasic', {
                   style: styles.container,
                   settingOptions: profileOptions,
                   startPage: 0,
@@ -234,7 +232,7 @@ class Settings extends React.Component{
                 title={'COUPLE'}
                 subtitle={`You and your partner, ${this.props.user.partner ? this.props.user.partner.firstname : ''}`}
                 pushScreen={(f) => {
-                  this.props.navigator.push(this.props.navigation.router.getRoute('SettingsCouple', {
+                  this.props.dispatch(ActionMan.pushRoute('SettingsCouple', {
                     style: styles.container,
                     settingOptions: this.state.settingOptions,
                     user: this.props.user,
@@ -249,7 +247,7 @@ class Settings extends React.Component{
                 title={this.props.user.relationship_status == 'single' ? 'JOIN COUPLE' : 'JOIN PARTNER'}
                 subtitle={'Connect with your partner'}
                 pushScreen={(f) => {
-                  this.props.navigator.push(this.props.navigation.router.getRoute('JoinCouple'));
+                  this.props.dispatch(ActionMan.pushRoute('JoinCouple',{}));
                 }}
               /> : null
             }
@@ -258,7 +256,7 @@ class Settings extends React.Component{
               title={'PREFERENCES'}
               subtitle={'What you\'re looking for'}
               pushScreen={(f) => {
-                this.props.navigator.push(this.props.navigation.router.getRoute('SettingsPreferences', {
+                this.props.dispatch(ActionMan.pushRoute('SettingsPreferences', {
                   style: styles.container,
                   settingOptions: this.state.settingOptions,
                   user: this.props.user,
@@ -270,7 +268,7 @@ class Settings extends React.Component{
               title={'SETTINGS'}
               subtitle={'Privacy and more'}
               pushScreen={(f) => {
-                this.props.navigator.push(this.props.navigation.router.getRoute('SettingsSettings', {
+                this.props.dispatch(ActionMan.pushRoute('SettingsSettings', {
                   style: styles.container,
                   settingOptions: this.state.settingOptions,
                 }));
@@ -305,7 +303,7 @@ class Settings extends React.Component{
                 title={'DEBUG'}
                 subtitle={'not working'}
                 pushScreen={(f) => {
-                  this.props.navigator.push(this.props.navigation.router.getRoute('SettingsDebug', {
+                  this.props.dispatch(ActionMan.pushRoute('SettingsDebug', {
                     style: styles.container,
                     settingOptions: this.state.settingOptions,
                   }))
@@ -370,14 +368,13 @@ class Settings extends React.Component{
 
 Settings.displayName = 'Settings'
 
-const mapStateToProps = ({user, ui}, ownProps) => {
-  return {...ownProps, user, ui }
+const mapStateToProps = ({user, ui, navigation}, ownProps) => {
+  return {...ownProps, user, ui, navState: navigation }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     dispatch,
-
   };
 }
 

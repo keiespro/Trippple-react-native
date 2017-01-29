@@ -30,7 +30,7 @@ class PhotoAlbums extends React.Component {
     navigationBar: {
       backgroundColor: colors.shuttleGrayAnimate,
       visible: true,
-      translucent: true,
+      translucent: false,
       titleStyle: {
         color: colors.white,
         fontFamily: 'montserrat',
@@ -247,17 +247,11 @@ class PhotoAlbums extends React.Component {
             style={{
               flex: 1,
               marginTop: 0,
-              paddingTop: 60
             }}
             dataSource={this.state.albumSource}
             renderRow={this.renderAlbumCover.bind(this)}
-            contentInset={{
-              left: 0,
-              right: 0,
-              bottom: 0
-            }}
             showsVerticalScrollIndicator={false}
-            automaticallyAdjustContentInsets
+
           />
           ) :
           this.renderLoadingView()
