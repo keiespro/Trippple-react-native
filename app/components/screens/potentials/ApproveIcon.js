@@ -10,6 +10,7 @@ const DeviceWidth = Dimensions.get('window').width;
 
 const ApproveIcon = props => (
   <Animated.View
+    pointerEvents={'none'}
     key={'approveicon'}
     style={[styles.animatedIcon, {
       opacity: props.pan ? props.pan.x.interpolate({
@@ -46,7 +47,7 @@ const ApproveIcon = props => (
       style={{
         width: 100,
         height: 100,
-        left: iOS ? -50 : 0,
+        left: iOS ? 0 : 0,
         position: 'relative',
         paddingRight: 0,
         tintColor: iOS ? colors.white : colors.sushi

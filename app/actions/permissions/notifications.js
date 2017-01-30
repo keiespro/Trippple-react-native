@@ -24,12 +24,10 @@ export const requestNotificationsPermission = () => dispatch => dispatch({ type:
   payload: new Promise((resolve, reject) => {
     Platform.select(request)()
       .then(permission => {
-        console.log(permission);
         dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_ON'})
         return resolve(permission)
       })
       .catch(err => {
-        console.log(err);
         dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_OFF'})
         return reject(err)
       })

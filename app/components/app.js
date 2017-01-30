@@ -60,6 +60,7 @@ class App extends React.Component{
 
         this.performInitActions()
         if(this.props.loggedIn){
+
         }else{
 
         }
@@ -84,7 +85,7 @@ class App extends React.Component{
 
       }
       if(this.state.initialized && this.props.loggedIn && !nProps.savedCredentials){
-        // this.props.dispatch(ActionMan.saveCredentials())
+        this.props.dispatch(ActionMan.saveCredentials())
 
       }
     }
@@ -107,41 +108,47 @@ class App extends React.Component{
 
   performInitActions(){
 
-    const initActions = [
+    const initActions = this.props.loggedIn ? [
       'getUserInfo',
       'getPotentials',
       'getMatches',
       'getNewMatches',
-        // 'getNotificationCount',
-    ];
+
+    ] : [];
+
     const {permissions} = this.props;
 
-    if(permissions.location && permissions.location == 'authorized'){
-      initActions.push('getLocation')
-    }
+
     // if(permissions.notifications){
     //   initActions.push('getPushToken')
     // }
-    RC.getValue('init_actions')
-        .then(actions => {
-          __DEV__ && console.log('init_actions', actions);
-          // _.reject(actions.split(','), a => a == 'getLocation').forEach(ac => {
-
-          actions.split(',').forEach(ac => {
-            this.props.dispatch(ActionMan[ac]())
-          })
-
-        })
-        .catch(err => {
-          __DEV__ && console.log('init_actions error', err);
+    // RC.getValue('init_actions')
+    //     .then(actions => {
+    //       __DEV__ && console.log('init_actions', actions);
+    //       // _.reject(actions.split(','), a => a == 'getLocation').forEach(ac => {
+    //
+    //       actions.split(',').forEach(ac => {
+    //         this.props.dispatch(ActionMan[ac]())
+    //       })
+    //
+    //     })
+    //     .catch(err => {
 
           initActions.forEach(ac => {
             this.props.dispatch(ActionMan[ac]())
           })
-        })
-        this.props.dispatch(ActionMan['checkLocationPermission']())
-        this.props.dispatch(ActionMan['checkNotificationsPermission']())
+        // })
 
+    this.props.dispatch(ActionMan['checkLocationPermission']())
+    this.props.dispatch(ActionMan['checkNotificationsPermission']())
+    console.log(this.props.loggedIn);
+
+    if(this.props.loggedIn && permissions.location && permissions.location == 'authorized'){
+      this.props.dispatch(ActionMan['getLocation']())
+    }
+    if(this.props.loggedIn && permissions.notifications){
+      this.props.dispatch(ActionMan['getPushToken']())
+    }
   }
 
 
@@ -150,7 +157,7 @@ class App extends React.Component{
       <View style={{width: DeviceWidth, height: DeviceHeight, backgroundColor: colors.outerSpace}}>
 
         <ConnectionInfo dispatch={this.props.dispatch}/>
-        {this.props.loadedUser && this.props.user && this.props.loggedIn && <LikeSender />}
+        { this.props.user && this.props.user.id && <LikeSender />}
 
         <AppState dispatch={this.props.dispatch}/>
 
@@ -178,6 +185,7 @@ const Loading = () => (
   </View>
 )
 const mapStateToProps = (state, ownProps) => {
+  console.log(state.auth,global.creds);
   const loggedIn = state.auth.api_key && state.auth.user_id;
   const onboarded = loggedIn && state.user.status == 'onboarded'
 

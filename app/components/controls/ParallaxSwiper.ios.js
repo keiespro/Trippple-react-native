@@ -75,7 +75,7 @@ class ParallaxSwiper extends React.Component{
           // shadowColor: colors.darkShadow,
           // shadowOpacity: 0.4,
           // shadowRadius: 30,
-          alignItems:'flex-end',
+          alignItems:'flex-start',
           flexDirection:'column',
           // shadowOffset: {
           //   width: 0,
@@ -84,7 +84,7 @@ class ParallaxSwiper extends React.Component{
           marginTop: profileVisible ? 0 : 40,
           flexGrow: 1,
           position: 'absolute',
-          top: 0,
+          top: -1,
           borderRadius: 11,
           backgroundColor: iOS && isTopCard && typeof this.props.pan != 'undefined' ? this.props.pan.x.interpolate({
             inputRange: [-300, -180, -150, 0, 150, 180, 300],
@@ -92,7 +92,7 @@ class ParallaxSwiper extends React.Component{
               'rgba(232,74,107,1.0)',
               'rgba(232,74,107,1.0)',
               'rgba(232,74,107,1.0)',
-              'rgba(255,255,255,0.5)',
+              colors.mediumPurple70,
               'rgba(66,181,125,1.0)',
               'rgba(66,181,125,1.0)',
               'rgba(66,181,125,1.0)',
@@ -104,8 +104,10 @@ class ParallaxSwiper extends React.Component{
           pointerEvents={'box-none'}
           style={{
             flexGrow: 1,
-            borderRadius: 9,
+            borderRadius: 11,
             left: 0,
+            top:0,
+
             overflow:'hidden',
             opacity: isTopCard && typeof this.props.pan != 'undefined' && this.props.pan.x ? this.props.pan.x.interpolate({
               inputRange: [-300, -10, 0, 10, 300],
@@ -121,8 +123,9 @@ class ParallaxSwiper extends React.Component{
             height={this.props.height}
           /> :
           <Image
-            style={{height: this.props.height, width: this.props.width}}
+            style={{height: this.props.height,top:0, width: this.props.width}}
             source={slideFrames[0].image_url ? {uri: slideFrames[0].image_url } : require('../screens/potentials/assets/defaultuser.png')}
+            defaultSource={require('../screens/potentials/assets/defaultuser.png')}
           />
         }
          </Animated.View>
@@ -146,16 +149,7 @@ class ParallaxSwiper extends React.Component{
       >
         {this.renderBackground()}
 
-        {/*
 
-          onMoveShouldSetResponder={(e) => {console.log('onMoveShouldSetResponder',e.nativeEvent.pageY); return e.nativeEvent.pageY > 300}}
-          onStartShouldSetResponderCapture={(e) => {console.log('onStartShouldSetResponderCapture',e); return false}}
-          onStartShouldSetResponder={(e) => {console.log('onStartShouldSetResponder',e); return false}}
-          onResponderReject={(e) => {console.log('onResponderReject',e)}}
-          onResponderTerminationRequest={e=>{console.log('onResponderTerminationRequest',e.nativeEvent)}}
-
-
-  */}
         {profileVisible &&
         <ScrollView
           pointerEvents={'box-none'}

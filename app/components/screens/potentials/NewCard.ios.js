@@ -22,7 +22,7 @@ const DeviceWidth = Dimensions.get('window').width;
 
 
 @pure
-@onlyUpdateForKeys(['key', 'pan', 'potentials', 'profileVisible', 'isTopCard'])
+@onlyUpdateForKeys(['key', 'pan', 'potential', 'profileVisible', 'isTopCard'])
 class NewCard extends React.Component {
 
   constructor() {
@@ -265,7 +265,7 @@ class NewCard extends React.Component {
         </ParallaxSwiper>
         {profileVisible && <TouchableOpacity
           style={{
-            height: 50, zIndex: 9999, alignItems: 'center', width: 50, justifyContent: 'center', flex: 0, top: -10, left: -10, position: 'absolute'
+            height: 50, zIndex: 9999, alignItems: 'center', width: 50, justifyContent: 'center', flex: 0, top: -70, left: -10, position: 'absolute'
           }}
           onPress={() => this.props.closeProfile ? this.props.closeProfile() : this.props.navigator.pop()}
         >
@@ -318,6 +318,8 @@ class NewCard extends React.Component {
             </View>
           </TouchableOpacity>
         </View>
+        {isTopCard ? <DenyIcon pan={this.props.pan}/> : null}
+        {isTopCard ? <ApproveIcon pan={this.props.pan}/> : null}
 
       </View>
     )

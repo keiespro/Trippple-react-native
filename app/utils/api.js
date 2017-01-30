@@ -88,7 +88,6 @@ function authenticatedRequest(endpoint: '', payload: {}, resource, forceCredenti
   // }
   const authPayload = {...payload, ...credentials};
   return baseRequest(endpoint, authPayload, resource).then(result => {
-    console.log(result,'RESULT');
     if(result == '401'){
       throw new authError('401')
 

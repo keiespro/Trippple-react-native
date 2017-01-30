@@ -283,7 +283,7 @@ class NewCard extends React.Component {
         </ParallaxSwiper>
         {profileVisible && <TouchableOpacity
           style={{
-            height: 50, zIndex: 9999, alignItems: 'center', width: 50, justifyContent: 'center', flex: 0, top: -10, left: -10, position: 'absolute'
+            height: 50, zIndex: 9999, alignItems: 'center', width: 50, justifyContent: 'center', flex: 0, top: -70, left: -10, position: 'absolute'
           }}
           onPress={() => this.props.closeProfile ? this.props.closeProfile() : this.props.navigator.pop()}
         >

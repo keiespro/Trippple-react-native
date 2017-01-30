@@ -12,6 +12,8 @@ const DeviceWidth = Dimensions.get('window').width;
 const DenyIcon = props => (
   <Animated.View
     key={'denyicon'}
+    pointerEvents={'none'}
+
     style={[styles.animatedIcon, {
       opacity: props.pan ? props.pan.x.interpolate({
         inputRange: [-DeviceWidth, -100, 0],
@@ -46,7 +48,7 @@ const DenyIcon = props => (
       source={require('./assets/iconDeny@3x.png')}
       style={{
         backgroundColor: 'transparent',
-        marginLeft: iOS ? -50 : 0,
+        marginLeft: iOS ? -10 : 0,
         height: 100,
         width:100,
         paddingLeft: 0,

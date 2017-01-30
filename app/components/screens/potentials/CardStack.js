@@ -179,9 +179,9 @@ class CardStack extends React.Component {
 
           Animated.timing(this.state.pan, {
             toValue,
-            duration: 100,
+            duration: 130,
             easing: Easing.inOut(Easing.ease),
-            deceleration: 1.1,
+            deceleration: 1.2,
             useNativeDriver: !iOS
           }).start(() => {
 
