@@ -97,10 +97,12 @@ export const share = payload => dispatch => dispatch({ type: 'SHARE_COUPLE_PIN',
   }
 });
 
-export const receivePushToken = ({push_token, loggedIn}) => dispatch => dispatch({ type: 'RECEIVE_PUSH_TOKEN',
+export const receivePushToken = ({push_token, loggedIn}) => (dispatch,getState) => dispatch({ type: 'RECEIVE_PUSH_TOKEN',
   payload: {
     promise: new Promise((resolve, reject) => {
-      dispatch({type: 'UPDATE_USER_PUSH_TOKEN', payload: api.updatePushToken({push_token})});
+      if(getState().auth.api_key){
+        dispatch({type: 'UPDATE_USER_PUSH_TOKEN', payload: api.updatePushToken({push_token})});
+      }
       resolve(push_token)
     })
   }
