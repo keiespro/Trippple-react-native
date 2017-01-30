@@ -9,6 +9,7 @@ import UserDetails from './UserDetails';
 import colors from '../utils/colors';
 import VerifiedCoupleBadge from './Badge/VerifiedCoupleBadge'
 import ActionMan from '../actions'
+import {BlurView} from 'react-native-blur'
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -172,6 +173,15 @@ class UserProfile extends React.Component {
           killProfile={() => this.props.closeProfile ? this.props.closeProfile() : this.props.navigator.pop()}
           isTopCard={isTopCard}
           profileVisible={profileVisible}
+          renderBlurView={iOS ? () => <BlurView
+            blurType="dark"
+            style={{
+              flexGrow: 1,
+              bottom:0,
+              position:'absolute',
+              top:0,left:0,right:0,
+            }}
+          /> : null}
         >
 
           <View
