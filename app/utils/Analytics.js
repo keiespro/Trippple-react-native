@@ -1,13 +1,17 @@
 import RNMixpanel from 'react-native-mixpanel'
-// import AppInfo from 'react-native-app-info'
-import {Settings} from 'react-native'
-// import _ from 'lodash'
-//import GoogleAnalytics from 'react-native-google-analytics-bridge'
+import AppInfo from 'react-native-app-info'
+import {Settings, NativeModules,Platform} from 'react-native'
+import _ from 'lodash'
+import { GoogleAnalyticsTracker, GoogleAnalyticsSettings } from 'react-native-google-analytics-bridge';
+
 import RNFB from 'react-native-firebase3'
 import SETTINGS_CONSTANTS from './SettingsConstants'
 import Mixpanel from './mixpanel'
 
+const iOS = Platform.OS == 'ios';
+
 const {HAS_IDENTITY} = SETTINGS_CONSTANTS
+const {RNUXCam} = NativeModules
 
 // const VERSION = 2.5 // parseFloat(AppInfo.getInfoShortVersion());
 
@@ -24,10 +28,13 @@ class Analytics{
 
   constructor(){
     if(!__DEV__ && !__TEST__){
-      //GoogleAnalytics.setTrackerId('UA-49096214-2');
-      //GoogleAnalytics.allowIDFA(false);
+      this.ga = new GoogleAnalyticsTracker('UA-49096214-2');
+      GoogleAnalyticsSettings.setDryRun(false);
+      this.ga.allowIDFA(true)
     }
     if(__DEBUG__ || __TEST__) {
+      GoogleAnalyticsSettings.setDryRun(true);
+
       Firelytics.setEnabled(false);
     }
   }
@@ -39,25 +46,15 @@ class Analytics{
   identifyUser(user){
 
     if(!user || !user.id) return;
-    // if(!this.userid){
-      //  if(!Settings.get(HAS_IDENTITY)){
-      // }
-    // }
-    // __DEV__ && console.log(`Analytics -> Indentified user #${user.id}`);
     if(!__DEV__ && !__TEST__){
       Firelytics.setUserId(`${user.id}`);
-      //GoogleAnalytics.setUser(`${user.id}`);
+      this.ga.setUser(`${user.id}`);
       RNMixpanel.identify(`${user.id}`);
-      // RNMixpanel.registerSuperProperties({
-      //   Gender: user.gender,
-      //   'User Type': user.relationship_status
-      // });
       this.setFullIdentityOnce(user)
     }
   }
 
   setFullIdentityOnce(user){
-    __DEV__ && console.log('setFullIdentityOnce', user);
     const mxProps = {
       $phone: user.phone || '',
       $area_code: user.phone ? user.phone.slice(0, 3) : '',
@@ -71,12 +68,8 @@ class Analytics{
       '$year-of-birth': user.birth_year,
       $privacy: user.privacy
     };
-    __DEV__ && console.log(mxProps);
 
     this.setUserProperties(mxProps);
-
-
-    // Settings.set({[HAS_IDENTITY]: true});
     this.userid = user.id;
   }
 
@@ -92,13 +85,13 @@ class Analytics{
   increment(prop, amount) {
     // MIXPANEL: track numeric values which are associated with a user
 
-    if(!prop || !amount){ return false }
+    if(!prop || !amount){ return }
 
     RNMixpanel.increment(prop, amount);
   }
 
   event(eventName, eventData = {}){
-    if(__TEST__) return false;
+    if(__TEST__) return;
 
     const action = eventData.action || eventData.type || undefined;
     const label = eventData.label || eventData.name || undefined;
@@ -108,20 +101,27 @@ class Analytics{
 
     Firelytics.logEvent(eventName, eventData);
 
-    //GoogleAnalytics.trackEvent(eventName, action, {label, value});
+    this.ga.trackEvent(eventName, action, {label, value});
 
     Mixpanel.track(eventName, eventData)
   }
 
   screen(screen){
-    if(__TEST__ || !screen) return false;
+    if(!this.ga || __TEST__ || !screen || !screen.length) return;
 
-    //GoogleAnalytics.trackScreenView(screen);
+
+    if(iOS){
+        RNUXCam.tagScreenName(screen,(result) => {
+      });
+    }else{
+      RNUXCam.tagScreenName(screen)
+    }
+   this.ga.trackScreenView(screen);
     Mixpanel.track(`Screen ${screen}`);
   }
 
   extra(eventName, eventData = {}){
-    if(__TEST__ || !GoogleAnalytics) return false;
+    if(__TEST__) return false;
 
     const action = eventData.action || eventData.type || undefined;
     const label = eventData.label || eventData.name || undefined;
@@ -137,7 +137,7 @@ class Analytics{
     }
     __DEV__ && console.log(`Event: ${eventName}`, 'EventData:', ...eventData)
 
-    //GoogleAnalytics.trackEvent(eventName, action, {label, value});
+    this.ga.trackEvent(eventName, action, {label, value});
   }
 
   err(error){
@@ -150,7 +150,7 @@ class Analytics{
     // __DEV__ && console.log(`ERROR:`, error)
 
     // __DEV__ && console.warn(`ERROR:`, error)
-    // GoogleAnalytics.trackException( JSON.stringify(error), false);
+    this.ga && this.ga.trackException( JSON.stringify(error), false);
   }
 
   log(){
