@@ -10,11 +10,11 @@ export const checkNotificationsPermission = () => dispatch => dispatch({ type: '
   payload: new Promise((resolve, reject) => {
     Platform.select(check)()
       .then(permission => {
-        // dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_ON'})
+        dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_ON'})
         resolve(permission)
       })
       .catch(err => {
-        // dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_OFF'})
+        dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_OFF'})
         reject(err)
       })
   }),

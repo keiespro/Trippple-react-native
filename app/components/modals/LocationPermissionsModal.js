@@ -3,18 +3,9 @@ import {View, Image} from 'react-native';
 import {connect} from 'react-redux'
 import {withNavigation, NavigationStyles} from '@exponent/ex-navigation'
 import PermissionModal from './PermissionModal/PermissionModal'
-import Router from '../../Router'
 
-@withNavigation
+
 class LocationPermissionsModal extends React.Component{
-
-  static route = {
-    styles: NavigationStyles.SlideVertical,
-    navigationBar: {
-      visible:false,
-    }
-  };
-
 
   render(){
     return (
@@ -25,13 +16,6 @@ class LocationPermissionsModal extends React.Component{
         subtitle={'Should we prioritize the matches nearest to you?'}
         permissionKey={'location'}
         buttonText={'USE MY LOCATION'}
-        nextOnboardScreen={() => {
-          // if(!this.props.permissions.notifications){
-          //   this.props.navigator.push(Router.getRoute('NotificationsPermissions', {}))
-          // }else{
-            this.props.navigator.immediatelyReplaceStack([Router.getRoute('Potentials', {})])
-          // }
-        }}
         permissionLabel={'Location'}
         onSuccess={()=>{this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_ON'})}}
         renderImage={() => (

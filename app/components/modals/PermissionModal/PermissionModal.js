@@ -32,6 +32,7 @@ class PermissionsModal extends Component{
 
   static defaultProps = {
     buttonText: 'YES',
+    imageStyle: {},
     isPersistant: false,
     imageSource: require('../assets/iconModalDenied@3x.png'),
    };
@@ -206,13 +207,13 @@ class PermissionsModal extends Component{
               <View style={{alignItems: 'center'}}>
                 {this.props.renderImage ? this.props.renderImage() :
                   <Image
-                    resizeMode={Image.resizeMode.contain}
+                    resizeMode={this.props.imageResizeMode || Image.resizeMode.contain}
                     style={[{
-                      width: 150,
+                      width: MagicNumbers.is4s ? 100 : 150,
                       height: MagicNumbers.is4s ? 100 : 150,
                       marginBottom: MagicNumbers.is4s ? 15 : 30,
                       marginTop: MagicNumbers.is4s ? 10 : 20
-                    }]}
+                    },this.props.imageStyle]}
                     source={this.props.imageSource}
                   />
                 }

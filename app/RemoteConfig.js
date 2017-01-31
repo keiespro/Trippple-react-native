@@ -2,7 +2,7 @@
 import { RemoteConfig } from 'react-native-firebase3';
 
 RemoteConfig.setDefaults({
-  'init_actions': 'getUserInfo,getLocation,getPotentials,getPushToken'
+  'init_actions': 'getUserInfo,getPotentials,getPushToken'
 });
 
 class RC {

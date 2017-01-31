@@ -14,15 +14,12 @@ class NotificationsPermissionsModal extends React.Component{
 
     }
   };
-  nextOnboardScreen(){
-    this.props.navigator.push(OnboardRouter.getRoute('finish', {}))
-  }
   render(){
     const {relevantUser} = this.props;
     const featuredUser = relevantUser && relevantUser.user ? relevantUser.user : relevantUser || {};
     // const featuredPartner = featuredUser.relationship_status === 'couple' ? relevantUser.partner : {};
     // const displayName = (`${featuredUser.firstname} ${featuredPartner.firstname || ''}`).trim();
-    const featuredImage = (relevantUser && relevantUser.image_url) || (featuredUser && featuredUser.image_url) || null;
+    const featuredImage = featuredUser ? featuredUser.image_url || featuredUser.thumb_url : null;
     return (
       <PermissionModal
         isModal={this.props.isModal}
@@ -30,10 +27,11 @@ class NotificationsPermissionsModal extends React.Component{
         subtitle={'Would you like to be notified of new matches and messages?'}
         permissionKey={'notifications'}
         buttonText={'YES, ALERT ME'}
+        imageResizeMode={'cover'}
         permissionLabel={'Notifications'}
         onSuccess={()=>{this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_ON'})}}
         imageSource={featuredImage ? {uri:featuredImage} : require('./assets/icon.png')}
-        nextOnboardScreen={this.nextOnboardScreen.bind(this)}
+        imageStyle={featuredImage ? {borderRadius:75} : {}}
       />
     )
   }
@@ -45,7 +43,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
     user: state.user,
-    relevantUser: state.likes.relevantUser
+    relevantUser: state.likes.relevantUser,
   }
 }
 
