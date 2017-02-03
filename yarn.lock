@@ -4620,10 +4620,6 @@ react-mixin@^3.0.5:
     object-assign "^4.0.1"
     smart-mixin "^2.0.0"
 
-react-native-app-info@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/react-native-app-info/-/react-native-app-info-0.0.6.tgz#23850db8544368a74e8db5cf10b96303ce85d760"
-
 react-native-blur@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/react-native-blur/-/react-native-blur-2.0.0.tgz#284b3abfb42c2d90924aa15f494ccb88d6055342"
@@ -4716,9 +4712,9 @@ react-native-mixpanel@^0.0.12:
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/react-native-mixpanel/-/react-native-mixpanel-0.0.12.tgz#475e7f49a612d8d39beb2a1821483b9d0f677405"
 
-react-native-permissions@^0.2.5:
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-0.2.5.tgz#81c3adbb09d9edb6ae320d458ca9c021e03a5aba"
+"react-native-permissions@github:yonahforst/react-native-permissions":
+  version "0.2.4"
+  resolved "https://codeload.github.com/yonahforst/react-native-permissions/tar.gz/892d1f0cc75dd5652c3bdf8857e6b3796a9f00ed"
 
 react-native-push-notification@^2.2.1:
   version "2.2.1"

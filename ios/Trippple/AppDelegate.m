@@ -38,7 +38,7 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <Bolts/Bolts.h>
 #import "../node_modules/react-native-fcm/ios/RNFIRMessaging.h"
-#import "../node_modules/react-native-splash-screen/ios/SplashScreen.h"
+#import "SplashScreen.h"
 
 @interface AppDelegate() <RCTBridgeDelegate>
 @end
@@ -70,7 +70,7 @@
   HotlineConfig *config = [[HotlineConfig alloc]
                            initWithAppID:@"f54bba2a-84fa-43c8-afa9-098f3c1aefae"
                            andAppKey:@"fba1b915-fa8b-4c24-bdda-8bac99fcf92a"];
-  config.displayFAQsAsGrid = NO;
+//  config.displayFAQsAsGrid = NO;
   config.voiceMessagingEnabled = NO;
   config.pictureMessagingEnabled = YES;
   config.cameraCaptureEnabled = NO;
