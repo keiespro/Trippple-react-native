@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, PixelRatio, Dimensions, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, PixelRatio, Dimensions, StatusBar, Platform } from 'react-native';
 import React from 'react';
 import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
 import { MagicNumbers } from '../utils/DeviceConfig'
@@ -10,6 +10,8 @@ import colors from '../utils/colors';
 import VerifiedCoupleBadge from './Badge/VerifiedCoupleBadge'
 import ActionMan from '../actions'
 import {BlurView} from 'react-native-blur'
+
+const iOS = Platform.OS == 'ios';
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
