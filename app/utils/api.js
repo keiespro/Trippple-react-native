@@ -1,4 +1,3 @@
-import AppInfo from 'react-native-app-info'
 import { Platform } from 'react-native'
 import Promise from 'bluebird'
 import config from '../../config'
