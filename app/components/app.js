@@ -70,7 +70,6 @@ class App extends React.Component{
 
 
   componentWillReceiveProps(nProps){
-    console.log(nProps.onboarded,nProps.user);
     // if((!this.props.fbUser || !this.props.fbUser.accessToken) && !nProps.loggedIn && nProps.fbUser &&  nProps.fbUser.accessToken){
     //   nProps.dispatch(ActionMan.loginWithSavedFbCreds(nProps.fbUser))
     //

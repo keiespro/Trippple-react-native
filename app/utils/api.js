@@ -81,12 +81,15 @@ function authenticatedRequest(endpoint: '', payload: {}, resource, forceCredenti
   //   return apiError()
   //
   // }
+  let authPayload = {...payload}
 
-  // if(!payload.api_key){
-  //
-  //   return apiError()
-  // }
-  const authPayload = {...payload, ...credentials};
+  if(!authPayload.api_key){
+    authPayload = {...authPayload,...credentials}
+  }
+  if(!authPayload.api_key){
+    throw new authError('999')
+
+  }
   return baseRequest(endpoint, authPayload, resource).then(result => {
     if(result == '401'){
       throw new authError('401')
