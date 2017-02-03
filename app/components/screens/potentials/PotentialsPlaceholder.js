@@ -11,6 +11,7 @@ import config from '../../../../config'
 import profileOptions from '../../../data/get_client_user_profile_options'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 import ActionMan from '../../../actions'
+import Router from '../../../Router'
 import Btn from '../../Btn'
 const iOS = Platform.OS == 'ios';
 
@@ -30,6 +31,8 @@ class PotentialsPlaceholder extends React.Component{
 
   componentDidMount(){
     this.startTimer()
+    this.props.dispatch(ActionMan.getPotentials())
+
   }
 
   componentDidUpdate(pState){
@@ -49,7 +52,7 @@ class PotentialsPlaceholder extends React.Component{
   }
 
   openProfileEditor(){
-    this.props.navigator.push(this.props.navigation.router.getRoute('SettingsBasic', {
+    this.props.navigator.push(Router.getRoute('SettingsBasic', {
       style: styles.container,
       settingOptions: profileOptions,
     }));
@@ -57,7 +60,7 @@ class PotentialsPlaceholder extends React.Component{
   }
 
   openPrefs(){
-    this.props.navigator.push(this.props.navigation.router.getRoute('SettingsPreferences'));
+    this.props.navigator.push(Router.getRoute('SettingsPreferences'));
     this.setTimeout(() => {
       this.setState({loading: true})
     }, 5000)

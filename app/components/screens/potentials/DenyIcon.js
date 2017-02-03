@@ -48,7 +48,7 @@ const DenyIcon = props => (
       source={require('./assets/iconDeny@3x.png')}
       style={{
         backgroundColor: 'transparent',
-        marginLeft: iOS ? -10 : 0,
+        marginLeft: iOS ? 0 : 0,
         height: 100,
         width:100,
         paddingLeft: 0,

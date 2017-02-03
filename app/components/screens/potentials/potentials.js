@@ -8,6 +8,8 @@ import PotentialsPlaceholder from './PotentialsPlaceholder';
 import colors from '../../../utils/colors';
 import styles from './styles';
 import _ from 'lodash'
+import ActionMan from '../../../actions'
+import {NavigationStyles, withNavigation} from '@exponent/ex-navigation'
 
 
 const iOS = Platform.OS == 'ios';
@@ -79,12 +81,15 @@ const Toolbar = () => (
   </View>
 )
 
+@withNavigation
 class Potentials extends React.Component{
   static route = {
+    styles: NavigationStyles.Fade,
     statusBar: {
       translucent: true
     },
     sceneStyle: {
+      backgroundColor: colors.outerSpace,
     },
     navigationBar: {
       visible: false, // iOS,
@@ -105,6 +110,19 @@ class Potentials extends React.Component{
   }
   componentDidMount(){
     this.props.dispatch({type:'LOADING_FULFILLED'})
+    this.checkIfNoLocationPermission()
+    if(!this.props.user || !this.props.user.id){
+      this.props.navigator.replace('Welcome')
+
+    }else if(this.props.user && this.props.user.status != 'onboarded'){
+      console.log(this.props.user);
+      this.props.navigator.replace('Onboard')
+    }else{
+      if(this.props.permissions.location && this.props.permissions.location == 'authorized'){
+        this.props.dispatch(ActionMan.getLocation());
+      }
+    }
+
   }
   componentWillUnmount(){
     if(this.ba){
@@ -119,6 +137,9 @@ class Potentials extends React.Component{
     }else if(!nui.profileVisible && this.ba){
       this.ba.remove()
     }
+    if(!this.props.loggedIn && nProps.loggedIn){
+      // this.props.dispatch(ActionMan.getPotentials())
+    }
   }
 
   handleBackAndroid(){
@@ -126,7 +147,7 @@ class Potentials extends React.Component{
     if(this.props.profileVisible){
       this.props.dispatch({ type: 'CLOSE_PROFILE' });
 
-return true
+      return true
     }else{
       // this.props.navigator.pop()
 
@@ -136,7 +157,16 @@ return true
     return true
 
   }
+  checkIfNoLocationPermission(){
+    if(this.props.permissions.location == 'undetermined'){
+      this.props.dispatch(ActionMan.showInModal({
+        component:'LocationPermissions',
+        passProps:{
 
+        }
+      }))
+    }
+  }
 
   getPotentialInfo(){
     if(!this.props.potentials || !this.props.potentials.length){ return false }
@@ -189,20 +219,16 @@ return true
               navigator={this.props.navigator}
               profileVisible={this.props.profileVisible}
               toggleProfile={this.toggleProfile.bind(this)}
-            /> : null
-          }
-
-
-          { (!potentials) || (potentials && potentials.length < 1) ?
+            /> :
             <PotentialsPlaceholder
               navigator={this.props.navigator}
               navigation={this.props.navigation}
               user={this.props.user}
               didShow={this.state.didShow}
               onDidShow={() => { this.setState({didShow: true}); }}
-            /> : null
+            />
           }
-          {/* {!this.props.profileVisible && <Toolbar />} */}
+
           <Toolbar />
 
         </View>
@@ -221,6 +247,8 @@ const mapStateToProps = (state, ownProps) => ({
   ui: state.ui,
   profileVisible: state.ui.profileVisible,
   drawerOpen: state.ui.drawerOpen,
+  permissions: state.permissions,
+  loggedIn: state.auth.api_key && state.auth.user_id
 })
 
 const mapDispatchToProps = (dispatch) => ({ dispatch })

@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
         shadowColor: '#222',
         shadowOpacity: 0.3,
         shadowRadius: 2,
-        // backgroundColor: '#fff',
+        backgroundColor: colors.outerSpace,
         flex: 1,
         flexDirection: 'column'
     }
