@@ -243,8 +243,8 @@ class ParallaxSwiper extends React.Component{
           {profileVisible &&
             <XButton
               style={{right:0}}
-              onTap={() => {this.props.killProfile ? this.props.killProfile() :
-                this.props.isTopCard ? this.props.dispatch({type: 'CLOSE_PROFILE'}) : this.props.navigator.pop()
+              onTap={() => {
+                this.killProfile()
               }}
               top={0}
             />
