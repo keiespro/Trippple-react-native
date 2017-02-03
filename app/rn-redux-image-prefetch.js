@@ -10,7 +10,6 @@ const {ImageLoader, } = NativeModules
 const PREFETCH_STARTED = 'PREFETCH_STARTED';
 const PREFETCH_COMPLETE = 'PREFETCH_COMPLETE';
 
-const hasImageCachedIOS = Promise.promisify(ImageStore.hasImageForTag)
 export default function createPrefetcher(config = {}) {
   // defaults
 
@@ -28,26 +27,24 @@ export default function createPrefetcher(config = {}) {
     // }
     //
     const state = getState();
-    const targetKeys = watchKeys;
-    // console.warn(watchKeys);
-    // || Object.keys(state);
 
-    targetKeys.forEach(targetKeyMap => {
-      const targetAction = Object.keys(targetKeyMap)[0];
-      if(action.type != targetAction) return;
 
-      const imgKey = targetKeyMap[targetAction];
+    const imgKey = Object.keys(watchKeys[0])[0]
 
-      const incoming = action.payload[imgKey.key]
 
-      processStateKey(imgKey, state[imgKey], incoming)
-    });
+  if(action.type == imgKey ){
+    const incoming = action.payload['matches']
 
-    return next(action);
+    processStateKey(imgKey, state['potentials'], incoming, () => {})
+  }else{
+    next(action)
+  }
 
 
 
-    function processStateKey(pointer, stateValue, incoming){
+
+
+    function processStateKey(pointer, stateValue, incoming, callback){
       let images = [];
       if(debug) console.log(incoming);
       if(!incoming || !incoming.length){
@@ -68,7 +65,7 @@ export default function createPrefetcher(config = {}) {
       }else if(typeof incoming === 'object' && incoming.user){
         // dont decened uet
         images = Object.keys(incoming[pointer]).reduce((imgs, item) => {
-            if(debug) console.log(item);
+          if(debug) console.log(item);
           if(item.substr(0, 4) == 'http'){
             imgs.push(item[watchKeys[pointer]])
           }
@@ -104,14 +101,31 @@ export default function createPrefetcher(config = {}) {
           dispatch(prefetchCompleteAction({error}));
         })
       }else{
-        const imagePrefetch = [];
+        const imagesToPrefetchFirst = images.slice(0,3);
 
-        for (let uri of images) {
-          imagePrefetch.push(Image.prefetch(uri));
-        }
-        Promise.all(imagePrefetch).then(results => {
-      if(debug) console.log("prefetched",results);
-        });
+        if(debug) console.log('Batch 1');
+
+        return Promise.map(imagesToPrefetchFirst, (uri,i) => {
+          if(debug) console.log('prefetch (1)',uri,i,Date.now());
+          return Image.prefetch(uri)
+        }, {concurrency: 3})
+        .then(results => {
+          if(debug) console.log('Batch 2');
+          return Promise.all(images.slice(3,images.length).map( (uri,i) => {
+
+            return new Promise((resolve,reject) => {
+              if(debug) console.log('prefetch (2)',uri,i,Date.now());
+               return Image.prefetch(uri).then(resolve).catch( resolve)
+            })
+          }))
+        })
+        .then(results => {
+          if(debug) console.log('LAST STEP',results);
+          next(action)
+          if(debug) console.log('done',results,Date.now());
+          if(debug) console.log("prefetched",results);
+
+        })
 
       }
     }
