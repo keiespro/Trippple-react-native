@@ -48,7 +48,7 @@
       </dict>
     </array>
     <key>CFBundleVersion</key>
-    <string>69</string>
+    <string>72</string>
     <key>Fabric</key>
     <dict>
       <key>APIKey</key>
@@ -150,6 +150,15 @@
       <string>montserrat.otf</string>
       <string>montserrat_bold.ttf</string>
       <string>poetsenone-regular-webfont.ttf</string>
+      <string>Entypo.ttf</string>
+      <string>EvilIcons.ttf</string>
+      <string>FontAwesome.ttf</string>
+      <string>Foundation.ttf</string>
+      <string>Ionicons.ttf</string>
+      <string>MaterialIcons.ttf</string>
+      <string>Octicons.ttf</string>
+      <string>SimpleLineIcons.ttf</string>
+      <string>Zocial.ttf</string>
     </array>
     <key>UIBackgroundModes</key>
     <array>
