@@ -76,7 +76,7 @@ class Welcome extends Component{
     this.props.dispatch({type:'LOADING_PENDING'})
     this.setTimeout(()=>{
       this.setState({busy: false})
-    },2000)
+    },10000)
 
     this.props.dispatch(ActionMan.loginWithFacebook())
   }
@@ -117,6 +117,7 @@ class Welcome extends Component{
           >Why Facebook?</Text>
         </View>
         </TouchableOpacity>
+        {this.state.busy && <Loading/>}
 
       </View>
     )
@@ -124,8 +125,19 @@ class Welcome extends Component{
 }
 
 
+const Loading = () => (
+<View
+  style={{justifyContent:'center',alignItems:'center',flexGrow:1,position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight,backgroundColor:colors.outerSpace}}>
+  <ActivityIndicator
+            size="large"
+            color={colors.white}
+            animating={true}
+            style={{}} />
+  </View>
+)
 
-const mapStateToProps = p => ({...p})
+
+const mapStateToProps = (state,p) => ({...p, loggedIn: state.auth.api_key && state.auth.user_id})
 const mapDispatchToProps = (dispatch) => ({dispatch })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Welcome);

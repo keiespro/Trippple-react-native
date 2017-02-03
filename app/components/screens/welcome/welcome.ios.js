@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, BackAndroid, Text, View, Platform, Dimensions, TouchableOpacity} from 'react-native';
+import {StyleSheet, BackAndroid, Text, View, Platform, Dimensions, TouchableOpacity,ActivityIndicator} from 'react-native';
 import colors from '../../../utils/colors'
 import Carousel from './carousel'
 import Analytics from '../../../utils/Analytics'
@@ -48,8 +48,12 @@ static displayName: 'Intro';
   }
 
   componentDidMount() {
-      // setTimeout(() => {
     Analytics.screen('Welcome Screen')
+
+      // setTimeout(() => {
+      //   if(this.props.loggedIn){
+      //     this.props.dispatch(ActionMan.actuallyLoggedIn())
+      //   }
       // }, 1000);
 
 
@@ -70,7 +74,7 @@ static displayName: 'Intro';
     this.setState({busy: true})
     this.setTimeout(()=>{
       this.setState({busy: false})
-    },2000)
+    },10000)
 
     this.props.dispatch(ActionMan.loginWithFacebook())
   }
@@ -111,15 +115,25 @@ static displayName: 'Intro';
           </View>
         </TouchableOpacity>
       </View>
-
+      {this.state.busy && <Loading/>}
       </View>
     )
   }
 }
 
 
+const Loading = () => (
+<View
+  style={{justifyContent:'center',alignItems:'center',flexGrow:1,position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight,backgroundColor:colors.outerSpace}}>
+  <ActivityIndicator
+            size="large"
+            color={colors.white}
+            animating={true}
+            style={{}} />
+  </View>
+)
 
-const mapStateToProps = p => ({...p})
+const mapStateToProps = (state,p) => ({...p, loggedIn: state.auth.api_key && state.auth.user_id})
 const mapDispatchToProps = (dispatch) => ({dispatch })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Welcome);
@@ -156,6 +170,7 @@ const styles = StyleSheet.create({
     margin: 0,
     padding: 0,
     height: DeviceHeight,
+    position:'relative',
     backgroundColor: colors.outerSpace,
     alignItems: 'stretch',
     justifyContent: 'space-between',
