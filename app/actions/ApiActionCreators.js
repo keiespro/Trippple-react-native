@@ -64,6 +64,7 @@ const ApiActionCreators = endpointMap.reduce((obj, endpoint) => {
           p = params
         }
         api[endpoint.call](...p).then(x => {
+
           if(shouldFetchUserInfo){
             dispatch({type: 'GET_USER_INFO', payload: api.getUserInfo()})
           }
@@ -75,15 +76,14 @@ const ApiActionCreators = endpointMap.reduce((obj, endpoint) => {
 
           return resolve(x);
         }).catch(err => {
-          console.log('CAUGHT ERR',err.status);
+          __DEV__ && console.log('CAUGHT ERR',err.status);
           if(err.status == '401'){
-
             dispatch(logOut())
-            return
+            return reject(err)
           }else if(err.status == '500' || err.status == '502' || err.status == '504'){
 
             dispatch(showInModal({component:'MaintenanceScreen',passProps:{}}))
-            return
+            return reject(err)
           }
 
 

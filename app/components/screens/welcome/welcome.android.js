@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, BackAndroid, Text, View, Platform, Dimensions, TouchableOpacity} from 'react-native';
+import {StyleSheet, BackAndroid, Text, View, Platform, Dimensions, TouchableOpacity,ActivityIndicator} from 'react-native';
 import colors from '../../../utils/colors'
 import Carousel from './carousel'
 import Analytics from '../../../utils/Analytics'
@@ -42,16 +42,14 @@ class Welcome extends Component{
 
   constructor() {
     super()
-    this.state = {isAnimating: false}
+    this.state = {isAnimating: false,busy:false}
   }
 
   componentDidMount() {
       // setTimeout(() => {
     Analytics.screen('Welcome Screen')
       // }, 1000);
-    if(!iOS){
       this._backandroid = BackAndroid.addEventListener('hardwareBackPress', this.handleBackAndroid)
-    }
   }
 
   componentWillUnmount(){

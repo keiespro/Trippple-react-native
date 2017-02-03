@@ -16,7 +16,7 @@ class AppNav extends React.Component {
 
 
   componentDidMount(){
-    console.log(this.props);
+
   }
   componentWillReceiveProps(nProps) {
     if(nProps.drawerOpen && !this.props.drawerOpen) {
@@ -32,7 +32,7 @@ class AppNav extends React.Component {
     this.props.setDrawerClosed()
   }
   setDrawerOpen(){
-    // StatusBar.setTranslucent(true);
+
     BackAndroid.addEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
     this.props.setDrawerOpen()
   }
@@ -56,7 +56,6 @@ class AppNav extends React.Component {
           drawerBackgroundColor={colors.outerSpace}
           drawerPosition={DrawerLayoutAndroid.positions.Left}
           renderNavigationView={(x) => {
-            console.log('DrawerLayoutAndroid',x);
             return <Settings />
           }}
         >

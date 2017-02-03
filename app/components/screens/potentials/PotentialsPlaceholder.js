@@ -48,7 +48,9 @@ class PotentialsPlaceholder extends React.Component{
 
   getMorePotentials(){
     this.setState({loading: true})
-    this.props.dispatch(ActionMan.getPotentials())
+    if(this.props.user.status == 'onboarded'){
+      this.props.dispatch(ActionMan.getPotentials())
+    }
   }
 
   openProfileEditor(){
