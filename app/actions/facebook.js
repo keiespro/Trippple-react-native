@@ -49,18 +49,21 @@ export const loginWithFacebook = () => async (dispatch,getState) => {
   const fbAuth = await AccessToken.getCurrentAccessToken()
   const fbData = {...fb, ...fbAuth}
     dispatch({ type: 'LOGIN_WITH_FACEBOOK', payload: api.fbLogin(fbData).then(result => {
+      __DEV__ && console.log(result);
       if(result.error){
-        reject(new Error(result.error))
+        throw new Error(result.error)
       }
       dispatch({ type: 'FACEBOOK_AUTH', payload: fbData})
       dispatch({ type: 'FIREBASE_AUTH', payload: checkFireLoginState(fbData, dispatch) })
-        const state = getState()
-        const navs = Object.keys(state.navigation.navigators)
-        const navigatorUID = navs[0];
-        const onboarded = result.user_id && result.fb_authorized && result.user_info.status == 'onboarded';
+      // const state = getState()
+      // const navs = Object.keys(state.navigation.navigators)
+      // const navigatorUID = navs[0];
+      // const onboarded = result.user_id && result.fb_authorized && result.user_info.status == 'onboarded';
+      // dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute(onboarded ? 'Potentials' : 'Onboard')]));
+      // dispatch(NavigationActions.popToTop(navigatorUID));
 
-        dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute( onboarded ?  'Potentials' : 'OnboardModal')]));
-        return result
+      // dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute(  'Potentials' )]));
+      return result
     })
   })
   .catch(err => {
@@ -68,6 +71,21 @@ export const loginWithFacebook = () => async (dispatch,getState) => {
     // LoginManager.logOut()
   })
 }
+export const actuallyLoggedIn = () => (dispatch,getState) => dispatch({ type: 'ACTUALLY_LOGGED_IN',
+  payload: new Promise((resolve, reject) => {
+
+
+    const state = getState()
+    const navs = Object.keys(state.navigation.navigators)
+    const navigatorUID = navs[0];
+    const onboarded = state.user.user_id && state.user.status == 'onboarded';
+    dispatch(NavigationActions.replace(navigatorUID, Router.getRoute( onboarded ? 'Potentials' : 'Onboard')));
+    dispatch(NavigationActions.popToTop(navigatorUID));
+
+    // dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute(  'Potentials' )]));
+    resolve()
+  })
+})
 
 
 export const pushRoute = (route,params) => (dispatch,getState) => dispatch({ type: 'PUSH_ROUTE',
@@ -80,18 +98,19 @@ export const pushRoute = (route,params) => (dispatch,getState) => dispatch({ typ
     resolve(params)
   }),
 });
-export const SwipeCard = params => (dispatch,getState) => dispatch({ type: 'SWIPE_CARD',
+
+export const resetRoute = (route,params = {}) => (dispatch,getState) => dispatch({ type: 'RESET_ROUTE',
   payload: new Promise((resolve, reject) => {
     const state = getState()
     const navs = Object.keys(state.navigation.navigators)
     const navigatorUID = navs[0];
-    // debugger
-    if(state.likes.likeCount > 0 && state.permissions.notifications == 'undetermined'){
-      dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute('NotificationPermissions')]));
-    }
+    dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute(route)]));
+
     resolve(params)
   }),
 });
+
+
 
 export const loginWithSavedFbCreds = (fbData) => (dispatch,getState) => dispatch({ type: 'LOGIN_WITH_SAVED_FB_CREDS',
 payload: new Promise((resolve, reject) => {
@@ -102,9 +121,11 @@ payload: new Promise((resolve, reject) => {
       const navs = Object.keys(state.navigation.navigators)
       const navigatorUID = navs[0];
       const onboarded = result.user_id && result.fb_authorized && result.user_info.status == 'onboarded';
-      console.log('DOIT',navigatorUID);
-      // debugger
-      dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute( onboarded ?  'Potentials' : 'OnboardModal')]));
+      console.log(result,onboarded);
+      dispatch(NavigationActions.replace(navigatorUID, Router.getRoute(onboarded ? 'Potentials' : 'Onboard' )));
+      dispatch(NavigationActions.popToTop(navigatorUID));
+
+      // dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute( onboarded ?  'Potentials' : 'OnboardModal')]));
       return result
     })
 
@@ -114,35 +135,17 @@ payload: new Promise((resolve, reject) => {
 export const onboardUserNowWhat = payload => (dispatch,getState) => dispatch({ type: 'ONBOARD_USER_NOW_WHAT',
   payload: new Promise((resolve, reject) => {
 
-    dispatch(api.onboard(payload).then(result => {
+    api.onboard(payload).then(result => {
       const state = getState()
-
-      if(state.permissions.location || state.permissions.location != 'undetermined'){
+        __DEV__ && console.log(result);
         const navs = Object.keys(state.navigation.navigators)
         const navigatorUID = navs[0];
 
-        dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute('Potentials' )]));
-        return resolve(state.permissions.location || permission)
-      }
-
-      return checkLocationPermission(result).then( permission => {
-        const navs = Object.keys(state.navigation.navigators)
-        const navigatorUID = navs[0];
-
-        dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute('Potentials' )]));
-        return permission
-      })
+        resolve( result)
+        dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute('Potentials')]));
 
     })
-    .catch(permission => {
-      console.log(permission);
-      const state = getState()
-      const navs = Object.keys(state.navigation.navigators)
-      const navigatorUID = navs[0];
 
-      dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute( 'LocationPermissions')]));
-      return permission
-    }))
 
 
   })

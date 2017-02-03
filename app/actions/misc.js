@@ -7,8 +7,23 @@ const iOS = Platform.OS == 'ios';
 
 
 
-export const ActionModal = match => dispatch => dispatch({ type: 'SHOW_ACTION_MODAL', payload: { match } });
+export const SwipeCard = params => (dispatch,getState) => dispatch({ type: 'SWIPE_CARD',
+  payload: new Promise((resolve, reject) => {
+    const state = getState()
 
+    if(state.likes.likeCount > 0 && state.permissions.notifications == 'undetermined'){
+      dispatch(showInModal({
+        component:'NotificationsPermissions',
+        passProps:{
+
+        }
+      }))
+    }
+    resolve(params)
+  }),
+});
+
+export const ActionModal = match => dispatch => dispatch({ type: 'SHOW_ACTION_MODAL', payload: { match } });
 
 export const showInModal = route => dispatch => dispatch({ type: 'SHOW_IN_MODAL', payload: { route } });
 

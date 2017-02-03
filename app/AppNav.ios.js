@@ -8,6 +8,7 @@ const DeviceHeight = Dimensions.get('window').height;
 
 
 export default class AppNav extends React.Component {
+
   render() {
     return (
       <View style={{flex: 1, backgroundColor: colors.outerSpace,}}>
@@ -21,13 +22,9 @@ export default class AppNav extends React.Component {
         <StackNavigation
           id="exnavigation"
           sceneStyle={{
-            overflow: 'visible',
-            // shadowColor: '#000',
-            // shadowOpacity: 0.5,
             backgroundColor: colors.outerSpace,
-            // shadowRadius: 6
           }}
-
+          ref={n => this.n = n}
           defaultRouteConfig={{
             statusBar: {
               barStyle:'default'
@@ -45,7 +42,7 @@ export default class AppNav extends React.Component {
               }
             },
           }}
-          initialRoute={Router.getRoute(this.props.initialRoute)}
+          initialRoute={Router.getRoute('Potentials')}
         />
       </View>
     )

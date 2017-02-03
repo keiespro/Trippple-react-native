@@ -41,7 +41,7 @@ class App extends React.Component{
     if( this.props.loggedIn ){
       this.props.dispatch(ActionMan.getUserInfo());
     }else if(!this.props.loggedIn && this.props.fbUser && this.props.fbUser.accessToken){
-      this.props.dispatch(ActionMan.loginWithSavedFbCreds(this.props.fbUser))
+      // this.props.dispatch(ActionMan.loginWithSavedFbCreds(this.props.fbUser))
 
     }
 
@@ -50,10 +50,10 @@ class App extends React.Component{
   componentDidMount(){
       SplashScreen.hide();
 
-    if(!this.props.loggedIn && this.props.fbUser && this.props.fbUser.accessToken){
-      this.props.dispatch(ActionMan.loginWithSavedFbCreds(this.props.fbUser))
-
-    }
+    // if(!this.props.loggedIn && this.props.fbUser && this.props.fbUser.accessToken){
+    //   this.props.dispatch(ActionMan.loginWithSavedFbCreds(this.props.fbUser))
+    //
+    // }
       //
       this.setTimeout(() => {
         SplashScreen.hide();
@@ -68,11 +68,13 @@ class App extends React.Component{
       }, 1000)
   }
 
-  componentWillReceiveProps(nProps){
-    if((!this.props.fbUser || !this.props.fbUser.accessToken) && !nProps.loggedIn && nProps.fbUser &&  nProps.fbUser.accessToken){
-      nProps.dispatch(ActionMan.loginWithSavedFbCreds(nProps.fbUser))
 
-    }
+  componentWillReceiveProps(nProps){
+    console.log(nProps.onboarded,nProps.user);
+    // if((!this.props.fbUser || !this.props.fbUser.accessToken) && !nProps.loggedIn && nProps.fbUser &&  nProps.fbUser.accessToken){
+    //   nProps.dispatch(ActionMan.loginWithSavedFbCreds(nProps.fbUser))
+    //
+    // }
     if(nProps.user && nProps.user.id && nProps.loggedIn){
       if(!this.props.booted && nProps.booted){
 
@@ -88,6 +90,12 @@ class App extends React.Component{
         this.props.dispatch(ActionMan.saveCredentials())
 
       }
+
+    }
+    if(nProps.onboarded && !this.props.onboarded){
+      this.props.dispatch(ActionMan.resetRoute('Potentials'))
+    }else if(nProps.loggedIn && !this.props.loggedIn){
+      this.props.dispatch(ActionMan.resetRoute('Onboard'))
     }
   }
 
@@ -108,13 +116,13 @@ class App extends React.Component{
 
   performInitActions(){
 
-    const initActions = this.props.loggedIn ? [
+    const initActions = this.props.onboarded ? [
       'getUserInfo',
       'getPotentials',
       'getMatches',
       'getNewMatches',
 
-    ] : [];
+    ] : this.props.loggedIn ? ['getUserInfo'] : [];
 
     const {permissions} = this.props;
 
@@ -138,11 +146,12 @@ class App extends React.Component{
             this.props.dispatch(ActionMan[ac]())
           })
         // })
-
-    this.props.dispatch(ActionMan['checkLocationPermission']())
-    this.props.dispatch(ActionMan['checkNotificationsPermission']())
-    console.log(this.props.loggedIn);
-
+    if(permissions.location != 'soft-denied'){
+      this.props.dispatch(ActionMan['checkLocationPermission']())
+    }
+    if(permissions.notifications != 'soft-denied'){
+      this.props.dispatch(ActionMan['checkNotificationsPermission']())
+    }
     if(this.props.loggedIn && permissions.location && permissions.location == 'authorized'){
       this.props.dispatch(ActionMan['getLocation']())
     }
@@ -163,7 +172,7 @@ class App extends React.Component{
 
         {iOS && <DeepLinkHandler />}
 
-        <AppNav initialRoute={this.props.loggedIn ? this.props.onboarded ? 'Potentials' : 'Onboard' : 'Welcome'}/>
+        <AppNav onboarded={this.props.onboarded} initialRoute={this.props.loggedIn ? this.props.onboarded ? 'Potentials' : 'Onboard' : 'Welcome'}/>
 
         <ModalDirector />
 
@@ -185,18 +194,14 @@ const Loading = () => (
   </View>
 )
 const mapStateToProps = (state, ownProps) => {
-  console.log(state.auth,global.creds);
-  const loggedIn = state.auth.api_key && state.auth.user_id;
-  const onboarded = loggedIn && state.user.status == 'onboarded'
-
   return {
     ...ownProps,
-    onboarded: onboarded,
+    onboarded: state.user.status == 'onboarded',
     user: state.user,
     fbUser: state.fbUser,
     auth: state.auth,
     ui: {...state.ui, matchInfo: state.matches[state.ui.chat ? state.ui.chat.match_id : null]},
-    loggedIn ,
+    loggedIn: state.auth.api_key && state.auth.user_id,
     loadedUser: state.ui.loadedUser,
     push_token: state.device.push_token,
     exnavigation: state.exnavigation,

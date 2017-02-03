@@ -84,9 +84,8 @@ class FieldModal extends React.Component{
     }
   }
   onChange(val){
-    console.log(val);
 
-     if(!val) return
+    if(!val) return
     var isValid = true;
 
     if(this.props.fieldName == 'email'){
@@ -153,6 +152,7 @@ class FieldModal extends React.Component{
   //   }
   // }
   submit(){
+    console.log('SUBMIT');
     if(!this.state.canContinue){return false}
     if(this.props.field.field_type == 'date'){
       var payload = {};
@@ -235,7 +235,7 @@ class FieldModal extends React.Component{
     const fieldLabel = (fieldValue.label || fieldValue);
     fieldValue = (fieldValue.value || fieldValue);
 
-    fieldValue = fieldValue ? fieldValue.toString().toUpperCase() : '';
+    fieldValue = fieldValue ? field.field_type == 'textarea' ? fieldValue.toString() : fieldValue.toString().toUpperCase() : '';
 
     var selectedFieldLabel = (this.state.value || fieldLabel || '');
     var selectedFieldValue = (this.state.value || fieldValue || this.props.fieldValue);
@@ -251,7 +251,7 @@ class FieldModal extends React.Component{
     let displayField = (theField) => {
       switch (theField.field_type) {
         case 'textarea':
-          return (<MultiLineInput />)
+          return (<MultiLineInput submit={this.submit.bind(this)}/>)
       case 'input':
         return (
              <TextInput
@@ -641,6 +641,8 @@ class MultiLineInput extends React.Component{
         autoCorrect
         returnKeyType={'done'}
         multiline
+        onSubmitEditing={this.props.submit}
+        blurOnSubmit={true}
         keyboardAppearance={'dark'}
         ref={'_textArea'}
         clearButtonMode={'always'}
