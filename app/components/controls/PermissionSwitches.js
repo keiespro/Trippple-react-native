@@ -34,7 +34,7 @@ class PermissionSwitches extends React.Component{
       type: 'tap',
     })
 
-    if(!permissions.location){
+    if(!permissions.location || permissions.location == 'undetermined'){
       this.props.dispatch(ActionMan.showInModal({
         component: 'LocationPermissions',
         name: 'LocationPermissionModal',
@@ -56,7 +56,7 @@ class PermissionSwitches extends React.Component{
   toggleNotification(){
     const {permissions, settings} = this.props
 
-    if(iOS && !permissions.notifications){
+    if(iOS && !permissions.notifications || permissions.notifications == 'undetermined'){
       this.props.dispatch(ActionMan.showInModal({
         component: 'NotificationsPermissions',
         passProps: { }

@@ -344,7 +344,7 @@ class Settings extends React.Component{
                   fontSize: 15,
                   fontFamily: 'omnes'
                 }}
-              >V {ReactNative.NativeModules.RNDeviceInfo.buildNumber}</Text>
+              >V {ReactNative.NativeModules.RNDeviceInfo.appVersion}:{ReactNative.NativeModules.RNDeviceInfo.buildNumber}</Text>
               {__DEV__ &&
               <Text
                 style={{
@@ -353,7 +353,7 @@ class Settings extends React.Component{
                   fontSize: 15,
                   fontFamily: 'omnes'
                 }}
-              >Build {ReactNative.NativeModules.RNDeviceInfo.appVersion}</Text>
+              >Build {ReactNative.NativeModules.RNDeviceInfo.buildNumber}</Text>
               }
             </View>
 
