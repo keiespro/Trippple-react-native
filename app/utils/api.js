@@ -94,7 +94,7 @@ function authenticatedRequest(endpoint: '', payload: {}, resource, forceCredenti
     if(result == '401'){
       throw new authError('401')
 
-    }else if(result >= 500 && res < 600){
+    }else if(result >= 500 && result < 600){
       throw new serverError('500')
 
     }

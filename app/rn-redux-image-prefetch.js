@@ -16,7 +16,7 @@ export default function createPrefetcher(config = {}) {
 
   // config
   const {
-    debug = false,
+    debug = __DEV__,
     watchKeys,
   } = config;
 
@@ -78,28 +78,46 @@ export default function createPrefetcher(config = {}) {
 
       let cacheCheck;
       if(Platform.OS == 'android'){
-        cacheCheck = ImageLoader.queryCache(images)
-        .then(cache => {
+
+        return ImageLoader.queryCache(images).then(cache => {
           if(debug) console.log('cache',cache);
           const uncached = _.difference(images, Object.keys(cache))
           if(debug) console.log('uncached', uncached, 'going to prefetch')
           return uncached
         })
+        .then(images => {
+          if(debug) console.log('cachecheck',images);
+          if(!images) return false
 
-        cacheCheck.then(imgs => {
-          if(debug) console.log('cachecheck',imgs);
-          if(!imgs) return false
-          imgs.forEach(imageUrl => {
-            if(debug) console.log('prefetch image:', imageUrl);
-            Image.prefetch(imageUrl)
-          })
-        })
-        .catch(error => {
-          throw new Error(error);
+          const imagesToPrefetchFirst = images.slice(0,3);
 
-          if(debug) console.warn('err', error)
-          dispatch(prefetchCompleteAction({error}));
+          return Promise.map(imagesToPrefetchFirst, (uri,i) => {
+            if(debug) console.log('prefetch (1)',uri,i,Date.now());
+            return Image.prefetch(uri)
+          }, {concurrency: 3})
         })
+        .then(results => {
+          if(debug) console.log('Batch 2');
+          return Promise.all(images.slice(3,images.length).map( (uri,i) => {
+
+            return new Promise((resolve,reject) => {
+              if(debug) console.log('prefetch (2)',uri,i,Date.now());
+               return Image.prefetch(uri).then(resolve).catch( resolve)
+            })
+          }))
+
+
+
+        })
+        .then(results => {
+          if(debug) console.log('LAST STEP',results);
+          next(action)
+          if(debug) console.log('done',results,Date.now());
+          if(debug) console.log("prefetched",results);
+
+        })
+
+
       }else{
         const imagesToPrefetchFirst = images.slice(0,3);
 
