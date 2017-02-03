@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Settings, View, Platform} from 'react-native'
-import UserDefaults from 'react-native-userdefaults-ios'
+// import UserDefaults from 'react-native-userdefaults-ios'
 import LogOut from './utils/logout'
 import NewBoot from './NewBoot'
 

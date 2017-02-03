@@ -12,7 +12,7 @@ import { createNavigationEnabledStore } from '@exponent/ex-navigation'
 import ActionMan from './actions/'
 import createReducer from './reducers/';
 import createPrefetcher from './rn-redux-image-prefetch'
-import { composeWithDevTools } from 'redux-devtools-extension'
+import { composeWithDevTools } from 'redux-devtools-instrument'
 
 const logger = createLogger({
   diff: true,

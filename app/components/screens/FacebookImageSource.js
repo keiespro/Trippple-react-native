@@ -9,7 +9,6 @@ import {
 import React, {Component, PropTypes} from 'react';
 
 import BoxyButton from '../controls/boxyButton';
-import EditImage from './EditImage';
 import colors from '../../utils/colors';
 
 const DeviceHeight = Dimensions.get('window').height
@@ -165,25 +164,6 @@ class FacebookImageSource extends Component{
 
             </View>
 
-            {/* <View style={styles.twoButtons}>
-
-            <TouchableHighlight
-              style={[styles.plainButton,{marginRight:MagicNumbers.screenPadding/4}]}
-              onPress={this.getCameraRollPermission.bind(this)}
-              underlayColor={colors.shuttleGray20}
-            >
-              <Text style={styles.plainButtonText}>FROM ALBUM</Text>
-            </TouchableHighlight>
-
-            <TouchableHighlight
-              style={[styles.plainButton,{marginLeft:MagicNumbers.screenPadding/4}]}
-              onPress={this.getCameraPermission.bind(this)}
-              underlayColor={colors.shuttleGray20}
-            >
-              <Text style={[styles.plainButtonText]}>TAKE A SELFIE</Text>
-            </TouchableHighlight>
-
-          </View> */}
           </View>
         </View>
       </View>

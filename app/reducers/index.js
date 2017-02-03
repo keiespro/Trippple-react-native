@@ -1,7 +1,7 @@
 import { NavigationReducer as navigation  } from '@exponent/ex-navigation'
 import { combineReducers } from 'redux'
 import LikeReducer  from './LikeReducer'
-import appNavReducer  from './appNavReducer'
+// import appNavReducer  from './appNavReducer'
 import appReducer  from './appReducer'
 import authReducer  from './authReducer'
 import chatReducer  from './chatReducer'
@@ -28,7 +28,7 @@ const applicationReducers = {
   app:            appReducer,
   auth:           authReducer,
   ui:             uiReducer,
-  appNav:         appNavReducer,
+  // appNav:         appNavReducer,
   fbUser:         facebookReducer,
   unread:         unreadReducer,
   matches:        matchesReducer,

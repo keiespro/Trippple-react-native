@@ -4,8 +4,6 @@ import { withNavigation} from '@exponent/ex-navigation';
 import { connect } from 'react-redux';
 import Action from './Action'
 import BlurModal from './BlurModal'
-// import CameraPermissions from './CameraPermissions'
-// import CameraRollPermissions from './CameraRollPermissions'
 import NotificationsPermissions from './NotificationsPermissions'
 import FieldModal from './FieldModal'
 import LocationPermissions from './LocationPermissionsModal'
@@ -26,11 +24,8 @@ const DeviceWidth = Dimensions.get('window').width;
 
 const Modals = {
   Action,
-  // ActionModal,
   BlurModal,
   WhyFacebook,
-  // CameraPermissions,
-  // CameraRollPermissions,
   FieldModal,
   LocationPermissions,
   MaintenanceScreen,
