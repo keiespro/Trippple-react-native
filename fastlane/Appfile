@@ -5,3 +5,4 @@ team_id "3D5DY3UN4M"  # Developer Portal Team ID
 
 # android
 json_key_file "/Users/alexlopez/secure/Google Play Android Developer-26a396abfdec.json"
+package_name "co.trippple"

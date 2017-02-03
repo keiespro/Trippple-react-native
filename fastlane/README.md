@@ -11,14 +11,14 @@ sudo gem install fastlane
 fastlane android submit
 ```
 Build android release and upload to google play for production
+### android bump
+```
+fastlane android bump
+```
+increment version number in app/build.gradle
 ### android beta
 ```
 fastlane android beta
-```
-Build android release and upload to google play as a beta
-### android alpha_upload
-```
-fastlane android alpha_upload
 ```
 Build android release and upload to google play as a beta
 
@@ -40,11 +40,6 @@ Version bump
 fastlane ios beta
 ```
 Submit a new Beta Build to Apple TestFlight
-### ios tag
-```
-fastlane ios tag
-```
-Tag a version
 ### ios submit
 ```
 fastlane ios submit
@@ -64,5 +59,5 @@ fastlane ios pushdebug
 ----
 
 This README.md is auto-generated and will be re-generated every time [fastlane](https://fastlane.tools) is run.
-More information about fastlane can be found on [https://fastlane.tools](https://fastlane.tools).
-The documentation of fastlane can be found on [GitHub](https://github.com/fastlane/fastlane/tree/master/fastlane).
+More information about fastlane can be found on [fastlane.tools](https://fastlane.tools).
+The documentation of fastlane can be found on [docs.fastlane.tools](https://docs.fastlane.tools).

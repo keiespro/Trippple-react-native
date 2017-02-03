@@ -1,6 +1,5 @@
 
 const SERVER_ENV = 'production'
-global.__DEV__   = true;
 global.__DEBUG__ = false;
 global.__TEST__  = false;
 

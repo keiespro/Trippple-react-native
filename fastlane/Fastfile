@@ -1,6 +1,9 @@
 fastlane_version "2.7.0"
 
 platform :android do
+  def increment_version_code(gradle_build: 'android/app/build.gradle')
+    sh %Q{cd ../ && echo "$(awk '{sub(/versionCode [[:digit:]]+$/,"versionCode "$2+1)}1' #{gradle_build})" > #{gradle_build} && cd -}
+  end
 
   desc "Build android release and upload to google play for production"
   lane :submit do
@@ -11,11 +14,24 @@ platform :android do
       gradle_path: 'gradlew',
       print_command_output: false
     )
-    supply
+    supply(
+      track: 'alpha',
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      skip_upload_metadata: true,
+
+    )
+  end
+
+  desc "increment version number in app/build.gradle"
+  lane :bump do
+    increment_version_code()
   end
 
   desc "Build android release and upload to google play as a beta"
   lane :beta do
+    increment_version_code()
+
     gradle(
       task: 'assemble',
       build_type: 'Release',
@@ -23,13 +39,13 @@ platform :android do
       gradle_path: 'gradlew',
       print_command_output: false
     )
-    supply(track: 'alpha')
-  end
-
-
-  desc "Build android release and upload to google play as a beta"
-  lane :alpha_upload do
-    supply(track: 'alpha')
+    supply(
+      track: 'alpha',
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      skip_upload_metadata: true,
+      apk: "#{lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]}"
+    )
   end
 end
 
@@ -43,34 +59,30 @@ platform :ios do
 
   desc "Version bump"
   lane :bump do
-    increment_build_number
+    increment_build_number(
+      xcodeproj: 'ios/Trippple.xcodeproj'
+    )
   end
 
   desc "Submit a new Beta Build to Apple TestFlight"
   lane :beta do
-    cert
-    sigh
+    # cert
+    # sigh
     increment_build_number(
-      xcodeproj: 'ios/Trippple.xcodeworkspace'
+      xcodeproj: 'ios/Trippple.xcodeproj'
     )
-    cocoapods
+    cocoapods(
+      podfile: 'ios/Podfile'
+    )
     gym(
-      scheme: "Trippple",
+      scheme: "Release",
       configuration: "Release",
-      project: 'ios/Trippple.xcodeworkspace',
+      workspace: 'ios/Trippple.xcworkspace',
       suppress_xcode_output: true
     )
     pilot(
       # skip_waiting_for_build_processing: true
     )
-  end
-
-  desc "Tag a version"
-  lane :tag do
-
-        # ensure_git_status_clean
-        # ensure_git_branch(branch: 'master')
-        # push_to_git_remote
   end
 
   desc "Deploy a new version to the App Store"

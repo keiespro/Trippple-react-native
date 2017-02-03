@@ -98,7 +98,7 @@
   #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
     [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
   #endif
-  // Add this call as the first line of your application:didFinishLaunchingWithOptions: method
+
   [UXCam startWithKey:@"4cb7699bd5181ca"];
 
     // NEEDED?
@@ -242,7 +242,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
   [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-  [FBSDKAppEvents activateApp];
+
 }
 
 @end

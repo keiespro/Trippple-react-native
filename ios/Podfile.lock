@@ -8,11 +8,11 @@ PODS:
   - Crashlytics (3.8.3):
     - Fabric (~> 1.6.3)
   - Fabric (1.6.11)
-  - FBSDKCoreKit (4.18.0):
+  - FBSDKCoreKit (4.19.0):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.18.0):
+  - FBSDKLoginKit (4.19.0):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.18.0):
+  - FBSDKShareKit (4.19.0):
     - FBSDKCoreKit
   - Firebase/Auth (3.11.0):
     - Firebase/Core
@@ -91,7 +91,7 @@ DEPENDENCIES:
   - Firebase/Database
   - Firebase/Messaging
   - Firebase/RemoteConfig
-  - HotlineSDK (= 1.0.13)
+  - HotlineSDK
   - Mixpanel (from `https://github.com/mixpanel/mixpanel-iphone.git`)
   - NewRelicAgent
   - UXCam
@@ -109,9 +109,9 @@ SPEC CHECKSUMS:
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
   Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
-  FBSDKCoreKit: 15fef8804a4629f98c6f4e55e81a76c9d725d85e
-  FBSDKLoginKit: 6773073e970b2b15fb12e451ce7f11da0532b880
-  FBSDKShareKit: 0b8d6cc3f103c75297eb3c62caec284a2ccf1b9e
+  FBSDKCoreKit: 894b2b6eda6a4c8c4204e92e59cc355709ef045c
+  FBSDKLoginKit: 83ca4d8f12a2022570af9fd6aacf27f6b425b99f
+  FBSDKShareKit: 5953758366278430dc322d5cdc906db361ed7f81
   Firebase: b8134e285eb33201115bc688bc5d7f112923bc1f
   FirebaseAnalytics: 9c67af0ebeb8d2146c9b4ea2616439affa947b58
   FirebaseAuth: b436e4ecebe068bf8e8c6e4e29de5756ffe7ee24
@@ -129,6 +129,6 @@ SPEC CHECKSUMS:
   NewRelicAgent: faddcb43507aa2470200b63bf191fb3e34302d80
   UXCam: 76cb857694b8f1776998028de985d737b6852bce
 
-PODFILE CHECKSUM: 12d67788172fcb49d5651d6b7115d5f33cba7a98
+PODFILE CHECKSUM: 49baca076c7dab1f6988aaf42ddcb0259ec2defd
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.0

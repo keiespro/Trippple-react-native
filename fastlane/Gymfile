@@ -1,3 +1,3 @@
 
 scheme "Release"
-output_directory "./"
+output_directory "./ios"

@@ -6,7 +6,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "pod": "cd ios && bundle exec pod install && cd -",
-    "bundle": "./node_modules/react-native/packager/react-native-xcode.sh"
+    "tf": "bundle exec fastlane ios beta"
   },
   "dependencies": {
     "@exponent/ex-navigation": "^2.7.1",
