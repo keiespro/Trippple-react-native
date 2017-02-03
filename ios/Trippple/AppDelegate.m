@@ -46,7 +46,8 @@
 
 - (BOOL)application:(__unused UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-//  [SplashScreen show];
+//  [SplashScreen
+//   show];
 
   _bridge = [[RCTBridge alloc] initWithDelegate:self
                                   launchOptions:launchOptions];
@@ -119,11 +120,11 @@
 {
 
   NSURL *sourceURL;
-#ifdef DEBUG
-  sourceURL = [NSURL URLWithString:@"http://x.local:8081/index.ios.bundle?platform=ios&dev=true"];
-#else
-  sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
-#endif
+//#ifdef DEBUG
+  sourceURL = [NSURL URLWithString:@"http://192.168.0.100:8081/index.ios.bundle?platform=ios&dev=true"];
+//#else
+//  sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+//#endif
   return sourceURL;
 }
 

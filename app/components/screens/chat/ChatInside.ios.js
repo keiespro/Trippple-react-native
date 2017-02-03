@@ -75,7 +75,7 @@ class ChatInside extends Component{
   sendMessage(msg){
     const timestamp = moment().utc().unix();
     this.props.dispatch(ActionMan.createMessage(msg, this.props.match.match_id, timestamp))
-    this.scroller.scrollTo({x: 0, y: 0})
+    if(this.scroller) this.scroller.scrollTo({x: 0, y: 0});
   }
 
   _renderRow(rowData, sectionID: number, rowID: number) {
@@ -138,6 +138,7 @@ class ChatInside extends Component{
           isKeyboardOpened={this.state.isKeyboardOpened}
         />
       )}
+
         <View
           style={{}}
         >
@@ -147,7 +148,11 @@ class ChatInside extends Component{
             sendMessage={this.sendMessage.bind(this)}
           />
         </View>
-        <KeyboardSpacer/>
+        <KeyboardSpacer onToggle={(keyboardState) => {
+          this.setState({
+            isKeyboardOpened: keyboardState
+          })
+        }}/>
 
       </View>
     )

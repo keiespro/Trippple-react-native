@@ -15,7 +15,7 @@ import React, { Component } from 'react';
 import UserProfile from '../UserProfile';
 
 import {withNavigation} from '@exponent/ex-navigation';
-
+import Router from '../../Router'
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -29,11 +29,10 @@ import UnmatchModal from './UnmatchModal'
 import ActionMan from '../../actions'
 import { BlurView, VibrancyView} from 'react-native-blur'
 
-@withNavigation
 class Action extends React.Component{
 
   render(){
-    console.log(this.props);
+
     const {user} = this.props;
     const currentMatch = this.props.match || this.props.currentMatch || this.props.matchInfo || this.props.route && this.props.route.params.matchInfo || {};
 
@@ -140,7 +139,7 @@ class Action extends React.Component{
                       couple: {}
                     }
                     this.props.dispatch(ActionMan.killModal())
-                    this.props.navigator.push(this.props.navigation.router.getRoute('UserProfile', { potential: MatchUserAsPotential, user: this.props.user}));
+                    this.props.dispatch(ActionMan.pushRoute('UserProfile', { potential: MatchUserAsPotential, user: this.props.user}));
                   }}
                 >
                   <View >

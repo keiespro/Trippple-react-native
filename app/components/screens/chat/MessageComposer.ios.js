@@ -1,5 +1,4 @@
 
-
 import React, {Component} from "react";
 
 import {StyleSheet, Text, PixelRatio, View, Image, TextInput, TouchableHighlight, TouchableOpacity, Animated, Dimensions} from "react-native";
@@ -33,7 +32,7 @@ class MessageComposer extends React.Component{
         this.state = {
             txt:'',
             inputFocused: false,
-            height:40,
+            height:36,
             bottomColor: new Animated.Value(0)
 
         }
@@ -147,6 +146,7 @@ const styles = StyleSheet.create({
         height: 50,
         backgroundColor:colors.dark,
         margin:0,
+        fontSize:14,
 
         bottom:0
     },
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
         alignSelf:'flex-end',
         width:DeviceWidth,
         margin:0,
-        minHeight:60,
+        minHeight:55,
         bottom:0,
         paddingLeft:20,
         paddingVertical:10,
@@ -191,9 +191,11 @@ const styles = StyleSheet.create({
         flex:1,
         paddingHorizontal:0,
         paddingTop:0,
+        marginBottom:10,
+        lineHeight:0,
         paddingBottom:0,
         alignSelf:'center',
-        fontSize:18,
+        fontSize:16,
         color:colors.white,
         borderBottomColor:colors.white,
         borderBottomWidth:1,

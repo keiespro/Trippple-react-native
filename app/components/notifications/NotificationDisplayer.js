@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import TimerMixin from 'react-timer-mixin'
 import Notification from './NotificationTop'
 import _ from 'lodash'
+import ActionMan from '../../actions'
 
 @withNavigation
 class NotificationDisplayer extends Component {
@@ -28,8 +29,8 @@ class NotificationDisplayer extends Component {
     const payload = chatProps;
 
     this.props.chatOpen ?
-      this.props.navigator.replace( this.props.navigation.router.getRoute('Chat',payload)) :
-        this.props.navigator.push(this.props.navigation.router.getRoute('Chat',payload));
+      this.props.dispatch(ActionMan.replaceRoute('Chat',payload)) :
+        this.props.dispatch(ActionMan.pushRoute('Chat',payload));
   }
   render() {
     const {notifications} = this.props;

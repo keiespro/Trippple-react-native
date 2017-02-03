@@ -110,6 +110,16 @@ export const resetRoute = (route,params = {}) => (dispatch,getState) => dispatch
   }),
 });
 
+export const replaceRoute = (route,params = {}) => (dispatch,getState) => dispatch({ type: 'REPLACE_ROUTE',
+  payload: new Promise((resolve, reject) => {
+    const state = getState()
+    const navs = Object.keys(state.navigation.navigators)
+    const navigatorUID = navs[0];
+    dispatch(NavigationActions.replace(navigatorUID, Router.getRoute(route)));
+
+    resolve(params)
+  }),
+});
 
 
 export const loginWithSavedFbCreds = (fbData) => (dispatch,getState) => dispatch({ type: 'LOGIN_WITH_SAVED_FB_CREDS',

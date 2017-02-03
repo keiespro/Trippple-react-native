@@ -9,11 +9,14 @@ import NoMatches from './NoMatches';
 import ThreeDots from '../../buttons/ThreeDots';
 import colors from '../../../utils/colors';
 import Btn from '../../Btn';
+import {withNavigation} from '@exponent/ex-navigation';
 
 const DeviceWidth = Dimensions.get('window').width;
 const DeviceHeight = Dimensions.get('window').height;
 const SwipeableQuickActions = require('../../../../node_modules/react-native/Libraries/Experimental/SwipeableRow/SwipeableQuickActions');
 
+
+@withNavigation
 @reactMixin.decorate(TimerMixin)
 class MatchesList extends Component {
 
@@ -146,9 +149,10 @@ class MatchesList extends Component {
     const them = theirIds.map((id) => rowData.users[id]);
     const threadName = them.map(user => user.firstname.trim()).join(' & ');
     const thumb = them[0].thumb_url;
-    const matchImage = thumb || ''
+    const matchImage = thumb || '';
     const unread = rowData.unread || 0;
     const messageBody = rowData.recent_message.message_body.replace(/(\r\n|\n|\r)/gm, ' ');
+    console.log(rowData,messageBody,threadName);
     return (
       <View style={[styles.row]}>
 
@@ -156,11 +160,10 @@ class MatchesList extends Component {
         style={[styles.row,{
           backgroundColor: colors.outerSpace,
           flexGrow: 1,
-
           alignSelf:'stretch',
           borderBottomWidth: StyleSheet.hairlineWidth,
-            borderBottomColor: colors.dark,
-                      padding:10,width:DeviceWidth,height:90,flexGrow: 1,}]  }
+          borderBottomColor: colors.dark,
+          padding:10,width:DeviceWidth,height:90,flexGrow: 1,}]  }
         onPress={() => { this._pressRow(rowData, threadName.toUpperCase()) }} key={`${rowData.match_id}match`}
       >
 
@@ -173,9 +176,10 @@ class MatchesList extends Component {
               <Image
                 key={`userimage${rowID}`}
                 style={styles.thumb}
-                source={{ uri: matchImage }}
+
+                source={{ uri: them[0].image_url }}
                 resizeMode={Image.resizeMode.cover}
-                defaultSource={require('./assets/placeholderUser@3x.png')}
+                defaultSource={matchImage ? matchImage : require('./assets/placeholderUser@3x.png')}
               />
               {unread ?
                 <View style={styles.newMessageCount}>
@@ -345,20 +349,25 @@ const styles = StyleSheet.create({
   text: {
     color: colors.rollingStone,
     fontFamily: 'omnes',
-    fontSize: 17
+    fontSize: 17,
+    lineHeight: 17,
+    overflow: 'visible',
+    paddingTop:5,
   },
   title: {
     fontSize: 16,
     fontFamily: 'montserrat',
     fontWeight: '800',
     color: colors.white,
+    lineHeight: 20
+
   },
   textwrap: {
-    height: 60,
+    height: 70,
     backgroundColor:colors.outerSpace,
     flexDirection: 'column',
     justifyContent: 'flex-start',
-    overflow: 'hidden',
+    overflow: 'visible',
     flex: 3,
     alignSelf: 'stretch'
   },
