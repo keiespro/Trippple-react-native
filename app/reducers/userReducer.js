@@ -18,7 +18,6 @@ export default function userReducer(state = initialState, action) {
     case 'UPDATE_USER_PENDING':
         let updates = _.values(action.meta)
         return { ...state, ...updates[0]};
-
     case 'GET_USER_INFO_FULFILLED':
     case 'VERIFY_PIN_FULFILLED':
         return user_info && user_info.id ? {...state, ...user_info, isNewUser: false } : state
@@ -28,7 +27,7 @@ export default function userReducer(state = initialState, action) {
         return {...user_info, }
 
     case 'LOGIN_WITH_FACEBOOK_FULFILLED':
-
+    case 'ONBOARD_USER_NOW_WHAT_FULFILLED':
         return user_info && user_info.id ? {...state, ...user_info, isNewUser: !existed } : state
 
     case 'LOG_OUT_FULFILLED':

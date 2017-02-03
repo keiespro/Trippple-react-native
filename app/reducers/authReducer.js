@@ -9,7 +9,7 @@ export default function authReducer(state = initialState, action) {
             let {api_key, user_id} = auth
             global.creds = { api_key, user_id }
         }
-        return { ...state, ...auth }
+        return state
 
     case 'FIREBASE_AUTH':
         return { ...state, firebaseUser: action.payload}
@@ -34,7 +34,7 @@ export default function authReducer(state = initialState, action) {
                 ...global.creds,
             };
         }else{
-            return { ...state }
+            return state
         }
 
     case 'SAVE_CREDENTIALS_PENDING':

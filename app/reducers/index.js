@@ -41,7 +41,7 @@ const applicationReducers = {
   likes:          LikeReducer,
   permissions:    permissionsReducer,
   settings:       settingsReducer,
-  navigation: navigation ? navigation : () => ({navigators: {}}),
+  navigation: navigation,
   swipeQueue: swipeQueueReducer,
   swipeHistory: swipeHistoryReducer,
   facebookAlbums

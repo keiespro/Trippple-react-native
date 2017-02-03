@@ -66,8 +66,7 @@ function configureStore(initialState = ({})) {
         comp(
           autoRehydrate({log: true}),
           applyMiddleware(...middlewares),//logger
-        ),///,
-
+        ),
       );
 
 
@@ -76,9 +75,9 @@ function configureStore(initialState = ({})) {
     //
     const persistor = persistStore(store, {
       storage: AsyncStorage,
-      blacklist: ['navigation', 'appNav', 'ui', 'potentials']
+      blacklist: ['appNav','navigation','ui', 'potentials']
     })
-    persistor.purge(['navigation','appNav','potentials'])
+    persistor.purge(['navigation'])
 
     // AsyncStorage.getAllKeys().then(k => {
     //   console.log(k);
@@ -102,7 +101,6 @@ function configureStore(initialState = ({})) {
   } else {
     const store = createNavigationEnabledStore(createStore)(
       createReducer(),
-      initialState,
       compose(
         autoRehydrate(),
         applyMiddleware(...middlewares),
@@ -110,7 +108,7 @@ function configureStore(initialState = ({})) {
     );
     persistStore(store, {
       storage: AsyncStorage,
-      blacklist: ['navigation', 'ui', 'potentials']
+      blacklist: ['navigation', 'AppNav', 'ui', 'potentials']
     })
     return store
   }
