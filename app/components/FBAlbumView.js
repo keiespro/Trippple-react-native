@@ -60,7 +60,7 @@ class AlbumView extends React.Component {
     // TODO: show user some feedback
     this.setState({submitting: true, selected: id})
     this.props.dispatch(ActionMan.uploadFacebookPic(photo))
-
+    this.props.dispatch({type:'SET_DRAWER_OPEN'})
     this.props.navigator.pop(2)
   }
 

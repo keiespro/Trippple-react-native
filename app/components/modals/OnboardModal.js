@@ -238,6 +238,7 @@ class OnboardModal extends Component {
                 }}
               >
                 <UserImageCircle
+                  diameter={120}
                   id={this.props.user.id}
                   thumbUrl={this.props.user.thumb_url}
                   overrideStyles={{
