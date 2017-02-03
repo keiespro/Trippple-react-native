@@ -149,7 +149,7 @@ class SettingsCouple extends React.Component{
               />
 
             </View>
-            <View style={{paddingHorizontal: 15, }}>
+            <View style={{ paddingHorizontal: MagicNumbers.screenPadding / 2, }}>
               <View style={styles.formHeader}>
                 <Text style={styles.formHeaderText}>Your Partner</Text>
               </View>
@@ -210,11 +210,43 @@ class SettingsCouple extends React.Component{
           </View>
                 }
 
+            { this.props.user.partner && this.props.user.partner.id && this.props.user.partner.is_fake_partner ? (
+              <TouchableOpacity
+                style={{
+                  alignSelf: 'stretch',
+                  marginVertical: 20,
+                  marginTop:30,
+                  borderRadius: 5,
+                  flexDirection: 'row',
+                  marginHorizontal: MagicNumbers.screenPadding / 2,
+                  backgroundColor: 'transparent',
+                  borderColor: colors.sushi,
+                  borderWidth: 2
+                }}
+                underlayColor={colors.darkShadow}
+                onPress={(f) => {
+                  this.props.dispatch(ActionMan.pushRoute('JoinCouple',{}));
+                }}
+              >
+                <View style={{padding: 20, flex: 1}}>
+                  <Text style={{
+                    backgroundColor: 'transparent',
+                    color: colors.sushi,
+                    fontSize: 18,
+                    textAlign: 'center',
+                    fontFamily: 'montserrat'
+                  }}
+                  >JOIN YOUR REAL PARTNER</Text>
+                </View>
+              </TouchableOpacity>
+            ) : null
+           }
+
 
           <TouchableOpacity
             style={{
               alignSelf: 'stretch',
-              marginVertical: 50,
+              marginBottom:50,
               borderRadius: 5,
               flexDirection: 'row',
               marginHorizontal: MagicNumbers.screenPadding / 2,

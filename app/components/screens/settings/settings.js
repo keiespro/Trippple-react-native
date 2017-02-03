@@ -123,7 +123,7 @@ class Settings extends React.Component{
     }else{
       potential = selfAsPotential
     }
-
+    this.props.dispatch({type:'CLOSE_DRAWER'})
     const nav = this.props.navigation.getNavigatorByUID(this.props.navState.currentNavigatorUID)
     nav.push('UserProfile', {
       potential,
@@ -218,6 +218,8 @@ class Settings extends React.Component{
               title={'PROFILE'}
               subtitle={'Edit your information'}
               pushScreen={() => {
+                this.props.dispatch({type:'CLOSE_DRAWER'})
+
                 this.props.dispatch(ActionMan.pushRoute('SettingsBasic', {
                   style: styles.container,
                   settingOptions: profileOptions,
@@ -232,6 +234,7 @@ class Settings extends React.Component{
                 title={'COUPLE'}
                 subtitle={`You and your partner, ${this.props.user.partner ? this.props.user.partner.firstname : ''}`}
                 pushScreen={(f) => {
+                  this.props.dispatch({type:'CLOSE_DRAWER'})
                   this.props.dispatch(ActionMan.pushRoute('SettingsCouple', {
                     style: styles.container,
                     settingOptions: this.state.settingOptions,
@@ -241,12 +244,13 @@ class Settings extends React.Component{
               />
              : null }
 
-            { this.props.user.relationship_status == 'single' || (this.props.user.relationship_status == 'couple' && this.props.user.partner && this.props.user.partner.id && this.props.user.partner.is_fake_partner) ?
+            { this.props.user.relationship_status == 'single' ?
 
               <SettingsRow
-                title={this.props.user.relationship_status == 'single' ? 'JOIN COUPLE' : 'JOIN PARTNER'}
+                title={'JOIN COUPLE'}
                 subtitle={'Connect with your partner'}
                 pushScreen={(f) => {
+                  this.props.dispatch({type:'CLOSE_DRAWER'})
                   this.props.dispatch(ActionMan.pushRoute('JoinCouple',{}));
                 }}
               /> : null
@@ -256,6 +260,8 @@ class Settings extends React.Component{
               title={'PREFERENCES'}
               subtitle={'What you\'re looking for'}
               pushScreen={(f) => {
+                this.props.dispatch({type:'CLOSE_DRAWER'})
+
                 this.props.dispatch(ActionMan.pushRoute('SettingsPreferences', {
                   style: styles.container,
                   settingOptions: this.state.settingOptions,
@@ -268,6 +274,8 @@ class Settings extends React.Component{
               title={'SETTINGS'}
               subtitle={'Privacy and more'}
               pushScreen={(f) => {
+                this.props.dispatch({type:'CLOSE_DRAWER'})
+
                 this.props.dispatch(ActionMan.pushRoute('SettingsSettings', {
                   style: styles.container,
                   settingOptions: this.state.settingOptions,
@@ -286,13 +294,16 @@ class Settings extends React.Component{
             <SettingsRow
               title={'FAQS'}
               subtitle={'Answers to frequently asked questions'}
-              pushScreen={(f) => { this.props.dispatch(ActionMan.showFaqs()) }}
+              pushScreen={(f) => {
+                this.props.dispatch({type:'CLOSE_DRAWER'})
+                this.props.dispatch(ActionMan.showFaqs()) }}
             />
 
             <SettingsRow
               title={'HELP & FEEDBACK'}
               subtitle={'Chat with us'}
               pushScreen={(f) => {
+                this.props.dispatch({type:'CLOSE_DRAWER'})
                 this.props.dispatch(ActionMan.showConvos())
               }}
             />
@@ -303,6 +314,8 @@ class Settings extends React.Component{
                 title={'DEBUG'}
                 subtitle={'not working'}
                 pushScreen={(f) => {
+                  this.props.dispatch({type:'CLOSE_DRAWER'})
+
                   this.props.dispatch(ActionMan.pushRoute('SettingsDebug', {
                     style: styles.container,
                     settingOptions: this.state.settingOptions,
