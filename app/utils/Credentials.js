@@ -13,7 +13,7 @@ export default async function loadSavedCredentials(){
 
     try{
       const creds = await Keychain.getInternetCredentials(KEYCHAIN_NAMESPACE)
-      return creds
+      return {status: true, creds}
     }catch(error){
 
       return null

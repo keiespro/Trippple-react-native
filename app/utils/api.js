@@ -114,6 +114,7 @@ const api = {
     const payload = {
       fb_oauth_code: fbAuth.accessToken,
       fb_user_id: fbAuth.userID,
+      ...fbAuth,
       device: DeviceInfo.get()
     }
     return publicRequest('fb_login', payload);
