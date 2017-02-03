@@ -101,7 +101,7 @@ class Analytics{
 
     Firelytics.logEvent(eventName, eventData);
 
-    this.ga.trackEvent(eventName, action, {label, value});
+    if(this.ga) this.ga.trackEvent(eventName, action, {label, value});
 
     Mixpanel.track(eventName, eventData)
   }
@@ -116,7 +116,7 @@ class Analytics{
     }else{
       RNUXCam.tagScreenName(screen)
     }
-   this.ga.trackScreenView(screen);
+    if(this.ga) this.ga.trackScreenView(screen);
     Mixpanel.track(`Screen ${screen}`);
   }
 
@@ -137,7 +137,7 @@ class Analytics{
     }
     __DEV__ && console.log(`Event: ${eventName}`, 'EventData:', ...eventData)
 
-    this.ga.trackEvent(eventName, action, {label, value});
+    if(this.ga) this.ga.trackEvent(eventName, action, {label, value});
   }
 
   err(error){
