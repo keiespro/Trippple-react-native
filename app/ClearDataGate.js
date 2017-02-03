@@ -13,41 +13,36 @@ class ClearDataGate extends Component{
   };
 
   componentWillMount(){
-
-
-    console.log(UserDefaults);
-    if(iOS){
-      const ResetDataOnLaunch = UserDefaults.boolForKey('ResetDataOnLaunch')
-      console.log(ResetDataOnLaunch);
-        // .then(ResetDataOnLaunch => {
-          __DEV__ && console.log('ResetDataOnLaunch', ResetDataOnLaunch)
-
-          if(ResetDataOnLaunch){
-
-            return LogOut().then((x) => {
-              return UserDefaults.setBoolForKey(false,'ResetDataOnLaunch')
-            })
-            .then(result => {
-              __DEV__ && console.log(result);
-              this.setState({noReset: true})
-
-            })
-          }else{
-            this.setState({noReset: true})
-          }
-        // })
-        // .catch(err => {
-        //   this.setState({noReset: true})
-        // })
-    }else{
-      this.setState({noReset: true})
-
-    }
+    //
+    //
+    // if(iOS){
+    //   console.log(UserDefaults)
+    //    UserDefaults.boolForKey('ResetDataOnLaunch', ResetDataOnLaunch => {
+    //       __DEV__ && console.log('ResetDataOnLaunch', ResetDataOnLaunch)
+    //
+    //       if(ResetDataOnLaunch){
+    //
+    //         return LogOut().then((x) => {
+    //           return UserDefaults.setBoolForKey(false,'ResetDataOnLaunch')
+    //         })
+    //         .then(result => {
+    //           __DEV__ && console.log(result);
+    //           this.setState({noReset: true})
+    //
+    //         })
+    //       }else{
+    //         this.setState({noReset: true})
+    //       }
+    //     })
+    // }else{
+    //   this.setState({noReset: true})
+    //
+    // }
 
   }
 
   render() {
-    return this.state.noReset ? <NewBoot /> : <View/>
+    return  <NewBoot /> //this.state.noReset ? <NewBoot /> : <View/>
   }
 }
 
