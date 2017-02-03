@@ -92,7 +92,11 @@ export const pushRoute = (route,params) => (dispatch,getState) => dispatch({ typ
   payload: new Promise((resolve, reject) => {
     const state = getState()
     const navs = Object.keys(state.navigation.navigators)
-    const navigatorUID = navs[0];
+    let navigatorUID = navs[0];
+    console.log(navs);
+    if(navigatorUID == 'undefined'){
+      navigatorUID = navs[1]
+    }
     dispatch(NavigationActions.push(navigatorUID, Router.getRoute(route, params)));
 
     resolve(params)

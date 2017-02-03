@@ -1,5 +1,5 @@
-import {Platform, AsyncStorage} from 'react-native'
-import Keychain from 'react-native-keychain'
+import {Platform, AsyncStorage,NativeModules} from 'react-native'
+const {RNKeychainManager} = NativeModules
 import config from '../../config'
 
 const {KEYCHAIN_NAMESPACE} = config
@@ -12,7 +12,7 @@ export default async function loadSavedCredentials(){
   if(Platform.OS == 'ios'){
 
     try{
-      const creds = await Keychain.getInternetCredentials(KEYCHAIN_NAMESPACE)
+      const creds = await RNKeychainManager.getInternetCredentialsForServer(KEYCHAIN_NAMESPACE)
       return {status: true, creds}
     }catch(error){
 

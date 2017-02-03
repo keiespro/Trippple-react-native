@@ -1,9 +1,10 @@
+import {REHYDRATE} from 'redux-persist/constants'
 
 export default function uiReducer(state = initialState, action) {
 
   switch (action.type) {
-    case 'persist.REHYDRATE':
-    return {...state, booted: true };
+    case REHYDRATE:
+      return {...state, rehydrated: true };
 
 
     case 'OPEN_PROFILE':

@@ -171,7 +171,7 @@ class App extends React.Component{
 
         {iOS && <DeepLinkHandler />}
 
-        <AppNav onboarded={this.props.onboarded} initialRoute={this.props.loggedIn ? this.props.onboarded ? 'Potentials' : 'Onboard' : 'Welcome'}/>
+        {this.props.rehydrated ? <AppNav onboarded={this.props.onboarded} initialRoute={this.props.loggedIn ? this.props.onboarded ? 'Potentials' : 'Onboard' : 'Welcome'}/> : null}
 
         <ModalDirector />
 
@@ -205,6 +205,7 @@ const mapStateToProps = (state, ownProps) => {
     push_token: state.device.push_token,
     exnavigation: state.exnavigation,
     savedCredentials: state.auth.savedCredentials,
+    rehydrated: state.ui.rehydrated,
     appState: state.app.appState,
     booted: state.app.booted,
     permissions: state.permissions,

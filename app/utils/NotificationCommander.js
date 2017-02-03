@@ -1,4 +1,4 @@
-import FCM from 'react-native-fcm';
+import FCM, {FCMEvent} from 'react-native-fcm';
 import { connect } from 'react-redux';
 import React, {Component} from 'react';
 import {View} from 'react-native';
@@ -22,13 +22,13 @@ class NotificationCommander extends Component{
   componentDidMount(){
     const dispatch = this.props.dispatch.bind(this);
     const handleAction = this.handleAction.bind(this);
-
-    this.notificationUnsubscribe = FCM.on('notification', (notification, ...x) => {
+    console.log(FCMEvent);
+    this.notificationUnsubscribe = FCM.on(FCMEvent.Notification, (notification, ...x) => {
       __DEV__ && console.log('NOTIFICATION:', notification, x);
       handleAction(notification, x)
     });
 
-    this.refreshUnsubscribe = FCM.on('refreshToken', token => {
+    this.refreshUnsubscribe = FCM.on(FCMEvent.RefreshToken, token => {
       __DEBUG__ && console.log('TOKEN:', token);
       if(token != this.props.pushToken){
         dispatch(ActionMan.receivePushToken({push_token: token, loggedIn: this.props.user.id ? true : false}))

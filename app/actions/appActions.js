@@ -1,5 +1,7 @@
-import Keychain from 'react-native-keychain';
-import { Platform } from 'react-native';
+
+import { Platform,NativeModules} from 'react-native';
+const {RNKeychainManager} = NativeModules
+
 import userDefaults from '../utils/userDefaults';
 import {NavigationActions} from '@exponent/ex-navigation'
 import Router from '../Router'
@@ -25,7 +27,7 @@ export const checkResetDataOnLaunch = () => dispatch => dispatch({ type: 'CHECK_
 export const saveCredentials = (credentials) => dispatch => dispatch({ type: 'SAVE_CREDENTIALS',
   payload: new Promise((resolve, reject) => {
     let { user_id, api_key } = credentials || global.creds;
-    Keychain.setInternetCredentials(KEYCHAIN_NAMESPACE, `${user_id}`, api_key)
+    RNKeychainManager.setInternetCredentialsForServer(KEYCHAIN_NAMESPACE, `${user_id}`, api_key)
       .then(resolve).catch(reject);
   }),
 });
