@@ -76,6 +76,7 @@ platform :ios do
     )
     gym(
       scheme: "Release",
+      clean: false,
       configuration: "Release",
       workspace: 'ios/Trippple.xcworkspace',
       suppress_xcode_output: true
