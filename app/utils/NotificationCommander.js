@@ -7,6 +7,7 @@ import uuid from 'uuid'
 import colors from './colors'
 import Analytics from './Analytics'
 import ActionMan from '../actions/';
+import Router from '../Router'
 
 
 @withNavigation
@@ -46,7 +47,9 @@ class NotificationCommander extends Component{
     FCM.getInitialNotification()
       .then(notification => {
         __DEV__ && console.log(notification);
-        this.handleAction(notification)
+        if(notification.type){
+          this.handleAction(notification)
+        }
       })
       // .catch(err => {
       //   __DEV__ && console.warn('initialnotificationerrror',err);
@@ -59,7 +62,7 @@ class NotificationCommander extends Component{
   }
 
   openChat(match_id){
-    this.props.navigator.push(this.props.navigator.navigation.router.getRoute('Chat', {match_id}))
+    this.props.navigator.push(Router.getRoute('Chat', {match_id}))
   }
 
   handleAction(notification){
