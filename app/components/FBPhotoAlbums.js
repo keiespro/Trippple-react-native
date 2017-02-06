@@ -236,14 +236,13 @@ class PhotoAlbums extends React.Component {
       <View
         style={{
           backgroundColor: colors.outerSpace,
-          height: DeviceHeight,
           width: DeviceWidth
         }}
       >
         {this.state.albums.length ? (
           <ListView
             style={{
-              flex: 1,
+              flexGrow: 1,
               marginTop: 0,
             }}
             dataSource={this.state.albumSource}
