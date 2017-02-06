@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, BackAndroid, Image, TouchableNativeFeedback, Animated, TouchableOpacity, Dimensions } from 'react-native'
+import { Text, View, BackAndroid, StatusBar,Image, TouchableNativeFeedback, Animated, TouchableOpacity, Dimensions } from 'react-native'
 import ActionMan from '../../../actions'
 import styles from './styles'
 // import XButton from '../../buttons/XButton'
@@ -91,6 +91,12 @@ class NewCard extends React.Component {
         flexGrow: 1,
         alignItems: 'flex-start',
       }} >
+         <StatusBar
+          animated
+          backgroundColor={'#000'}
+          barStyle="default"
+          showHideTransition={'slide'}
+        />
 
         <View
           style={{

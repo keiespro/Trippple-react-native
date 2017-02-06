@@ -1,4 +1,4 @@
-import { View, Keyboard, Dimensions, Platform, Text} from 'react-native';
+import { View, Keyboard, Dimensions, Platform, Text, InteractionManager} from 'react-native';
 import React from 'react';
 
 import reactMixin from 'react-mixin'
@@ -64,9 +64,10 @@ class Chat extends React.Component {
       const theirIds = Object.keys(matchInfo.users).filter((u) => u != this.props.user.id && u != this.props.user.partner_id);
       const them = theirIds.map((id) => matchInfo.users[id]);
       const chatTitle = them.reduce((acc, u, i) => { return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ' & ' : '') }, '');
-      this.setTimeout(() => {
+      InteractionManager.runAfterInteractions(() => {
+//this.setTimeout(() => {
         this.props.navigator.updateCurrentRouteParams({title: chatTitle, match: this.props.match })
-      }, 1200)
+      })
     }
   }
   componentWillUnmount() {

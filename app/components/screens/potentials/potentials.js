@@ -10,6 +10,7 @@ import styles from './styles';
 import _ from 'lodash'
 import ActionMan from '../../../actions'
 import {NavigationStyles, withNavigation} from '@exponent/ex-navigation'
+import Router from '../../../Router'
 
 
 const iOS = Platform.OS == 'ios';
@@ -111,11 +112,12 @@ class Potentials extends React.Component{
   componentDidMount(){
     this.props.dispatch({type:'LOADING_FULFILLED'})
     this.checkIfNoLocationPermission()
-    if(!this.props.user || !this.props.user.id){
-      this.props.navigator.replace('Welcome')
+    if(this.props.loadedUser && !this.props.user.id){
+      this.props.navigator.immediatelyResetStack(['Welcome'])
 
-    }else if(this.props.user && this.props.user.status != 'onboarded'){
-      this.props.navigator.replace('Onboard')
+    }else if(this.props.loadedUser && this.props.user.status != 'onboarded'){
+      this.props.navigator.immediatelyResetStack(['Onboard'])
+
     }else{
       if(this.props.permissions.location && this.props.permissions.location == 'authorized'){
         this.props.dispatch(ActionMan.getLocation());
@@ -129,6 +131,7 @@ class Potentials extends React.Component{
     }
   }
   componentWillReceiveProps(nProps){
+
     const nui = nProps.ui;
     const ui = this.props.ui;
     if(nui.profileVisible && !ui.profileVisible){

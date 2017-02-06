@@ -21,6 +21,7 @@ import Onboard from './Onboard'
 import DeepLinkHandler from '../utils/DeepLinkHandler'
 import '../fire'
 import LikeSender from '../LikeSender'
+import Router from '../Router'
 
 const iOS = Platform.OS == 'ios';
 const {RNUXCam} = NativeModules
@@ -56,7 +57,6 @@ class App extends React.Component{
     // }
       //
       this.setTimeout(() => {
-        SplashScreen.hide();
 
         this.performInitActions()
         if(this.props.loggedIn){
@@ -95,18 +95,19 @@ class App extends React.Component{
       }
 
     }
-    if(nProps.onboarded && !this.props.onboarded){
+    if(this.props.loadedUser && nProps.onboarded && !this.props.onboarded){
       this.props.dispatch(ActionMan.resetRoute('Potentials'))
-    }else if(nProps.loggedIn && !this.props.loggedIn){
+    }else if(this.props.loadedUser && nProps.loggedIn && !this.props.loggedIn){
       this.props.dispatch(ActionMan.resetRoute('Onboard'))
     }
+
   }
 
   componentDidUpdate(pProps, pState){
     if(this.state.initialized && !pState.initialized){
-      SplashScreen.hide();
+      // SplashScreen.hide();
       this.performInitActions()
-      Analytics.identifyUser(this.props.user)
+      // Analytics.identifyUser(this.props.user)
 
     }
   }
@@ -155,10 +156,10 @@ class App extends React.Component{
     if(permissions.notifications != 'soft-denied'){
       this.props.dispatch(ActionMan['checkNotificationsPermission']())
     }
-    if(this.props.loggedIn && permissions.location && permissions.location == 'authorized'){
+    if(this.props.loggedIn && permissions.location && (iOS && permissions.location == 'authorized' || true)){
       this.props.dispatch(ActionMan['getLocation']())
     }
-    if(this.props.loggedIn && permissions.notifications){
+    if(this.props.loggedIn && permissions.notifications && (iOS && permissions.notifications == 'authorized' || true)){
       this.props.dispatch(ActionMan['getPushToken']())
     }
   }
@@ -173,9 +174,9 @@ class App extends React.Component{
 
         <AppState dispatch={this.props.dispatch}/>
 
-        {iOS && <DeepLinkHandler dispatch={this.props.dispatch}/>}
+        <DeepLinkHandler dispatch={this.props.dispatch}/>
 
-        <AppNav onboarded={this.props.onboarded} initialRoute={this.props.loggedIn ? this.props.onboarded ? 'Potentials' : 'Onboard' : 'Welcome'}/>
+        <AppNav onboarded={this.props.onboarded} initialRoute={Router.getRoute(this.props.loggedIn ? this.props.onboarded ? 'Potentials' : 'Onboard' : 'Welcome')}/>
 
         <ModalDirector />
 

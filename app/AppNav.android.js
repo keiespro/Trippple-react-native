@@ -11,7 +11,7 @@ import {FloatHorizontal, FloatVertical} from './ExNavigationStylesCustom'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
-@withNavigation
+// @withNavigation
 class AppNav extends React.Component {
 
 
@@ -76,6 +76,7 @@ class AppNav extends React.Component {
               },
               statusBar: {
                 translucent: false,
+                visible:true,
                 backgroundColor: colors.mediumPurple70
               },
               navigationBar: {
@@ -95,7 +96,7 @@ class AppNav extends React.Component {
                 }
               },
             }}
-            initialRoute={Router.getRoute('Potentials', {show: true})}
+            initialRoute={'Potentials'}
           />
         </DrawerLayoutAndroid>
 

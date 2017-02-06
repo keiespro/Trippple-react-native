@@ -47,6 +47,7 @@ class Chat extends React.Component {
     },
     statusBar:{
       translucent: false,
+      visible:true
     },
   }
 

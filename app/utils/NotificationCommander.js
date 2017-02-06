@@ -80,8 +80,8 @@ class NotificationCommander extends Component{
     }
     if(notification.opened_from_tray){
       this.props.chatOpen ?
-        this.props.dispatch(ActionMan.replaceRoute('Chat',notification)) :
-          this.props.dispatch(ActionMan.pushRoute('Chat',notification));
+        this.props.dispatch(ActionMan.replaceRoute('Chat',{...notification, fromNotification: true})) :
+          this.props.dispatch(ActionMan.pushRoute('Chat',{...notification, fromNotification: true}));
 
     }
     this.props.handleNotification(newNotification);
