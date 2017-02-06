@@ -9,7 +9,7 @@ import React from "react";
 import colors from '../../../utils/colors';
 
 import { withNavigation } from '@exponent/ex-navigation';
-
+import Router from '../../../Router'
 
 @withNavigation
 class SettingsButton extends React.Component{
@@ -17,7 +17,7 @@ class SettingsButton extends React.Component{
         return (
             <TouchableOpacity
               style={{paddingTop:10,paddingRight:25,paddingBottom:5,}}
-              onPress={() => this.props.navigator.push(this.props.navigation.router.getRoute('Settings')) }
+              onPress={() => this.props.navigator.push(Router.getRoute('Settings')) }
             >
               <Image
                 tintColor={colors.white}
