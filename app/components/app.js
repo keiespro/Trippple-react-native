@@ -74,15 +74,19 @@ class App extends React.Component{
     //   nProps.dispatch(ActionMan.loginWithSavedFbCreds(nProps.fbUser))
     //
     // }
+    if(nProps.user && nProps.user.id && !this.props.user.id){
+      this.props.dispatch(ActionMan.setHotlineUser(nProps.user))
+      Analytics.identifyUser(nProps.user)
+
+    }
     if(nProps.user && nProps.user.id && nProps.loggedIn){
+
       if(!this.props.booted && nProps.booted){
 
         this.initialize(nProps)
       }
       if(this.state.initialized && this.props.appState != 'active' && nProps.appState == 'active'){
         SplashScreen.hide();
-        this.props.dispatch(ActionMan.setHotlineUser(this.props.user))
-        Analytics.identifyUser(this.props.user)
 
       }
       if(this.state.initialized && this.props.loggedIn && !nProps.savedCredentials){
@@ -169,7 +173,7 @@ class App extends React.Component{
 
         <AppState dispatch={this.props.dispatch}/>
 
-        {iOS && <DeepLinkHandler />}
+        {iOS && <DeepLinkHandler dispatch={this.props.dispatch}/>}
 
         <AppNav onboarded={this.props.onboarded} initialRoute={this.props.loggedIn ? this.props.onboarded ? 'Potentials' : 'Onboard' : 'Welcome'}/>
 
