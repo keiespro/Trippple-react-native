@@ -3,9 +3,9 @@ import React, {Component} from 'react';
 import Analytics from './Analytics'
 import url from 'url'
 import {NavigationStyles, withNavigation} from '@exponent/ex-navigation';
+import ActionMan from '../actions'
 
 
-@withNavigation
 export default class DeepLinkHandler extends Component{
 
   componentDidMount(){
@@ -32,7 +32,7 @@ export default class DeepLinkHandler extends Component{
   handleCoupleDeepLink(deeplink){
       const pin = deeplink.path.substring(1,deeplink.path.length);
       Settings.set({'co.trippple.deeplinkCouplePin': pin});
-      this.props.navigator.push(this.props.navigator.navigationContext.router.getRoute('EnterCouplePin'),{deeplink,pin})
+      this.props.dispatch(ActionMan.pushRoute('EnterCouplePin',{deeplink,pin}))
   }
 
   render(){
