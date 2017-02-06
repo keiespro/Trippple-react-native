@@ -45,11 +45,12 @@ class NotificationCommander extends Component{
 
     FCM.getInitialNotification()
       .then(notification => {
-        // this.handleAction(notification)
+        __DEV__ && console.log(notification);
+        this.handleAction(notification)
       })
-      .catch(err => {
-        __DEV__ && console.warn('initialnotificationerrror',err);
-      })
+      // .catch(err => {
+      //   __DEV__ && console.warn('initialnotificationerrror',err);
+      // })
   }
 
   componentWillUnmount(){
@@ -61,8 +62,7 @@ class NotificationCommander extends Component{
     this.props.navigator.push(this.props.navigator.navigation.router.getRoute('Chat', {match_id}))
   }
 
-  handleAction(notification,foreground, opened_from_tray){
-    // console.log(notification,foreground, opened_from_tray);
+  handleAction(notification){
     const moreNotificationAttributes = {
       uuid: uuid.v4(),
       receivedAt: Date.now(),
@@ -75,7 +75,12 @@ class NotificationCommander extends Component{
     if(notification.type == 'dispatch'){
       this.props.dispatch(ActionMan[notification.action_creator](notification.action_payload));
     }
+    if(notification.opened_from_tray){
+      this.props.chatOpen ?
+        this.props.dispatch(ActionMan.replaceRoute('Chat',notification)) :
+          this.props.dispatch(ActionMan.pushRoute('Chat',notification));
 
+    }
     this.props.handleNotification(newNotification);
   }
   render(){
@@ -100,7 +105,9 @@ const mapStateToProps = (state, ownProps) => ({
   user: state.user,
   auth: state.auth,
   notifications: state.notifications,
-  pushToken: state.device.push_token
+  pushToken: state.device.push_token,
+  chatOpen: state.ui.chat && state.ui.chat.match_id ? state.ui.chat.match_id : false
+
 })
 
 const mapDispatchToProps = (dispatch) => ({

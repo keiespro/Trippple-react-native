@@ -108,7 +108,7 @@ class Chat extends React.Component {
           user={this.props.user}
           match={match}
           currentMatch={match}
-          messages={[] || this.props.messages}
+          messages={this.props.messages}
           dispatch={this.props.dispatch}
           key={`chat-${this.props.user.id}-${this.props.match_id}`}
           pop={() => { this.props.navigator.pop() }}

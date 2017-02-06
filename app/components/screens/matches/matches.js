@@ -15,7 +15,7 @@ import MatchesList from './MatchesList'
 const iOS = Platform.OS == 'ios';
 
 function rowHasChanged(r1, r2) {
-  return r1 !== r2 || r1.match_id !== r2.match_id || r1.unread != r2.unread || r1.recentMessage.message_id != r2.recentMessage.message_id
+  return r1 !== r2 || r1.match_id !== r2.match_id || r1.unread != r2.unread || r1.recent_message.message_id !== r2.recent_message.message_id
 }
 
 @withNavigation
@@ -58,6 +58,7 @@ class Matches extends Component {
   }
 
   componentWillReceiveProps(newProps) {
+    console.log(newProps);
     this._updateDataSource(newProps.matches, 'matches')
   }
 
@@ -68,6 +69,7 @@ class Matches extends Component {
   }
 
   _updateDataSource(data) {
+    const ds = iOS ? SwipeableListView.getNewDataSource(rowHasChanged) : new ListView.DataSource({rowHasChanged});
     const m = data.map(d => ({
       match: {
         ...d,
@@ -76,7 +78,7 @@ class Matches extends Component {
     }));
     const newState = {
       matches: data,
-      dataSource: iOS ? this.ds.cloneWithRowsAndSections(m) : this.ds.cloneWithRows(m)
+      dataSource: iOS ? ds.cloneWithRowsAndSections(m) : ds.cloneWithRows(m)
     };
     this.setState(newState)
   }

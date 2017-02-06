@@ -293,7 +293,7 @@ class MatchesList extends Component {
             bottom: 0
           }}
           vertical
-          initialListSize={5}
+          initialListSize={8}
           scrollsToTop
           renderHeader={() => ((!this.props.newMatches || !this.props.newMatches.length) ? false :
             (<NewMatches

@@ -64,17 +64,19 @@ class MessageComposer extends React.Component{
                 }) : colors.shuttleGray,
                 height:  giant ? this.state.height + 10: this.state.height,
                 paddingBottom:  giant ? 5 : 0, overflow:'visible',
-
+                fontFamily:'omnes'
             }]}
             keyboardAppearance={'dark'}
             autoCorrect={true}
             placeholder={'Type Message...'}
             placeholderTextColor={colors.shuttleGray}
-            autoFocus={false}
+            autoFocus={true}
             selectionColor={colors.mediumPurple}
             clearButtonMode={'never'}
-            returnKeyType={'default'}
-
+            returnKeyType={'send'}
+            enablesReturnKeyAutomatically
+            onSubmitEditing={this.sendMessage.bind(this)}
+            blurOnSubmit={true}
             onFocus={(e)=>{
                 Animated.timing(this.state.bottomColor, {
                     toValue: 100,
