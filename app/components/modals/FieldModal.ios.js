@@ -152,12 +152,11 @@ class FieldModal extends React.Component{
   //   }
   // }
   submit(){
-    console.log('SUBMIT');
     if(!this.state.canContinue){return false}
     if(this.props.field.field_type == 'date'){
       var payload = {};
       const v = moment(this.state.birthday).format('MM/DD/YYYY');
-      console.log(v);
+      __DEV__ && console.log(v);
       payload[`${this.props.forPartner ? 'partner_' : ''}${this.props.fieldName}`] = v;
       this.props.updateOutside && this.props.updateOutside(v)
       this.props.dispatch(ActionMan.updateUser(payload))

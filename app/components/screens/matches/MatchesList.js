@@ -152,7 +152,7 @@ class MatchesList extends Component {
     const matchImage = thumb || '';
     const unread = rowData.unread || 0;
     const messageBody = rowData.recent_message.message_body.replace(/(\r\n|\n|\r)/gm, ' ');
-    console.log(rowData,messageBody,threadName);
+    __DEV__ && console.log(rowData,messageBody,threadName);
     return (
       <View style={[styles.row]}>
 

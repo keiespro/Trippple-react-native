@@ -41,10 +41,8 @@ class NewBoot extends Component{
     })
     .catch(err => {
       __DEV__ && console.log('err', err);
-      console.log(store.getState());
     })
     .finally((x) => {
-      console.log('finally',x);
       this.setState({initialized: true})
       // store.dispatch(sessionAuth())
     })

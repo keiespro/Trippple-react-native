@@ -31,8 +31,9 @@ class PotentialsPlaceholder extends React.Component{
 
   componentDidMount(){
     this.startTimer()
-    this.props.dispatch(ActionMan.getPotentials())
-
+    if(this.props.user.status == 'onboarded'){
+      this.props.dispatch(ActionMan.getPotentials())
+    }
   }
 
   componentDidUpdate(pState){

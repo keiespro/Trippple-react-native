@@ -71,9 +71,7 @@ class PhotoAlbums extends React.Component {
   }
 
   componentDidMount() {
-    console.log('fcebook albums');
     // setTimeout(() => {
-      console.log('called it');
       this.oldFBRequest()
 
     // },0);

@@ -43,7 +43,6 @@ class AppNav extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <View style={{width: DeviceWidth, height: DeviceHeight, backgroundColor: colors.outerSpace}}>
 

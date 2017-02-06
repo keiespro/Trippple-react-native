@@ -17,7 +17,7 @@ export const getLocation = () => dispatch => dispatch({ type: 'GET_LOCATION',
                 return api.updateUser(geo.coords)
                         .then(() => { resolve(geo.coords) })
                         .catch(err => {
-                          console.log(err,'GOT_LOCATION but couldnt update');
+                          __DEV__ && console.log(err,'GOT_LOCATION but couldnt update');
 
                         })
               }

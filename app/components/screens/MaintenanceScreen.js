@@ -41,7 +41,7 @@ class MaintenanceScreen extends Component{
 
   }
   componentDidMount() {
-    console.log(this.props);
+    __DEV__ && console.log(this.props);
     Analytics.event('Maintenance Screen',{label:'',action:'',eventData:{}})
 
       Animated.timing(
@@ -70,7 +70,7 @@ class MaintenanceScreen extends Component{
     })
     .then(res => {
       const resjson = res.json();
-      console.log(resjson);
+      __DEV__ && console.log(resjson);
       return resjson
     })
     .then(response => response)
@@ -98,7 +98,7 @@ class MaintenanceScreen extends Component{
 
           this.healthCheck()
             .then(result => {
-              console.log(result);
+              __DEV__ && console.log(result);
               if(result){
                 this.props.kill()
               }else{
@@ -106,7 +106,7 @@ class MaintenanceScreen extends Component{
               }
 
             }).catch(err => {
-              console.log(err,'failed');
+              __DEV__ && console.log(err,'failed');
               this.attemptFailed()
             })
         }

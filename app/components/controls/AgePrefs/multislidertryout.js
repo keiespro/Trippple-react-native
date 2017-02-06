@@ -16,7 +16,7 @@ function valueToPosition(value, valuesArray, sliderLength) {
   var index = valuesArray.indexOf(value);
 
   if (index === -1) {
-    console.log('Invalid value, array does not contain: ', value)
+    __DEV__ && console.log('Invalid value, array does not contain: ', value)
     return null;
   } else {
     arrLength = valuesArray.length - 1;
@@ -29,7 +29,7 @@ function positionToValue(position, valuesArray, sliderLength) {
   var index;
 
   if ( position < 0 || sliderLength < position ) {
-    console.log('invalid position: ', position);
+    __DEV__ && console.log('invalid position: ', position);
     return null;
   } else {
     arrLength = valuesArray.length - 1;
@@ -44,7 +44,7 @@ function createArray(start, end, step) {
   var direction = start - end > 0 ? -1 : 1;
   var result = [];
   if (!step) {
-      console.log('invalid step: ', step);
+      __DEV__ && console.log('invalid step: ', step);
       return result;
   } else {
       length = Math.abs((start - end)/step) + 1;
@@ -85,13 +85,13 @@ function createArray(start, end, step) {
     static defaultProps = {
       values: [0],
       onValuesChangeStart: () => {
-        console.log('press started');
+        __DEV__ && console.log('press started');
       },
       onValuesChange: (values) => {
-        console.log('changing', values);
+        __DEV__ && console.log('changing', values);
       },
       onValuesChangeFinish: (values) => {
-        console.log('changed', values);
+        __DEV__ && console.log('changed', values);
       },
       step: 1,
       min: 0,

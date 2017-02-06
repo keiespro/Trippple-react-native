@@ -29,11 +29,11 @@ const fireLogin = (fbUser, dispatch) => {
 
         auth.signInWithCredential(credential)
           .then(firebaser => {
-            console.log('firebaser',firebaser);
+            __DEV__ && console.log('firebaser',firebaser);
             dispatch({ type: 'FIREBASE_AUTH', payload: firebaser })
           })
           .catch((error) => {
-            console.log('error',error);
+            __DEV__ && console.log('error',error);
             if(error) dispatch({ type: 'FIREBASE_AUTH_FAIL', payload: error });
           });
       }else{

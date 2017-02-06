@@ -60,7 +60,7 @@ class Settings extends React.Component{
     }
   }
   componentDidMount(){
-    console.log(this.props.navigation,Router);
+
   }
   getScrollResponder() {
     return this._scrollView.getScrollResponder();

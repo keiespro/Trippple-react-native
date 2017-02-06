@@ -44,7 +44,7 @@ async function baseRequest(endpoint = '', payload = {}, resource = 'user'){
   if(__DEV__) console.log(`API REQUEST ---->>>>> ${url}`, params);
 
   const res = await fetch(url, params)
-  console.log(res,'<------------------------');
+  __DEV__ && console.log(res,'<------------------------');
   if(res.status == 504 || res.status == 502 || res.status == 500){
     __DEV__ && console.log('show maintenance screen',res)
 

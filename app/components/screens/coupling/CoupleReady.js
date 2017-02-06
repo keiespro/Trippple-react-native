@@ -60,7 +60,7 @@ class CoupleReady extends React.Component{
     // if(this.props.navigator){
     //   this.props.navigator.pop()
     // }
-    console.log(this.props);
+    __DEV__ && console.log(this.props);
     // if(this.props.user.status == 'onboarded'){
     //   this.props.dispatch(ActionMan.)
     // }

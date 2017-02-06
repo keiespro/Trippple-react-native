@@ -47,7 +47,7 @@
 // componentDidMount(){
 //   // //
 //   // if(this.props.imagePath && this.props.imagePath.length && this.props.imagePath.length != ''){
-//   //   React.NativeModules.RNFSManager.readFile(this.props.imagePath, (err,uri)=>{
+
 //   //     if(!uri || uri == ''){
 //   //     }else{
 //   //     this.setState({

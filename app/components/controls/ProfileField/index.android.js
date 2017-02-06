@@ -36,7 +36,7 @@ const FieldComponent = ({onChange, selected, getValues, getKeyVals, theField, va
   selectedValue={ selected || theField.values[selected]}
 >
   {getValues.map((val) => {
-    console.log(val,selected,theField.values);
+    __DEV__ && console.log(val,selected,theField.values);
     return (<PickerItem
       key={val+'itempick'}
       color={colors.white}
@@ -60,7 +60,7 @@ class ProfileField extends React.Component{
     }
   }
   handleChange(e){
-    console.log('handle change', e);
+    __DEV__ && console.log('handle change', e);
     const val =  this.props.fieldName == 'gender' ? e.toLowerCase() : e;
     this.props.dispatch(ActionMan.updateUser({[this.props.fieldName]: val}))
   }
@@ -97,7 +97,7 @@ class ProfileField extends React.Component{
 
       }
     } catch ({code, message}) {
-      console.warn('Cannot open date picker', message);
+      __DEV__ && console.warn('Cannot open date picker', message);
     }
 
   }
@@ -125,7 +125,6 @@ class ProfileField extends React.Component{
     }
 
     const displayFieldText = fieldLabel ? fieldLabel.toUpperCase() : '';
-    console.log(this.props,'-------------------------');
 
     return field.field_type == 'dropdown' ? (
       <View style={styles.paddedSpace}>

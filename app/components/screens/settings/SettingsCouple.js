@@ -115,7 +115,6 @@ class SettingsCouple extends React.Component{
     const settingOptions = this.props.settingOptions || {};
 
     let {partner, user} = this.props;
-    console.log(partner);
     if(!partner) partner = {};
     return (
 

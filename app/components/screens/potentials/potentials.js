@@ -115,7 +115,6 @@ class Potentials extends React.Component{
       this.props.navigator.replace('Welcome')
 
     }else if(this.props.user && this.props.user.status != 'onboarded'){
-      console.log(this.props.user);
       this.props.navigator.replace('Onboard')
     }else{
       if(this.props.permissions.location && this.props.permissions.location == 'authorized'){

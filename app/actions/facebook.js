@@ -124,14 +124,14 @@ export const replaceRoute = (route,params = {}) => (dispatch,getState) => dispat
 
 export const loginWithSavedFbCreds = (fbData) => (dispatch,getState) => dispatch({ type: 'LOGIN_WITH_SAVED_FB_CREDS',
 payload: new Promise((resolve, reject) => {
-  console.log('loginWithSavedFbCreds',fbData);
+  __DEV__ && console.log('loginWithSavedFbCreds',fbData);
     api.fbLogin(fbData).then( result => {
       dispatch({ type: 'FIREBASE_AUTH', payload: checkFireLoginState(fbData, dispatch) })
       const state = getState()
       const navs = Object.keys(state.navigation.navigators)
       const navigatorUID = navs[0];
       const onboarded = result.user_id && result.fb_authorized && result.user_info.status == 'onboarded';
-      console.log(result,onboarded);
+      __DEV__ && console.log(result,onboarded);
       dispatch(NavigationActions.replace(navigatorUID, Router.getRoute(onboarded ? 'Potentials' : 'Onboard' )));
       dispatch(NavigationActions.popToTop(navigatorUID));
 
