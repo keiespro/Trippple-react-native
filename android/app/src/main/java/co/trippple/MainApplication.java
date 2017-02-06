@@ -7,7 +7,7 @@ import android.support.multidex.MultiDexApplication;
 import com.trippple.RNUXCam.RNUXCamPackage;
 
 import com.cboy.rn.splashscreen.SplashScreenReactPackage;
-import com.chirag.RNMail.RNMail;
+
 import com.cmcewen.blurview.BlurViewPackage;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
@@ -25,10 +25,10 @@ import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
 import com.kevinejohn.RNMixpanel.RNMixpanel;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
-import com.lwansbrough.RCTCamera.RCTCameraPackage;
+
 import com.oblador.keychain.KeychainPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.rnfs.RNFSPackage;
+
 import com.rt2zz.reactnativecontacts.ReactNativeContacts;
 import com.trippple.RNHotline.RNHotline;
 
@@ -65,16 +65,13 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
             new RNUXCamPackage(),
             new VectorIconsPackage(),
             new SplashScreenReactPackage(),
-            new RNMail(),
             new KeychainPackage(),
             new GoogleAnalyticsBridgePackage(),
-            new RNFSPackage(),
             new FirebasePackage(),
             new FIRMessagingPackage(),
             new FBSDKPackage(mCallbackManager),
             new RNDeviceInfo(),
             new ReactNativeContacts(),
-            new RCTCameraPackage(),
             new BlurViewPackage()
       );
     }
