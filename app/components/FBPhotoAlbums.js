@@ -78,7 +78,7 @@ class PhotoAlbums extends React.Component {
   }
 
   componentWillReceiveProps(nProps) {
-    console.log(nProps,this.props.fbUser.permissions.indexOf('user_photos'), nProps.fbUser.permissions.indexOf('user_photos'));
+    // console.log(nProps,this.props.fbUser.permissions.indexOf('user_photos'), nProps.fbUser.permissions.indexOf('user_photos'));
     if((!this.props.fbUser.accessToken && nProps.fbUser.accessToken) || (this.props.fbUser.permissions.indexOf('user_photos') < 0 && nProps.fbUser.permissions.indexOf('user_photos') >= 0)) {
       this.oldFBRequest();
     }
@@ -90,7 +90,7 @@ class PhotoAlbums extends React.Component {
     const _handleAlbums = this._handleAlbums.bind(this)
     if(!fbUser.accessToken) return;
     const {userID,accessToken} = fbUser
-    console.log(userID,accessToken);
+    // console.log(userID,accessToken);
 
     const infoRequest = new GraphRequest(`${userID}/albums`, {
       parameters: {

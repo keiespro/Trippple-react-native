@@ -58,7 +58,7 @@ class Matches extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    console.log(newProps);
+
     this._updateDataSource(newProps.matches, 'matches')
   }
 
