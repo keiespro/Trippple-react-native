@@ -139,8 +139,6 @@ NSURL *sourceURL;
 //
 }
 
-
-
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
 {
 
@@ -155,48 +153,39 @@ NSURL *sourceURL;
   // Required for the register event.
 }
 
-
-
-
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler
 {
-   if([[notification.request.content.userInfo valueForKey:@"show_in_foreground"] isEqual:@YES]){
-         completionHandler(UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionSound);
+  [[NSNotificationCenter defaultCenter] postNotificationName:FCMNotificationReceived object:self userInfo:notification.request.content.userInfo];
+  if([[notification.request.content.userInfo valueForKey:@"show_in_foreground"] isEqual:@YES]){
+    completionHandler(UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionSound);
   }else{
     completionHandler(UNNotificationPresentationOptionNone);
-
   }
+
 }
-
-
-
-#endif
-
-
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler
 {
- NSDictionary* userInfo = [[NSMutableDictionary alloc] initWithDictionary: response.notification.request.content.userInfo];
- [userInfo setValue:@YES forKey:@"opened_from_tray"];
-[[NSNotificationCenter defaultCenter] postNotificationName:FCMNotificationReceived object:self userInfo:userInfo];
+  NSDictionary* userInfo = [[NSMutableDictionary alloc] initWithDictionary: response.notification.request.content.userInfo];
+  [userInfo setValue:@YES forKey:@"opened_from_tray"];
+  [[NSNotificationCenter defaultCenter] postNotificationName:FCMNotificationReceived object:self userInfo:userInfo];
 }
-
-//You can skip this method if you don't want to use local notification
+#else
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
-[[NSNotificationCenter defaultCenter] postNotificationName:FCMNotificationReceived object:self userInfo:notification.userInfo];
+  [[NSNotificationCenter defaultCenter] postNotificationName:FCMNotificationReceived object:self userInfo:notification.userInfo];
 }
+#endif
+
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler{
+  [[NSNotificationCenter defaultCenter] postNotificationName:FCMNotificationReceived object:self userInfo:userInfo];
+
   if ([[Hotline sharedInstance]isHotlineNotification:userInfo]) {
     [[Hotline sharedInstance]handleRemoteNotification:userInfo andAppstate:application.applicationState];
-    completionHandler(UIBackgroundFetchResultNoData);
-
-  }else{
-    completionHandler(UIBackgroundFetchResultNoData);
   }
-  
-  
+  // [RCTPushNotificationManager didReceiveRemoteNotification:notification];
+  completionHandler(UIBackgroundFetchResultNoData);
 }
 
 
