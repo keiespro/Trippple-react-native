@@ -37,6 +37,7 @@ export const logOut = () => (dispatch,getState) => dispatch({ type: 'LOG_OUT',
       const state = getState()
       const navs = Object.keys(state.navigation.navigators)
       const navigatorUID = navs[0];
+      dispatch({type:'CLOSE_DRAWER'})
       dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute('Welcome')]));
       resolve(x)
     })
