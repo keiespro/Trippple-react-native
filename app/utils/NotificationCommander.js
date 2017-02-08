@@ -26,7 +26,9 @@ class NotificationCommander extends Component{
 
     this.notificationUnsubscribe = FCM.on('notification', (notification, ...x) => {
       __DEV__ && console.log('NOTIFICATION:', notification, x);
-      handleAction(notification, x)
+      if(notification && notification.type){
+        handleAction(notification, x)
+      }
     });
 
     this.refreshUnsubscribe = FCM.on('refreshToken', token => {
@@ -47,7 +49,7 @@ class NotificationCommander extends Component{
     FCM.getInitialNotification()
       .then(notification => {
         __DEV__ && console.log(notification);
-        if(notification.type){
+        if(notification && notification.type){
           this.handleAction(notification)
         }
       })
