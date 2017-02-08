@@ -74,7 +74,7 @@ class Welcome extends Component{
     this.props.dispatch({type:'LOADING_PENDING'})
     this.setTimeout(()=>{
       this.setState({busy: false})
-    },10000)
+    },20000)
 
     this.props.dispatch(ActionMan.loginWithFacebook())
   }

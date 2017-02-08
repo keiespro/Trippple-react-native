@@ -55,7 +55,7 @@ class App extends React.Component{
     //   this.props.dispatch(ActionMan.loginWithSavedFbCreds(this.props.fbUser))
     //
     // }
-      //
+
       this.setTimeout(() => {
 
         this.performInitActions()
@@ -74,14 +74,14 @@ class App extends React.Component{
     //   nProps.dispatch(ActionMan.loginWithSavedFbCreds(nProps.fbUser))
     //
     // }
-    if(nProps.user && nProps.user.id && !this.props.user.id){
+    if(nProps.loadedUser && !this.props.loadedUser){
+
       this.props.dispatch(ActionMan.setHotlineUser(nProps.user))
       Analytics.identifyUser(nProps.user)
 
     }
-    if(nProps.user && nProps.user.id && nProps.loggedIn){
 
-      if(!this.props.booted && nProps.booted){
+      if(!this.state.initialized && nProps.booted){
 
         this.initialize(nProps)
       }
@@ -94,7 +94,6 @@ class App extends React.Component{
 
       }
 
-    }
     if(this.props.loadedUser && nProps.onboarded && !this.props.onboarded){
       this.props.dispatch(ActionMan.resetRoute('Potentials'))
     }else if(this.props.loadedUser && nProps.loggedIn && !this.props.loggedIn){
@@ -205,7 +204,7 @@ const mapStateToProps = (state, ownProps) => {
     fbUser: state.fbUser,
     auth: state.auth,
     ui: {...state.ui, matchInfo: state.matches[state.ui.chat ? state.ui.chat.match_id : null]},
-    loggedIn: state.auth.api_key && state.auth.user_id,
+    loggedIn: state.auth && state.auth.api_key && state.auth.user_id,
     loadedUser: state.ui.loadedUser,
     push_token: state.device.push_token,
     exnavigation: state.exnavigation,

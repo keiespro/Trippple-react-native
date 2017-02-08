@@ -13,6 +13,7 @@ const CardLabel = pure(({potential, city = [], textColor, matchName}) => (
       key={`${potential.user.id}-names`}
     >{ matchName }</Text>
     <CityState
+      key={'matchName'}
       cityState={city.length > 0 ? city : null}
       potential={potential}
       coords={{lat: potential.user.latitude, lng: potential.user.longitude}}

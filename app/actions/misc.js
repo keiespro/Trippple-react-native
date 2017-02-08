@@ -36,7 +36,7 @@ export const setHotlineUser = user => dispatch => dispatch({ type: 'SET_HOTLINE_
     promise: new Promise((resolve, reject) => {
       __DEV__ && console.log('SET HOTLINE USER',user);
 
-      // RNHotline.init('f54bba2a-84fa-43c8-afa9-098f3c1aefae', 'fba1b915-fa8b-4c24-bdda-8bac99fcf92a', false)
+      RNHotline.init('f54bba2a-84fa-43c8-afa9-098f3c1aefae', 'fba1b915-fa8b-4c24-bdda-8bac99fcf92a', false)
         // .then(result => {
 
           // RCT_EXPORT_METHOD(setUser:(NSString *)user_id name:(NSString *)name phone:(NSString *)phone relStatus:(NSString *)relStatus gender:(NSString *)gender image:(NSString *)image thumb:(NSString *)thumb partner_id:(NSString *)partner_id ){

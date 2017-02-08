@@ -11,83 +11,20 @@ import _ from 'lodash'
 import ActionMan from '../../../actions'
 import {NavigationStyles, withNavigation} from '@exponent/ex-navigation'
 import Router from '../../../Router'
-
+import Toolbar from './Toolbar'
+import {pure,onlyUpdateForKeys} from 'recompose'
 
 const iOS = Platform.OS == 'ios';
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
 
-const ToolbarLogo = () => (
-  <View style={{paddingTop: 0}}>
-    <Image
-      resizeMode={Image.resizeMode.contain}
-      style={{
-        width: 80,
-        height: 40,
-        tintColor: __DEV__ ? colors.daisy : colors.white,
-        alignSelf: 'center'
-      }}
-      source={require('./assets/tripppleLogoText@3x.png')}
-    />
-  </View>
-)
 
-const CloseProfile = ({route}) => (
-  <TouchableOpacity
-    onPress={() => route.params.dispatch({type: 'CLOSE_PROFILE'})}
-    style={{
-      padding: 15,
-      left: -5,
-      width: 45,
-      height: 45,
-      position: 'absolute',
-      top: 0,
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 999
-    }}
-  >
-    <Image
-      resizeMode={Image.resizeMode.contain}
-      style={{
-        width: 15,
-        height: 15,
-        alignSelf: 'center'
-      }}
-      source={require('./assets/close@3x.png')}
-    />
-  </TouchableOpacity>
-)
-
-const Toolbar = () => (
-  <View
-    style={{
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      height: iOS ? 64 : 50,
-      position: 'absolute',
-      top: 0,
-      flexGrow: 1,
-      margin: 0,
-      alignSelf: 'stretch',
-      width: DeviceWidth,
-      alignItems: 'flex-end',
-      zIndex: 900,
-    }}
-  >
-    <SettingsButton />
-    <ToolbarLogo />
-    <MatchesButton />
-  </View>
-)
-
-@withNavigation
 class Potentials extends React.Component{
   static route = {
     styles: NavigationStyles.Fade,
     statusBar: {
-      translucent: true
+      translucent: false
     },
     sceneStyle: {
       backgroundColor: colors.outerSpace,
@@ -95,7 +32,7 @@ class Potentials extends React.Component{
     navigationBar: {
       visible: false, // iOS,
       style: {height: 0},
-      // translucent: true,
+      translucent: true,
       // backgroundColor: colors.transparent,
       height: 0,
       width: 0
@@ -112,19 +49,20 @@ class Potentials extends React.Component{
   componentDidMount(){
     this.props.dispatch({type:'LOADING_FULFILLED'})
     this.checkIfNoLocationPermission()
-    if(this.props.loadedUser && !this.props.user.id){
-      this.props.navigator.immediatelyResetStack(['Welcome'])
+    if(!this.props.loggedIn || this.props.loadedUser && !this.props.user.id){
+      this.props.navigator.immediatelyResetStack([Router.getRoute('Welcome')], 0)
 
     }else if(this.props.loadedUser && this.props.user.status != 'onboarded'){
-      this.props.navigator.immediatelyResetStack(['Onboard'])
+      this.props.navigator.immediatelyResetStack([Router.getRoute('Onboard')], 0)
 
     }else{
-      if(this.props.permissions.location && this.props.permissions.location == 'authorized'){
+      if(this.props.permissions.location && (iOS && this.props.permissions.location == 'authorized') || true){
         this.props.dispatch(ActionMan.getLocation());
       }
     }
 
   }
+  
   componentWillUnmount(){
     if(this.ba){
       this.ba.remove()
@@ -137,10 +75,9 @@ class Potentials extends React.Component{
     if(nui.profileVisible && !ui.profileVisible){
       this.ba = BackAndroid.addEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
     }else if(!nui.profileVisible && this.ba){
-      this.ba.remove()
     }
     if(!this.props.loggedIn && nProps.loggedIn){
-      // this.props.dispatch(ActionMan.getPotentials())
+      this.props.dispatch(ActionMan.getPotentials())
     }
   }
 
@@ -156,7 +93,6 @@ class Potentials extends React.Component{
       // return false
 
     }
-    return true
 
   }
   checkIfNoLocationPermission(){
@@ -193,10 +129,13 @@ class Potentials extends React.Component{
       <View
         style={{
           top: 0,
-          backgroundColor: colors.outerSpace,
-          flexGrow: 1,
+          bottom:0,
+          position:'absolute',
+          left:0,right:0,
+          alignItems:'stretch',
+            backgroundColor: colors.outerSpace,
+          flexGrow: 1,height:DeviceHeight,width:DeviceWidth
         }}
-
       >
 
         <View
@@ -204,12 +143,22 @@ class Potentials extends React.Component{
             styles.cardStackContainer,
             {
               top: 0,
+              bottom:0,
+              left:0,right:0,
               position: 'absolute',
               flexGrow: 1,
             }
           ]}
           pointerEvents={'box-none'}
         >
+          <PotentialsPlaceholder
+            navigator={this.props.navigator}
+            navigation={this.props.navigation}
+            user={this.props.user}
+            hasPotentials={potentials.length > 1}
+            didShow={this.state.didShow}
+            onDidShow={() => { this.setState({didShow: true}); }}
+          />
 
           { potentials.length && this.state.showPotentials ?
             <CardStack
@@ -221,19 +170,19 @@ class Potentials extends React.Component{
               navigator={this.props.navigator}
               profileVisible={this.props.profileVisible}
               toggleProfile={this.toggleProfile.bind(this)}
-            /> :
-            <PotentialsPlaceholder
-              navigator={this.props.navigator}
-              navigation={this.props.navigation}
-              user={this.props.user}
-              didShow={this.state.didShow}
-              onDidShow={() => { this.setState({didShow: true}); }}
+
             />
-          }
+           : null}
 
-          <Toolbar />
+          <Toolbar dispatch={this.props.dispatch} key={'ts'}/>
 
-        </View>
+
+
+
+
+
+</View>
+
       </View>
     )
   }

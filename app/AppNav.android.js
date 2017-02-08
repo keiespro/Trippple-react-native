@@ -55,7 +55,7 @@ class AppNav extends React.Component {
           drawerBackgroundColor={colors.outerSpace}
           drawerPosition={DrawerLayoutAndroid.positions.Left}
           renderNavigationView={(x) => {
-            return <Settings />
+             return <Settings />
           }}
         >
           <StackNavigation
@@ -68,7 +68,6 @@ class AppNav extends React.Component {
                   backgroundColor: colors.outerSpace,
                   // shadowRadius: 6
             }}
-            router={Router}
             defaultRouteConfig={{
               styles: FloatVertical,
               sceneStyle: {
@@ -80,7 +79,7 @@ class AppNav extends React.Component {
                 backgroundColor: colors.mediumPurple70
               },
               navigationBar: {
-                visible: true,
+                visible: false,
                 borderBottomWidth: 0,
                 tintColor: '#fff',
                 borderWidth: 0,
@@ -96,7 +95,7 @@ class AppNav extends React.Component {
                 }
               },
             }}
-            initialRoute={'Potentials'}
+            initialRoute={Router.getRoute('Potentials')}
           />
         </DrawerLayoutAndroid>
 

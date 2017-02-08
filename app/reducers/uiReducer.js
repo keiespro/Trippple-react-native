@@ -54,6 +54,7 @@ export default function uiReducer(state = initialState, action) {
 
     case 'GET_USER_INFO_REJECTED':
     case 'GET_USER_INFO_FULFILLED':
+    case 'LOGIN_WITH_FACEBOOK_FULFILLED':
       return {...state, loadedUser: true };
 
     case 'LOGIN_WITH_FACEBOOK_PENDING':

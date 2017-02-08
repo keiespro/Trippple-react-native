@@ -24,6 +24,7 @@ class Matches extends Component {
   static route = {
     styles: Platform.select({ios: SlideHorizontalIOS, android: NavigationStyles.FloatVertical}),
     sceneStyle:{
+      backgroundColor: colors.outerSpace,
     },
     statusBar:{
       translucent:false,

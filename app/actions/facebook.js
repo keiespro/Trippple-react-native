@@ -104,7 +104,7 @@ export const resetRoute = (route,params = {}) => (dispatch,getState) => dispatch
     const state = getState()
     const navs = Object.keys(state.navigation.navigators)
     const navigatorUID = navs[0];
-    dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute(route)]));
+    dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute(route, params)], 0));
 
     resolve(params)
   }),
@@ -115,7 +115,7 @@ export const replaceRoute = (route,params = {}) => (dispatch,getState) => dispat
     const state = getState()
     const navs = Object.keys(state.navigation.navigators)
     const navigatorUID = navs[0];
-    dispatch(NavigationActions.replace(navigatorUID, Router.getRoute(route)));
+    dispatch(NavigationActions.replace(navigatorUID, Router.getRoute(route, params)));
 
     resolve(params)
   }),

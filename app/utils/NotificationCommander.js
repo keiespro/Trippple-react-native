@@ -78,13 +78,15 @@ class NotificationCommander extends Component{
     if(notification.type == 'dispatch'){
       this.props.dispatch(ActionMan[notification.action_creator](notification.action_payload));
     }
+
     if(notification.opened_from_tray){
       this.props.chatOpen ?
         this.props.dispatch(ActionMan.replaceRoute('Chat',{...notification, fromNotification: true})) :
           this.props.dispatch(ActionMan.pushRoute('Chat',{...notification, fromNotification: true}));
 
+    }else{
+      this.props.handleNotification(newNotification);
     }
-    this.props.handleNotification(newNotification);
   }
   render(){
     if(!__DEV__) return false;
