@@ -62,8 +62,8 @@ const CloseProfile = ({route}) => (
 
 class Toolbar extends React.Component{
   componentWillUnmount(){
-    console.warn('UNMOUNTTOOLBAR');
-    this.props.dispatch(ActionMan.getPotentials())
+
+    // this.props.dispatch(ActionMan.getPotentials())
   }
   render(){
     return(

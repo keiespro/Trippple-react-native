@@ -49,11 +49,8 @@ class Potentials extends React.Component{
   componentDidMount(){
     this.props.dispatch({type:'LOADING_FULFILLED'})
     this.checkIfNoLocationPermission()
-    if(!this.props.loggedIn || this.props.loadedUser && !this.props.user.id){
+    if(!this.props.loggedIn || (this.props.loadedUser && !this.props.user.id)){
       this.props.navigator.immediatelyResetStack([Router.getRoute('Welcome')], 0)
-
-    }else if(this.props.loadedUser && this.props.user.status != 'onboarded'){
-      this.props.navigator.immediatelyResetStack([Router.getRoute('Onboard')], 0)
 
     }else{
       if(this.props.permissions.location && (iOS && this.props.permissions.location == 'authorized') || true){
@@ -62,13 +59,14 @@ class Potentials extends React.Component{
     }
 
   }
-  
+
   componentWillUnmount(){
     if(this.ba){
       this.ba.remove()
     }
   }
   componentWillReceiveProps(nProps){
+    console.log(nProps.loadedUser, nProps.user);
 
     const nui = nProps.ui;
     const ui = this.props.ui;
@@ -76,8 +74,17 @@ class Potentials extends React.Component{
       this.ba = BackAndroid.addEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
     }else if(!nui.profileVisible && this.ba){
     }
-    if(!this.props.loggedIn && nProps.loggedIn){
+
+    if(!this.props.loggedIn && nProps.loggedIn && nProps.user.status == 'onboarded'){
       this.props.dispatch(ActionMan.getPotentials())
+    }
+    if(this.props.user.status != 'onboarded' && nProps.user.status == 'onboarded'){
+      this.props.dispatch(ActionMan.getPotentials())
+    }
+
+     if(!this.props.loadedUser && nProps.loadedUser && nProps.user.status && nProps.user.status != 'onboarded'){
+      this.props.dispatch(ActionMan.resetRoute('Onboard'))
+
     }
   }
 
@@ -199,6 +206,7 @@ const mapStateToProps = (state, ownProps) => ({
   profileVisible: state.ui.profileVisible,
   drawerOpen: state.ui.drawerOpen,
   permissions: state.permissions,
+  loadedUser: state.ui.loadedUser,
   loggedIn: state.auth.api_key && state.auth.user_id
 })
 
