@@ -6,9 +6,9 @@ import {MagicNumbers} from '../../utils/DeviceConfig'
 import colors from '../../utils/colors';
 
 
-const Selectable = ({selected, onPress, isLast, label, field, moreStyle = {} }) => (
+const Selectable = ({selected, onPress, isLast, label, field, moreStyle = {}, diameter = 30 }) => (
   <TouchableNativeFeedback
-    useForeground
+    
     background={TouchableNativeFeedback.SelectableBackground(colors.mediumPurple || colors.dark)}
     onPress={onPress}
   >
@@ -31,20 +31,20 @@ const Selectable = ({selected, onPress, isLast, label, field, moreStyle = {} }) 
       {selected ? (
         <Image
           style={{
-            height: 30,
-            width: 30
+            height: diameter,
+            width: diameter
           }}
           source={require('./assets/ovalSelected@3x.png')}
         />
       ) : (
         <View
           style={{
-            height: 30,
-            width: 30,
+            height: diameter,
+            width: diameter,
             borderWidth: 1.5,
             borderColor: colors.shuttleGray,
             borderStyle: 'dashed',
-            borderRadius: 15
+            borderRadius: diameter/2
           }}
         />
       )}
