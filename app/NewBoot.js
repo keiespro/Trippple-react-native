@@ -31,9 +31,9 @@ class NewBoot extends Component{
   initialize(){
 
     loadSavedCredentials().then(res => {
-      if(global.creds){
+      if(global && global.creds){
         store.dispatch({type: 'INITIALIZE_CREDENTIALS', payload: global.creds})
-      }else if(res.creds){
+      }else if(res && res.creds){
         store.dispatch({type: 'INITIALIZE_CREDENTIALS', payload: res.creds})
       }else{
         throw new Error('no creds')

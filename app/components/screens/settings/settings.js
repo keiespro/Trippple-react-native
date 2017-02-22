@@ -82,11 +82,7 @@ class Settings extends React.Component{
         {
           text: 'Yes',
           onPress: () => {
-            Analytics.event('Support', {
-              name: 'Disabled Account',
-              type: this.props.user.id,
-              user: this.props.user
-            })
+          
 
             this.props.dispatch(ActionMan.disableAccount())
             this.props.dispatch(ActionMan.logOut())

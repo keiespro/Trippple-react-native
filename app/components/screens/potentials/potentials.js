@@ -48,14 +48,10 @@ class Potentials extends React.Component{
   }
   componentDidMount(){
     this.props.dispatch({type:'LOADING_FULFILLED'})
-    this.checkIfNoLocationPermission()
     if(!this.props.loggedIn || (this.props.loadedUser && !this.props.user.id)){
       this.props.navigator.immediatelyResetStack([Router.getRoute('Welcome')], 0)
 
     }else{
-      if(this.props.permissions.location && (iOS && this.props.permissions.location == 'authorized') || true){
-        this.props.dispatch(ActionMan.getLocation());
-      }
     }
 
   }
@@ -66,13 +62,13 @@ class Potentials extends React.Component{
     }
   }
   componentWillReceiveProps(nProps){
-    console.log(nProps.loadedUser, nProps.user);
 
     const nui = nProps.ui;
     const ui = this.props.ui;
     if(nui.profileVisible && !ui.profileVisible){
       this.ba = BackAndroid.addEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
     }else if(!nui.profileVisible && this.ba){
+
     }
 
     if(!this.props.loggedIn && nProps.loggedIn && nProps.user.status == 'onboarded'){
@@ -82,8 +78,12 @@ class Potentials extends React.Component{
       this.props.dispatch(ActionMan.getPotentials())
     }
 
-     if(!this.props.loadedUser && nProps.loadedUser && nProps.user.status && nProps.user.status != 'onboarded'){
+   if(!this.props.loadedUser && nProps.loadedUser && nProps.user.status && nProps.user.status != 'onboarded'){
       this.props.dispatch(ActionMan.resetRoute('Onboard'))
+
+    }
+    if(!this.state.askedLocation && nProps.user.status == 'onboarded' ){
+      this.checkIfNoLocationPermission()
 
     }
   }
@@ -103,13 +103,35 @@ class Potentials extends React.Component{
 
   }
   checkIfNoLocationPermission(){
-    if(this.props.permissions.location == 'undetermined'){
+    let ask, get;
+    this.setState({
+      askedLocation:true
+    })
+    const locperm = this.props.permissions.location;
+    if(locperm != 'soft-denied'){
+      if(iOS){
+        if(locperm == 'undetermined'){
+          ask = true
+        }else if(locperm == 'authorized'){
+          get = true
+        }
+      }else{
+        if(locperm){
+          get = true
+        }else{
+          ask = true
+        }
+      }
+    }
+    if(ask){
       this.props.dispatch(ActionMan.showInModal({
         component:'LocationPermissions',
         passProps:{
-
         }
       }))
+    }
+    if(get){
+      this.props.dispatch(ActionMan.getLocation());
     }
   }
 

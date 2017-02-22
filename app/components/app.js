@@ -56,16 +56,16 @@ class App extends React.Component{
     //
     // }
 
-      this.setTimeout(() => {
-
-        this.performInitActions()
-        if(this.props.loggedIn){
-
-        }else{
-
-        }
-
-      }, 1000)
+      // this.setTimeout(() => {
+      //
+      //   this.performInitActions()
+      //   if(this.props.loggedIn){
+      //
+      //   }else{
+      //
+      //   }
+      //
+      // }, 1000)
   }
 
 
@@ -89,10 +89,10 @@ class App extends React.Component{
         SplashScreen.hide();
 
       }
-      if(this.state.initialized && this.props.loggedIn && !nProps.savedCredentials){
-        this.props.dispatch(ActionMan.saveCredentials())
-
-      }
+      // if(this.state.initialized && this.props.loggedIn && !nProps.savedCredentials){
+      //   this.props.dispatch(ActionMan.saveCredentials())
+      //
+      // }
 
     if(this.props.loadedUser && nProps.onboarded && !this.props.onboarded){
       this.props.dispatch(ActionMan.resetRoute('Potentials'))
@@ -104,7 +104,7 @@ class App extends React.Component{
 
   componentDidUpdate(pProps, pState){
     if(this.state.initialized && !pState.initialized){
-      // SplashScreen.hide();
+      SplashScreen.hide();
       this.performInitActions()
       // Analytics.identifyUser(this.props.user)
 

@@ -101,13 +101,13 @@ export const share = payload => dispatch => dispatch({ type: 'SHARE_COUPLE_PIN',
 
       Share.share({
         title: 'Join my couple!',
-        message: messageText,
+        message: `${messageText}`,
         url: `trippple://joincouple/${pin}`,
       }, {
         dialogTitle: 'Send your couple pin'
       })
-      .then(resolve)
-      .catch(reject)
+      .then(ok => resolve(ok))
+      .catch(err => reject(err))
     })
   }
 });

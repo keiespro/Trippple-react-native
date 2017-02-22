@@ -101,7 +101,7 @@ class PotentialsPlaceholder extends React.Component{
     return (
       <FadeInContainer
         delayAmount={1000}
-        duration={3000}
+        duration={1500}
       >
         <Toolbar dispatch={this.props.dispatch} key={'tb'}/>
 

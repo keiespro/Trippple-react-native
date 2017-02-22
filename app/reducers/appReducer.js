@@ -20,7 +20,7 @@ export default function appReducer(state = initialState, action) {
       return {...state, coupling: {...state.coupling, ...action.payload}}
 
     case 'SHARE_COUPLE_PIN_FULFILLED':
-      return {...state, coupling: {...state.coupling, sentInvite: action.payload.success, inviteMethod: action.payload.method}}
+      return {...state, coupling: {...state.coupling, sentInvite: true, ...action.payload }}
 
     case 'TOGGLE_SENT_INVITE':
       return {...state, coupling: {...state.coupling, sentInvite: null, inviteMethod: null}};

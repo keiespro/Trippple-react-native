@@ -8,6 +8,7 @@ import {
   LayoutAnimation,
   TouchableOpacity,
   Image,
+  Keyboard,
   Platform,
   View,
   Dimensions,
@@ -17,6 +18,7 @@ import React from 'react';
 import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
 import ContinueButton from '../../controls/ContinueButton';
 
+const iOS = Platform.OS == 'ios';
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
@@ -100,6 +102,7 @@ class EnterCouplePin extends React.Component{
     this.setState(newState)
   }
   handleSubmit(){
+    Keyboard.dismiss()
     if(this.state.submitting){ return false }
     this.setState({
       submitting: true,
@@ -165,7 +168,7 @@ class EnterCouplePin extends React.Component{
 
     return (
       <View style={{flexGrow: 1,  backgroundColor: colors.outerSpace}}>
-          <View style={{flex: 1, }}
+          <View style={{flexGrow: 1, top: iOS ? 0 : -20 }}
           contentContainerStyle={[{  flex: 1,  alignItems:'stretch'}]} >
 
             <View style={[{top: 0, marginBottom: MagicNumbers.is5orless ? 0 : 50, flexDirection: 'column', alignItems: 'center', justifyContent: 'center',marginHorizontal: MagicNumbers.screenPadding / 2, flex: 1 }]}>

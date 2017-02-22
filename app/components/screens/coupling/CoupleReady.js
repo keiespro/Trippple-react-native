@@ -82,7 +82,7 @@ class CoupleReady extends React.Component{
     let nav
 
 
-    this.props.dispatch(ActionMan.onboardUserNowWhat())
+    this.props.dispatch(ActionMan.onboardUserNowWhat({relationship_status:'couple'}))
     // this.props.goBack && this.props.goBack()
 
   }

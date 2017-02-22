@@ -144,7 +144,7 @@ payload: new Promise((resolve, reject) => {
 
 export const onboardUserNowWhat = payload => (dispatch,getState) => dispatch({ type: 'ONBOARD_USER_NOW_WHAT',
   payload: new Promise((resolve, reject) => {
-
+    console.log(payload);
     api.onboard(payload).then(result => {
       const state = getState()
         __DEV__ && console.log(result);
