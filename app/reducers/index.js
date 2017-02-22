@@ -21,6 +21,7 @@ import permissionsReducer  from './permissionsReducer'
 import settingsReducer  from './settingsReducer'
 import swipeQueueReducer  from './swipeQueueReducer'
 import swipeHistoryReducer  from './swipeHistoryReducer'
+import browseReducer  from './browseReducer'
 
 const applicationReducers = {
   user:           userReducer,
@@ -42,6 +43,7 @@ const applicationReducers = {
   navigation: navigation,
   swipeQueue: swipeQueueReducer,
   swipeHistory: swipeHistoryReducer,
+  browse: browseReducer,
   facebookAlbums
 };
 

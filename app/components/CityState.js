@@ -44,7 +44,7 @@ export default class CityState extends Component{
     return (
       <View style={{}}>
         <Text
-          style={[styles.cardBottomOtherText, { alignSelf: 'flex-start', color:  this.props.profileVisible ? '#fff' : colors.rollingStone }]}
+          style={[styles.cardBottomOtherText, { alignSelf: 'flex-start', color:  this.props.color || this.props.profileVisible ? '#fff' : colors.rollingStone }]}
           key={`${this.props.potential.user.id}-matchn`}
         >{this.state.cityState && this.state.cityState.indexOf('null') > -1 ? this.props.cityState : this.state.cityState || this.props.cityState}</Text>
       </View>
