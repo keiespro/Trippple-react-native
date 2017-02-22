@@ -494,6 +494,15 @@
 		ACCB6A821DC90AA200E735C1 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ionicons.ttf; sourceTree = "<group>"; };
 		ACCB6A831DC90AA200E735C1 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
 		ACCB6A861DC90AA200E735C1 /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
+		ACCF02AC1E4B14CC00ED48C9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		ACCF02AE1E4B14CC00ED48C9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		ACCF02AF1E4B14CC00ED48C9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		ACCF02B11E4B14CC00ED48C9 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		ACCF02B21E4B14CC00ED48C9 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		ACCF02B51E4B14CC00ED48C9 /* tvOSTrippple.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = tvOSTrippple.xcdatamodel; sourceTree = "<group>"; };
+		ACCF02B81E4B14CC00ED48C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		ACCF02BA1E4B14CC00ED48C9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		ACCF02BC1E4B14CC00ED48C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ACD0259B1DF9B84500667044 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ACEB23C41CA32702007C426B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		ACFDE3971E13CEC700459E52 /* Trippple.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Trippple.entitlements; path = Trippple/Trippple.entitlements; sourceTree = "<group>"; };
@@ -629,6 +638,7 @@
 				ACC332191CE90DB700DCC3CC /* FBSDKShareKit.framework */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				AC9D8D321D3F34FF009D4C78 /* TripppleSnapshotTests */,
+				ACCF02AA1E4B14CC00ED48C9 /* tvOSTrippple */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				A999B3CF69585EF60C549767 /* Frameworks */,
 				396058258815DBDCB5543CCA /* Pods */,
@@ -1002,6 +1012,30 @@
 				ACC7DEBC1C5A43D90087476F /* omnes-regular-webfont.ttf */,
 			);
 			path = fonts;
+			sourceTree = "<group>";
+		};
+		ACCF02AA1E4B14CC00ED48C9 /* tvOSTrippple */ = {
+			isa = PBXGroup;
+			children = (
+				ACCF02AE1E4B14CC00ED48C9 /* AppDelegate.h */,
+				ACCF02AF1E4B14CC00ED48C9 /* AppDelegate.m */,
+				ACCF02B11E4B14CC00ED48C9 /* ViewController.h */,
+				ACCF02B21E4B14CC00ED48C9 /* ViewController.m */,
+				ACCF02B71E4B14CC00ED48C9 /* Main.storyboard */,
+				ACCF02BA1E4B14CC00ED48C9 /* Assets.xcassets */,
+				ACCF02BC1E4B14CC00ED48C9 /* Info.plist */,
+				ACCF02B41E4B14CC00ED48C9 /* tvOSTrippple.xcdatamodeld */,
+				ACCF02AB1E4B14CC00ED48C9 /* Supporting Files */,
+			);
+			path = tvOSTrippple;
+			sourceTree = "<group>";
+		};
+		ACCF02AB1E4B14CC00ED48C9 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				ACCF02AC1E4B14CC00ED48C9 /* main.m */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		AD4A1DE9052349FB9734E582 /* Resources */ = {
@@ -1701,6 +1735,17 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		ACCF02B71E4B14CC00ED48C9 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ACCF02B81E4B14CC00ED48C9 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1714,7 +1759,7 @@
 				CODE_SIGN_ENTITLEMENTS = Trippple/Trippple.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 77;
+				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 3D5DY3UN4M;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
@@ -1794,7 +1839,7 @@
 				CODE_SIGN_ENTITLEMENTS = Trippple/Trippple.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Trippple LLC (3D5DY3UN4M)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 77;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 3D5DY3UN4M;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_BITCODE = NO;
@@ -1883,7 +1928,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Trippple LLC (3D5DY3UN4M)";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 77;
+				CURRENT_PROJECT_VERSION = 2;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = "~/Documents/FacebookSDK";
@@ -1951,7 +1996,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Trippple LLC (3D5DY3UN4M)";
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 77;
+				CURRENT_PROJECT_VERSION = 2;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = "~/Documents/FacebookSDK";
@@ -2077,6 +2122,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		ACCF02B41E4B14CC00ED48C9 /* tvOSTrippple.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				ACCF02B51E4B14CC00ED48C9 /* tvOSTrippple.xcdatamodel */,
+			);
+			currentVersion = ACCF02B51E4B14CC00ED48C9 /* tvOSTrippple.xcdatamodel */;
+			path = tvOSTrippple.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 83CBB9F71A601CBA00E9B192 /* Project object */;
 }
