@@ -34,14 +34,24 @@ export default function matchesListReducer(state = initialState, action) {
 
     if( !matches ) return state;
 
-    const mtchs = state.matches.length > 1 ? dedupe([...state.matches, ...matches]) : matches;
+
+    const oldM = state.matches.reduce((acc,el)=>{
+      acc[el.match_id] = el
+      return acc
+    },{});
+
+    const newM = Object.values(matches).reduce((acc,el)=>{
+      acc[el.match_id] = el
+      return acc
+    },{})
+
+    const mtchs = {...oldM, ...newM}
+
     const newMatches = _.difference(state.newMatches, matches);
-
-
 
     return {
       newMatches: _.filter(newMatches, (m) => Object.keys(m.users).length >= 3),
-      matches: _.filter((mtchs.length > 1 ? orderMatches(mtchs) : mtchs),m => Object.keys(m.users).length >= 3)
+      matches: orderMatches(Object.values(mtchs))
     };
 
   //

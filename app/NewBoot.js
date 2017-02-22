@@ -31,9 +31,9 @@ class NewBoot extends Component{
   initialize(){
 
     loadSavedCredentials().then(res => {
-      if(global.creds){
+      if(global && global.creds){
         store.dispatch({type: 'INITIALIZE_CREDENTIALS', payload: global.creds})
-      }else if(res.creds){
+      }else if(res && res.creds){
         store.dispatch({type: 'INITIALIZE_CREDENTIALS', payload: res.creds})
       }else{
         throw new Error('no creds')
@@ -41,10 +41,8 @@ class NewBoot extends Component{
     })
     .catch(err => {
       __DEV__ && console.log('err', err);
-      console.log(store.getState());
     })
     .finally((x) => {
-      console.log('finally',x);
       this.setState({initialized: true})
       // store.dispatch(sessionAuth())
     })

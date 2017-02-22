@@ -45,7 +45,7 @@ export const updateBadgeNumber = (delta) => dispatch => dispatch({ type: 'UPDATE
 
 export const handleNotification = notification => dispatch => dispatch({ type: 'HANDLE_NOTIFICATION',
   payload: new Promise((resolve, reject) => {
-    // __DEV__ && console.warn('notification',notification);
+    __DEV__ && console.log('notification',notification);
 
     const data = notification
     const payload = (typeof data == 'string' ? JSON.parse(data) : data);

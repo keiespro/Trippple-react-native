@@ -315,10 +315,10 @@ const Swiper = React.createClass({
           pagingEnabled
           scrollEnabled={this.props.scrollEnabled}
           horizontal
-          onStartShouldSetResponderCapture={(e,x) => {console.log('onStartShouldSetResponderCapture',e,x); return true}}
-          onMoveShouldSetResponderCapture={(e,x) => {console.log('onStartShouldSetResponderCapture',e,x); return true}}
-          onStartShouldSetResponder={(e,x) => {console.log('onStartShouldSetResponderCapture',e,x); return true}}
-          onMoveShouldSetResponder={(e,x) => {console.log('onStartShouldSetResponderCapture',e,x); return true}}
+          onStartShouldSetResponderCapture={(e,x) => true}
+          onMoveShouldSetResponderCapture={(e,x) => true}
+          onStartShouldSetResponder={(e,x) => true}
+          onMoveShouldSetResponder={(e,x) => true}
           contentContainerStyle={[styles.wrapper, props && props.style, {
             borderRadius: 11,
             top:0,

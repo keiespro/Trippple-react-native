@@ -47,6 +47,7 @@ class Chat extends React.Component {
     },
     statusBar:{
       translucent: false,
+      visible:true
     },
   }
 
@@ -79,12 +80,28 @@ class Chat extends React.Component {
   toggleModal() {
     Keyboard.dismiss()
 
-    //  this.setState({
-    //   isVisible: !this.state.isVisible,
-    // })
+         this.setState({
+          isVisible: !this.state.isVisible,
+        })
+  }
+  openProfile(){
+    const {user} = this.props
+    const match = this.props.match || this.props.currentMatch;
+    const theirIds = Object.keys(match.users).filter(u => { return u != user.id && u != user.partner_id })
+    const them = theirIds.map((id) => match.users[id])
+
+    const MatchUserAsPotential = {
+      user: them[0],
+      partner: them[1] || {},
+      couple: {}
+    }
+    Keyboard.dismiss()
+
+    this.props.dispatch(ActionMan.pushRoute('UserProfile', { potential: MatchUserAsPotential, user: this.props.user}));
   }
 
   render() {
+
     return (
         <ChatInside
           user={this.props.user}
@@ -95,6 +112,7 @@ class Chat extends React.Component {
           key={`chat-${this.props.user.id}-${this.props.match_id}`}
           pop={() => { this.props.navigator.pop() }}
           fromNotification={this.props.fromNotification}
+          openProfile={this.openProfile.bind(this)}
         />
     );
   }

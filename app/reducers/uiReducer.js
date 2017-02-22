@@ -55,6 +55,7 @@ export default function uiReducer(state = initialState, action) {
 
     case 'GET_USER_INFO_REJECTED':
     case 'GET_USER_INFO_FULFILLED':
+    case 'LOGIN_WITH_FACEBOOK_FULFILLED':
       return {...state, loadedUser: true };
 
     case 'LOGIN_WITH_FACEBOOK_PENDING':
@@ -75,6 +76,15 @@ export default function uiReducer(state = initialState, action) {
         loggingIn: false
       }
 
+    case 'LOG_OUT':
+      return initialState
+
+    case 'TOGGLE_POTENTIALS_PAGE':
+      return {
+        ...state,
+        potentialsPage: action.payload ? 1 : 0
+      }
+
 
     default:
 
@@ -89,5 +99,6 @@ const initialState = {
   profileVisible: false,
   drawerOpen: false,
   currentIndex: 0,
-  loggingIn: false
+  loggingIn: false,
+  potentialsPage: 0
 };

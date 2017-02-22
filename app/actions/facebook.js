@@ -108,7 +108,7 @@ export const resetRoute = (route,params = {}) => (dispatch,getState) => dispatch
     const state = getState()
     const navs = Object.keys(state.navigation.navigators)
     const navigatorUID = navs[0];
-    dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute(route)]));
+    dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute(route, params)], 0));
 
     resolve(params)
   }),
@@ -119,7 +119,7 @@ export const replaceRoute = (route,params = {}) => (dispatch,getState) => dispat
     const state = getState()
     const navs = Object.keys(state.navigation.navigators)
     const navigatorUID = navs[0];
-    dispatch(NavigationActions.replace(navigatorUID, Router.getRoute(route)));
+    dispatch(NavigationActions.replace(navigatorUID, Router.getRoute(route, params)));
 
     resolve(params)
   }),
@@ -128,14 +128,14 @@ export const replaceRoute = (route,params = {}) => (dispatch,getState) => dispat
 
 export const loginWithSavedFbCreds = (fbData) => (dispatch,getState) => dispatch({ type: 'LOGIN_WITH_SAVED_FB_CREDS',
 payload: new Promise((resolve, reject) => {
-  console.log('loginWithSavedFbCreds',fbData);
+  __DEV__ && console.log('loginWithSavedFbCreds',fbData);
     api.fbLogin(fbData).then( result => {
       dispatch({ type: 'FIREBASE_AUTH', payload: checkFireLoginState(fbData, dispatch) })
       const state = getState()
       const navs = Object.keys(state.navigation.navigators)
       const navigatorUID = navs[0];
       const onboarded = result.user_id && result.fb_authorized && result.user_info.status == 'onboarded';
-      console.log(result,onboarded);
+      __DEV__ && console.log(result,onboarded);
       dispatch(NavigationActions.replace(navigatorUID, Router.getRoute(onboarded ? 'Potentials' : 'Onboard' )));
       dispatch(NavigationActions.popToTop(navigatorUID));
 
@@ -148,7 +148,7 @@ payload: new Promise((resolve, reject) => {
 
 export const onboardUserNowWhat = payload => (dispatch,getState) => dispatch({ type: 'ONBOARD_USER_NOW_WHAT',
   payload: new Promise((resolve, reject) => {
-
+    console.log(payload);
     api.onboard(payload).then(result => {
       const state = getState()
         __DEV__ && console.log(result);

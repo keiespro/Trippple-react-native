@@ -2,7 +2,7 @@ import { Platform, PushNotificationIOS } from 'react-native'
 import FCM from 'react-native-fcm';
 import Promise from 'bluebird'
 import Permissions from 'react-native-permissions'
-
+import {getPushToken} from '../misc'
 
 export default {checkNotificationsPermission, requestNotificationsPermission}
 
@@ -25,6 +25,7 @@ export const requestNotificationsPermission = () => dispatch => dispatch({ type:
     Platform.select(request)()
       .then(permission => {
         dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_ON'})
+        dispatch(getPushToken())
         return resolve(permission)
       })
       .catch(err => {

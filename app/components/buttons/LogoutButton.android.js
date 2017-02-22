@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, TouchableHighlight,Dimensions,Alert} from "react-native";
+import {StyleSheet, Text, View, TouchableOpacity,Dimensions,Alert} from "react-native";
 import React from "react";
 
 
@@ -30,11 +30,11 @@ export default class LogOutButton extends React.Component{
   render(){
 
     return (
-      <TouchableHighlight underlayColor={colors.shuttleGray20} onPress={this._doLogOut.bind(this)} style={{marginVertical:20,marginTop:70}}>
+      <TouchableOpacity onPress={this._doLogOut.bind(this)} style={{flex:0,width:80,marginVertical:20,marginTop:70}}>
         <View style={styles.button}>
           <Text style={styles.buttonText}>Log Out</Text>
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
     )
   }
 }
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     fontFamily: 'omnes',
   },
   button: {
-
+flex:0,
     backgroundColor: 'transparent',
   }
 

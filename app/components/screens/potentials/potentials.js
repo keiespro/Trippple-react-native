@@ -10,83 +10,21 @@ import styles from './styles';
 import _ from 'lodash'
 import ActionMan from '../../../actions'
 import {NavigationStyles, withNavigation} from '@exponent/ex-navigation'
-
-
+import Router from '../../../Router'
+import Toolbar from './Toolbar'
+import {pure,onlyUpdateForKeys} from 'recompose'
+import Browse from './Browse'
 const iOS = Platform.OS == 'ios';
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
 
-const ToolbarLogo = () => (
-  <View style={{paddingTop: 0}}>
-    <Image
-      resizeMode={Image.resizeMode.contain}
-      style={{
-        width: 80,
-        height: 40,
-        tintColor: __DEV__ ? colors.daisy : colors.white,
-        alignSelf: 'center'
-      }}
-      source={require('./assets/tripppleLogoText@3x.png')}
-    />
-  </View>
-)
 
-const CloseProfile = ({route}) => (
-  <TouchableOpacity
-    onPress={() => route.params.dispatch({type: 'CLOSE_PROFILE'})}
-    style={{
-      padding: 15,
-      left: -5,
-      width: 45,
-      height: 45,
-      position: 'absolute',
-      top: 0,
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 999
-    }}
-  >
-    <Image
-      resizeMode={Image.resizeMode.contain}
-      style={{
-        width: 15,
-        height: 15,
-        alignSelf: 'center'
-      }}
-      source={require('./assets/close@3x.png')}
-    />
-  </TouchableOpacity>
-)
-
-const Toolbar = () => (
-  <View
-    style={{
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      height: iOS ? 64 : 50,
-      position: 'absolute',
-      top: 0,
-      flexGrow: 1,
-      margin: 0,
-      alignSelf: 'stretch',
-      width: DeviceWidth,
-      alignItems: 'flex-end',
-      zIndex: 900,
-    }}
-  >
-    <SettingsButton />
-    <ToolbarLogo />
-    <MatchesButton />
-  </View>
-)
-
-@withNavigation
 class Potentials extends React.Component{
   static route = {
     styles: NavigationStyles.Fade,
     statusBar: {
-      translucent: true
+      translucent: false
     },
     sceneStyle: {
       backgroundColor: colors.outerSpace,
@@ -94,7 +32,7 @@ class Potentials extends React.Component{
     navigationBar: {
       visible: false, // iOS,
       style: {height: 0},
-      // translucent: true,
+      translucent: true,
       // backgroundColor: colors.transparent,
       height: 0,
       width: 0
@@ -110,35 +48,43 @@ class Potentials extends React.Component{
   }
   componentDidMount(){
     this.props.dispatch({type:'LOADING_FULFILLED'})
-    this.checkIfNoLocationPermission()
-    if(!this.props.user || !this.props.user.id){
-      this.props.navigator.replace('Welcome')
+    if(!this.props.loggedIn || (this.props.loadedUser && !this.props.user.id)){
+      this.props.navigator.immediatelyResetStack([Router.getRoute('Welcome')], 0)
 
-    }else if(this.props.user && this.props.user.status != 'onboarded'){
-      console.log(this.props.user);
-      this.props.navigator.replace('Onboard')
     }else{
-      if(this.props.permissions.location && this.props.permissions.location == 'authorized'){
-        this.props.dispatch(ActionMan.getLocation());
-      }
     }
 
   }
+
   componentWillUnmount(){
     if(this.ba){
       this.ba.remove()
     }
   }
   componentWillReceiveProps(nProps){
+
     const nui = nProps.ui;
     const ui = this.props.ui;
     if(nui.profileVisible && !ui.profileVisible){
       this.ba = BackAndroid.addEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
     }else if(!nui.profileVisible && this.ba){
-      this.ba.remove()
+
     }
-    if(!this.props.loggedIn && nProps.loggedIn){
-      // this.props.dispatch(ActionMan.getPotentials())
+
+    if(!this.props.loggedIn && nProps.loggedIn && nProps.user.status == 'onboarded'){
+      this.props.dispatch(ActionMan.getPotentials())
+    }
+    if(this.props.user.status != 'onboarded' && nProps.user.status == 'onboarded'){
+      this.props.dispatch(ActionMan.getPotentials())
+    }
+
+   if(!this.props.loadedUser && nProps.loadedUser && nProps.user.status && nProps.user.status != 'onboarded'){
+      this.props.dispatch(ActionMan.resetRoute('Onboard'))
+
+    }
+    if(!this.state.askedLocation && nProps.user.status == 'onboarded' ){
+      this.checkIfNoLocationPermission()
+
     }
   }
 
@@ -154,17 +100,38 @@ class Potentials extends React.Component{
       // return false
 
     }
-    return true
 
   }
   checkIfNoLocationPermission(){
-    if(this.props.permissions.location == 'undetermined'){
+    let ask, get;
+    this.setState({
+      askedLocation:true
+    })
+    const locperm = this.props.permissions.location;
+    if(locperm != 'soft-denied'){
+      if(iOS){
+        if(locperm == 'undetermined'){
+          ask = true
+        }else if(locperm == 'authorized'){
+          get = true
+        }
+      }else{
+        if(locperm){
+          get = true
+        }else{
+          ask = true
+        }
+      }
+    }
+    if(ask){
       this.props.dispatch(ActionMan.showInModal({
         component:'LocationPermissions',
         passProps:{
-
         }
       }))
+    }
+    if(get){
+      this.props.dispatch(ActionMan.getLocation());
     }
   }
 
@@ -185,29 +152,42 @@ class Potentials extends React.Component{
   }
 
   render(){
-    const { potentials, user } = this.props
+    const { potentials, user,potentialsPage } = this.props
 
     return (
       <View
         style={{
           top: 0,
+          bottom:0,
+          position:'absolute',
+          left:0,right:0,
+          alignItems:'stretch',
           backgroundColor: colors.outerSpace,
-          flexGrow: 1,
+          flexGrow: 1,height:DeviceHeight,width:DeviceWidth
         }}
-
       >
-
+      {potentialsPage == 0 ? (
         <View
           style={[
             styles.cardStackContainer,
             {
               top: 0,
+              bottom:0,
+              left:0,right:0,
               position: 'absolute',
               flexGrow: 1,
             }
           ]}
           pointerEvents={'box-none'}
         >
+          <PotentialsPlaceholder
+            navigator={this.props.navigator}
+            navigation={this.props.navigation}
+            user={this.props.user}
+            hasPotentials={potentials.length > 1}
+            didShow={this.state.didShow}
+            onDidShow={() => { this.setState({didShow: true}); }}
+          />
 
           { potentials.length && this.state.showPotentials ?
             <CardStack
@@ -219,19 +199,31 @@ class Potentials extends React.Component{
               navigator={this.props.navigator}
               profileVisible={this.props.profileVisible}
               toggleProfile={this.toggleProfile.bind(this)}
-            /> :
-            <PotentialsPlaceholder
-              navigator={this.props.navigator}
-              navigation={this.props.navigation}
-              user={this.props.user}
-              didShow={this.state.didShow}
-              onDidShow={() => { this.setState({didShow: true}); }}
-            />
-          }
 
-          <Toolbar />
+            />
+           : null}
+
+          <Toolbar dispatch={this.props.dispatch} key={'ts'}/>
+        </View>
+      ) : (
+        <View
+          style={{
+            top: 0,
+            bottom:0,
+            position:'absolute',
+            left:0,right:0,
+            alignItems:'stretch',
+            backgroundColor: colors.outerSpace,
+            flexGrow: 1,height:DeviceHeight,width:DeviceWidth
+          }}
+        >
+          <Browse/>
+          <Toolbar dispatch={this.props.dispatch} key={'ts'}/>
 
         </View>
+      )
+      }
+
       </View>
     )
   }
@@ -248,6 +240,8 @@ const mapStateToProps = (state, ownProps) => ({
   profileVisible: state.ui.profileVisible,
   drawerOpen: state.ui.drawerOpen,
   permissions: state.permissions,
+  loadedUser: state.ui.loadedUser,
+  potentialsPage: state.ui.potentialsPage,
   loggedIn: state.auth.api_key && state.auth.user_id
 })
 

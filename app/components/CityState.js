@@ -1,9 +1,12 @@
 import React, {Component} from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, InteractionManager } from 'react-native'
 import Geocoder from 'react-native-geocoder';
+import {pure,onlyUpdateForKeys} from 'recompose'
+
 import styles from './screens/potentials/styles'
 import colors from '../utils/colors'
 
+@pure
 export default class CityState extends Component{
 
   static defaultProps = {
@@ -18,10 +21,12 @@ export default class CityState extends Component{
   }
 
   componentDidMount(){
+    InteractionManager.runAfterInteractions(() => {
+      if(this.props.coords){
+        this.geocode()
+      }
+    })
 
-    if(this.props.coords){
-      this.geocode()
-    }
   }
 
   async geocode(){
@@ -39,9 +44,9 @@ export default class CityState extends Component{
     return (
       <View style={{}}>
         <Text
-          style={[styles.cardBottomOtherText, { alignSelf: 'flex-start', color:  this.props.profileVisible ? '#fff' : colors.rollingStone }]}
+          style={[styles.cardBottomOtherText, { alignSelf: 'flex-start', color:  this.props.color || this.props.profileVisible ? '#fff' : colors.rollingStone }]}
           key={`${this.props.potential.user.id}-matchn`}
-        >{this.state.cityState || this.props.cityState}</Text>
+        >{this.state.cityState && this.state.cityState.indexOf('null') > -1 ? this.props.cityState : this.state.cityState || this.props.cityState}</Text>
       </View>
     )
   }

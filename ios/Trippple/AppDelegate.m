@@ -16,13 +16,13 @@
 
 #import "AppDelegate.h"
 
-#import <React/RCTBridge.h>
-#import <React/RCTBundleURLProvider.h>
-#import <React/RCTJavaScriptLoader.h>
-#import <React/RCTLinkingManager.h>
-#import <React/RCTRootView.h>
+#import "RCTBridge.h"
+#import "RCTBundleURLProvider.h"
+#import "RCTJavaScriptLoader.h"
+#import "RCTLinkingManager.h"
+#import "RCTRootView.h"
 
-#import <React/RCTPushNotificationManager.h>
+#import "RCTPushNotificationManager.h"
 
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
@@ -124,16 +124,20 @@
 
 - (NSURL *)sourceURLForBridge:(__unused RCTBridge *)bridge
 {
-
-  RCTBundleURLProvider *settings = [RCTBundleURLProvider sharedSettings];
-  settings.jsLocation = @"192.168.0.100";
-
-  return [settings jsBundleURLForBundleRoot:@"index.ios"
-                                                        fallbackResource:nil];
-
+NSURL *sourceURL;
+ #ifdef DEBUG
+  sourceURL = [NSURL URLWithString:@"http://192.168.0.100:8081/index.ios.bundle?platform=ios&dev=true"];
+ #else
+  sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+ #endif
+ return sourceURL;
+//  RCTBundleURLProvider *settings = [RCTBundleURLProvider sharedSettings];
+//  settings.jsLocation = @"192.168.0.100";
+//
+//  return [settings jsBundleURLForBundleRoot:@"index.ios"
+//                                                        fallbackResource:nil];
+//
 }
-
-
 
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
 {
@@ -149,39 +153,39 @@
   // Required for the register event.
 }
 
-
-
+#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler
 {
-//  if([[notification.request.content.userInfo valueForKey:@"show_in_foreground"] isEqual:@YES]){
-//    completionHandler(UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionSound);
-//  }else{
-//    completionHandler(UNNotificationPresentationOptionNone);
-//  }
-  [RNFIRMessaging willPresentNotification:notification withCompletionHandler:completionHandler];
+  [[NSNotificationCenter defaultCenter] postNotificationName:FCMNotificationReceived object:self userInfo:notification.request.content.userInfo];
+  if([[notification.request.content.userInfo valueForKey:@"show_in_foreground"] isEqual:@YES]){
+    completionHandler(UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionSound);
+  }else{
+    completionHandler(UNNotificationPresentationOptionNone);
+  }
 
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler
 {
-  [RNFIRMessaging didReceiveNotificationResponse:response withCompletionHandler:completionHandler];
+  NSDictionary* userInfo = [[NSMutableDictionary alloc] initWithDictionary: response.notification.request.content.userInfo];
+  [userInfo setValue:@YES forKey:@"opened_from_tray"];
+  [[NSNotificationCenter defaultCenter] postNotificationName:FCMNotificationReceived object:self userInfo:userInfo];
 }
-
-//You can skip this method if you don't want to use local notification
+#else
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
-  [RNFIRMessaging didReceiveLocalNotification:notification];
+  [[NSNotificationCenter defaultCenter] postNotificationName:FCMNotificationReceived object:self userInfo:notification.userInfo];
 }
+#endif
+
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler{
+  [[NSNotificationCenter defaultCenter] postNotificationName:FCMNotificationReceived object:self userInfo:userInfo];
+
   if ([[Hotline sharedInstance]isHotlineNotification:userInfo]) {
     [[Hotline sharedInstance]handleRemoteNotification:userInfo andAppstate:application.applicationState];
-    completionHandler(UIBackgroundFetchResultNoData);
-
-  }else{
-    [RNFIRMessaging didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
   }
-  
-  
+  // [RCTPushNotificationManager didReceiveRemoteNotification:notification];
+  completionHandler(UIBackgroundFetchResultNoData);
 }
 
 

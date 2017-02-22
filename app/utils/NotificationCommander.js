@@ -7,6 +7,7 @@ import uuid from 'uuid'
 import colors from './colors'
 import Analytics from './Analytics'
 import ActionMan from '../actions/';
+import Router from '../Router'
 
 
 @withNavigation
@@ -25,7 +26,9 @@ class NotificationCommander extends Component{
     console.log(FCMEvent);
     this.notificationUnsubscribe = FCM.on(FCMEvent.Notification, (notification, ...x) => {
       __DEV__ && console.log('NOTIFICATION:', notification, x);
-      handleAction(notification, x)
+      if(notification && notification.type){
+        handleAction(notification, x)
+      }
     });
 
     this.refreshUnsubscribe = FCM.on(FCMEvent.RefreshToken, token => {
@@ -45,11 +48,14 @@ class NotificationCommander extends Component{
 
     FCM.getInitialNotification()
       .then(notification => {
-        // this.handleAction(notification)
+        __DEV__ && console.log(notification);
+        if(notification && notification.type){
+          this.handleAction(notification)
+        }
       })
-      .catch(err => {
-        __DEV__ && console.warn('initialnotificationerrror',err);
-      })
+      // .catch(err => {
+      //   __DEV__ && console.warn('initialnotificationerrror',err);
+      // })
   }
 
   componentWillUnmount(){
@@ -58,11 +64,10 @@ class NotificationCommander extends Component{
   }
 
   openChat(match_id){
-    this.props.navigator.push(this.props.navigator.navigation.router.getRoute('Chat', {match_id}))
+    this.props.navigator.push(Router.getRoute('Chat', {match_id}))
   }
 
-  handleAction(notification,foreground, opened_from_tray){
-    // console.log(notification,foreground, opened_from_tray);
+  handleAction(notification){
     const moreNotificationAttributes = {
       uuid: uuid.v4(),
       receivedAt: Date.now(),
@@ -76,7 +81,14 @@ class NotificationCommander extends Component{
       this.props.dispatch(ActionMan[notification.action_creator](notification.action_payload));
     }
 
-    this.props.handleNotification(newNotification);
+    if(notification.opened_from_tray){
+      this.props.chatOpen ?
+        this.props.dispatch(ActionMan.replaceRoute('Chat',{...notification, fromNotification: true})) :
+          this.props.dispatch(ActionMan.pushRoute('Chat',{...notification, fromNotification: true}));
+
+    }else{
+      this.props.handleNotification(newNotification);
+    }
   }
   render(){
     if(!__DEV__) return false;
@@ -100,7 +112,9 @@ const mapStateToProps = (state, ownProps) => ({
   user: state.user,
   auth: state.auth,
   notifications: state.notifications,
-  pushToken: state.device.push_token
+  pushToken: state.device.push_token,
+  chatOpen: state.ui.chat && state.ui.chat.match_id ? state.ui.chat.match_id : false
+
 })
 
 const mapDispatchToProps = (dispatch) => ({

@@ -21,6 +21,7 @@ import permissionsReducer  from './permissionsReducer'
 import settingsReducer  from './settingsReducer'
 import swipeQueueReducer  from './swipeQueueReducer'
 import swipeHistoryReducer  from './swipeHistoryReducer'
+import browseReducer  from './browseReducer'
 
 const applicationReducers = {
   user:           userReducer,
@@ -28,7 +29,6 @@ const applicationReducers = {
   app:            appReducer,
   auth:           authReducer,
   ui:             uiReducer,
-  // appNav:         appNavReducer,
   fbUser:         facebookReducer,
   unread:         unreadReducer,
   matches:        matchesReducer,
@@ -36,7 +36,6 @@ const applicationReducers = {
   matchesList:    matchesListReducer,
   potentials:     potentialsReducer,
   messages:       chatReducer,
-  // nag:            nagReducer,
   notifications:  notificationsReducer,
   likes:          LikeReducer,
   permissions:    permissionsReducer,
@@ -44,6 +43,7 @@ const applicationReducers = {
   navigation: navigation,
   swipeQueue: swipeQueueReducer,
   swipeHistory: swipeHistoryReducer,
+  browse: browseReducer,
   facebookAlbums
 };
 

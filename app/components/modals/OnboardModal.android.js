@@ -1,4 +1,4 @@
-import { Text, View, Dimensions, TouchableOpacity, Picker, Image, LayoutAnimation, ScrollView } from 'react-native';
+import { Text, View, Dimensions, TouchableOpacity, StyleSheet, Platform, Picker, Image, LayoutAnimation, ScrollView } from 'react-native';
 import React, {Component} from 'react';
 import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
 import ContinueButton from '../controls/ContinueButton';
@@ -8,17 +8,25 @@ import ActionMan from '../../actions'
 import Selectable from '../controls/Selectable'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
+import {BlurView, VibrancyView} from 'react-native-blur';
+import {connect} from 'react-redux'
+import Router from '../../Router'
 import {MagicNumbers} from '../../utils/DeviceConfig';
+import UserImageCircle from '../UserImageCircle'
+
 const PickerItem = Picker.Item;
+const TOP_DISTANCE = DeviceHeight - 160;
+
+const iOS = Platform.OS == 'ios';
 
 const us_choices = [
   {
-    value: 'f',
-    label: 'Single Female',
-  },
-  {
     value: 'm',
     label: 'Single Male',
+  },
+  {
+    value: 'f',
+    label: 'Single Female',
   },
   {
     value: 'mf',
@@ -64,7 +72,7 @@ const get_key_vals = (v) => v.toLowerCase();
 @withNavigation
 class OnboardModal extends Component {
   static route = {
-    styles: NavigationStyles.FloatVertical,
+    styles: NavigationStyles.SlideVertical,
     navigationBar: {
       backgroundColor: colors.shuttleGrayAnimate,
       visible: false
@@ -98,18 +106,18 @@ class OnboardModal extends Component {
       }, {})
     };
 
+    this.props.dispatch(ActionMan.onboardUserNowWhat(payload))
 
-    this.props.dispatch(ActionMan.onboard(payload))
   }
 
   handleContinue() {
     if(this.state.selected_relationship_status == 'single') {
       this.onboardUser()
     }else{
-      this.props.navigator.push(this.props.navigation.router.getRoute('JoinCouple', {
+      this.props.navigator.push(Router.getRoute('JoinCouple', {
         ...this.state
       }))
-      this.props.dispatch(ActionMan.killModal())
+
     }
   }
 
@@ -121,6 +129,11 @@ class OnboardModal extends Component {
 
     this.setState({selected_theirs})
   }
+
+  _pressNewImage(){
+    this.props.navigator.push(this.props.navigation.router.getRoute('FBPhotoAlbums', {}));
+  }
+
 
   pickerValue(v, i){
     if(!v){ return false; }
@@ -148,79 +161,123 @@ class OnboardModal extends Component {
     }, false);
 
     return (
-      <View>
-        <View
-          blurType="dark"
-          style={{
-            width: DeviceWidth,
-            height: DeviceHeight,
-            position: 'absolute', top: 0, left: 0, right: 0,
-            backgroundColor: colors.outerSpace20
+      <View
+        style={{
+          width: DeviceWidth,
+          height: DeviceHeight,
+          backgroundColor: colors.outerSpace,
+          position:'absolute',
+          top:0,
+
+        }}
+      >
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            height: DeviceHeight ,
+            backgroundColor: colors.outerSpace
           }}
-        />
-        <View
-          style={[styles.col, {
-            width: DeviceWidth,
-            height: DeviceHeight,
-            backgroundColor: colors.outerSpace20
-          }]}
+          style={[
+            styles.scrollView, {
+              // marginBottom: iOS ? -500 : 0,
+              height: DeviceHeight,
+              flexGrow:0,
+
+            }
+          ]}
+          vertical
         >
-            <View style={[styles.col, {
-              paddingTop: MagicNumbers.is5orless ? 40 : 40,
-              marginTop:  0,
-              justifyContent: 'flex-start',
+          <View
+            style={[styles.col, {
+              flexGrow:1,
+              top:0,
+            }]}
+          >
 
-              flexGrow: 10,
-             }]}
+            <View
+              style={[styles.col, {
+                paddingBottom: 160,
+                paddingTop: MagicNumbers.is5orless ? 40 : 140,
+                marginTop: this.state.step == 0 ? 100 : 0,
+                flexGrow: 0
+              }]}
             >
-              {MagicNumbers.is5orless || this.state.step > 0 ? null :
-
-                <View style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  width: DeviceWidth,
-                  height: 100,
-                  marginBottom:20
-                 }}
+              {/* {MagicNumbers.is5orless ? null :
+                 <View
+                  style={{
+                    top: this.state.step == 0 ? -50 : -90,
+                    position: 'absolute',
+                    width: DeviceWidth,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flexGrow: 1,
+                    height: 200
+                  }}
                 >
                   <Image
                     style={{
-                      borderRadius: 50,
-                      width: 100,
-                      height: 100,
+                      borderRadius: 75,
+                      width: 150,
+                      height: 150,
                     }}
                     key={'onboardpic'}
                     source={{
-                      uri: this.props.user.image_url
+                      uri: this.props.user.image_url,
+                      width: 150,
+                      height: 150,
                     }}
                     defaultSource={require('./assets/placeholderUser@3x.png')}
                     resizeMode={Image.resizeMode.cover}
-                  /></View>}
+                  /></View>
+                } */}
+              <View
+                style={{
+                  top: this.state.step == 0 ? -50 : -90,
+                  alignItems:'center',
+                  justifyContent:'center'
+                }}
+              >
+                <UserImageCircle
+                  diameter={120}
+                  id={this.props.user.id}
+                  thumbUrl={this.props.user.thumb_url}
+                  overrideStyles={{
+                    width:  120,
+                    height: 120,
+                    borderRadius: 60,
+                    marginBottom:30,
+                    position:'relative'
+                  }}
+                />
 
-              <Text style={{
-                color: colors.white,
-                marginTop: 0,
-                fontFamily: 'montserrat',
-                fontWeight: '800',
-                justifyContent: 'space-between',
-                fontSize: 19
-              }}
+              <Text
+                style={{
+                  color: colors.white,
+                  marginTop: 10,
+                  fontFamily: 'montserrat',
+                  fontWeight: '800',
+                  justifyContent: 'space-between',
+                  fontSize: 19
+                }}
               >WELCOME {this.props.user.firstname ? this.props.user.firstname.toUpperCase() : '' }</Text>
 
-              <Text style={{
-                color: colors.white,
-                fontFamily: 'omnes',
-                justifyContent: 'space-between',
-                fontSize: 17,
-                marginBottom: 15,
-              }}
+              <Text
+                style={{
+                  color: colors.white,
+                  fontFamily: 'omnes',
+                  justifyContent: 'space-between',
+                  fontSize: 17,
+                  marginBottom: 15,
+                }}
               >Let's get started</Text>
 
-              <View style={[{
-                marginTop: 0,
-                alignItems: 'flex-start',
-                justifyContent: 'space-between'
-              }]}
+              <View
+                style={[{
+                  marginTop: 0,
+                  alignItems: 'flex-start',
+                  flexGrow:0,
+                  justifyContent: 'space-between'
+                }]}
               >
                 <TouchableOpacity
                   style={{
@@ -228,9 +285,10 @@ class OnboardModal extends Component {
                     marginLeft: 30,
                     paddingLeft: 0,
                     height: 70,
+                    flexGrow:0,
                     justifyContent: 'center',
                     backgroundColor: colors.transparent,
-                    borderBottomWidth: 1,
+                    borderBottomWidth: StyleSheet.hairlineWidth,
                     borderBottomColor: this.state.step == 1 ? colors.brightPurple : colors.steelGrey
                   }}
                   onPress={() => {
@@ -243,6 +301,7 @@ class OnboardModal extends Component {
                     styles.bigtext, {
                       marginVertical: 10,
                       flexDirection: 'row',
+                      flexGrow:0,
                       justifyContent: 'space-between',
                       paddingRight: 15,
                     }
@@ -258,10 +317,10 @@ class OnboardModal extends Component {
                     >{this.state.selected_ours && this.state.selected_ours.length > 1 ? 'WE\'RE A...' : 'I\'M A...' }</Text>
                     {this.state.selected_ours && <Text style={{ fontFamily: 'montserrat', fontSize: 20, marginRight: 40, color: colors.white }}>
                         {this.state.selected_ours.length > 1 ? 'COUPLE' : 'SINGLE '} ({this.state.selected_genders.toUpperCase()})</Text>}
-                    <View style={{width: 20, position: 'absolute', top: 5, height: 20, marginLeft: 10, right: 20}}>
+                    <View style={{width: 20, position: 'absolute', flexGrow:1, top: 5, height: 20, marginLeft: 10, right: 20}}>
                       <Image
                         style={{width: 15, height: 15, }}
-                        source={{uri: 'assets/edit@3x.png'}}
+                        source={require('./assets/edit@3x.png')}
                         resizeMode={Image.resizeMode.contain}
                       />
                     </View>
@@ -275,23 +334,24 @@ class OnboardModal extends Component {
                     paddingLeft: 0,
                     height: 70,
                     zIndex: 999,
+                    flexGrow:0,
                     justifyContent: 'center',
                     backgroundColor: colors.transparent,
-                    borderBottomWidth: 1,
-                    borderBottomColor: this.state.step == 2 ? colors.brightPurple : colors.steelGrey
+                    borderBottomWidth: StyleSheet.hairlineWidth,
+                    borderBottomColor: this.state.step == 2 ? colors.darkPurple : colors.steelGrey
                   }}
                   onPress={() => {
                     if(this.state.selected_ours) {
-                      LayoutAnimation.easeInEaseOut();
+                      // LayoutAnimation.easeInEaseOut();
                       this.setState({step: 2});
                     }
                   }}
                 >
-                  <View style={[
-                    styles.rowtext,
-                    styles.bigtext, {
+                  <View
+                    style={[ styles.rowtext, styles.bigtext, {
                       marginVertical: 10,
                       flexDirection: 'row',
+                      flexGrow:0,
                       justifyContent: 'space-between'
                     }
                   ]}
@@ -304,99 +364,146 @@ class OnboardModal extends Component {
                     }
                   ]}
                     >SEEKING...</Text>
-                    <View style={{width: 20, position: 'absolute', top: 5, height: 20, marginLeft: 10, right: 20}}>
+                    <View style={{width: 20, position: 'absolute', flexGrow:1,top: 5, height: 20, marginLeft: 10, right: 20}}>
                       <Image
                         style={{width: 15, height: 15, opacity: this.state.selected_ours ? 1 : 0.6}}
-                        source={{uri: 'assets/edit@3x.png'}}
+                        source={require('./assets/edit@3x.png')}
                         resizeMode={Image.resizeMode.contain}
                       />
                     </View>
                   </View>
                 </TouchableOpacity>
               </View>
+            </View>
 
-            {this.state.step == 2 &&
+            </View>
 
-                      <View style={{
-                      // height: this.state.selected_ours && has_theirs ? 70 : 0,
-                        position: 'absolute',
-                      // top: this.state.selected_ours && has_theirs ? -70 : 0,
-                        bottom: 20,
-                        zIndex: 99999,
-                        left: 0,
-                        right: 0,
-                        height: 80,
-                        width: DeviceWidth,
+            {this.state.step > 0 &&
+              <View
+                style={{
+                  backgroundColor: colors.outerSpace,
+                  width: DeviceWidth,
+                  height: 200,
+                  position: 'absolute',
+                  bottom: 0,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexGrow:1,
 
-                       }}
-                      >
-                        <ContinueButton
-                          absoluteContinue
-                          customText={'CONTINUE'}
-                          handlePress={this.handleContinue.bind(this)}
-                          canContinue={this.state.selected_ours && has_theirs}
-                        />
+                }}
+              >
+
+
+
+              </View>
+            }
+
                       </View>
-                }
-                </View>
+                    </ScrollView>
 
-          <View style={{
-            width: DeviceWidth,
-            top:-22,
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}
-          >
+        {this.state.step == 1 &&
+          <View style={{flexGrow:1,position:'absolute',bottom:24,}}>
+          {us_choices.map((item, i) => {
+                  return (
+                    <View key={i} style={{width: DeviceWidth,backgroundColor:colors.dark }}>
+                      <Selectable
+                        selected={this.state.selected_ours == item.value}
+                        key={`${item.label.trim()}k`}
+                        underlayColor={colors.dark}
+                        value={item.value}
+                        onPress={this.pickerValue.bind(this, item.value)}
+                        field={item}
+                        diameter={20}
+                        moreStyle={{
+                          paddingHorizontal:20,
+                          width: DeviceWidth,
+                          height: 30,
+                          flexGrow:1,
+                          overflow:'hidden',
+                          flexDirection:'row',
+                          alignItems:'center',
+                          borderTopWidth: StyleSheet.hairlineWidth,
+                          borderTopColor: colors.white20,
+                          justifyContent:'space-between',
+                          backgroundColor:colors.dark
+                        }}
+                        isLast={i == us_choices.length - 1}
+                        label={item.label}
+                        values={us_choices}
+                      />
+                    </View>
+                );
+              })}
+              </View>
+            }
 
-          {this.state.step == 1 &&
-
-              us_choices.map((item, i) => {
-                // console.log(item);
+        <View style={{
+          height: this.state.selected_ours && has_theirs ? 70 : 0,
+          bottom: this.state.selected_ours && has_theirs ? 140 : 0,
+          left: 0,
+          flexGrow:1,
+          right: 0,
+          width: DeviceWidth,
+          overflow: 'hidden'
+        }}
+        >
+          <ContinueButton
+            customText={'CONTINUE'}
+            handlePress={this.handleContinue.bind(this)}
+            canContinue={this.state.step != 1 && this.state.selected_ours && has_theirs}
+          />
+        </View>
+        <View style={{position:'absolute',bottom:25}}>
+{this.state.step == 2 && this.state.selected_ours && them_choices[this.state.selected_relationship_status].map((item, i) => {
                 return (
-                  <View style={{width: DeviceWidth,backgroundColor:colors.dark }}>
                     <Selectable
-                      selected={this.state.selected_ours == item.value}
+                      moreStyle={{
+                        width: DeviceWidth,
+                        height: them_choices[this.state.selected_relationship_status].length == 3 ? 40 : 58,
+                        flexGrow:0,
+                        paddingHorizontal:20,
+                        overflow:'hidden',
+                        flexDirection:'row',
+                        alignItems:'center',
+                        borderTopWidth: StyleSheet.hairlineWidth,
+                        borderTopColor: colors.white20,
+                        justifyContent:'space-between',
+                        backgroundColor:colors.dark
+                      }}
+                      selected={this.state.selected_theirs[item.value]}
                       key={`${item.label.trim()}k`}
                       underlayColor={colors.dark}
-                      value={item.value}
-                      onPress={this.pickerValue.bind(this, item.value)}
+                      value={this.state.selected_theirs[item.value]}
+                      onPress={this.togglePref.bind(this, item.value)}
                       field={item}
-                      moreStyle={{paddingHorizontal:20}}
-                      isLast={i == us_choices.length - 1}
+                      isLast={i == them_choices[this.state.selected_relationship_status].length - 1}
                       label={item.label}
-                      values={us_choices}
+                      values={them_choices[this.state.selected_relationship_status]}
                     />
-                  </View>
-              );
+
+            )
               })}
 
-          {this.state.step == 2 && this.state.selected_ours && them_choices[this.state.selected_relationship_status].map((item, i) => {
-            return (
-              <View style={{width: DeviceWidth,backgroundColor:colors.dark }}>
-                <Selectable
-                  selected={this.state.selected_theirs[item.value]}
-                  key={`${item.label.trim()}k`}
-                  underlayColor={colors.dark}
-                  value={this.state.selected_theirs[item.value]}
-                  onPress={this.togglePref.bind(this, item.value)}
-                  field={item}
-                  moreStyle={{paddingHorizontal:20}}
-                  isLast={i == them_choices[this.state.selected_relationship_status].length - 1}
-                  label={item.label}
-                  values={them_choices[this.state.selected_relationship_status]}
-                />
-              </View>
-              )
-          })}
-          </View>
-
-
-        </View>
+            </View>
       </View>
+
 
     )
   }
 }
 
 OnboardModal.displayName = 'OnboardModal';
-export default OnboardModal;
+
+const mapStateToProps = (state, ownProps) => {
+
+  return {
+    ...ownProps,
+    user: state.user,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)((OnboardModal));

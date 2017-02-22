@@ -10,6 +10,7 @@ export default function unreadReducer(state = initialState, action) {
     newmState[action.payload.match_id] = 0;
     return newmState
 
+  case 'HANDLE_NOTIFICATION_NEW_MATCH':
   case 'HANDLE_NOTIFICATION_NEW_MESSAGE':
     const newState = {...state};
     newState[action.payload.match_id] = (state[action.payload.match_id] ? parseInt(state[action.payload.match_id]) : 0) + 1;

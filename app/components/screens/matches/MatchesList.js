@@ -152,7 +152,7 @@ class MatchesList extends Component {
     const matchImage = thumb || '';
     const unread = rowData.unread || 0;
     const messageBody = rowData.recent_message.message_body.replace(/(\r\n|\n|\r)/gm, ' ');
-    console.log(rowData,messageBody,threadName);
+    __DEV__ && console.log(rowData,messageBody,threadName);
     return (
       <View style={[styles.row]}>
 
@@ -293,7 +293,7 @@ class MatchesList extends Component {
             bottom: 0
           }}
           vertical
-          initialListSize={5}
+          initialListSize={8}
           scrollsToTop
           renderHeader={() => ((!this.props.newMatches || !this.props.newMatches.length) ? false :
             (<NewMatches

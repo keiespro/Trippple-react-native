@@ -71,16 +71,14 @@ class PhotoAlbums extends React.Component {
   }
 
   componentDidMount() {
-    console.log('fcebook albums');
     // setTimeout(() => {
-      console.log('called it');
       this.oldFBRequest()
 
     // },0);
   }
 
   componentWillReceiveProps(nProps) {
-    console.log(nProps,this.props.fbUser.permissions.indexOf('user_photos'), nProps.fbUser.permissions.indexOf('user_photos'));
+    // console.log(nProps,this.props.fbUser.permissions.indexOf('user_photos'), nProps.fbUser.permissions.indexOf('user_photos'));
     if((!this.props.fbUser.accessToken && nProps.fbUser.accessToken) || (this.props.fbUser.permissions.indexOf('user_photos') < 0 && nProps.fbUser.permissions.indexOf('user_photos') >= 0)) {
       this.oldFBRequest();
     }
@@ -92,7 +90,7 @@ class PhotoAlbums extends React.Component {
     const _handleAlbums = this._handleAlbums.bind(this)
     if(!fbUser.accessToken) return;
     const {userID,accessToken} = fbUser
-    console.log(userID,accessToken);
+    // console.log(userID,accessToken);
 
     const infoRequest = new GraphRequest(`${userID}/albums`, {
       parameters: {
@@ -238,14 +236,13 @@ class PhotoAlbums extends React.Component {
       <View
         style={{
           backgroundColor: colors.outerSpace,
-          height: DeviceHeight,
           width: DeviceWidth
         }}
       >
         {this.state.albums.length ? (
           <ListView
             style={{
-              flex: 1,
+              flexGrow: 1,
               marginTop: 0,
             }}
             dataSource={this.state.albumSource}

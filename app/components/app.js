@@ -21,6 +21,7 @@ import Onboard from './Onboard'
 import DeepLinkHandler from '../utils/DeepLinkHandler'
 import '../fire'
 import LikeSender from '../LikeSender'
+import Router from '../Router'
 
 const iOS = Platform.OS == 'ios';
 const {RNUXCam} = NativeModules
@@ -54,18 +55,17 @@ class App extends React.Component{
     //   this.props.dispatch(ActionMan.loginWithSavedFbCreds(this.props.fbUser))
     //
     // }
+
+      // this.setTimeout(() => {
       //
-      this.setTimeout(() => {
-        SplashScreen.hide();
-
-        this.performInitActions()
-        if(this.props.loggedIn){
-
-        }else{
-
-        }
-
-      }, 1000)
+      //   this.performInitActions()
+      //   if(this.props.loggedIn){
+      //
+      //   }else{
+      //
+      //   }
+      //
+      // }, 1000)
   }
 
 
@@ -74,35 +74,39 @@ class App extends React.Component{
     //   nProps.dispatch(ActionMan.loginWithSavedFbCreds(nProps.fbUser))
     //
     // }
-    if(nProps.user && nProps.user.id && nProps.loggedIn){
-      if(!this.props.booted && nProps.booted){
+    if(nProps.loadedUser && !this.props.loadedUser){
+
+      this.props.dispatch(ActionMan.setHotlineUser(nProps.user))
+      Analytics.identifyUser(nProps.user)
+
+    }
+
+      if(!this.state.initialized && nProps.booted){
 
         this.initialize(nProps)
       }
       if(this.state.initialized && this.props.appState != 'active' && nProps.appState == 'active'){
         SplashScreen.hide();
-        this.props.dispatch(ActionMan.setHotlineUser(this.props.user))
-        Analytics.identifyUser(this.props.user)
 
       }
-      if(this.state.initialized && this.props.loggedIn && !nProps.savedCredentials){
-        this.props.dispatch(ActionMan.saveCredentials())
+      // if(this.state.initialized && this.props.loggedIn && !nProps.savedCredentials){
+      //   this.props.dispatch(ActionMan.saveCredentials())
+      //
+      // }
 
-      }
-
-    }
-    if(nProps.onboarded && !this.props.onboarded){
+    if(this.props.loadedUser && nProps.onboarded && !this.props.onboarded){
       this.props.dispatch(ActionMan.resetRoute('Potentials'))
-    }else if(nProps.loggedIn && !this.props.loggedIn){
+    }else if(this.props.loadedUser && nProps.loggedIn && !this.props.loggedIn){
       this.props.dispatch(ActionMan.resetRoute('Onboard'))
     }
+
   }
 
   componentDidUpdate(pProps, pState){
     if(this.state.initialized && !pState.initialized){
       SplashScreen.hide();
       this.performInitActions()
-      Analytics.identifyUser(this.props.user)
+      // Analytics.identifyUser(this.props.user)
 
     }
   }
@@ -151,10 +155,10 @@ class App extends React.Component{
     if(permissions.notifications != 'soft-denied'){
       this.props.dispatch(ActionMan['checkNotificationsPermission']())
     }
-    if(this.props.loggedIn && permissions.location && permissions.location == 'authorized'){
+    if(this.props.loggedIn && permissions.location && (iOS && permissions.location == 'authorized' || true)){
       this.props.dispatch(ActionMan['getLocation']())
     }
-    if(this.props.loggedIn && permissions.notifications){
+    if(this.props.loggedIn && permissions.notifications && (iOS && permissions.notifications == 'authorized' || true)){
       this.props.dispatch(ActionMan['getPushToken']())
     }
   }
@@ -169,9 +173,9 @@ class App extends React.Component{
 
         <AppState dispatch={this.props.dispatch}/>
 
-        {iOS && <DeepLinkHandler />}
+        <DeepLinkHandler dispatch={this.props.dispatch}/>
 
-        {this.props.rehydrated ? <AppNav onboarded={this.props.onboarded} initialRoute={this.props.loggedIn ? this.props.onboarded ? 'Potentials' : 'Onboard' : 'Welcome'}/> : null}
+        <AppNav onboarded={this.props.onboarded} initialRoute={Router.getRoute(this.props.loggedIn ? this.props.onboarded ? 'Potentials' : 'Onboard' : 'Welcome')}/>
 
         <ModalDirector />
 
@@ -200,7 +204,7 @@ const mapStateToProps = (state, ownProps) => {
     fbUser: state.fbUser,
     auth: state.auth,
     ui: {...state.ui, matchInfo: state.matches[state.ui.chat ? state.ui.chat.match_id : null]},
-    loggedIn: state.auth.api_key && state.auth.user_id,
+    loggedIn: state.auth && state.auth.api_key && state.auth.user_id,
     loadedUser: state.ui.loadedUser,
     push_token: state.device.push_token,
     exnavigation: state.exnavigation,

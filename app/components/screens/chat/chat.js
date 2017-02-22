@@ -1,4 +1,4 @@
-import { View, Keyboard, Dimensions, Platform, Text} from 'react-native';
+import { View, Keyboard, Dimensions, Platform, Text, InteractionManager} from 'react-native';
 import React from 'react';
 
 import reactMixin from 'react-mixin'
@@ -39,7 +39,7 @@ class Chat extends React.Component {
             fromChat
             match={props.match}
             dotColor={colors.white}
-            style={{alignItems:'center',paddingTop:3,alignSelf:'center'}}
+            style={{alignItems:'center',paddingTop:0,alignSelf:'center'}}
           />
         )
 
@@ -64,9 +64,10 @@ class Chat extends React.Component {
       const theirIds = Object.keys(matchInfo.users).filter((u) => u != this.props.user.id && u != this.props.user.partner_id);
       const them = theirIds.map((id) => matchInfo.users[id]);
       const chatTitle = them.reduce((acc, u, i) => { return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ' & ' : '') }, '');
-      this.setTimeout(() => {
+      InteractionManager.runAfterInteractions(() => {
+//this.setTimeout(() => {
         this.props.navigator.updateCurrentRouteParams({title: chatTitle, match: this.props.match })
-      }, 1200)
+      })
     }
   }
   componentWillUnmount() {
@@ -83,19 +84,37 @@ class Chat extends React.Component {
       isVisible: !this.state.isVisible,
     })
   }
+  openProfile(){
+    const {user} = this.props
+    const match = this.props.match || this.props.currentMatch;
+    const theirIds = Object.keys(match.users).filter(u => { return u != user.id && u != user.partner_id })
+    const them = theirIds.map((id) => match.users[id])
+
+    const MatchUserAsPotential = {
+      user: them[0],
+      partner: them[1] || {},
+      couple: {}
+    }
+    Keyboard.dismiss()
+
+    this.props.dispatch(ActionMan.pushRoute('UserProfile', { potential: MatchUserAsPotential, user: this.props.user}));
+   }
 
   render() {
+    const match = this.props.match || this.props.currentMatch;
+
     return (
       <View style={{flexGrow:1,backgroundColor: colors.outerSpace,height:DeviceHeight-60,top:0}}>
         <ChatInside
           user={this.props.user}
-          match={this.props.match || this.props.currentMatch}
-          currentMatch={this.props.match || this.props.currentMatch}
+          match={match}
+          currentMatch={match}
           messages={this.props.messages}
           dispatch={this.props.dispatch}
           key={`chat-${this.props.user.id}-${this.props.match_id}`}
           pop={() => { this.props.navigator.pop() }}
           fromNotification={this.props.fromNotification}
+          openProfile={this.openProfile.bind(this)}
         />
       </View>
     );

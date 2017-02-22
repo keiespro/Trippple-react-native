@@ -237,7 +237,7 @@ class NewCard extends React.Component {
           height={profileVisible ? DeviceHeight : DeviceHeight-70 }
           showsVerticalScrollIndicator={false}
           style={[{
-            marginTop: profileVisible ? -60 : -50,
+            marginTop: profileVisible ? -58 : -50,
             flexGrow: 1,
 
             borderRadius: 11,

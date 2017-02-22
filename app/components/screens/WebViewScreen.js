@@ -18,7 +18,7 @@ const helpScript = `
 `;
 
 const privacyScript = `
-  jQuery().ready(function($){
+  jQuery(document).ready(function($){
     $('button').hide();
     window.setTimeout(function(){
       $('a').each(function(i,el){
@@ -38,7 +38,7 @@ class WebViewScreen extends Component{
     },
     navigationBar: {
       visible:true,
-      translucent:true,
+      translucent:false,
       titleStyle: {
         color: '#fff',
         fontFamily: 'montserrat',
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'stretch',
-    paddingTop: iOS ? 60 : 40,
+    paddingTop: 0,
     alignSelf: 'stretch',
     backgroundColor: colors.outerSpace
   },

@@ -5,8 +5,6 @@ import RNHotline from 'react-native-hotline'
 import api from '../utils/api'
 const iOS = Platform.OS == 'ios';
 
-
-
 export const SwipeCard = params => (dispatch,getState) => dispatch({ type: 'SWIPE_CARD',
   payload: new Promise((resolve, reject) => {
     const state = getState()
@@ -36,13 +34,15 @@ export const popChat = match_id => dispatch => dispatch({ type: 'POP_CHAT'});
 export const setHotlineUser = user => dispatch => dispatch({ type: 'SET_HOTLINE_USER',
   payload: {
     promise: new Promise((resolve, reject) => {
-      RNHotline.init('f54bba2a-84fa-43c8-afa9-098f3c1aefae', 'fba1b915-fa8b-4c24-bdda-8bac99fcf92a', false)
+      __DEV__ && console.log('SET HOTLINE USER',user);
+
+      if(!iOS) RNHotline.init('f54bba2a-84fa-43c8-afa9-098f3c1aefae', 'fba1b915-fa8b-4c24-bdda-8bac99fcf92a', false);
         // .then(result => {
 
           // RCT_EXPORT_METHOD(setUser:(NSString *)user_id name:(NSString *)name phone:(NSString *)phone relStatus:(NSString *)relStatus gender:(NSString *)gender image:(NSString *)image thumb:(NSString *)thumb partner_id:(NSString *)partner_id ){
 
 
-          const {id, firstname, phone, relationship_status, gender, image_url, thumb_url, partner_id} = user;
+          const {id, firstname, email, gender, relationship_status, image_url, thumb_url, partner_id} = user;
 
           const meta = {
             relationship_status,
@@ -53,7 +53,7 @@ export const setHotlineUser = user => dispatch => dispatch({ type: 'SET_HOTLINE_
             meta.partner_id = `${partner_id}`
           }
 
-          // RNHotline.setUser(`${id}`, firstname, phone, relationship_status, gender, '', thumb_url, partner_id)
+          RNHotline.setUser(`${id}`, firstname, email, relationship_status, gender, image_url, thumb_url, partner_id+'');//gender, '', thumb_url, partner_id)
           resolve(true)
 
         // });
@@ -93,6 +93,7 @@ export const showConvos = () => dispatch => dispatch({ type: 'SHOW_CONVOS',
   }
 })
 
+export const togglePotentialsPage = payload => dispatch => dispatch({ type: 'TOGGLE_POTENTIALS_PAGE', payload })
 
 export const share = payload => dispatch => dispatch({ type: 'SHARE_COUPLE_PIN',
   payload: {
@@ -101,13 +102,13 @@ export const share = payload => dispatch => dispatch({ type: 'SHARE_COUPLE_PIN',
 
       Share.share({
         title: 'Join my couple!',
-        message: messageText,
+        message: `${messageText}`,
         url: `trippple://joincouple/${pin}`,
       }, {
         dialogTitle: 'Send your couple pin'
       })
-      .then(resolve)
-      .catch(reject)
+      .then(ok => resolve(ok))
+      .catch(err => reject(err))
     })
   }
 });
@@ -131,7 +132,9 @@ export const getPushToken = () => dispatch => dispatch({ type: 'GET_PUSH_TOKEN',
         dispatch(receivePushToken({push_token}))
         dispatch({type: 'SAVE_PUSH_TOKEN', payload: push_token})
       })
-     .catch(x => console.log(x))
+     .catch(err => {
+       __DEV__ && console.log(err)
+     })
     })
   }
 })

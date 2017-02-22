@@ -136,6 +136,7 @@ class ChatInside extends Component{
           onTextInputChange={this.onTextInputChange.bind(this)}
           sendMessage={this.sendMessage.bind(this)}
           isKeyboardOpened={this.state.isKeyboardOpened}
+          openProfile={this.props.openProfile}
         />
       )}
 

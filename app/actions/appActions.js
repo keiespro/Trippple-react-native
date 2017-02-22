@@ -34,12 +34,15 @@ export const saveCredentials = (credentials) => dispatch => dispatch({ type: 'SA
 
 export const logOut = () => (dispatch,getState) => dispatch({ type: 'LOG_OUT',
   payload: new Promise((resolve, reject) => {
-    doLogOut().then(x => {
+    doLogOut()
+    .then(x => {
       global.creds = null;
       const state = getState()
-      const navs = Object.keys(state.navigation.navigators)
+      const navi = state.navigation || {}
+      const navs = Object.keys(navi.navigators)
       const navigatorUID = navs[0];
-      dispatch(NavigationActions.replace(navigatorUID, Router.getRoute('Welcome')));
+      dispatch({type:'CLOSE_DRAWER'})
+      dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute('Welcome')],0));
       resolve(x)
     })
     .catch(reject);

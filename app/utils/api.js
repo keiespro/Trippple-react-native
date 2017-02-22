@@ -43,7 +43,7 @@ async function baseRequest(endpoint = '', payload = {}, resource = 'user'){
   if(__DEV__) console.log(`API REQUEST ---->>>>> ${url}`, params);
 
   const res = await fetch(url, params)
-  console.log(res,'<------------------------');
+  __DEV__ && console.log(res,'<------------------------');
   if(res.status == 504 || res.status == 502 || res.status == 500){
     __DEV__ && console.log('show maintenance screen',res)
 
@@ -236,7 +236,12 @@ const api = {
   disableAccount(): Promise{
     return authenticatedRequest('disable')
   },
-
+  hideProfile(): Promise{
+    return authenticatedRequest('update', { profile_visible: false })
+  },
+  showProfile(): Promise{
+    return authenticatedRequest('update', { profile_visible: true })
+  },
   async sendTelemetry(encodedTelemetryPayload: String): Promise{
     const authPayload = { ...credentials};
     const params = {

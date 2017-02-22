@@ -8,6 +8,7 @@ import {
   LayoutAnimation,
   TouchableOpacity,
   Image,
+  Keyboard,
   Platform,
   View,
   Dimensions,
@@ -17,12 +18,14 @@ import React from 'react';
 import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
 import ContinueButton from '../../controls/ContinueButton';
 
+const iOS = Platform.OS == 'ios';
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
 import colors from '../../../utils/colors'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 import Coupling from './index'
 
@@ -99,6 +102,7 @@ class EnterCouplePin extends React.Component{
     this.setState(newState)
   }
   handleSubmit(){
+    Keyboard.dismiss()
     if(this.state.submitting){ return false }
     this.setState({
       submitting: true,
@@ -164,8 +168,7 @@ class EnterCouplePin extends React.Component{
 
     return (
       <View style={{flexGrow: 1,  backgroundColor: colors.outerSpace}}>
-        <KeyboardAvoidingView behavior={'padding'} style={{height:DeviceHeight, backgroundColor: colors.outerSpace}}>
-          <View style={{flex: 1, }}
+          <View style={{flexGrow: 1, top: iOS ? 0 : -20 }}
           contentContainerStyle={[{  flex: 1,  alignItems:'stretch'}]} >
 
             <View style={[{top: 0, marginBottom: MagicNumbers.is5orless ? 0 : 50, flexDirection: 'column', alignItems: 'center', justifyContent: 'center',marginHorizontal: MagicNumbers.screenPadding / 2, flex: 1 }]}>
@@ -222,17 +225,17 @@ class EnterCouplePin extends React.Component{
             absoluteContinue
             handlePress={this.handleSubmit.bind(this)}
           />
-          <View style={{width: 100, height: 20, left: 10, top: 0, flex: 1, position: 'absolute', alignSelf: 'flex-start'}}>
+          {/* <View style={{width: 100, height: 20, left: 10, top: 0, flex: 1, position: 'absolute', alignSelf: 'flex-start'}}>
             <TouchableOpacity onPress={this.handleBackAction.bind(this)}>
               <View style={[btnstyles.goBackButton, {left: -20, top: 15, }]}>
                 <Image resizeMode={Image.resizeMode.contain} style={{margin: 0, alignItems: 'flex-start', height: 13, width: 13}} source={{uri: 'assets/close@3x.png'}} />
               </View>
             </TouchableOpacity>
-          </View>
+          </View> */}
 
           </View>
 
-        </KeyboardAvoidingView>
+        <KeyboardSpacer/>
       </View>
 
     )

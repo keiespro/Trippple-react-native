@@ -71,7 +71,7 @@ class NoPartner extends React.Component{
 
   couple(){
 
-    console.log(this.props.onboardUser);
+    __DEV__ && console.log(this.props.onboardUser);
 
     // TODO: if we are not coming from the onboard modal, we should confirm
     // with the user if they want really to join a couple. Then we need to

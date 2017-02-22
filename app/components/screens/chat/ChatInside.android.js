@@ -164,6 +164,7 @@ class ChatInside extends Component{
           onTextInputChange={this.onTextInputChange.bind(this)}
           sendMessage={this.sendMessage.bind(this)}
           isKeyboardOpened={this.state.isKeyboardOpened}
+          openProfile={this.props.openProfile}
         />
       )}
 
@@ -177,7 +178,7 @@ class ChatInside extends Component{
 
                     <KeyboardSpacer
                       onToggle={(keyboardState,keyboardSpace) => {
-                          this.setState({kb: keyboardState,kbs: keyboardSpace+60})
+                          this.setState({isKeyboardOpened: keyboardState,kbs: keyboardSpace+60})
                         }}
                     />
 

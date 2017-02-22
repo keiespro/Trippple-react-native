@@ -11,7 +11,7 @@ import {FloatHorizontal, FloatVertical} from './ExNavigationStylesCustom'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
-@withNavigation
+// @withNavigation
 class AppNav extends React.Component {
 
 
@@ -43,7 +43,6 @@ class AppNav extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <View style={{width: DeviceWidth, height: DeviceHeight, backgroundColor: colors.outerSpace}}>
 
@@ -56,7 +55,7 @@ class AppNav extends React.Component {
           drawerBackgroundColor={colors.outerSpace}
           drawerPosition={DrawerLayoutAndroid.positions.Left}
           renderNavigationView={(x) => {
-            return <Settings />
+             return <Settings />
           }}
         >
           <StackNavigation
@@ -69,7 +68,6 @@ class AppNav extends React.Component {
                   backgroundColor: colors.outerSpace,
                   // shadowRadius: 6
             }}
-            router={Router}
             defaultRouteConfig={{
               styles: FloatVertical,
               sceneStyle: {
@@ -77,10 +75,11 @@ class AppNav extends React.Component {
               },
               statusBar: {
                 translucent: false,
+                visible:true,
                 backgroundColor: colors.mediumPurple70
               },
               navigationBar: {
-                visible: true,
+                visible: false,
                 borderBottomWidth: 0,
                 tintColor: '#fff',
                 borderWidth: 0,
@@ -96,7 +95,7 @@ class AppNav extends React.Component {
                 }
               },
             }}
-            initialRoute={Router.getRoute('Potentials', {show: true})}
+            initialRoute={Router.getRoute('Potentials')}
           />
         </DrawerLayoutAndroid>
 

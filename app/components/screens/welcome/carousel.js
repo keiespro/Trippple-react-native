@@ -25,27 +25,27 @@ const DeviceWidth = Dimensions.get('window').width
 const theslides = [
   {
     title: ' ',
-    img: require('./assets/logo@3x.png'),
+    img: require('./assets/logo.png'),
     content: ' '
   },
   {
     title: 'BROWSE',
-    img: require('./assets/tour-browse@3x.png'),
+    img: require('./assets/tour-browse.png'),
     content: 'Find like-minded Couples and Singles.'
   },
   {
     title: 'MATCH',
-    img: require('./assets/tour-match@3x.png'),
+    img: require('./assets/tour-match.png'),
     content: 'If they like you too, we\'ll connect you.'
   },
   {
     title: 'CONNECT',
-    img: require('./assets/tour-connect@3x.png'),
+    img: require('./assets/tour-connect.png'),
     content: 'Chat with real Couples or Singles who share your interests.'
   },
   {
     title: 'PRIVATE & DISCREET',
-    img: require('./assets/tour-privacy@3x.png'),
+    img: require('./assets/tour-privacy.png'),
     content: 'Protect your identity. Easily block friends and family.'
   },
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TextInput, ListView, Keyboard, TouchableOpacity, LayoutAnimation, ScrollView, Animated, Dimensions, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, Keyboard, TouchableOpacity, LayoutAnimation, ScrollView, Animated, Dimensions } from 'react-native';
 import FadeInContainer from '../../FadeInContainer';
 import MessageComposer from './MessageComposer';
 import TimeAgo from '../../controls/Timeago';
@@ -14,31 +14,12 @@ export default class NoMessages extends React.Component{
     super()
     this.state = {}
   }
-  componentWillMount(){
-    // this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.showKeyboard.bind(this));
-    // this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.hideKeyboard.bind(this));
-  }
-  componentWillUnmount(){
-    // this.keyboardDidShowListener.remove();
-    // this.keyboardDidHideListener.remove();
 
-  }
-  hideKeyboard(k){
-    // console.log('hidekey');
-
-    // LayoutAnimation.easeInEaseOut()
-    // this.setState({isKeyboardOpened: false})
-  }
-  showKeyboard(k){
-    // console.log('showkeyboard');
-    // this.setState({isKeyboardOpened: true})
-
-  }
   getThumbSize(top = false){
 
-    const size = MagicNumbers.is4s ? SIZES.small : SIZES.big;
+    const size = MagicNumbers.is5orless ? SIZES.small : SIZES.big;
     const isKeyboardOpened = this.props.isKeyboardOpened;
-    // console.log(size.dimensions.open);
+
     return {
       width: isKeyboardOpened ? size.dimensions.open : size.dimensions.closed,
       height: isKeyboardOpened ? size.dimensions.open : size.dimensions.closed,
@@ -50,40 +31,46 @@ export default class NoMessages extends React.Component{
 
   render(){
     const isKeyboardOpened = this.props.isKeyboardOpened;
-
-    const matchInfo = this.props.currentMatch || this.props.matchInfo,
+    const matchInfo = this.props.match || this.props.currentMatch || this.props.matchInfo,
       theirIds = Object.keys(matchInfo.users).filter(u => u != this.props.user.id && u != this.props.user.partner_id),
       them = theirIds.map((id) => matchInfo.users[id]),
       chatTitle = them.reduce((acc, u, i) => { return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ' & ' : '') }, '');
+    const imgHeight = isKeyboardOpened ? 100 : 200;
     const match_user = them[0] || {};
     return (
 
         <FadeInContainer delayAmount={1000} duration={1000}>
-        <View style={{flexDirection: 'column', justifyContent: 'center', top: 0, alignItems: 'center', alignSelf: 'stretch',  paddingBottom: 0,flexGrow:10,flex:10}}>
+          <View style={{flexDirection: 'column', justifyContent: 'center', top: 0, alignItems: 'center', alignSelf: 'stretch',  paddingBottom: 0,flexGrow:10,flex:10}}>
 
 
               <View style={{width: DeviceWidth, alignSelf:'stretch', alignItems: 'center', flexDirection: 'column', justifyContent: 'center' }}>
-
-                <Text style={{color: colors.white, fontSize: 20, fontFamily: 'montserrat', fontWeight: '800', textAlign: 'center', }} >{
-                    'YOU MATCHED WITH'
+              <View style={{flexDirection: isKeyboardOpened ? 'row' : 'column'}}>
+                <Text style={{color: colors.white, fontSize: !isKeyboardOpened ? 20 : 16, fontFamily: 'montserrat', fontWeight: '800', textAlign: 'center', }} >{
+                    'YOU MATCHED WITH'+ (isKeyboardOpened ? ' ' : '')
               }</Text>
 
-              <Text style={{color: colors.white, fontSize: 20, fontFamily: 'montserrat', fontWeight: '800', textAlign: 'center',
+              <Text style={{color: colors.white, fontSize: !isKeyboardOpened ? 20 : 16, fontFamily: 'montserrat', fontWeight: '800', textAlign: 'center',
                 }}
                 >{chatTitle}</Text>
-
+              </View>
                 <View style={{}} >
-                  <TimeAgo style={{color: colors.shuttleGray, fontSize: 16, fontFamily: 'omnes', }} time={matchInfo.created_timestamp * 1000} />
+                  <TimeAgo style={{color: colors.shuttleGray, fontSize: !isKeyboardOpened ? 16 : 14, fontFamily: 'omnes', }} time={matchInfo.created_timestamp * 1000} />
                 </View>
 
-                <View style={[this.getThumbSize('top'), {backgroundColor: colors.dark}]}>
-                  <Image
-                    style={[this.getThumbSize(),{top: this.props.isKeyboardOpened ? -20 : -40,position:'absolute'}]}
-                    defaultSource={require('./assets/placeholderUser@3x.png')}
-                  />
-                </View>
-              <Text style={{color: colors.shuttleGray, fontSize: 20, textAlign: 'center', fontFamily: 'omnes', backgroundColor: 'transparent'}} >Say something. {
-                  (them.length == 2 ? 'They\'re' : them[0].gender == 'm' ? 'He\'s' : 'She\'s')
+                  <TouchableOpacity
+                    onPress={this.props.openProfile}
+                  >
+                    <View style={[this.getThumbSize('top'), {backgroundColor: colors.dark,height:imgHeight,width:imgHeight}]}>
+
+                    <Image
+                      source={{uri: match_user.image_url }}
+                      style={[this.getThumbSize(),{top: this.props.isKeyboardOpened ? -20 : -40,position:'absolute',height:imgHeight,width:imgHeight,borderRadius:imgHeight/2}]}
+                      defaultSource={require('./assets/placeholderUser@3x.png')}
+                    />
+                  </View>
+                </TouchableOpacity>
+              <Text style={{color: colors.shuttleGray, fontSize: !isKeyboardOpened ? 20 : 16, textAlign: 'center', fontFamily: 'omnes', backgroundColor: 'transparent'}} >Say something. {
+                  (them.length == 2 ? 'They\'re' : match_user.gender == 'm' ? 'He\'s' : 'She\'s')
                 } already into you.</Text>
               </View>
               </View>

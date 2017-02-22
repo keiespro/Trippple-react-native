@@ -23,12 +23,12 @@ const logger = createLogger({
 const middlewares = [
   thunk,
   promiseMiddleware(),
-  // createActionBuffer(REHYDRATE),
-  createActionBuffer('EX_NAVIGATION.INITIALIZE'),
+  createActionBuffer(REHYDRATE),
+  // createActionBuffer('EX_NAVIGATION.INITIALIZE'),
   // throttleActions(['UPDATE_USER'], 2000, {leading: true, trailing: false }),
   // throttleActions(['EX_NAVIGATION.PUSH'], 700, {leading: true, trailing: false }),
-  throttleActions(['OPEN_PROFILE','CLOSE_PROFILE'], 300, {leading: true, trailing: false }),
-  throttleActions(['GET_POTENTIALS'], 1000, {leading: true, trailing: false }),
+  throttleActions(['OPEN_PROFILE','CLOSE_PROFILE',], 300, {leading: true, trailing: false }),
+  throttleActions(['GET_POTENTIALS','GET_MESSAGES','GET_MATCHES'], 1000, {leading: true, trailing: false }),
   createPrefetcher({
     watchKeys: [
       {

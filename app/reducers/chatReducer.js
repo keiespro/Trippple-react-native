@@ -8,7 +8,7 @@ export default function chatReducer(state = initialState, action) {
         let match_idd = action.meta[1]
         let msg = action.meta[0]
         let msgpayload = {
-          created_timestamp: action.meta[2],
+          created_timestamp: Date.now(),
           message_body: msg,
           from_user_info: {
             name: 'You',

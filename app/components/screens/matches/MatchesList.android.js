@@ -181,7 +181,7 @@ class MatchesList extends Component {
               />
               {unread ?
                 <View style={styles.newMessageCount}>
-                  <Text style={{ fontFamily: 'montserrat', fontWeight: '800', color: colors.white, textAlign: 'center', fontSize: 14 }}>
+                  <Text textBreakStrategy={'balanced'} style={{ fontFamily: 'montserrat', fontWeight: '800', color: colors.white, textAlign: 'center', fontSize: 14 }}>
                     {unread}
                   </Text>
                 </View>
@@ -304,7 +304,7 @@ const styles = StyleSheet.create({
     bottom:0,
     right:0,
     borderRadius: 12,
-    overflow: 'hidden',
+    overflow: 'visible',
     borderColor: colors.outerSpace,
     borderWidth: 4,
     width: 24,

@@ -15,6 +15,7 @@ import styles from './styles';
 import { connect } from 'react-redux';
 import { withNavigation } from '@exponent/ex-navigation';
 import Btn from '../../Btn';
+import Router from '../../../Router'
 
 @withNavigation
 class MatchesButton extends React.Component{
@@ -25,7 +26,7 @@ class MatchesButton extends React.Component{
 
         style={{ width: 42, height: 42, borderRadius:21,}}
         onPress={()=>{
-           this.props.navigator.push(this.props.navigation.router.getRoute('Matches'))
+           this.props.navigator.push('Matches')
         }}
         background={TouchableNativeFeedback.SelectableBackground()}
       >

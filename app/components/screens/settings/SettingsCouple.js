@@ -115,7 +115,6 @@ class SettingsCouple extends React.Component{
     const settingOptions = this.props.settingOptions || {};
 
     let {partner, user} = this.props;
-    console.log(partner);
     if(!partner) partner = {};
     return (
 
@@ -214,7 +213,6 @@ class SettingsCouple extends React.Component{
               <TouchableOpacity
                 style={{
                   alignSelf: 'stretch',
-                  marginVertical: 20,
                   marginTop:30,
                   borderRadius: 5,
                   flexDirection: 'row',
@@ -249,6 +247,7 @@ class SettingsCouple extends React.Component{
               marginBottom:50,
               borderRadius: 5,
               flexDirection: 'row',
+              marginTop:20,
               marginHorizontal: MagicNumbers.screenPadding / 2,
               backgroundColor: 'transparent',
               borderColor: colors.mandy,
