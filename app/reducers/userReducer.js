@@ -34,6 +34,13 @@ export default function userReducer(state = initialState, action) {
 
         return initialState;
 
+    case 'SHOW_PROFILE_FULFILLED':
+        return { ...state, profile_visible: true };
+
+    case 'HIDE_PROFILE_FULFILLED':
+        return { ...state, profile_visible: false };
+
+
     default:
 
         return state;

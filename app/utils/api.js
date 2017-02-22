@@ -237,7 +237,12 @@ const api = {
   disableAccount(): Promise{
     return authenticatedRequest('disable')
   },
-
+  hideProfile(): Promise{
+    return authenticatedRequest('update', { profile_visible: false })
+  },
+  showProfile(): Promise{
+    return authenticatedRequest('update', { profile_visible: true })
+  },
   async sendTelemetry(encodedTelemetryPayload: String): Promise{
     const authPayload = { ...credentials};
     const params = {

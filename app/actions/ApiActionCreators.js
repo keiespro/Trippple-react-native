@@ -26,7 +26,9 @@ const apiActions = [
   'getPotentials',
   'uploadFacebookPic',
   'onboard',
-  'verifyPin'
+  'verifyPin',
+  'hideProfile',
+  'showProfile'
 ];
 
 const endpointMap = apiActions.map(call => {

@@ -26,6 +26,7 @@ import {SlideVerticalNoGesturesIOS} from '../../../ExNavigationStylesCustom'
 import SettingsRow from './SettingsRow'
 import UserImageCircle from '../../UserImageCircle'
 import Router from '../../../Router'
+import HideProfileSwitch from './HideProfileSwitch'
 
 
 const iOS = Platform.OS == 'ios';
@@ -82,7 +83,7 @@ class Settings extends React.Component{
         {
           text: 'Yes',
           onPress: () => {
-          
+
 
             this.props.dispatch(ActionMan.disableAccount())
             this.props.dispatch(ActionMan.logOut())
@@ -320,6 +321,8 @@ class Settings extends React.Component{
               />
 
             }
+
+            <HideProfileSwitch />
 
             <View style={styles.paddedSpace}>
 

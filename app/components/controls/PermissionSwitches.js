@@ -2,14 +2,6 @@ import React from 'react'
 import reactMixin from 'react-mixin'
 import { Text, View, Switch, Settings, PushNotificationIOS, Platform, NativeModules, Dimensions } from 'react-native'
 import {connect} from 'react-redux'
-// import {
-//   HAS_SEEN_NOTIFICATION_REQUEST,
-//   LAST_ASKED_NOTIFICATION_PERMISSION,
-//   NOTIFICATION_SETTING,
-//   LEGACY_NOTIFICATION_SETTING,
-//   LOCATION_SETTING,
-//   LEGACY_LOCATION_SETTING
-// } from '../../utils/SettingsConstants'
 import ActionMan from '../../actions/'
 import Analytics from '../../utils/Analytics'
 
@@ -81,7 +73,7 @@ class PermissionSwitches extends React.Component{
             <Text style={styles.formHeaderText}>{'Location'}</Text>
           </View>
           <View style={[styles.insideSelectable, styles.formRow, {borderBottomWidth: 0}]}>
-            <Text style={{color: colors.white, fontSize: 18}}>Prioritize Users Near Me</Text>
+            <Text style={{color: colors.white, fontFamily:'omnes',fontSize: 18}}>Prioritize Users Near Me</Text>
             <Switch
               onValueChange={this.toggleLocation.bind(this)}
               value={locationValue}
@@ -96,7 +88,7 @@ class PermissionSwitches extends React.Component{
             <Text style={styles.formHeaderText}>{'Notifications'}</Text>
           </View>
           <View style={[styles.insideSelectable, styles.formRow, {borderBottomWidth: 0}]}>
-            <Text style={{color: colors.white, fontSize: 18}}>Get notifications</Text>
+            <Text style={{color: colors.white, fontFamily:'omnes',fontSize: 18}}>Get notifications</Text>
             <Switch
               onValueChange={this.toggleNotification.bind(this)}
               value={notificationsValue}
