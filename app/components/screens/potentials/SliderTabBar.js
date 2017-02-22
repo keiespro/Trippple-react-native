@@ -1,30 +1,54 @@
 import React from "react";
-import {Text, View, TouchableOpacity, Dimensions, Animated} from "react-native";
+import {Text, View, TouchableOpacity, Dimensions, Animated, Easing} from "react-native";
+import {connect} from 'react-redux'
+import ActionMan from '../../../actions/'
+import styles from './styles'
+import {MagicNumbers} from '../../../utils/DeviceConfig'
+import colors from '../../../utils/colors';
+
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
-import styles from './styles'
-import {MagicNumbers} from '../../../utils/DeviceConfig'
+class SliderTabBar extends React.Component{
+  static defaultProps= {
+    tabs: ['Matches','Browse']
+  };
 
-import colors from '../../../utils/colors';
+  constructor(props){
+    super()
+    this.state = {
+      slider: new Animated.Value(props.potentialsPage),
 
-var SliderTabBar = React.createClass({
-  propTypes: {
-    goToPage: React.PropTypes.func,
-    activeTab: React.PropTypes.object,
-    tabs: React.PropTypes.array,
-    pageNumber:React.PropTypes.number
-  },
-
+    }
+  }
+  componentWillReceiveProps(nProps){
+    if(nProps.potentialsPage != this.props.potentialsPage){
+      Animated.timing(this.state.slider, {
+        toValue: nProps.potentialsPage,
+        duration: 100,
+        easing: Easing.inOut(Easing.ease),
+      }).start()
+    }
+  }
+  togglePage(){
+    this.props.dispatch(ActionMan.togglePotentialsPage(!this.props.potentialsPage))
+  }
   renderTabOption(name, page) {
-    var isTabActive = this.props.pageNumber === page;
+    var isTabActive = this.props.potentialsPage === page;
     return (
-      <TouchableOpacity key={name+page} style={{zIndex:700}} onPress={() => this.props.goToPage(page)}>
-      <View style={[styles.tab,]}>
+      <TouchableOpacity
+        key={name+page}
+        style={{
+          zIndex:700,
+          width: this.props.width / 2,
+        }}
+        onPress={this.togglePage.bind(this)}
+      >
+        <View style={[styles.tab,]}>
           <Text
             style={{
               fontFamily:'montserrat',
-              fontSize:16,
+              fontSize:14,
               color: isTabActive ? colors.white : colors.shuttleGray}}
             >{
               name.toUpperCase()
@@ -32,37 +56,45 @@ var SliderTabBar = React.createClass({
         </View>
       </TouchableOpacity>
     );
-  },
-
-
+  }
 
   render() {
-    var numberOfTabs = this.props.tabs.length;
-    var w = MagicNumbers.screenWidth/ numberOfTabs;
+    const w = this.props.width / 2;
 
     const tabUnderlineStyle = {
       position: 'absolute',
-      width: MagicNumbers.screenWidth / 2,
+      width: this.props.width / 2,
       height: 2,
       backgroundColor: colors.mediumPurple,
       bottom: 0,
       left:0,
       transform:[
-        {translateX: this.props.activeTab ? this.props.activeTab.interpolate({
-                inputRange: this.props.tabs.map((c,i) => (w * i) ),
+        {translateX: this.state.slider ? this.state.slider.interpolate({
+                inputRange: [0,1],
                 outputRange: [0,w]
               }) : 0
             }]
     };
 
     return (
-      <View style={[styles.tabs,{marginBottom:20}]}>
+      <View style={[styles.tabs]}>
         {this.props.tabs.map((tab, i) => this.renderTabOption(tab, i))}
         <Animated.View style={tabUnderlineStyle} ref={'TAB_UNDERLINE_REF'} />
       </View>
     );
-  },
-});
+  }
+}
 
 
-export default SliderTabBar
+
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps,
+  potentialsPage: state.ui.potentialsPage,
+})
+
+
+const mapDispatchToProps = (dispatch) => ({
+  dispatch
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(SliderTabBar);

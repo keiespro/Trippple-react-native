@@ -13,7 +13,7 @@ import {NavigationStyles, withNavigation} from '@exponent/ex-navigation'
 import Router from '../../../Router'
 import Toolbar from './Toolbar'
 import {pure,onlyUpdateForKeys} from 'recompose'
-
+import Browse from './Browse'
 const iOS = Platform.OS == 'ios';
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -152,7 +152,7 @@ class Potentials extends React.Component{
   }
 
   render(){
-    const { potentials, user } = this.props
+    const { potentials, user,potentialsPage } = this.props
 
     return (
       <View
@@ -162,11 +162,11 @@ class Potentials extends React.Component{
           position:'absolute',
           left:0,right:0,
           alignItems:'stretch',
-            backgroundColor: colors.outerSpace,
+          backgroundColor: colors.outerSpace,
           flexGrow: 1,height:DeviceHeight,width:DeviceWidth
         }}
       >
-
+      {potentialsPage == 0 ? (
         <View
           style={[
             styles.cardStackContainer,
@@ -204,13 +204,25 @@ class Potentials extends React.Component{
            : null}
 
           <Toolbar dispatch={this.props.dispatch} key={'ts'}/>
+        </View>
+      ) : (
+        <View
+          style={{
+            top: 0,
+            bottom:0,
+            position:'absolute',
+            left:0,right:0,
+            alignItems:'stretch',
+            backgroundColor: colors.outerSpace,
+            flexGrow: 1,height:DeviceHeight,width:DeviceWidth
+          }}
+        >
+          <Browse/>
+          <Toolbar dispatch={this.props.dispatch} key={'ts'}/>
 
-
-
-
-
-
-</View>
+        </View>
+      )
+      }
 
       </View>
     )
@@ -229,6 +241,7 @@ const mapStateToProps = (state, ownProps) => ({
   drawerOpen: state.ui.drawerOpen,
   permissions: state.permissions,
   loadedUser: state.ui.loadedUser,
+  potentialsPage: state.ui.potentialsPage,
   loggedIn: state.auth.api_key && state.auth.user_id
 })
 

@@ -77,7 +77,14 @@ export default function uiReducer(state = initialState, action) {
 
     case 'LOG_OUT':
       return initialState
-      
+
+    case 'TOGGLE_POTENTIALS_PAGE':
+      return {
+        ...state,
+        potentialsPage: action.payload ? 1 : 0
+      }
+
+
     default:
 
       return state;
@@ -91,5 +98,6 @@ const initialState = {
   profileVisible: false,
   drawerOpen: false,
   currentIndex: 0,
-  loggingIn: false
+  loggingIn: false,
+  potentialsPage: 0
 };

@@ -93,6 +93,7 @@ export const showConvos = () => dispatch => dispatch({ type: 'SHOW_CONVOS',
   }
 })
 
+export const togglePotentialsPage = payload => dispatch => dispatch({ type: 'TOGGLE_POTENTIALS_PAGE', payload })
 
 export const share = payload => dispatch => dispatch({ type: 'SHARE_COUPLE_PIN',
   payload: {

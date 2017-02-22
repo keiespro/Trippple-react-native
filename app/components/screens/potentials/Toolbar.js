@@ -11,25 +11,16 @@ import _ from 'lodash'
 import ActionMan from '../../../actions'
 import {NavigationStyles, withNavigation} from '@exponent/ex-navigation'
 import Router from '../../../Router'
-
+import SliderTabBar from './SliderTabBar'
 
 const iOS = Platform.OS == 'ios';
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
 
-const ToolbarLogo = () => (
-  <View style={{paddingTop: 0}}>
-    <Image
-      resizeMode={Image.resizeMode.contain}
-      style={{
-        width: 80,
-        height: 40,
-        tintColor: __DEV__ ? colors.daisy : colors.white,
-        alignSelf: 'center'
-      }}
-      source={require('./assets/tripppleLogoText@3x.png')}
-    />
+const MatchesBrowse = () => (
+  <View style={{marginTop: 16,width:DeviceWidth*.5,flexDirection:'column',}}>
+    <SliderTabBar width={DeviceWidth*.5}/>
   </View>
 )
 
@@ -63,33 +54,32 @@ const CloseProfile = ({route}) => (
 class Toolbar extends React.Component{
   componentWillUnmount(){
 
-    // this.props.dispatch(ActionMan.getPotentials())
   }
   render(){
     return(
 
-  <View
-    style={{
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      height: iOS ? 64 : 50,
-      position: 'absolute',
-      top: 0,
-      flexGrow: 1,
-      margin: 0,
-      left:0,
-      alignSelf: 'stretch',
-      width: DeviceWidth,
-      alignItems: 'flex-end',
-      zIndex: 900,
-    }}
-  >
-    <SettingsButton />
-    <ToolbarLogo />
-    <MatchesButton />
-  </View>
-)
-}
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          height: iOS ? 64 : 50,
+          position: 'absolute',
+          top: 0,
+          flexGrow: 1,
+          margin: 0,
+          left:0,
+          alignSelf: 'stretch',
+          width: DeviceWidth,
+          alignItems: 'flex-end',
+          zIndex: 900,
+        }}
+      >
+        <SettingsButton />
+        <MatchesBrowse />
+        <MatchesButton />
+      </View>
+    )
+  }
 }
 
 export default Toolbar

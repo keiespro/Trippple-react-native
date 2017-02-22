@@ -20,7 +20,7 @@ class HideProfileSwitch extends React.Component{
     const {profileVisible} = this.props
 
     Analytics.event('Interaction', {
-      name: 'Toggle profile hidden',
+      name: 'Toggle profile visible',
       type: 'tap',
       value: profileVisible
     })
