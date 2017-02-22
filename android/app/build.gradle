@@ -53,7 +53,7 @@ android {
       applicationId "co.trippple"
       minSdkVersion 16
       targetSdkVersion 23
-      versionCode 303015
+      versionCode 303016
       versionName "4"
       ndk {
           abiFilters "armeabi-v7a", "x86"
