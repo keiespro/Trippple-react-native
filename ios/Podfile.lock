@@ -14,6 +14,8 @@ PODS:
     - FBSDKCoreKit
   - FBSDKShareKit (4.19.0):
     - FBSDKCoreKit
+  - Firebase (3.12.0):
+    - Firebase/Core (= 3.12.0)
   - Firebase/Auth (3.12.0):
     - Firebase/Core
     - FirebaseAuth (= 3.1.0)
@@ -74,7 +76,7 @@ PODS:
     - GoogleToolboxForMac/NSString+URLArguments (= 2.1.1)
   - GoogleToolboxForMac/NSString+URLArguments (2.1.1)
   - GTMSessionFetcher/Core (1.1.8)
-  - HotlineSDK (1.3.2)
+  - HotlineSDK (1.3.3)
   - Mixpanel (3.0.9):
     - Mixpanel/Mixpanel (= 3.0.9)
   - Mixpanel/Mixpanel (3.0.9)
@@ -87,12 +89,13 @@ DEPENDENCIES:
   - FBSDKCoreKit
   - FBSDKLoginKit
   - FBSDKShareKit
+  - Firebase
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Database
   - Firebase/Messaging
   - Firebase/RemoteConfig
-  - HotlineSDK
+  - HotlineSDK (= 1.3.3)
   - Mixpanel (from `https://github.com/mixpanel/mixpanel-iphone.git`)
   - NewRelicAgent
   - UXCam
@@ -125,11 +128,11 @@ SPEC CHECKSUMS:
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   GTMSessionFetcher: 6f8d8b28b7e345549ac471071608170b31cb4977
-  HotlineSDK: d2c4101aaca4fbf25755c0d1047f95cda3df8cd1
+  HotlineSDK: a3c6e8689501de2c17c575c83752d751e915ad51
   Mixpanel: 106bad33d5b9a05312316a01938f17b6baa2d99f
   NewRelicAgent: 7ec88dea6b66aec073bbb5913062724369bf6aff
   UXCam: 76cb857694b8f1776998028de985d737b6852bce
 
-PODFILE CHECKSUM: 49baca076c7dab1f6988aaf42ddcb0259ec2defd
+PODFILE CHECKSUM: 6319adf389ef878575c193ec6cdaeae03a978663
 
 COCOAPODS: 1.2.0
