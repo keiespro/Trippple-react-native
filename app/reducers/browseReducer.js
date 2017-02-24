@@ -12,23 +12,30 @@ export default function browseReducer(state = initialState, action) {
       return initialState;
 
 
+    //
+    // case 'GET_POTENTIALS_FULFILLED':
+    //   const data = action.payload;
+    //   let pots;
+    //   if(!data || !data.matches || !data.matches.length){
+    //     pots = state
+    //   }else if(!data.matches[0] || !data.matches[0].user){
+    //     pots = data.matches.map(pot => ({user: pot}));
+    //   }else{
+    //     pots = data.matches
+    //   }
+    //   if(pots[0] && (pots[0].user.id == global.creds.user_id || pots[0].partner.id == global.creds.user_id)){
+    //     return [...(pots.slice(1, pots.length))];
+    //   }
+    //
+    //   return [...pots];
 
-    case 'GET_POTENTIALS_FULFILLED':
-      const data = action.payload;
-      let pots;
-      if(!data || !data.matches || !data.matches.length){
-        pots = state
-      }else if(!data.matches[0] || !data.matches[0].user){
-        pots = data.matches.map(pot => ({user: pot}));
+    case 'FETCH_BROWSE_FULFILLED':
+      console.log(action.payload);
+      if(action.payload){
+        return [...state, ...Object.values(action.payload)] || [];
       }else{
-        pots = data.matches
+        return state
       }
-      if(pots[0] && (pots[0].user.id == global.creds.user_id || pots[0].partner.id == global.creds.user_id)){
-        return [...(pots.slice(1, pots.length))];
-      }
-
-      return [...pots];
-
     // case 'SEND_LIKE_FULFILLED':
     // case 'SWIPE_CARD_FULFILLED':
     //   const pots = state;

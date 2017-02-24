@@ -5,6 +5,18 @@ import RNHotline from 'react-native-hotline'
 import api from '../utils/api'
 const iOS = Platform.OS == 'ios';
 
+
+export const fetchBrowse = ({filter,page}) => (dispatch,getState) => dispatch({ type: 'FETCH_BROWSE',
+  payload: {
+    promise: new Promise((resolve, reject) => {
+      api.browse({filter:filter.toLowerCase(), page: page}).then(result => {
+        console.log(result);
+        resolve(result)
+      })
+    })
+  }
+})
+
 export const SwipeCard = params => (dispatch,getState) => dispatch({ type: 'SWIPE_CARD',
   payload: new Promise((resolve, reject) => {
     const state = getState()

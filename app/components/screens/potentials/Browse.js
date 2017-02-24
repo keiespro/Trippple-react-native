@@ -1,5 +1,5 @@
 
-import { View, Dimensions, Text,ScrollView, ListView, Platform, NativeModules, TouchableOpacity, Image } from 'react-native';
+import { View, Dimensions, Text,ScrollView, ListView, Platform, NativeModules,RefreshControl, TouchableOpacity, Image } from 'react-native';
 import React from 'react';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons'
@@ -21,6 +21,7 @@ class Browse extends React.Component{
     this.state = {
       users: props.users,
       dataSource: ds.cloneWithRows(props.users),
+      currentFilter: 'Newest'
     };
   }
   componentWillReceiveProps(nProps){
@@ -31,11 +32,20 @@ class Browse extends React.Component{
    });
 
   }
+  _onRefresh() {
+    this.props.dispatch(ActionMan.fetchBrowse({filter: this.state.currentFilter,page:this.props.page}))
+  }
+
+  _onEndReached(){
+    this.props.dispatch(ActionMan.fetchBrowse({filter: this.state.currentFilter,page:this.props.page+1}))
+  }
+
   renderRow(rowData, sectionID, rowID, highlightRow){
     const {user,partner} = rowData;
-    const isLiked = this.props.likes.indexOf(rowData.user.id+'') > -1;
+    const isLiked = user.liked || partner.liked;
     console.log(rowData.user.id,isLiked,this.props.likes);
-
+    const img = user.image_url || partner.image_url
+    const imgSource =  img ? {uri: img.replace('test/','').replace('images/','')} : require('./assets/defaultuser.png')
     return (
       <View
         key={rowData.user.id}
@@ -64,7 +74,7 @@ class Browse extends React.Component{
           }}
           >
         <Image
-          source={user.image_url || partner.image_url ? {uri: user.image_url || partner.image_url} : require('./assets/defaultuser.png')}
+          source={imgSource}
           style={{
             borderTopLeftRadius: 9,
             borderTopRightRadius: 9,
@@ -109,7 +119,7 @@ class Browse extends React.Component{
   }
 
   render(){
-    const tabs = ['Newest','Popular','Nearby','22222','222222']
+    const tabs = ['Newest','Popular','Nearby']
     return (
       <View style={{marginTop:66}}>
         <ScrollView
@@ -128,6 +138,7 @@ class Browse extends React.Component{
         >
           {tabs.map(t => (
             <TouchableOpacity
+              key={'tab'+t}
               style={{
                 borderRadius: 9,
                 overflow:'hidden',
@@ -153,13 +164,22 @@ class Browse extends React.Component{
             flexWrap:'wrap',
             flexGrow:1,
             flexDirection:'row',
-            justifyContent:'space-between',
-            width:MagicNumbers.screenWidth+14,
-            alignSelf:'center',
+            justifyContent:'space-around',
+            width:DeviceWidth,
+            paddingHorizontal:10,
+            alignSelf:'stretch',
           }}
-          style={{flexWrap:'wrap',}}
+          style={{flexDirection:'column',alignSelf:'center'}}
           dataSource={this.state.dataSource}
           renderRow={this.renderRow.bind(this)}
+          onEndReached={this._onEndReached.bind(this)}
+          onEndReachedThreshold={500}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.props.refreshing}
+              onRefresh={this._onRefresh.bind(this)}
+            />
+          }
         />
       </View>
     )
@@ -171,6 +191,8 @@ class Browse extends React.Component{
 const mapStateToProps = (state, ownProps) => ({
   users: state.browse,
   user: state.user,
+  refreshing: state.ui.refreshingBrowse,
+  page: state.ui.browsePage,
   likes: [...Object.keys(state.swipeHistory), ...Object.keys(state.swipeQueue)]
 })
 

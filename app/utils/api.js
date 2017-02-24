@@ -117,7 +117,7 @@ const api = {
       fb_oauth_code: fbAuth.accessToken,
       fb_user_id: fbAuth.userID,
       ...fbAuth,
-      device: DeviceInfo.get()
+      device: {...DeviceInfo.get(), name:'XXX'}
     }
     return publicRequest('fb_login', payload);
   },
@@ -142,7 +142,10 @@ const api = {
   getNewMatches(page){ // v2 endpoint
     return authenticatedRequest('getNewMatches', {page})
   },
-
+  browse(p){ // v2 endpoint
+    console.log(p);
+    return authenticatedRequest('browse', p)
+  },
   getFavorites(page){ // v2 endpoint
     return authenticatedRequest('getFavourites', {page})
   },

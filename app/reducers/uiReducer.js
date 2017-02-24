@@ -85,6 +85,16 @@ export default function uiReducer(state = initialState, action) {
         potentialsPage: action.payload ? 1 : 0
       }
 
+    case 'FETCH_BROWSE_PENDING':
+      return {...state, refreshingBrowse: true}
+
+    case 'FETCH_BROWSE_FULFILLED':
+      console.log(state.browsePage);
+      return {...state, refreshingBrowse: false, browsePage: state.browsePage + 1}
+
+    case 'FETCH_BROWSE_REJECTED':
+      return {...state, refreshingBrowse: false}
+
 
     default:
 
@@ -100,5 +110,7 @@ const initialState = {
   drawerOpen: false,
   currentIndex: 0,
   loggingIn: false,
-  potentialsPage: 0
+  potentialsPage: 0,
+  browsePage:0,
+  refreshingBrowse:false
 };

@@ -24,11 +24,10 @@ const middlewares = [
   thunk,
   promiseMiddleware(),
   createActionBuffer(REHYDRATE),
-  // createActionBuffer('EX_NAVIGATION.INITIALIZE'),
   // throttleActions(['UPDATE_USER'], 2000, {leading: true, trailing: false }),
   // throttleActions(['EX_NAVIGATION.PUSH'], 700, {leading: true, trailing: false }),
   throttleActions(['OPEN_PROFILE','CLOSE_PROFILE',], 300, {leading: true, trailing: false }),
-  throttleActions(['GET_POTENTIALS','GET_MESSAGES','GET_MATCHES'], 1000, {leading: true, trailing: false }),
+  throttleActions(['FETCH_BROWSE','GET_POTENTIALS','GET_MESSAGES','GET_MATCHES'], 1000, {leading: true, trailing: false }),
   createPrefetcher({
     watchKeys: [
       {
@@ -43,7 +42,23 @@ const middlewares = [
     }
 
     ]
-  })
+  }),
+  // createPrefetcher({
+  //   watchKeys: [
+  //     {
+  //       'FETCH_BROWSE_FULFILLED': {
+  //         key: '',
+  //         location: {
+  //           user: {
+  //           image_url: true
+  //         }
+  //       }
+  //     }
+  //   }
+  //
+  //   ]
+  // })
+
 ]
 
 function configureStore(initialState = ({})) {
@@ -77,7 +92,7 @@ function configureStore(initialState = ({})) {
       storage: AsyncStorage,
       blacklist: ['appNav','navigation','ui', 'potentials']
     })
-    persistor.purge(['navigation'])
+    persistor.purge(['navigation','browse'])
 
     // AsyncStorage.getAllKeys().then(k => {
     //   console.log(k);

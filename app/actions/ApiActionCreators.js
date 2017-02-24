@@ -28,7 +28,8 @@ const apiActions = [
   'onboard',
   'verifyPin',
   'hideProfile',
-  'showProfile'
+  'showProfile',
+  'browse'
 ];
 
 const endpointMap = apiActions.map(call => {
