@@ -1,7 +1,6 @@
-import _ from 'lodash'
-
-
 export default function browseReducer(state = initialState, action) {
+
+  let stateUser;
 
   switch (action.type) {
     case 'ONBOARD_FULFILLED':
@@ -11,42 +10,36 @@ export default function browseReducer(state = initialState, action) {
     case 'CLEAR_POTENTIALS':
       return initialState;
 
+    case 'SEND_LIKE_FULFILLED':
+      stateUser = state[action.meta.likeUserId] ? state[action.meta.likeUserId].user : {id: action.meta.likeUserId};
 
-    //
-    // case 'GET_POTENTIALS_FULFILLED':
-    //   const data = action.payload;
-    //   let pots;
-    //   if(!data || !data.matches || !data.matches.length){
-    //     pots = state
-    //   }else if(!data.matches[0] || !data.matches[0].user){
-    //     pots = data.matches.map(pot => ({user: pot}));
-    //   }else{
-    //     pots = data.matches
-    //   }
-    //   if(pots[0] && (pots[0].user.id == global.creds.user_id || pots[0].partner.id == global.creds.user_id)){
-    //     return [...(pots.slice(1, pots.length))];
-    //   }
-    //
-    //   return [...pots];
+      return {
+        ...state,
+        [action.meta.likeUserId]: {
+          ...state[action.meta.likeUserId],
+          user: {
+            ...stateUser,
+            liked: action.meta.likeStatus == 'approve',
+          },
+          likedAt: Date.now()
+        }
+      } // note to self: next time use immutable.js
 
     case 'FETCH_BROWSE_FULFILLED':
-      console.log(action.payload);
-      if(action.payload){
-        return [...state, ...Object.values(action.payload)] || [];
-      }else{
-        return state
-      }
-    // case 'SEND_LIKE_FULFILLED':
-    // case 'SWIPE_CARD_FULFILLED':
-    //   const pots = state;
-    //   pots
-    //   return [...pots];
+      return action.payload ? {
+        ...state,
+        ...Object.values(action.payload).reduce((acc, u) => {
+          if(u && u.user){
+            acc[u.user.id] = u;
+          }
+          return acc
+        }, {})
+      } : state;
 
     default:
-
       return state;
   }
 }
 
 
-const initialState = []
+const initialState = {}

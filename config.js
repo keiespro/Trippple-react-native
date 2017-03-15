@@ -11,9 +11,11 @@ const defaultConfig = {
 const configurations = {
 
   production: {
+    // SERVER_URL: 'http://192.168.0.100:9920',
     SERVER_URL: 'https://api2.trippple.co',
     WEBSOCKET_URL: 'ws://ws.trippple.co',
-    KEYCHAIN_NAMESPACE: 'http://api2.trippple.co'
+    KEYCHAIN_NAMESPACE: 'http://api2.trippple.co',
+    GOOGLE_MAPS_API_KEY: 'AIzaSyCqRsmlKQJmHmaHb52I9lhIAMqyZbeQrbA'
   },
 
 

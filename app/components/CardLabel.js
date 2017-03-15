@@ -1,17 +1,26 @@
 import React from 'react'
 import { Text, View } from 'react-native'
-import {pure} from 'recompose'
-import styles from './screens/potentials/styles'
+import { pure } from 'recompose'
 
+import styles from './screens/potentials/styles'
 import CityState from './CityState'
 
-
 const CardLabel = pure(({potential, city = [], textColor, matchName}) => (
-  <View pointerEvents={'none'}>
+  <View
+    pointerEvents={'none'}
+    style={{
+      flexDirection: 'column',
+      flexGrow: 1
+    }}
+  >
     <Text
-      style={[styles.cardBottomText, {color: textColor}]}
+      style={[
+        styles.cardBottomText,
+        {color: textColor}
+      ]}
       key={`${potential.user.id}-names`}
     >{ matchName }</Text>
+
     <CityState
       key={'matchName'}
       cityState={city.length > 0 ? city : null}
@@ -19,6 +28,7 @@ const CardLabel = pure(({potential, city = [], textColor, matchName}) => (
       color={textColor}
       coords={{lat: potential.user.latitude, lng: potential.user.longitude}}
     />
+
   </View>
 ));
 
