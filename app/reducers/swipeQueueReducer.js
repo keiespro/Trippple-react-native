@@ -15,7 +15,8 @@ export default function swipeQueueReducer(state = initialState, action) {
         ...state,
         [action.payload.likeUserId]: {
           ...action.payload,
-          swipedAt: Date.now()
+          swipedAt: Date.now(),
+          liked: action.payload.likeStatus == 'approve'
         }
       }
 

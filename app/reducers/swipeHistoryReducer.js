@@ -10,6 +10,7 @@ export default function swipeHistoryReducer(state = initialState, action) {
         [action.meta.likeUserId]: {
           ...action.meta,
           ...action.payload,
+          liked: action.meta.likeStatus == 'approve',
           likedAt: Date.now()
         }
       }

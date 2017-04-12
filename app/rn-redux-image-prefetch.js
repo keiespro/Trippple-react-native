@@ -16,7 +16,7 @@ export default function createPrefetcher(config = {}) {
 
   // config
   const {
-    debug = __DEV__,
+    debug = __DEBUG__,
     watchKeys,
   } = config;
 

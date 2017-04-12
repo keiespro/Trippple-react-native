@@ -1,8 +1,9 @@
-import { Platform, Dimensions, View } from 'react-native';
+import { Platform, Dimensions, View, InteractionManager } from 'react-native';
 import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash'
 import ActionMan from './actions/';
+import {pure,onlyUpdateForKeys} from 'recompose'
 
 
 
@@ -12,18 +13,18 @@ const DeviceWidth = Dimensions.get('window').width;
 
 
 
-
+@onlyUpdateForKeys(['sendingLike','internet','pendingLikes','swipeQueue'])
 class LikeSender extends React.Component{
 
 
   componentWillReceiveProps(nProps){
-    if(!nProps.sendingLike && nProps.pendingLikes && nProps.internet){
-      nProps.dispatch(ActionMan.sendLike(nProps.swipeQueue[0]))
+    if(!nProps.sendingLike && nProps.pendingLikes && nProps.internet && nProps.swipeQueue[0]){
+        nProps.dispatch(ActionMan.sendLike(nProps.swipeQueue[0]))
     }
   }
 
   render(){
-    return (<View style={{height:0,width:0,zIndex:-1000,opacity:0}}/>)
+    return false
   }
 
 }

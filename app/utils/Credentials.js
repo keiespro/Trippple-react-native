@@ -1,7 +1,9 @@
-import {Platform, AsyncStorage} from 'react-native'
-import Keychain from 'react-native-keychain'
+import {Platform, AsyncStorage,NativeModules} from 'react-native'
+const {RNKeychainManager} = NativeModules
 import config from '../../config'
+import Promise from 'bluebird'
 
+const getCreds = Promise.promisify(RNKeychainManager.getInternetCredentialsForServer)
 const {KEYCHAIN_NAMESPACE} = config
 
 export default async function loadSavedCredentials(){
@@ -12,7 +14,7 @@ export default async function loadSavedCredentials(){
   if(Platform.OS == 'ios'){
 
     try{
-      const creds = await Keychain.getInternetCredentials(KEYCHAIN_NAMESPACE)
+      const creds = await getCreds(KEYCHAIN_NAMESPACE)
       return {status: true, creds}
     }catch(error){
 

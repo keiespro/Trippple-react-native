@@ -41,6 +41,8 @@ const colors = {
 
   shuttleGray20: 'rgba(86,96,103,.20)',
 
+  shuttleGray70: 'rgba(86,96,103,.80)',
+
   steelGrey: 'rgba(120,129,135,1.0)',
 
   steelGrey20: 'rgba(120,129,135,0.20)',

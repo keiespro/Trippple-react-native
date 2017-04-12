@@ -1,9 +1,10 @@
+import {REHYDRATE} from 'redux-persist/constants'
 
 export default function uiReducer(state = initialState, action) {
 
   switch (action.type) {
-    case 'persist.REHYDRATE':
-    return {...state, booted: true };
+    case REHYDRATE:
+      return {...state, rehydrated: true };
 
 
     case 'OPEN_PROFILE':
@@ -54,6 +55,7 @@ export default function uiReducer(state = initialState, action) {
 
     case 'GET_USER_INFO_REJECTED':
     case 'GET_USER_INFO_FULFILLED':
+    case 'LOGIN_WITH_FACEBOOK_FULFILLED':
       return {...state, loadedUser: true };
 
     case 'LOGIN_WITH_FACEBOOK_PENDING':
@@ -74,6 +76,25 @@ export default function uiReducer(state = initialState, action) {
         loggingIn: false
       }
 
+    case 'LOG_OUT':
+      return initialState
+
+    case 'TOGGLE_POTENTIALS_PAGE':
+      return {
+        ...state,
+        potentialsPage: action.payload ? 1 : 0
+      }
+
+    case 'FETCH_BROWSE_PENDING':
+      return {...state, refreshingBrowse: true}
+
+    case 'FETCH_BROWSE_FULFILLED':
+      console.log(state.browsePage);
+      return {...state, refreshingBrowse: false, browsePage: state.browsePage + 1}
+
+    case 'FETCH_BROWSE_REJECTED':
+      return {...state, refreshingBrowse: false}
+
 
     default:
 
@@ -88,5 +109,8 @@ const initialState = {
   profileVisible: false,
   drawerOpen: false,
   currentIndex: 0,
-  loggingIn: false
+  loggingIn: false,
+  potentialsPage: 0,
+  browsePage:0,
+  refreshingBrowse:false
 };

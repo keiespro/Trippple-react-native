@@ -67,14 +67,23 @@ class Welcome extends Component{
   whyFacebookModal(){
     this.props.dispatch(ActionMan.showInModal({component: 'WhyFacebook', passProps: {} }))
   }
+  componentWillReceiveProps(nProps){
 
+    if(nProps.loggedIn && nProps.status != this.props.status){
+      if(nProps.status == 'onboarded'){
+          this.props.dispatch(ActionMan.resetRoute('Potentials'))
+      }else{
+          this.props.dispatch(ActionMan.resetRoute('Onboard'))
+      }
+    }
+  }
 
   login(){
     this.setState({busy: true})
     this.props.dispatch({type:'LOADING_PENDING'})
     this.setTimeout(()=>{
       this.setState({busy: false})
-    },10000)
+    },20000)
 
     this.props.dispatch(ActionMan.loginWithFacebook())
   }
@@ -135,7 +144,7 @@ const Loading = () => (
 )
 
 
-const mapStateToProps = (state,p) => ({...p, loggedIn: state.auth.api_key && state.auth.user_id})
+const mapStateToProps = (state,p) => ({...p, loggedIn: state.auth.api_key && state.auth.user_id, status: state.user.status})
 const mapDispatchToProps = (dispatch) => ({dispatch })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Welcome);

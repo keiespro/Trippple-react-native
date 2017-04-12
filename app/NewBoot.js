@@ -30,24 +30,12 @@ class NewBoot extends Component{
   }
   initialize(){
 
-    loadSavedCredentials().then(res => {
-      if(global.creds){
-        store.dispatch({type: 'INITIALIZE_CREDENTIALS', payload: global.creds})
-      }else if(res.creds){
-        store.dispatch({type: 'INITIALIZE_CREDENTIALS', payload: res.creds})
-      }else{
-        throw new Error('no creds')
-      }
-    })
-    .catch(err => {
-      __DEV__ && console.log('err', err);
-    })
-    .finally((x) => {
       this.setState({initialized: true})
       // store.dispatch(sessionAuth())
-    })
+
   }
   checkTouchId(){
+    console.log('c');
     TouchID.authenticate('Access Trippple')
       .then(success => {
         __DEV__ && console.log(success, 'success');

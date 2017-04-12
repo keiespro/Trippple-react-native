@@ -58,6 +58,16 @@ static displayName: 'Intro';
 
 
   }
+  componentWillReceiveProps(nProps){
+
+    if(nProps.loggedIn && nProps.status != this.props.status){
+      if(nProps.status == 'onboarded'){
+          this.props.dispatch(ActionMan.resetRoute('Potentials'))
+      }else{
+          this.props.dispatch(ActionMan.resetRoute('Onboard'))
+      }
+    }
+  }
 
 
 
@@ -133,7 +143,7 @@ const Loading = () => (
   </View>
 )
 
-const mapStateToProps = (state,p) => ({...p, loggedIn: state.auth.api_key && state.auth.user_id})
+const mapStateToProps = (state,p) => ({...p, loggedIn: state.auth.api_key && state.auth.user_id, status: state.user.status})
 const mapDispatchToProps = (dispatch) => ({dispatch })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Welcome);

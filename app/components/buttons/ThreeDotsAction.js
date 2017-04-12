@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   TouchableNativeFeedback,
   Animated,
+  Keyboard,
   Dimensions,
   Platform,
 } from 'react-native';
@@ -22,6 +23,7 @@ const ThreeDotsActionButton = ({dispatch, dotColor = colors.white, style, match}
     color={colors.white}
     style={style}
     onPress={() => {
+      Keyboard.dismiss()
       dispatch(ActionMan.showInModal({
         component: 'Action',
         passProps: {

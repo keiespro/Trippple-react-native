@@ -42,6 +42,7 @@
     "react-native-looped-carousel": "^0.1.5",
     "react-native-message-composer": "0.1.0",
     "react-native-mixpanel": "^0.0.12",
+    "react-native-network-info": "^1.0.0",
     "react-native-permissions": "0.2.7",
     "react-native-push-notification": "^2.2.1",
     "react-native-splash-screen": "^2.0.0",

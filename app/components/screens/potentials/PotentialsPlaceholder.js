@@ -1,6 +1,6 @@
 import { Text, View, Image, Dimensions, ActivityIndicator, LayoutAnimation, TouchableOpacity, NativeModules, Platform } from 'react-native';
 import React from 'react';
-import {pure} from 'recompose'
+import {pure,onlyUpdateForKeys} from 'recompose'
 import {connect} from 'react-redux'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
@@ -14,6 +14,7 @@ import ActionMan from '../../../actions'
 import Router from '../../../Router'
 import Btn from '../../Btn'
 const iOS = Platform.OS == 'ios';
+import Toolbar from './Toolbar'
 
 const {FBAppInviteDialog} = NativeModules
 const DeviceHeight = Dimensions.get('window').height;
@@ -21,7 +22,7 @@ const DeviceWidth = Dimensions.get('window').width;
 const {INVITE_FRIENDS_APP_LINK} = config;
 const getPotentialsButtonEnabled = true;
 
-
+@onlyUpdateForKeys(['hasPotentials'])
 @reactMixin.decorate(TimerMixin)
 class PotentialsPlaceholder extends React.Component{
   constructor(){
@@ -42,16 +43,19 @@ class PotentialsPlaceholder extends React.Component{
       this.startTimer()
     }
   }
-
+  componentWillReceiveProps(nProps){
+    if(!nProps.hasPotentials && this.props.hasPotentials){
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
+      this.getMorePotentials()
+    }
+  }
   onDidShow(){
     this.props.onDidShow && this.props.onDidShow(true)
   }
 
   getMorePotentials(){
     this.setState({loading: true})
-    if(this.props.user.status == 'onboarded'){
       this.props.dispatch(ActionMan.getPotentials())
-    }
   }
 
   openProfileEditor(){
@@ -94,9 +98,11 @@ class PotentialsPlaceholder extends React.Component{
 
     return (
       <FadeInContainer
-        delayAmount={2000}
-        duration={300}
+        delayAmount={1000}
+        duration={1500}
       >
+        <Toolbar dispatch={this.props.dispatch} key={'tb'}/>
+
         <View
           style={[
             styles.dashedBorderImage,
@@ -110,6 +116,7 @@ class PotentialsPlaceholder extends React.Component{
               backgroundColor: colors.outerSpace,
               flex: 1,
               flexDirection: 'column',
+              opacity: this.props.hasPotentials ? 0 : 1
             }
           ]}
         >

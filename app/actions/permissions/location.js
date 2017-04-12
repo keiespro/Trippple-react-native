@@ -1,6 +1,7 @@
 import { PermissionsAndroid, Platform } from 'react-native'
 import Promise from 'bluebird'
 import Permissions from 'react-native-permissions'
+import {getLocation} from '../location'
 
 const askLocation = Promise.promisify(global.navigator.geolocation.getCurrentPosition)
 
@@ -8,20 +9,18 @@ export default {checkLocationPermission, requestLocationPermission}
 
 export const checkLocationPermission = () => dispatch => dispatch({ type: 'CHECK_LOCATION_PERMISSION',
   payload: new Promise((resolve, reject) => {
-
     Platform.select(check)()
       .then(permission => {
         if(!permission || permission == 'undetermined'){
-          dispatch({type:'LOADING_FULFILLED'})
+          dispatch({type: 'LOADING_FULFILLED'})
         }else{
           dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_ON'})
         }
         resolve(permission)
       })
       .catch(err => {
-        dispatch({type:'LOADING_FULFILLED'})
-
-        // dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_OFF'})
+        dispatch({type: 'LOADING_FULFILLED'})
+        dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_OFF'})
         reject(err)
       })
   }),
@@ -32,14 +31,15 @@ export const requestLocationPermission = () => dispatch => dispatch({ type: 'REQ
     Platform.select(request)()
       .then(permission => {
         if(!permission || permission == 'undetermined'){
-          dispatch({type:'LOADING_FULFILLED'})
+          dispatch({type: 'LOADING_FULFILLED'})
+        }else{
+          dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_ON'})
+          dispatch(getLocation())
         }
-        dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_ON'})
         resolve(permission)
       })
       .catch(err => {
-        dispatch({type:'LOADING_FULFILLED'})
-
+        dispatch({type: 'LOADING_FULFILLED'})
         dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_OFF'})
         resolve(err)
       })

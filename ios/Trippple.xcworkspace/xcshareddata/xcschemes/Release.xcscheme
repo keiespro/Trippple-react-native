@@ -3,7 +3,7 @@
    LastUpgradeVersion = "0830"
    version = "2.0">
    <BuildAction
-      parallelizeBuildables = "YES"
+      parallelizeBuildables = "NO"
       buildImplicitDependencies = "YES">
       <BuildActionEntries>
          <BuildActionEntry
@@ -20,6 +20,20 @@
                ReferencedContainer = "container:Trippple.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "NO"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AC9D8D301D3F34FF009D4C78"
+               BuildableName = "TripppleSnapshotTests.xctest"
+               BlueprintName = "TripppleSnapshotTests"
+               ReferencedContainer = "container:Trippple.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -28,31 +42,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "NO">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AC9D8D301D3F34FF009D4C78"
-               BuildableName = "TripppleSnapshotTests.xctest"
-               BlueprintName = "TripppleSnapshotTests"
-               ReferencedContainer = "container:Trippple.xcodeproj">
-            </BuildableReference>
-            <SkippedTests>
-               <Test
-                  Identifier = "TripppleSnapshotTest">
-               </Test>
-            </SkippedTests>
-         </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AC9D8D301D3F34FF009D4C78"
-            BuildableName = "TripppleSnapshotTests.xctest"
-            BlueprintName = "TripppleSnapshotTests"
-            ReferencedContainer = "container:Trippple.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <CommandLineArguments>
          <CommandLineArgument
             argument = "TESTTT"
@@ -81,8 +71,8 @@
    </TestAction>
    <LaunchAction
       buildConfiguration = "Release"
-      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
-      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      selectedDebuggerIdentifier = ""
+      selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"

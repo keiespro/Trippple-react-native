@@ -235,7 +235,7 @@ class UserProfile extends React.Component {
                     <Text style={[styles.cardBottomOtherText, { color: colors.white, marginBottom: 15, marginLeft: 0 }]}>{
                                               !hasPartner ? 'Looking for' : 'Looking for'
                                           }</Text>
-                    <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>{
+                    <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15,  fontFamily: 'omnes' }}>{
                                               potential.user.bio
                                           }</Text>
                   </View> : null
@@ -248,7 +248,7 @@ class UserProfile extends React.Component {
                       width: MagicNumbers.screenWidth
                     }}
                   >
-                    <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15 }}>
+                    <Text style={{ color: colors.white, fontSize: 18, marginBottom: 15, fontFamily: 'omnes' }}>
                       {potential.partner.bio}
                     </Text>
                   </View> : null
@@ -261,7 +261,7 @@ class UserProfile extends React.Component {
                 />
                 {this.props.user.id != this.props.potential.user.id ? <TouchableOpacity onPress={this.reportModal.bind(this)}>
                   <View style={{ marginTop: 20, paddingBottom: 50 }}>
-                    <Text style={{ color: colors.mandy, textAlign: 'center' }}>Report or Block this user</Text>
+                    <Text style={{ color: colors.mandy, textAlign: 'center', fontFamily: 'omnes' }}>Report or Block this user</Text>
                   </View>
                 </TouchableOpacity> : null}
 

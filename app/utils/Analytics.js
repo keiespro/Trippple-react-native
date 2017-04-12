@@ -1,5 +1,5 @@
 import RNMixpanel from 'react-native-mixpanel'
-import AppInfo from 'react-native-app-info'
+
 import {Settings, NativeModules,Platform} from 'react-native'
 import _ from 'lodash'
 import { GoogleAnalyticsTracker, GoogleAnalyticsSettings } from 'react-native-google-analytics-bridge';
@@ -13,7 +13,7 @@ const iOS = Platform.OS == 'ios';
 const {HAS_IDENTITY} = SETTINGS_CONSTANTS
 const {RNUXCam} = NativeModules
 
-// const VERSION = 2.5 // parseFloat(AppInfo.getInfoShortVersion());
+
 
 const __TEST__ = global.__TEST__ || false;
 

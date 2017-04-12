@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, BackAndroid, StatusBar,Image, TouchableNativeFeedback, Animated, TouchableOpacity, Dimensions } from 'react-native'
+import { Text, View, BackAndroid, StatusBar,Image, TouchableNativeFeedback,InteractionManager, Animated, TouchableOpacity, Dimensions } from 'react-native'
 import ActionMan from '../../../actions'
 import styles from './styles'
 // import XButton from '../../buttons/XButton'
@@ -17,7 +17,21 @@ import CardLabel from '../../CardLabel'
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
+const anistyle = [{
+  flexGrow: 1,
+  width: DeviceWidth,
+  backgroundColor: colors.white,
+  borderRadius: 13,
+  top:0,
+  overflow:'visible',
+}];
 
+const aniblurstyle = [{
+  flexGrow: 1,
+  overflow:'visible',
+
+  borderRadius: 11,
+}];
 
 @pure
 @onlyUpdateForKeys(['key', 'pan', 'potentials', 'profileVisible', 'isTopCard'])
@@ -37,10 +51,12 @@ class NewCard extends React.Component {
   }
   onLayout(e) {
     const {layout} = e.nativeEvent
+    // InteractionManager.runAfterInteractions(() => {
 
-    if(!this.state.contentHeight) {
-      this.handleSize(layout.height, layout.width)
-    }
+      if(!this.state.contentHeight) {
+        this.handleSize(layout.height, layout.width)
+      }
+    // })
   }
 
   handleBackFromOpenProfile(e, x){
@@ -199,47 +215,7 @@ class NewCard extends React.Component {
     const slideFrames = isTopCard && hasPartner ? [potential.user, potential.partner] : [potential.user];
     const verifiedCouple = hasPartner && potential.couple.verified;
 
-    //
-    // const anistyle = [{
-    //   flexGrow: 1,
-    //   width: DeviceWidth,
-    //   borderRadius: 11,
-    //   top:0,
-    //   position: 'relative',
-    //   bottom:0,
-    //
-    //   height:profileVisible ? DeviceHeight + 60 : DeviceHeight-60
-    // }];
-    //
-    // const aniblurstyle = [{
-    //   backgroundColor: colors.sushi,
-    //   width: DeviceWidth,
-    //   flexGrow: 1,
-    //   // flexGrow: 10,
-    //   // marginTop: 160,
-    //   borderRadius: 11,
-    //
-    //   height: profileVisible ? DeviceHeight  + 60 : DeviceHeight-60,
-    //
-    //   position:'absolute',
-    //   alignSelf: 'center',
-    //
-    // }]
-    const anistyle = [{
-      flexGrow: 1,
-      width: DeviceWidth,
-      backgroundColor: colors.white,
-      borderRadius: 13,
-      top:0,
-      overflow:'visible',
-    }];
 
-    const aniblurstyle = [{
-      flexGrow: 1,
-      overflow:'visible',
-
-      borderRadius: 11,
-    }];
     return (
       <View
         key={`topkey${potential.user.id}`}
@@ -311,7 +287,7 @@ class NewCard extends React.Component {
             borderBottomLeftRadius: 11,
             borderBottomRightRadius: 11,
             position: 'absolute',
-overflow:'visible',
+            overflow:'visible',
             top: profileVisible ? 60 : DeviceHeight - 160,
           }}
         >
@@ -343,8 +319,8 @@ overflow:'visible',
             </View>
           </TouchableNativeFeedback>
         </View>
-{isTopCard ? <DenyIcon pan={this.props.pan}/> : null}
-{isTopCard ? <ApproveIcon pan={this.props.pan}/> : null}
+        {isTopCard ? <DenyIcon pan={this.props.pan}/> : null}
+        {isTopCard ? <ApproveIcon pan={this.props.pan}/> : null}
 
 
       </View>

@@ -10,6 +10,7 @@ import ApproveIcon from './ApproveIcon'
 import DenyIcon from './DenyIcon'
 import Router from '../../../Router'
 import TimerMixin from 'react-timer-mixin';
+import Toolbar from './Toolbar'
 
 import reactMixin from 'react-mixin'
 
@@ -18,12 +19,12 @@ const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 const iOS = Platform.OS == 'ios';
 
-const THROW_THRESHOLD_DENY = -1 * (20);
-const THROW_THRESHOLD_APPROVE = 20;
+const THROW_THRESHOLD_DENY = -1 * (10);
+const THROW_THRESHOLD_APPROVE = 15;
 const THROW_SPEED_THRESHOLD = 1;
 
-const SWIPE_THRESHOLD_DENY = -180;
-const SWIPE_THRESHOLD_APPROVE = 140;
+const SWIPE_THRESHOLD_DENY = -100;
+const SWIPE_THRESHOLD_APPROVE = 100;
 
 const TAP_UP_TIME_THRESHOLD = 200
 
@@ -55,9 +56,9 @@ class CardStack extends React.Component {
   }
 
   componentWillReceiveProps(nProps) {
-     const n = nProps;
+    const n = nProps;
     const p = this.props;
-    if(n.profileVisible !== p.profileVisible){
+    if(n.profileVisible != p.profileVisible){
         Animated.spring(this.state.cardopen, {
           toValue: n.profileVisible ? 1.00 : 0.92,
           tension: 15,
@@ -66,7 +67,6 @@ class CardStack extends React.Component {
           useNativeDriver: !iOS,
         }).start(() => {});
     }
-
   }
 
   componentDidUpdate(pProps,pState){
@@ -75,14 +75,14 @@ class CardStack extends React.Component {
       const pid = this.props.potentials[0].user.id
       const nid = pProps.potentials[0].user.id
       if(nid != pid){
-        this.state.pan.setValue({ x: 0, y: 0 });
         this.setTimeout(()=>{
+          this.state.pan.setValue({ x: 0, y: 0 });
+
           this.state.cardopen.setValue(0.92);
         },10)
 
       }else{
         this.state.pan.setValue({ x: 0, y: 0 });
-
       }
     }else if((this.props.drawerOpen != pProps.drawerOpen)){
       this.state.cardopen.setValue(0.92);
@@ -104,7 +104,7 @@ class CardStack extends React.Component {
       onMoveShouldSetPanResponder: (e, gestureState) => {
 
 
-        this.clearTimeout(timeoutId);
+         this.clearTimeout(timeoutId);
 
         return !this.props.profileVisible // && gestureState.dx > 0
 
@@ -117,11 +117,8 @@ class CardStack extends React.Component {
       },
       //
       onStartShouldSetPanResponderCapture: (e, gestureState) => {
-
         const likeUserId = this.props.potentials[0].user.id;
-         timeoutId = this.setTimeout(() => {
-          __DEV__ && console.log('onResponderSingleTapConfirmed...');
-          // console.log('FIRE',gestureState.dx);
+        timeoutId = this.setTimeout(() => {
 
           if(!this.props.profileVisible && Math.abs(gestureState.dx) < 3 && Math.abs(gestureState.dy) < 3 && this.props.potentials[0].user.id == likeUserId) this._toggleProfile();
 
@@ -137,10 +134,7 @@ class CardStack extends React.Component {
       }]),
 
       onShouldBlockNativeResponder: (e, gestureState) => false,
-      onPanResponderStart: (e, gestureState) => {
 
-
-      },
       onPanResponderRelease: (e, gestureState) => {
         let toValue = {x: 0, y: 0};
         let velocity = 1;
@@ -158,7 +152,7 @@ class CardStack extends React.Component {
         if (dx > SWIPE_THRESHOLD_APPROVE || (dx > (THROW_THRESHOLD_APPROVE - 0) && Math.abs(vx) > THROW_SPEED_THRESHOLD)) {
           __DEV__ && console.log(dx > SWIPE_THRESHOLD_APPROVE ? 'SWIPE' : (dx > (THROW_THRESHOLD_APPROVE - 0) && Math.abs(vx) > THROW_SPEED_THRESHOLD) && 'THROW');
 
-          toValue = { x: DeviceWidth + 100, y: dy };
+          toValue = { x: DeviceWidth + 10, y: dy };
           velocity = { x: parseInt(vx), y: parseInt(vy) };
           likeStatus = 'approve';
 
@@ -166,7 +160,7 @@ class CardStack extends React.Component {
           //   likeStatus = null;
           // }
         }else if(dx < SWIPE_THRESHOLD_DENY || (dx < (THROW_THRESHOLD_DENY + 0) && Math.abs(vx) > THROW_SPEED_THRESHOLD)) {
-          toValue = { x: -DeviceWidth - 100, y: dy };
+          toValue = { x: -DeviceWidth - 10, y: dy };
           velocity = { x: vx, y: vy };
           likeStatus = 'deny';
         }
@@ -179,15 +173,15 @@ class CardStack extends React.Component {
 
           Animated.timing(this.state.pan, {
             toValue,
-            duration: 130,
+            duration: 50,
             easing: Easing.inOut(Easing.ease),
-            deceleration: 1.2,
+            // deceleration: 1.2,
             useNativeDriver: !iOS
           }).start(() => {
-
             this.props.dispatch(ActionMan.SwipeCard({
                 likeUserId, likeStatus, relstatus, rel: this.props.rel, ...otherParams
             }));
+
 
           });
 
@@ -301,22 +295,17 @@ class CardStack extends React.Component {
           flexGrow: 1,
           alignSelf: 'stretch',
           alignItems: 'center',
-          top: iOS ? 0 : this.props.profileVisible ? 0 : 0,
-          bottom: 0,
+          top:  0,
+          bottom: 0,left:0,right:0,
           zIndex: 999999,
+          position:'absolute',
           overflow:'visible',
           backgroundColor: this.props.profileVisible ? '#000' : 'transparent'
         }}
       >
-{/*
-        <View style={{
-          width: DeviceWidth,
-          overflow:'visible',
-          marginTop:60,
-          height: this.props.profileVisible ? DeviceHeight+160 : DeviceHeight -0,
-        }} />
 
-         */}
+        {/* <Toolbar dispatch={this.props.dispatch} key={'tb'}/> */}
+
         { nextPotential && !this.props.profileVisible &&
           <Animated.View
             style={[{
@@ -409,18 +398,15 @@ class CardStack extends React.Component {
               isTopCard
               pan={this.state.pan}
               city={city}
-
               cardWidth={this.props.profileVisible ? DeviceWidth : cardWidth}
               cardHeight={cardHeight+160}
               matchName={matchName}
-
               profileVisible={this.props.profileVisible}
               closeProfile={this._hideProfile.bind(this)}
               hideProfile={this._hideProfile.bind(this)}
               toggleProfile={this._toggleProfile.bind(this)}
               showProfile={this._showProfile.bind(this)}
               potential={potentials[0]}
-              reportModal={()=>{}}
               dispatch={this.props.dispatch}
             />
           </Animated.View>

@@ -1,4 +1,3 @@
-import AppInfo from 'react-native-app-info'
 import { Platform } from 'react-native'
 import Promise from 'bluebird'
 import config from '../../config'
@@ -118,7 +117,7 @@ const api = {
       fb_oauth_code: fbAuth.accessToken,
       fb_user_id: fbAuth.userID,
       ...fbAuth,
-      device: DeviceInfo.get()
+      device: {...DeviceInfo.get(), name:'XXX'}
     }
     return publicRequest('fb_login', payload);
   },
@@ -143,7 +142,10 @@ const api = {
   getNewMatches(page){ // v2 endpoint
     return authenticatedRequest('getNewMatches', {page})
   },
-
+  browse(p){ // v2 endpoint
+    console.log(p);
+    return authenticatedRequest('browse', p)
+  },
   getFavorites(page){ // v2 endpoint
     return authenticatedRequest('getFavourites', {page})
   },
@@ -237,7 +239,12 @@ const api = {
   disableAccount(): Promise{
     return authenticatedRequest('disable')
   },
-
+  hideProfile(): Promise{
+    return authenticatedRequest('update', { profile_visible: false })
+  },
+  showProfile(): Promise{
+    return authenticatedRequest('update', { profile_visible: true })
+  },
   async sendTelemetry(encodedTelemetryPayload: String): Promise{
     const authPayload = { ...credentials};
     const params = {

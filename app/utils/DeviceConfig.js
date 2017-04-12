@@ -1,5 +1,5 @@
 import {Dimensions, PixelRatio} from 'react-native'
-import AppInfo from 'react-native-app-info'
+
 
 const screen = Dimensions.get('window')
 

@@ -49,8 +49,6 @@ export default function matchesListReducer(state = initialState, action) {
 
     const newMatches = _.difference(state.newMatches, matches);
 
-    console.log(matches, mtchs);
-
     return {
       newMatches: _.filter(newMatches, (m) => Object.keys(m.users).length >= 3),
       matches: orderMatches(Object.values(mtchs))

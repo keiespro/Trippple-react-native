@@ -36,7 +36,7 @@ const FieldComponent = ({onChange, selected, getValues, getKeyVals, theField, va
   selectedValue={ selected || theField.values[selected]}
 >
   {getValues.map((val) => {
-    __DEV__ && console.log(val,selected,theField.values);
+
     return (<PickerItem
       key={val+'itempick'}
       color={colors.white}
@@ -60,7 +60,7 @@ class ProfileField extends React.Component{
     }
   }
   handleChange(e){
-    __DEV__ && console.log('handle change', e);
+
     const val =  this.props.fieldName == 'gender' ? e.toLowerCase() : e;
     this.props.dispatch(ActionMan.updateUser({[this.props.fieldName]: val}))
   }

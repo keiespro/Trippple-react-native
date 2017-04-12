@@ -92,7 +92,11 @@ export const pushRoute = (route,params) => (dispatch,getState) => dispatch({ typ
   payload: new Promise((resolve, reject) => {
     const state = getState()
     const navs = Object.keys(state.navigation.navigators)
-    const navigatorUID = navs[0];
+    let navigatorUID = navs[0];
+    console.log(navs);
+    if(navigatorUID == 'undefined'){
+      navigatorUID = navs[1]
+    }
     dispatch(NavigationActions.push(navigatorUID, Router.getRoute(route, params)));
 
     resolve(params)
@@ -104,7 +108,7 @@ export const resetRoute = (route,params = {}) => (dispatch,getState) => dispatch
     const state = getState()
     const navs = Object.keys(state.navigation.navigators)
     const navigatorUID = navs[0];
-    dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute(route)]));
+    dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute(route, params)], 0));
 
     resolve(params)
   }),
@@ -115,7 +119,7 @@ export const replaceRoute = (route,params = {}) => (dispatch,getState) => dispat
     const state = getState()
     const navs = Object.keys(state.navigation.navigators)
     const navigatorUID = navs[0];
-    dispatch(NavigationActions.replace(navigatorUID, Router.getRoute(route)));
+    dispatch(NavigationActions.replace(navigatorUID, Router.getRoute(route, params)));
 
     resolve(params)
   }),
@@ -144,7 +148,7 @@ payload: new Promise((resolve, reject) => {
 
 export const onboardUserNowWhat = payload => (dispatch,getState) => dispatch({ type: 'ONBOARD_USER_NOW_WHAT',
   payload: new Promise((resolve, reject) => {
-
+    console.log(payload);
     api.onboard(payload).then(result => {
       const state = getState()
         __DEV__ && console.log(result);

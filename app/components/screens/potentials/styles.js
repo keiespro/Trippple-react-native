@@ -37,9 +37,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 0,
-    width: MagicNumbers.screenWidth / 2,
     alignSelf: 'stretch',
-    height: 60
+    height: 40,
   },
   singleTab: {
 
@@ -47,24 +46,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginHorizontal: MagicNumbers.screenPadding / 2,
     width: MagicNumbers.screenWidth,
-
+    flexGrow:1,
   },
   tabs: {
-    height: 60,
+    height: 40,
     flexDirection: 'row',
-    marginTop: 0,
     borderWidth: 1,
-    width: MagicNumbers.screenWidth,
-    // flex:1,
+    // width: MagicNumbers.screenWidth,
+    flexGrow:1,
     marginHorizontal: 0,
-    borderTopWidth: 1,
+    borderTopWidth: 0,
     borderLeftWidth: 0,
     borderRightWidth: 0,
-    borderBottomWidth: 1,
+    borderBottomWidth: 0,
     overflow: 'hidden',
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: colors.shuttleGray,
+    alignSelf:'flex-start',
   },
   animatedIcon: {
     height: 100,
@@ -257,14 +255,15 @@ const styles = StyleSheet.create({
   cardStackContainer: {
     width: DeviceWidth,
     height: DeviceHeight,
-    flex: 1,
+    flexGrow: 1,
     top: 0,
+    right:0,bottom:0,
     position: 'absolute',
     left: 0,
     zIndex: 9,
 
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'stretch',
     justifyContent: 'center',
   },
 

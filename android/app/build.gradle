@@ -53,7 +53,7 @@ android {
       applicationId "co.trippple"
       minSdkVersion 16
       targetSdkVersion 23
-      versionCode 303015
+      versionCode 303016
       versionName "4"
       ndk {
           abiFilters "armeabi-v7a", "x86"
@@ -86,6 +86,7 @@ android {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
+
     }
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
@@ -103,6 +104,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-network-info')
     compile project(':react-native-uxcam')
     compile project(':react-native-geocoder')
     compile project(':react-native-permissions')
@@ -120,13 +122,17 @@ dependencies {
     compile project(':react-native-hotline')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.0"
-    compile "com.facebook.react:react-native:+"  // From node_modules
+    compile "com.facebook.react:react-native:0.39.2"  // From node_modules
     compile 'com.facebook.android:facebook-android-sdk:4.+'
     compile ('com.facebook.android:audience-network-sdk:4.+'){
       exclude group: 'com.google.android.gms'
     }
     compile ('com.facebook.android:account-kit-sdk:4.+'){
       exclude group: 'com.google.android.gms'
+    }
+
+    compile ('com.google.android.gms:play-services-gcm:10.0.1') {
+        force = true;
     }
 
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
@@ -137,8 +143,6 @@ dependencies {
     }
       compile 'com.google.firebase:firebase-core:10.0.1'
       compile 'com.google.firebase:firebase-messaging:10.0.1'
-//    compile 'com.google.firebase:firebase-auth:9.8.0'
-//    compile 'com.google.firebase:firebase-database:9.8.0'
 
     compile 'com.facebook.fresco:webpsupport:0.11.0'
     compile 'com.facebook.fresco:animated-gif:0.11.0'

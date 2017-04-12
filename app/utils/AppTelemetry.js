@@ -2,38 +2,20 @@
 import { NativeModules, AsyncStorage } from  'react-native'
 import base64 from 'base-64'
 import Analytics from './Analytics'
-import AppInfo from 'react-native-app-info'
+
 import Promise from 'bluebird'
 
 const { join, all } = Promise;
 import { connect } from 'react-redux';
 
-const { RNAppInfo,SettingsManager } = NativeModules
+const { SettingsManager } = NativeModules
 import DeviceInfo from './DeviceInfo'
 
 class AppTelemetry{
   async getPayload(){
-    var {
-      displayName,
-      bundleIdentifier,
-      getInfoDeviceName,
-      name,
-      shortVersion,
-      version
-    } = RNAppInfo;
 
     const telemetryPayload = {
             DeviceInfo: DeviceInfo.get(),
-            osSettings: SettingsManager.settings,
-            state: this.props.appState,
-            appInfo: {
-              displayName,
-              bundleIdentifier,
-              getInfoDeviceName,
-              name,
-              shortVersion,
-              version
-            },
     };
 
     try{
@@ -61,7 +43,7 @@ class AppTelemetry{
 
 
 const mapStateToProps = (state, ownProps) => {
-  
+
   return { ...ownProps, appState: state }
 }
 

@@ -708,7 +708,7 @@ babel-plugin-transform-class-constructor-call@^6.6.5:
     babel-runtime "^6.0.0"
     babel-template "^6.8.0"
 
-babel-plugin-transform-class-properties@^6.22.0, babel-plugin-transform-class-properties@^6.8.0:
+babel-plugin-transform-class-properties@^6.22.0:
   version "6.22.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-class-properties/-/babel-plugin-transform-class-properties-6.22.0.tgz#aa78f8134495c7de06c097118ba061844e1dc1d8"
   dependencies:
@@ -717,7 +717,7 @@ babel-plugin-transform-class-properties@^6.22.0, babel-plugin-transform-class-pr
     babel-runtime "^6.22.0"
     babel-template "^6.22.0"
 
-babel-plugin-transform-class-properties@^6.5.0:
+babel-plugin-transform-class-properties@^6.5.0, babel-plugin-transform-class-properties@^6.8.0:
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-class-properties/-/babel-plugin-transform-class-properties-6.18.0.tgz#bc1266a39d4c8726e0bd7b15c56235177e6ede57"
   dependencies:
@@ -1376,11 +1376,11 @@ base-64@0.1.0, base-64@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/base-64/-/base-64-0.1.0.tgz#780a99c84e7d600260361511c4877613bf24f6bb"
 
-base64-js@0.0.8, base64-js@^1.1.2:
+base64-js@0.0.8:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.2.0.tgz#a39992d723584811982be5e290bb6a53d86700f1"
 
-base64-js@1.1.2:
+base64-js@1.1.2, base64-js@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.1.2.tgz#d6400cac1c4c660976d90d07a04351d89395f5e8"
 
@@ -4699,6 +4699,10 @@ react-native-message-composer@0.1.0:
 react-native-mixpanel@^0.0.12:
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/react-native-mixpanel/-/react-native-mixpanel-0.0.12.tgz#475e7f49a612d8d39beb2a1821483b9d0f677405"
+
+react-native-network-info@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-network-info/-/react-native-network-info-1.0.0.tgz#2f9070a29f1eab390247ea880bd4cb18e120af20"
 
 react-native-permissions@0.2.7:
   version "0.2.7"

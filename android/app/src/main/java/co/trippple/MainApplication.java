@@ -17,6 +17,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.ReactApplication;
+import com.pusherman.networkinfo.RNNetworkInfoPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -36,6 +37,7 @@ import org.jall.reactnative.firebase.FirebasePackage;
 
 import java.util.Arrays;
 import java.util.List;
+import javax.annotation.Nullable;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -50,14 +52,28 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
-    protected boolean getUseDeveloperSupport() {
-      return BuildConfig.DEBUG;
-    }
+      public String getJSMainModuleName() {
+        return "index.android";
+      }
+
+      @Override
+      public @Nullable String getBundleAssetName() {
+        return "main.android.jsbundle";
+      }
+
+      @Override
+      public boolean getUseDeveloperSupport() {
+        return true;
+      }
+
+
+
 
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNNetworkInfoPackage(),
             new RNHotline(),
             new RNGeocoderPackage(),
             new ReactNativePermissionsPackage(),

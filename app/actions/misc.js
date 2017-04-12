@@ -5,6 +5,18 @@ import RNHotline from 'react-native-hotline'
 import api from '../utils/api'
 const iOS = Platform.OS == 'ios';
 
+
+export const fetchBrowse = ({filter,page}) => (dispatch,getState) => dispatch({ type: 'FETCH_BROWSE',
+  payload: {
+    promise: new Promise((resolve, reject) => {
+      api.browse({filter:filter.toLowerCase(), page: page}).then(result => {
+        console.log(result);
+        resolve(result)
+      })
+    })
+  }
+})
+
 export const SwipeCard = params => (dispatch,getState) => dispatch({ type: 'SWIPE_CARD',
   payload: new Promise((resolve, reject) => {
     const state = getState()
@@ -36,7 +48,7 @@ export const setHotlineUser = user => dispatch => dispatch({ type: 'SET_HOTLINE_
     promise: new Promise((resolve, reject) => {
       __DEV__ && console.log('SET HOTLINE USER',user);
 
-      // RNHotline.init('f54bba2a-84fa-43c8-afa9-098f3c1aefae', 'fba1b915-fa8b-4c24-bdda-8bac99fcf92a', false)
+      if(!iOS) RNHotline.init('f54bba2a-84fa-43c8-afa9-098f3c1aefae', 'fba1b915-fa8b-4c24-bdda-8bac99fcf92a', false);
         // .then(result => {
 
           // RCT_EXPORT_METHOD(setUser:(NSString *)user_id name:(NSString *)name phone:(NSString *)phone relStatus:(NSString *)relStatus gender:(NSString *)gender image:(NSString *)image thumb:(NSString *)thumb partner_id:(NSString *)partner_id ){
@@ -93,6 +105,7 @@ export const showConvos = () => dispatch => dispatch({ type: 'SHOW_CONVOS',
   }
 })
 
+export const togglePotentialsPage = payload => dispatch => dispatch({ type: 'TOGGLE_POTENTIALS_PAGE', payload })
 
 export const share = payload => dispatch => dispatch({ type: 'SHARE_COUPLE_PIN',
   payload: {
@@ -101,13 +114,13 @@ export const share = payload => dispatch => dispatch({ type: 'SHARE_COUPLE_PIN',
 
       Share.share({
         title: 'Join my couple!',
-        message: messageText,
+        message: `${messageText}`,
         url: `trippple://joincouple/${pin}`,
       }, {
         dialogTitle: 'Send your couple pin'
       })
-      .then(resolve)
-      .catch(reject)
+      .then(ok => resolve(ok))
+      .catch(err => reject(err))
     })
   }
 });

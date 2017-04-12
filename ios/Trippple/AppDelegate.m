@@ -35,7 +35,7 @@
 @import FBSDKCoreKit;
 #import <Bolts/Bolts.h>
 #import "../node_modules/react-native-fcm/ios/RNFIRMessaging.h"
-#import "../node_modules/react-native-splash-screen/ios/SplashScreen.h"
+#import "SplashScreen.h"
 
 @interface AppDelegate() <RCTBridgeDelegate>
 @end
@@ -44,11 +44,6 @@
 
 - (BOOL)application:(__unused UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-//  NSDictionary *initProps = nil;
-//  NSString *_routeUri = [[NSUserDefaults standardUserDefaults] stringForKey:@"route"];
-//  if (_routeUri) {
-//    initProps = @{@"exampleFromAppetizeParams": [NSString stringWithFormat:@"rnuiexplorer://example/%@Example", _routeUri]};
-//  }
 
 
   _bridge = [[RCTBridge alloc] initWithDelegate:self
@@ -93,7 +88,7 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   self.rootViewController = rootViewController;
-    
+
     [FIRApp configure];
     [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
     [UXCam startWithKey:@"4cb7699bd5181ca"];
@@ -118,17 +113,17 @@
 - (NSURL *)sourceURLForBridge:(__unused RCTBridge *)bridge
 {
 NSURL *sourceURL;
- #ifdef DEBUG
-  sourceURL = [NSURL URLWithString:@"http://127.0.0.1:8081/index.ios.bundle?platform=ios&dev=true"];
- #else
-  sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
- #endif
- return sourceURL;
-//  RCTBundleURLProvider *settings = [RCTBundleURLProvider sharedSettings];
-//  settings.jsLocation = @"192.168.0.100";
-//
-//  return [settings jsBundleURLForBundleRoot:@"index.ios"
-//                                                        fallbackResource:nil];
+// #ifdef DEBUG
+//  sourceURL = [NSURL URLWithString:@"http://127.0.0.1:8081/index.ios.bundle?platform=ios&dev=true"];
+// #else
+//  sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+// #endif
+// return sourceURL;
+  RCTBundleURLProvider *settings = [RCTBundleURLProvider sharedSettings];
+  settings.jsLocation = @"192.168.0.100";
+
+  return [settings jsBundleURLForBundleRoot:@"index.ios"
+                                                        fallbackResource:nil];
 //
 }
 

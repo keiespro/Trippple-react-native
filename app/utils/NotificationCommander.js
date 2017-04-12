@@ -1,4 +1,4 @@
-import FCM from 'react-native-fcm';
+import FCM, {FCMEvent} from 'react-native-fcm';
 import { connect } from 'react-redux';
 import React, {Component} from 'react';
 import {View} from 'react-native';
@@ -8,6 +8,8 @@ import colors from './colors'
 import Analytics from './Analytics'
 import ActionMan from '../actions/';
 import Router from '../Router'
+
+console.log(FCMEvent);
 
 
 @withNavigation
@@ -23,13 +25,15 @@ class NotificationCommander extends Component{
   componentDidMount(){
     const dispatch = this.props.dispatch.bind(this);
     const handleAction = this.handleAction.bind(this);
-
-    this.notificationUnsubscribe = FCM.on('notification', (notification, ...x) => {
+    console.log(FCMEvent);
+    this.notificationUnsubscribe = FCM.on(FCMEvent.Notification, (notification, ...x) => {
       __DEV__ && console.log('NOTIFICATION:', notification, x);
-      handleAction(notification, x)
+      if(notification && notification.type){
+        handleAction(notification, x)
+      }
     });
 
-    this.refreshUnsubscribe = FCM.on('refreshToken', token => {
+    this.refreshUnsubscribe = FCM.on(FCMEvent.RefreshToken, token => {
       __DEBUG__ && console.log('TOKEN:', token);
       if(token != this.props.pushToken){
         dispatch(ActionMan.receivePushToken({push_token: token, loggedIn: this.props.user.id ? true : false}))
@@ -47,7 +51,7 @@ class NotificationCommander extends Component{
     FCM.getInitialNotification()
       .then(notification => {
         __DEV__ && console.log(notification);
-        if(notification.type){
+        if(notification && notification.type){
           this.handleAction(notification)
         }
       })
@@ -78,13 +82,15 @@ class NotificationCommander extends Component{
     if(notification.type == 'dispatch'){
       this.props.dispatch(ActionMan[notification.action_creator](notification.action_payload));
     }
+
     if(notification.opened_from_tray){
       this.props.chatOpen ?
         this.props.dispatch(ActionMan.replaceRoute('Chat',{...notification, fromNotification: true})) :
           this.props.dispatch(ActionMan.pushRoute('Chat',{...notification, fromNotification: true}));
 
+    }else{
+      this.props.handleNotification(newNotification);
     }
-    this.props.handleNotification(newNotification);
   }
   render(){
     if(!__DEV__) return false;

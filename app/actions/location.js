@@ -15,24 +15,23 @@ export const getLocation = () => dispatch => dispatch({ type: 'GET_LOCATION',
               if(geo && geo.coords){
                 dispatch({ type: 'GOT_LOCATION', payload: geo.coords})
                 return api.updateUser(geo.coords)
-                        .then(() => { resolve(geo.coords) })
+                        .then((res) => {
+                          __DEV__ && console.log(res, 'UPDATED LOCATION');
+                          resolve(geo.coords)
+                        })
                         .catch(err => {
-                          __DEV__ && console.log(err,'GOT_LOCATION but couldnt update');
-
+                          __DEV__ && console.log(err, 'GOT_LOCATION but couldnt update');
                         })
               }
               return false
             }, err => {
               __DEV__ && console.log(err, 'LOCATION ERR');
-
             }, LOCATION_OPTIONS);
           }
         })
-        .catch(err => {
-          reject(err)
-        })
+        .catch(err => reject(err))
     })
-  },
+  }
 });
 
 
@@ -53,4 +52,13 @@ export const checkLocation = (get) => dispatch => dispatch({ type: 'CHECK_LOCATI
         }
       });
   }),
+});
+
+export const geoIp = () => dispatch => dispatch({ type: 'GEO_IP',
+  payload: new Promise((resolve, reject) => {
+    fetch('http://freegeoip.net/json/')
+      .then(res => res.json())
+      .then(response => resolve(response))
+      .catch(err => reject(err))
+  })
 });

@@ -9,14 +9,14 @@ class AppWrap extends React.Component{
 
   state = {};
     componentDidMount(){
-      if(this.props.navigation.navigators){
+      if(this.props.navigation && this.props.navigation.navigators){
         this.setState({ready:true})
 
       }
     }
   componentWillReceiveProps(nProps){
 
-    if(nProps.navigation.navigators && !this.props.navigation.navigators){
+    if(nProps.navigation && nProps.navigation.navigators && !this.props.navigation || !this.props.navigation.navigators){
       this.setState({ready:true})
     }
   }

@@ -7,6 +7,7 @@ platform :android do
 
   desc "Build android release and upload to google play for production"
   lane :submit do
+    increment_version_code()
     gradle(
       task: 'assemble',
       build_type: 'Release',
@@ -15,10 +16,10 @@ platform :android do
       print_command_output: false
     )
     supply(
-      track: 'alpha',
       skip_upload_images: true,
       skip_upload_screenshots: true,
       skip_upload_metadata: true,
+      apk: "#{lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]}"
 
     )
   end
@@ -76,6 +77,7 @@ platform :ios do
     )
     gym(
       scheme: "Release",
+      clean: false,
       configuration: "Release",
       workspace: 'ios/Trippple.xcworkspace',
       suppress_xcode_output: true

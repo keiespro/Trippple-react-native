@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactNative, {AppRegistry} from 'react-native';
-import ClearDataGate from './app/ClearDataGate'
+import NewBoot from './app/NewBoot'
 
 if(typeof window !== 'undefined' && (__DEV__) && process.env.NODE_ENV !== 'production'){
   console.log('index.IOS.js');
@@ -33,7 +33,7 @@ if(__DEV__){
   ];
 }
 
-const Trippple = (props) => (<ClearDataGate {...props}/>)
+const Trippple = (props) => (<NewBoot {...props}/>)
 
 AppRegistry.registerComponent('Trippple', () => Trippple)
 
