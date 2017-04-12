@@ -42,7 +42,11 @@ class SliderTabBar extends React.Component{
           zIndex:700,
           width: this.props.width / 2,
         }}
-        onPress={this.togglePage.bind(this)}
+        onPress={() => {
+          if(!isTabActive){
+            this.togglePage()
+          }
+        }}
       >
         <View style={[styles.tab,]}>
           <Text

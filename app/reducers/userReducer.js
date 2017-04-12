@@ -4,6 +4,8 @@ export default function userReducer(state = initialState, action) {
 
     switch (action.type) {
 
+    case 'TOGGLE_SHOW_BROWSE_TOOLTIP':
+      return {...state, showBrowseTooltip: false}
     case 'HANDLE_NOTIFICATION_DECOUPLE':
         return {...state, partner: null, couple: null, relationship_status:'single'}
 
@@ -94,4 +96,5 @@ const initialState = {
     // image_url: null,
     // thumb_url: null,
 
+  showBrowseTooltip: true
 };

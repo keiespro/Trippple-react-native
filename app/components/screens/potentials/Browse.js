@@ -1,9 +1,9 @@
 
-import { View, Dimensions, Text, ScrollView, ListView, Platform, NativeModules, RefreshControl, TouchableOpacity, Image } from 'react-native';
+import { View, Dimensions, Text, ScrollView, ListView, Platform, RefreshControl, TouchableOpacity, Image } from 'react-native'
 import _ from 'lodash'
-import React from 'react';
-import { connect } from 'react-redux';
-import {BlurView} from 'react-native-blur';
+import React from 'react'
+import { connect } from 'react-redux'
+import {BlurView} from 'react-native-blur'
 
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
@@ -16,6 +16,21 @@ const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
 
+const Tooltip = () => (
+<View style={{position:'absolute',zIndex: 100, left: 60,top:220,}}>
+  <View style={{padding:10,borderRadius:9,overflow:'hidden',width: 180,height:50,backgroundColor:colors.mediumPurple}}>
+    <Text style={{color:colors.white,fontSize:22,textAlign:'center',fontFamily:'Montserrat'}}>TAP TO LIKE</Text>
+  </View>
+
+  <Image source={require('../chat/assets/TrianglePurple.png')} style={{
+    alignSelf:'center',top:-10,width:20,height:23,
+    transform: [
+      {rotate: "270deg"}
+    ]
+  }}/>
+</View>
+)
+
 class Browse extends React.Component{
 
   constructor(props) {
@@ -27,6 +42,13 @@ class Browse extends React.Component{
       currentFilter: 'Newest',
 
     };
+  }
+  componentDidMount(){
+    if(this.props.showBrowseTooltip){
+      setTimeout(() => {
+        this.props.dispatch({ type: 'TOGGLE_SHOW_BROWSE_TOOLTIP', payload: {  } })
+      },8000)
+    }
   }
   componentWillReceiveProps(nProps){
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2 && r1.liked !== r2.liked });
@@ -57,6 +79,7 @@ class Browse extends React.Component{
   }
 
   renderRow(rowData, sectionID, rowID, highlightRow){
+  console.log('render row')
     const {user, partner} = rowData;
     const isLiked = user ? user.liked : true;
     const img = (user && user.image_url) || (partner && partner.image_url);
@@ -79,6 +102,8 @@ class Browse extends React.Component{
           }
         }]}
       >
+
+
         <TouchableOpacity
           style={{
             borderRadius: 11,
@@ -155,6 +180,7 @@ class Browse extends React.Component{
   }
 
   render(){
+    console.log('render')
     const tabs = ['Newest', 'Popular', 'Nearby']
     return (
       <View style={{marginTop: 66}}>
@@ -214,6 +240,9 @@ class Browse extends React.Component{
             ))}
           </ScrollView>
         </BlurView>
+
+        {this.props.users && this.props.users.length > 0 && this.props.showBrowseTooltip && <Tooltip/>}
+
         <ListView
           contentContainerStyle={{
             flexWrap: 'wrap',
@@ -224,8 +253,8 @@ class Browse extends React.Component{
             paddingHorizontal: 5,
             alignSelf: 'stretch',
           }}
-          style={{flexDirection: 'column', alignSelf: 'center', paddingTop:65
-          }}
+          enableEmptySections={true}
+          style={{flexDirection: 'column', alignSelf: 'center', paddingTop:65 }}
           dataSource={this.state.dataSource}
           renderRow={this.renderRow.bind(this)}
           onEndReached={this._onEndReached.bind(this)}
@@ -248,7 +277,8 @@ const mapStateToProps = (state, ownProps) => ({
   user: state.user,
   refreshing: state.ui.refreshingBrowse,
   page: state.ui.browsePage,
-  likes: {...state.swipeQueue, ...state.swipeHistory}
+  likes: {...state.swipeQueue, ...state.swipeHistory},
+  showBrowseTooltip: state.user.showBrowseTooltip
 })
 
 const mapDispatchToProps = (dispatch) => ({ dispatch })
