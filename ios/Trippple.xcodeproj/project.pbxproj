@@ -34,6 +34,7 @@
 		AC5E97B01E9EA99B00DF83A5 /* libRNFIRMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC5E97A51E9EA96300DF83A5 /* libRNFIRMessaging.a */; };
 		AC5E97B11E9EA9BB00DF83A5 /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACD739421E9EA7E700680F37 /* libRCTSettings.a */; };
 		AC5E97B31E9EA9E100DF83A5 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACD7392D1E9EA7D700680F37 /* libRCTText.a */; };
+		AC5E97E61E9EB15200DF83A5 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC5E97E31E9EB13F00DF83A5 /* libRCTWebSocket.a */; };
 		AC758A7B1CF6AC2400A6A9C0 /* GoogleService-Info-old.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC758A7A1CF6AC2400A6A9C0 /* GoogleService-Info-old.plist */; };
 		AC8B84131E5FEACC00965CF6 /* libRNUXCam.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC4886581E44E6B600D0EC0C /* libRNUXCam.a */; };
 		AC8B84401E5FEAE500965CF6 /* libFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC4885EC1E44E6B600D0EC0C /* libFirebase.a */; };
@@ -72,7 +73,6 @@
 		ACD739681E9EA80900680F37 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACD7391D1E9EA7CE00680F37 /* libRCTGeolocation.a */; };
 		ACD739691E9EA80900680F37 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACD738EE1E9EA78400680F37 /* libRCTImage.a */; };
 		ACD7396B1E9EA80900680F37 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACD739151E9EA7BB00680F37 /* libRCTNetwork.a */; };
-		ACD7396E1E9EA80900680F37 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACD739241E9EA7D200680F37 /* libRCTWebSocket.a */; };
 		ACD7396F1E9EA80900680F37 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACD739511E9EA7EC00680F37 /* libReact.a */; };
 		ACD739701E9EA80900680F37 /* libyoga.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACD739551E9EA7EC00680F37 /* libyoga.a */; };
 		ACD739721E9EA83200680F37 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACD738E11E9EA6D700680F37 /* libRNDeviceInfo.a */; };
@@ -192,6 +192,20 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNFIRMessaging;
 		};
+		AC5E97E21E9EB13F00DF83A5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC5E97DD1E9EB13F00DF83A5 /* RCTWebSocket.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3C86DF461ADF2C930047B81A;
+			remoteInfo = RCTWebSocket;
+		};
+		AC5E97E41E9EB13F00DF83A5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC5E97DD1E9EB13F00DF83A5 /* RCTWebSocket.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2D2A28881D9B049200D4039D;
+			remoteInfo = "RCTWebSocket-tvOS";
+		};
 		AC8B84341E5FEACD00965CF6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AC4885BF1E44E6B500D0EC0C /* ReactNativePermissions.xcodeproj */;
@@ -289,20 +303,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RCTGeolocation;
-		};
-		ACD739231E9EA7D200680F37 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ACD7391E1E9EA7D200680F37 /* RCTWebSocket.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3C86DF461ADF2C930047B81A;
-			remoteInfo = RCTWebSocket;
-		};
-		ACD739251E9EA7D200680F37 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ACD7391E1E9EA7D200680F37 /* RCTWebSocket.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 2D2A28881D9B049200D4039D;
-			remoteInfo = "RCTWebSocket-tvOS";
 		};
 		ACD7392C1E9EA7D700680F37 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -486,6 +486,7 @@
 		AC55AD6C1CFE73B600326ED9 /* T3Theme.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = T3Theme.plist; sourceTree = "<group>"; };
 		AC5B38661D35D1A900E13729 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		AC5B38861D35D2C900E13729 /* FBSnapshotTestCase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSnapshotTestCase.framework; path = "Pods/../build/Debug-iphoneos/FBSnapshotTestCase/FBSnapshotTestCase.framework"; sourceTree = "<group>"; };
+		AC5E97DD1E9EB13F00DF83A5 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		AC5ECE761DCCDD1600810C69 /* libMixpanel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMixpanel.a; path = "Pods/../build/Debug-iphoneos/Mixpanel/libMixpanel.a"; sourceTree = "<group>"; };
 		AC758A7A1CF6AC2400A6A9C0 /* GoogleService-Info-old.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-old.plist"; sourceTree = "<group>"; };
 		AC758A9C1CF6B89E00A6A9C0 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = ../main.jsbundle; sourceTree = "<group>"; };
@@ -547,7 +548,6 @@
 		ACD739091E9EA7B500680F37 /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		ACD7390F1E9EA7BB00680F37 /* RCTNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTNetwork.xcodeproj; path = "../node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj"; sourceTree = "<group>"; };
 		ACD739181E9EA7CD00680F37 /* RCTGeolocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTGeolocation.xcodeproj; path = "../node_modules/react-native/Libraries/Geolocation/RCTGeolocation.xcodeproj"; sourceTree = "<group>"; };
-		ACD7391E1E9EA7D200680F37 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		ACD739271E9EA7D700680F37 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		ACD739301E9EA7DC00680F37 /* RNNetworkInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNNetworkInfo.xcodeproj; path = "../node_modules/react-native-network-info/ios/RNNetworkInfo.xcodeproj"; sourceTree = "<group>"; };
 		ACD739361E9EA7E200680F37 /* RCTContacts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTContacts.xcodeproj; path = "../node_modules/react-native-contacts/ios/RCTContacts.xcodeproj"; sourceTree = "<group>"; };
@@ -572,6 +572,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC5E97E61E9EB15200DF83A5 /* libRCTWebSocket.a in Frameworks */,
 				AC5E97B31E9EA9E100DF83A5 /* libRCTText.a in Frameworks */,
 				AC5E97B11E9EA9BB00DF83A5 /* libRCTSettings.a in Frameworks */,
 				AC5E97AF1E9EA99B00DF83A5 /* libRNAppInfo.a in Frameworks */,
@@ -591,7 +592,6 @@
 				ACD739681E9EA80900680F37 /* libRCTGeolocation.a in Frameworks */,
 				ACD739691E9EA80900680F37 /* libRCTImage.a in Frameworks */,
 				ACD7396B1E9EA80900680F37 /* libRCTNetwork.a in Frameworks */,
-				ACD7396E1E9EA80900680F37 /* libRCTWebSocket.a in Frameworks */,
 				ACD7396F1E9EA80900680F37 /* libReact.a in Frameworks */,
 				ACD739701E9EA80900680F37 /* libyoga.a in Frameworks */,
 				ACD738761E9EA64F00680F37 /* libRCTVibration.a in Frameworks */,
@@ -644,13 +644,13 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				AC5E97DD1E9EB13F00DF83A5 /* RCTWebSocket.xcodeproj */,
 				ACD73A051E9EA88400680F37 /* RCTLinking.xcodeproj */,
 				ACD739451E9EA7EC00680F37 /* React.xcodeproj */,
 				ACD7393C1E9EA7E600680F37 /* RCTSettings.xcodeproj */,
 				ACD739361E9EA7E200680F37 /* RCTContacts.xcodeproj */,
 				ACD739301E9EA7DC00680F37 /* RNNetworkInfo.xcodeproj */,
 				ACD739271E9EA7D700680F37 /* RCTText.xcodeproj */,
-				ACD7391E1E9EA7D200680F37 /* RCTWebSocket.xcodeproj */,
 				ACD739181E9EA7CD00680F37 /* RCTGeolocation.xcodeproj */,
 				ACD7390F1E9EA7BB00680F37 /* RCTNetwork.xcodeproj */,
 				ACD739091E9EA7B500680F37 /* RCTCameraRoll.xcodeproj */,
@@ -885,6 +885,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		AC5E97DE1E9EB13F00DF83A5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AC5E97E31E9EB13F00DF83A5 /* libRCTWebSocket.a */,
+				AC5E97E51E9EB13F00DF83A5 /* libRCTWebSocket-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		AC9D8D321D3F34FF009D4C78 /* TripppleSnapshotTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -1012,15 +1021,6 @@
 			isa = PBXGroup;
 			children = (
 				ACD7391D1E9EA7CE00680F37 /* libRCTGeolocation.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		ACD7391F1E9EA7D200680F37 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				ACD739241E9EA7D200680F37 /* libRCTWebSocket.a */,
-				ACD739261E9EA7D200680F37 /* libRCTWebSocket-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1274,8 +1274,8 @@
 					ProjectRef = AC4885B61E44E6B500D0EC0C /* RCTVibration.xcodeproj */;
 				},
 				{
-					ProductGroup = ACD7391F1E9EA7D200680F37 /* Products */;
-					ProjectRef = ACD7391E1E9EA7D200680F37 /* RCTWebSocket.xcodeproj */;
+					ProductGroup = AC5E97DE1E9EB13F00DF83A5 /* Products */;
+					ProjectRef = AC5E97DD1E9EB13F00DF83A5 /* RCTWebSocket.xcodeproj */;
 				},
 				{
 					ProductGroup = ACD739461E9EA7EC00680F37 /* Products */;
@@ -1452,6 +1452,20 @@
 			remoteRef = AC5E97A41E9EA96300DF83A5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		AC5E97E31E9EB13F00DF83A5 /* libRCTWebSocket.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTWebSocket.a;
+			remoteRef = AC5E97E21E9EB13F00DF83A5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AC5E97E51E9EB13F00DF83A5 /* libRCTWebSocket-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRCTWebSocket-tvOS.a";
+			remoteRef = AC5E97E41E9EB13F00DF83A5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		AC8B84351E5FEACD00965CF6 /* libReactNativePermissions.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1541,20 +1555,6 @@
 			fileType = archive.ar;
 			path = libRCTGeolocation.a;
 			remoteRef = ACD7391C1E9EA7CE00680F37 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		ACD739241E9EA7D200680F37 /* libRCTWebSocket.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTWebSocket.a;
-			remoteRef = ACD739231E9EA7D200680F37 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		ACD739261E9EA7D200680F37 /* libRCTWebSocket-tvOS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libRCTWebSocket-tvOS.a";
-			remoteRef = ACD739251E9EA7D200680F37 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		ACD7392D1E9EA7D700680F37 /* libRCTText.a */ = {
