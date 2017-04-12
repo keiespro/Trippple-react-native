@@ -21,6 +21,7 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
+ios/Build2
 
 # Android/IntelliJ
 #
@@ -52,9 +53,10 @@ android/app/libs
 fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
-ios/fastlane/report.xml
-ios/fastlane/Preview.html
-ios/fastlane/screenshots
+
+#ios
+ios/Build
+ios/Build2
 
 *.mobileprovision
 *.cer

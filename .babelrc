@@ -1,7 +1,3 @@
 {
- "presets": ["react-native-stage-0/decorator-support"],
- "plugins": [
-    "babel-remove-process-env-assignment",
-    "transform-inline-environment-variables"
-  ]
+"presets": ["react-native"]
 }

@@ -46,20 +46,20 @@ android_library(
 
 android_build_config(
   name = 'build_config',
-  package = 'co.trippple',
+  package = 'com.trippple',
 )
 
 android_resource(
   name = 'res',
   res = 'src/main/res',
-  package = 'co.trippple',
+  package = 'com.trippple',
 )
 
 android_binary(
-  name = 'Trippple',
-  package_type = 'release',
+  name = 'app',
+  package_type = 'debug',
   manifest = 'src/main/AndroidManifest.xml',
-  keystore = '//android/keystores:release',
+  keystore = '//android/keystores:debug',
   deps = [
     ':app-code',
   ],

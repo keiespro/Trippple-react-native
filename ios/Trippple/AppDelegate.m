@@ -16,13 +16,13 @@
 
 #import "AppDelegate.h"
 
-#import "RCTBridge.h"
-#import "RCTBundleURLProvider.h"
-#import "RCTJavaScriptLoader.h"
-#import "RCTLinkingManager.h"
-#import "RCTRootView.h"
+#import <React/RCTBridge.h>
+#import <React/RCTBundleURLProvider.h>
+#import <React/RCTRootView.h>
+#import <React/RCTJavaScriptLoader.h>
+#import <React/RCTLinkingManager.h>
 
-#import "RCTPushNotificationManager.h"
+#import <React/RCTPushNotificationManager.h>
 
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
@@ -97,13 +97,10 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   self.rootViewController = rootViewController;
-
-
-
-  [FIRApp configure];
-  [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
-
-  [UXCam startWithKey:@"4cb7699bd5181ca"];
+    
+    [FIRApp configure];
+    [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
+    [UXCam startWithKey:@"4cb7699bd5181ca"];
 
     // NEEDED?
 
@@ -126,7 +123,7 @@
 {
 NSURL *sourceURL;
  #ifdef DEBUG
-  sourceURL = [NSURL URLWithString:@"http://192.168.0.100:8081/index.ios.bundle?platform=ios&dev=true"];
+  sourceURL = [NSURL URLWithString:@"http://127.0.0.1:8081/index.ios.bundle?platform=ios&dev=true"];
  #else
   sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
  #endif
@@ -154,39 +151,15 @@ NSURL *sourceURL;
 }
 
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler
-{
-  [[NSNotificationCenter defaultCenter] postNotificationName:FCMNotificationReceived object:self userInfo:notification.request.content.userInfo];
-  if([[notification.request.content.userInfo valueForKey:@"show_in_foreground"] isEqual:@YES]){
-    completionHandler(UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionSound);
-  }else{
-    completionHandler(UNNotificationPresentationOptionNone);
-  }
-
-}
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler{
+    [RNFIRMessaging willPresentNotification:notification withCompletionHandler:completionHandler];
+    }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler
 {
-  NSDictionary* userInfo = [[NSMutableDictionary alloc] initWithDictionary: response.notification.request.content.userInfo];
-  [userInfo setValue:@YES forKey:@"opened_from_tray"];
-  [[NSNotificationCenter defaultCenter] postNotificationName:FCMNotificationReceived object:self userInfo:userInfo];
-}
-#else
--(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
-  [[NSNotificationCenter defaultCenter] postNotificationName:FCMNotificationReceived object:self userInfo:notification.userInfo];
+    [RNFIRMessaging didReceiveNotificationResponse:response withCompletionHandler:completionHandler];
 }
 #endif
-
-
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler{
-  [[NSNotificationCenter defaultCenter] postNotificationName:FCMNotificationReceived object:self userInfo:userInfo];
-
-  if ([[Hotline sharedInstance]isHotlineNotification:userInfo]) {
-    [[Hotline sharedInstance]handleRemoteNotification:userInfo andAppstate:application.applicationState];
-  }
-  // [RCTPushNotificationManager didReceiveRemoteNotification:notification];
-  completionHandler(UIBackgroundFetchResultNoData);
-}
 
 
 
