@@ -7,12 +7,13 @@ import promiseMiddleware from 'redux-promise-middleware';
 import createLogger from 'redux-logger';
 import {persistStore, autoRehydrate, } from 'redux-persist'
 import {REHYDRATE} from 'redux-persist/constants'
+import { composeWithDevTools } from 'redux-devtools-instrument'
+import immutableTransform from 'redux-persist-transform-immutable'
 
 import { createNavigationEnabledStore } from '@exponent/ex-navigation'
 import ActionMan from './actions/'
 import createReducer from './reducers/';
 import createPrefetcher from './rn-redux-image-prefetch'
-import { composeWithDevTools } from 'redux-devtools-instrument'
 
 const logger = createLogger({
   diff: true,
@@ -84,26 +85,16 @@ function configureStore(initialState = ({})) {
         ),
       );
 
-
-  //   storage: AsyncStorage, blacklist: ['ui', 'potentials']
-  // }).purge([])
-    //
     const persistor = persistStore(store, {
       storage: AsyncStorage,
-      blacklist: ['appNav','navigation','ui', 'potentials']
+      blacklist: ['appNav','navigation','ui', 'potentials'],
+      transforms: [immutableTransform({
+        whitelist: ['browse']
+      })]
     })
-    persistor.purge(['navigation','browse'])
+    persistor.purge(['ui','navigation'])
 
-    // AsyncStorage.getAllKeys().then(k => {
-    //   console.log(k);
-    //   AsyncStorage.multiGet(k).then(r => {
-    //     console.log(r)
-    //     persistor.rehydrate(r)
-    //
-    //   })
-    // })
-
-    if (module.hot) {
+    if(module.hot) {
       module.hot.accept(() => {
         const nextRootReducer = require('./reducers/index').default;
         store.replaceReducer(nextRootReducer());

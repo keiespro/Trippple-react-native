@@ -21,11 +21,11 @@ export default function matchesListReducer(state = initialState, action) {
 
   case 'GET_NEW_MATCHES_FULFILLED':
     if( !action.payload ) return state;
-    matches = Object.values(action.payload);
+    matches = action.payload
 
     return {
       ...state,
-      newMatches: _.filter(matches, m => Object.keys(m.users).length >= 3)
+      newMatches: _.filter(matches, m => Object.keys(m.users).length >= 1)
     }
 
 

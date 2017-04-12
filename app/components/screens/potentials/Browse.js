@@ -39,36 +39,48 @@ class Browse extends React.Component{
     this.state = {
       users: props.users,
       dataSource: ds.cloneWithRows(props.users.reverse()),
-      currentFilter: 'Newest',
 
     };
   }
   componentDidMount(){
     if(this.props.showBrowseTooltip){
       setTimeout(() => {
-        this.props.dispatch({ type: 'TOGGLE_SHOW_BROWSE_TOOLTIP', payload: {  } })
+        this.props.dispatch({ type: 'TOGGLE_SHOW_BROWSE_TOOLTIP', payload: {  }})
       },8000)
     }
-  }
-  componentWillReceiveProps(nProps){
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2 && r1.liked !== r2.liked });
-    this.setState({
-      users: nProps.users,
-      dataSource: ds.cloneWithRows(nProps.users.reverse()),
-    });
+    this.props.dispatch(ActionMan.fetchBrowse({coords: {lat: this.props.user.latitude, lng: this.props.user.longitude },filter: this.props.currentFilter, page: 0}))
 
   }
+  componentWillReceiveProps(nProps){
+    if(nProps.currentFilter != this.props.currentFilter || nProps.users.length != this.props.users.length){
+
+      const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2 && r1.liked !== r2.liked });
+      this.setState({
+        users: nProps.users,
+        dataSource: ds.cloneWithRows(nProps.users.reverse()),
+      });
+    }
+
+    if(nProps.currentFilter != this.props.currentFilter){
+      this.props.dispatch(ActionMan.fetchBrowse({coords: {lat: this.props.user.latitude,lng: this.props.user.longitude },filter: this.props.currentFilter, page: this.props[`page${this.props.currentFilter}`]}))
+    }
+  }
+
   _onRefresh() {
-    this.props.dispatch(ActionMan.fetchBrowse({filter: this.state.currentFilter, page: this.props.page}))
+    if(this.props.refreshing) return;
+
+    this.props.dispatch(ActionMan.fetchBrowse({coords: {lat: this.props.user.latitude,lng: this.props.user.longitude },filter: this.props.currentFilter, page: this.props[`page${this.props.currentFilter}`]}))
   }
 
   _onEndReached(){
-    this.props.dispatch(ActionMan.fetchBrowse({filter: this.state.currentFilter, page: this.props.page + 1}))
+    if(this.props.refreshing) return;
+    this.props.dispatch(ActionMan.fetchBrowse({coords: {lat: this.props.user.latitude,lng: this.props.user.longitude },filter: this.props.currentFilter, page: this.props[`page${this.props.currentFilter}`] + 1}))
   }
 
   pressRow(rowData){
     this.props.dispatch(ActionMan.pushRoute('UserProfile', { potential: rowData, user: this.props.user, profileVisible: true}));
   }
+
   toggleLike(rowData){
     this.props.dispatch(ActionMan.sendLike({
       likeUserId: rowData.user.id,
@@ -79,7 +91,7 @@ class Browse extends React.Component{
   }
 
   renderRow(rowData, sectionID, rowID, highlightRow){
-  console.log('render row')
+
     const {user, partner} = rowData;
     const isLiked = user ? user.liked : true;
     const img = (user && user.image_url) || (partner && partner.image_url);
@@ -202,8 +214,7 @@ class Browse extends React.Component{
               backgroundColor:'transparent'
             }}
             contentContainerStyle={{
-              alignItems: 'center',
-              justifyContent: 'space-between',
+              alignItems: 'stretch',
               minWidth: DeviceWidth,
               backgroundColor:'transparent',
 
@@ -216,23 +227,21 @@ class Browse extends React.Component{
                 key={`tab${t}`}
                 style={{
                   overflow: 'hidden',
-                  paddingHorizontal: 20,
                   height: 45,
                   flexGrow: 1,
+                  alignSelf:'stretch',
                   backgroundColor:'transparent',
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}
                 onPress={() => {
-                  this.setState({
-                    currentFilter: t
-                  })
+                  this.props.dispatch({ type: 'CHANGE_BROWSE_FILTER', payload: t.toLowerCase() })
                 }}
               >
                 <Text
                   style={{
                     color: '#fff',
-                    opacity: t == this.state.currentFilter ? 1 : 0.6,
+                    opacity: t.toLowerCase() == this.props.currentFilter ? 1 : 0.6,
                     fontFamily: 'Montserrat'
                   }}
                 >{t.toUpperCase()}</Text>
@@ -253,12 +262,15 @@ class Browse extends React.Component{
             paddingHorizontal: 5,
             alignSelf: 'stretch',
           }}
-          enableEmptySections={true}
-          style={{flexDirection: 'column', alignSelf: 'center', paddingTop:65 }}
+          initialListSize={6}
+          pageSize={6}
+          scrollRenderAheadDistance={400}
+          enableEmptySections
+          style={{flexDirection: 'column', alignSelf: 'center', paddingTop: 65 }}
           dataSource={this.state.dataSource}
           renderRow={this.renderRow.bind(this)}
           onEndReached={this._onEndReached.bind(this)}
-          onEndReachedThreshold={1000}
+          onEndReachedThreshold={1800}
           refreshControl={
             <RefreshControl
               refreshing={this.props.refreshing}
@@ -273,10 +285,13 @@ class Browse extends React.Component{
 
 const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
-  users: Object.values(state.browse),
+  users: Object.values(state.browse.toJS()[state.ui.browseFilter]),
+  currentFilter: state.ui.browseFilter,
   user: state.user,
   refreshing: state.ui.refreshingBrowse,
-  page: state.ui.browsePage,
+  pagenewest: state.ui.browsePagenewest,
+  pagenearby: state.ui.browsePagenearby,
+  pagepopular: state.ui.browsePagepopular,
   likes: {...state.swipeQueue, ...state.swipeHistory},
   showBrowseTooltip: state.user.showBrowseTooltip
 })
