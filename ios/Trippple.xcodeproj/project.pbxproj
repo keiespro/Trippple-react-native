@@ -23,7 +23,11 @@
 		AC0549F51C671C8B0072E9E7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0549F41C671C8B0072E9E7 /* SystemConfiguration.framework */; };
 		AC0549F71C671C970072E9E7 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0549F61C671C970072E9E7 /* libz.tbd */; };
 		AC0549F91C671CAD0072E9E7 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0549F81C671CAD0072E9E7 /* libsqlite3.0.tbd */; };
-		AC48865C1E44E6D600D0EC0C /* libFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC4885EC1E44E6B600D0EC0C /* libFirebase.a */; };
+		AC12B79B1E9E9F3A0067ECB4 /* libcxxreact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC12B7941E9E9F3A0067ECB4 /* libcxxreact.a */; };
+		AC12B79C1E9E9F3A0067ECB4 /* libjschelpers.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC12B7981E9E9F3A0067ECB4 /* libjschelpers.a */; };
+		AC12B79D1E9E9F3A0067ECB4 /* libyoga.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC12B7901E9E9F3A0067ECB4 /* libyoga.a */; };
+		AC12B81E1E9EA1480067ECB4 /* libFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC12B7F01E9EA13F0067ECB4 /* libFirebase.a */; };
+		AC12B8201E9EA1480067ECB4 /* libProtobuf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC12B81F1E9EA1480067ECB4 /* libProtobuf.a */; };
 		AC48865D1E44E6D600D0EC0C /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC4885EF1E44E6B600D0EC0C /* libRCTActionSheet.a */; };
 		AC48865E1E44E6D600D0EC0C /* libRCTAdSupport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC4885F21E44E6B600D0EC0C /* libRCTAdSupport.a */; };
 		AC48865F1E44E6D600D0EC0C /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC4885F61E44E6B600D0EC0C /* libRCTAnimation.a */; };
@@ -85,9 +89,51 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		AC4885EB1E44E6B600D0EC0C /* PBXContainerItemProxy */ = {
+		AC12B78F1E9E9F3A0067ECB4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = AC4885891E44E6B400D0EC0C /* Firebase.xcodeproj */;
+			containerPortal = AC4885BC1E44E6B500D0EC0C /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3C059A1DE3340900C268FA;
+			remoteInfo = yoga;
+		};
+		AC12B7911E9E9F3A0067ECB4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC4885BC1E44E6B500D0EC0C /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3C06751DE3340C00C268FA;
+			remoteInfo = "yoga-tvOS";
+		};
+		AC12B7931E9E9F3A0067ECB4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC4885BC1E44E6B500D0EC0C /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3CD9251DE5FBEC00167DC4;
+			remoteInfo = cxxreact;
+		};
+		AC12B7951E9E9F3A0067ECB4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC4885BC1E44E6B500D0EC0C /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3CD9321DE5FBEE00167DC4;
+			remoteInfo = "cxxreact-tvOS";
+		};
+		AC12B7971E9E9F3A0067ECB4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC4885BC1E44E6B500D0EC0C /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3CD90B1DE5FBD600167DC4;
+			remoteInfo = jschelpers;
+		};
+		AC12B7991E9E9F3A0067ECB4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC4885BC1E44E6B500D0EC0C /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3CD9181DE5FBD800167DC4;
+			remoteInfo = "jschelpers-tvOS";
+		};
+		AC12B7EF1E9EA13F0067ECB4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC12B7EB1E9EA13E0067ECB4 /* Firebase.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = D8D9DB831C6D03DB009FBC0E;
 			remoteInfo = Firebase;
@@ -399,10 +445,11 @@
 		AC0549F61C671C970072E9E7 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		AC0549F81C671CAD0072E9E7 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		AC11AC821CE7CE7B001B6FB3 /* Trippple-PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Trippple-PrefixHeader.pch"; sourceTree = "<group>"; };
+		AC12B7EB1E9EA13E0067ECB4 /* Firebase.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Firebase.xcodeproj; path = "../node_modules/react-native-firebase3/ios/Firebase.xcodeproj"; sourceTree = "<group>"; };
+		AC12B81F1E9EA1480067ECB4 /* libProtobuf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libProtobuf.a; path = "Build2/Products/Debug-iphonesimulator/Protobuf/libProtobuf.a"; sourceTree = "<group>"; };
 		AC1599541DEE7B65002667A7 /* libMixpanel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMixpanel.a; path = "Build/Products/Debug-iphonesimulator/Mixpanel/libMixpanel.a"; sourceTree = "<group>"; };
 		AC3C4BED1D484BC000A1EC73 /* AccountKitStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AccountKitStrings.bundle; path = ../../../../Documents/FacebookSDK/AccountKitStrings.bundle; sourceTree = "<group>"; };
 		AC3C4BEE1D484BC000A1EC73 /* FacebookSDKStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = FacebookSDKStrings.bundle; path = ../../../../Documents/FacebookSDK/FacebookSDKStrings.bundle; sourceTree = "<group>"; };
-		AC4885891E44E6B400D0EC0C /* Firebase.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Firebase.xcodeproj; path = "../node_modules/react-native-firebase3/ios/Firebase.xcodeproj"; sourceTree = "<group>"; };
 		AC48858C1E44E6B400D0EC0C /* RCTActionSheet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTActionSheet.xcodeproj; path = "../node_modules/react-native/Libraries/ActionSheetIOS/RCTActionSheet.xcodeproj"; sourceTree = "<group>"; };
 		AC48858F1E44E6B400D0EC0C /* RCTAdSupport.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAdSupport.xcodeproj; path = "../node_modules/react-native/Libraries/AdSupport/RCTAdSupport.xcodeproj"; sourceTree = "<group>"; };
 		AC4885921E44E6B400D0EC0C /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
@@ -508,6 +555,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC12B8201E9EA1480067ECB4 /* libProtobuf.a in Frameworks */,
+				AC12B81E1E9EA1480067ECB4 /* libFirebase.a in Frameworks */,
+				AC12B79B1E9E9F3A0067ECB4 /* libcxxreact.a in Frameworks */,
+				AC12B79C1E9E9F3A0067ECB4 /* libjschelpers.a in Frameworks */,
+				AC12B79D1E9E9F3A0067ECB4 /* libyoga.a in Frameworks */,
 				AC4886EC1E44EAB600D0EC0C /* libRCTFBSDK.a in Frameworks */,
 				AC4886ED1E44EAB600D0EC0C /* libRCTGoogleAnalyticsBridge.a in Frameworks */,
 				AC4886EE1E44EAB600D0EC0C /* libRNBlur.a in Frameworks */,
@@ -516,7 +568,6 @@
 				AC4886831E44E76800D0EC0C /* libFBSDKCoreKit.a in Frameworks */,
 				AC4886841E44E76800D0EC0C /* libFBSDKLoginKit.a in Frameworks */,
 				AC4886851E44E76800D0EC0C /* libFBSDKShareKit.a in Frameworks */,
-				AC48865C1E44E6D600D0EC0C /* libFirebase.a in Frameworks */,
 				AC48865D1E44E6D600D0EC0C /* libRCTActionSheet.a in Frameworks */,
 				AC48865E1E44E6D600D0EC0C /* libRCTAdSupport.a in Frameworks */,
 				AC48865F1E44E6D600D0EC0C /* libRCTAnimation.a in Frameworks */,
@@ -578,11 +629,11 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				AC12B7EB1E9EA13E0067ECB4 /* Firebase.xcodeproj */,
 				AC4886E61E44E9F800D0EC0C /* RCTGoogleAnalyticsBridge.xcodeproj */,
 				AC4886E01E44E94100D0EC0C /* RNBlur.xcodeproj */,
 				AC4886DA1E44E89000D0EC0C /* SplashScreen.xcodeproj */,
 				AC4886781E44E75900D0EC0C /* RCTFBSDK.xcodeproj */,
-				AC4885891E44E6B400D0EC0C /* Firebase.xcodeproj */,
 				AC48858C1E44E6B400D0EC0C /* RCTActionSheet.xcodeproj */,
 				AC48858F1E44E6B400D0EC0C /* RCTAdSupport.xcodeproj */,
 				AC4885921E44E6B400D0EC0C /* RCTAnimation.xcodeproj */,
@@ -650,6 +701,7 @@
 		A999B3CF69585EF60C549767 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AC12B81F1E9EA1480067ECB4 /* libProtobuf.a */,
 				AC48867E1E44E76800D0EC0C /* libBolts.a */,
 				AC48867F1E44E76800D0EC0C /* libFBSDKCoreKit.a */,
 				AC4886801E44E76800D0EC0C /* libFBSDKLoginKit.a */,
@@ -690,10 +742,10 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		AC48858A1E44E6B400D0EC0C /* Products */ = {
+		AC12B7EC1E9EA13E0067ECB4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AC4885EC1E44E6B600D0EC0C /* libFirebase.a */,
+				AC12B7F01E9EA13F0067ECB4 /* libFirebase.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -822,7 +874,13 @@
 			isa = PBXGroup;
 			children = (
 				AC4886381E44E6B600D0EC0C /* libReact.a */,
-				AC48863A1E44E6B600D0EC0C /* libReact-tvOS.a */,
+				AC48863A1E44E6B600D0EC0C /* libReact.a */,
+				AC12B7901E9E9F3A0067ECB4 /* libyoga.a */,
+				AC12B7921E9E9F3A0067ECB4 /* libyoga.a */,
+				AC12B7941E9E9F3A0067ECB4 /* libcxxreact.a */,
+				AC12B7961E9E9F3A0067ECB4 /* libcxxreact.a */,
+				AC12B7981E9E9F3A0067ECB4 /* libjschelpers.a */,
+				AC12B79A1E9E9F3A0067ECB4 /* libjschelpers.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1122,8 +1180,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = AC48858A1E44E6B400D0EC0C /* Products */;
-					ProjectRef = AC4885891E44E6B400D0EC0C /* Firebase.xcodeproj */;
+					ProductGroup = AC12B7EC1E9EA13E0067ECB4 /* Products */;
+					ProjectRef = AC12B7EB1E9EA13E0067ECB4 /* Firebase.xcodeproj */;
 				},
 				{
 					ProductGroup = AC48858D1E44E6B400D0EC0C /* Products */;
@@ -1255,17 +1313,59 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		AC12B7901E9E9F3A0067ECB4 /* libyoga.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libyoga.a;
+			remoteRef = AC12B78F1E9E9F3A0067ECB4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AC12B7921E9E9F3A0067ECB4 /* libyoga.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libyoga.a;
+			remoteRef = AC12B7911E9E9F3A0067ECB4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AC12B7941E9E9F3A0067ECB4 /* libcxxreact.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libcxxreact.a;
+			remoteRef = AC12B7931E9E9F3A0067ECB4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AC12B7961E9E9F3A0067ECB4 /* libcxxreact.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libcxxreact.a;
+			remoteRef = AC12B7951E9E9F3A0067ECB4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AC12B7981E9E9F3A0067ECB4 /* libjschelpers.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libjschelpers.a;
+			remoteRef = AC12B7971E9E9F3A0067ECB4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AC12B79A1E9E9F3A0067ECB4 /* libjschelpers.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libjschelpers.a;
+			remoteRef = AC12B7991E9E9F3A0067ECB4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AC12B7F01E9EA13F0067ECB4 /* libFirebase.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libFirebase.a;
+			remoteRef = AC12B7EF1E9EA13F0067ECB4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		AC1599E91DEF500D002667A7 /* libRNUXCam.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libRNUXCam.a;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AC4885EC1E44E6B600D0EC0C /* libFirebase.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libFirebase.a;
-			remoteRef = AC4885EB1E44E6B600D0EC0C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		AC4885EF1E44E6B600D0EC0C /* libRCTActionSheet.a */ = {
@@ -1429,10 +1529,10 @@
 			remoteRef = AC4886371E44E6B600D0EC0C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AC48863A1E44E6B600D0EC0C /* libReact-tvOS.a */ = {
+		AC48863A1E44E6B600D0EC0C /* libReact.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = "libReact-tvOS.a";
+			path = libReact.a;
 			remoteRef = AC4886391E44E6B600D0EC0C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -1753,14 +1853,11 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/Trippple\"",
-					"\"$(SRCROOT)/Trippple\"",
-					"\"$(SRCROOT)/Trippple\"",
 					"$(PROJECT_DIR)/build/Release-iphoneos/Bolts",
 					"$(PROJECT_DIR)/build/Release-iphoneos/FBSDKCoreKit",
 					"$(PROJECT_DIR)/build/Release-iphoneos/FBSDKLoginKit",
 					"$(PROJECT_DIR)/build/Release-iphoneos/FBSDKShareKit",
-					"\"$(SRCROOT)/Trippple\"",
+					"$(PROJECT_DIR)/Build2/Products/Debug-iphonesimulator/Protobuf",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -1832,14 +1929,11 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/Trippple\"",
-					"\"$(SRCROOT)/Trippple\"",
-					"\"$(SRCROOT)/Trippple\"",
 					"$(PROJECT_DIR)/build/Release-iphoneos/Bolts",
 					"$(PROJECT_DIR)/build/Release-iphoneos/FBSDKCoreKit",
 					"$(PROJECT_DIR)/build/Release-iphoneos/FBSDKLoginKit",
 					"$(PROJECT_DIR)/build/Release-iphoneos/FBSDKShareKit",
-					"\"$(SRCROOT)/Trippple\"",
+					"$(PROJECT_DIR)/Build2/Products/Debug-iphonesimulator/Protobuf",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
