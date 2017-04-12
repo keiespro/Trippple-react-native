@@ -39,7 +39,7 @@ class App extends React.Component{
   }
 
   componentWillMount(){
-    if( this.props.loggedIn ){
+    if(this.props.loggedIn){
       this.props.dispatch(ActionMan.getUserInfo());
     }else if(!this.props.loggedIn && this.props.fbUser && this.props.fbUser.accessToken){
       // this.props.dispatch(ActionMan.loginWithSavedFbCreds(this.props.fbUser))
@@ -49,7 +49,7 @@ class App extends React.Component{
   }
 
   componentDidMount(){
-      SplashScreen.hide();
+    SplashScreen.hide();
 
     // if(!this.props.loggedIn && this.props.fbUser && this.props.fbUser.accessToken){
     //   this.props.dispatch(ActionMan.loginWithSavedFbCreds(this.props.fbUser))
@@ -81,14 +81,14 @@ class App extends React.Component{
 
     }
 
-      if(!this.state.initialized && nProps.booted){
+    if(!this.state.initialized && nProps.booted){
 
-        this.initialize(nProps)
-      }
-      if(this.state.initialized && this.props.appState != 'active' && nProps.appState == 'active'){
-        SplashScreen.hide();
+      this.initialize(nProps)
+    }
+    if(this.state.initialized && this.props.appState != 'active' && nProps.appState == 'active'){
+      SplashScreen.hide();
 
-      }
+    }
       // if(this.state.initialized && this.props.loggedIn && !nProps.savedCredentials){
       //   this.props.dispatch(ActionMan.saveCredentials())
       //
@@ -145,21 +145,21 @@ class App extends React.Component{
     //     })
     //     .catch(err => {
 
-          initActions.forEach(ac => {
-            this.props.dispatch(ActionMan[ac]())
-          })
+    initActions.forEach(ac => {
+      this.props.dispatch(ActionMan[ac]())
+    })
         // })
     if(permissions.location != 'soft-denied'){
-      this.props.dispatch(ActionMan['checkLocationPermission']())
+      this.props.dispatch(ActionMan.checkLocationPermission())
     }
     if(permissions.notifications != 'soft-denied'){
-      this.props.dispatch(ActionMan['checkNotificationsPermission']())
+      this.props.dispatch(ActionMan.checkNotificationsPermission())
     }
     if(this.props.loggedIn && permissions.location && (iOS && permissions.location == 'authorized' || true)){
-      this.props.dispatch(ActionMan['getLocation']())
+      this.props.dispatch(ActionMan.getLocation())
     }
     if(this.props.loggedIn && permissions.notifications && (iOS && permissions.notifications == 'authorized' || true)){
-      this.props.dispatch(ActionMan['getPushToken']())
+      this.props.dispatch(ActionMan.getPushToken())
     }
   }
 
@@ -168,57 +168,65 @@ class App extends React.Component{
     return (
       <View style={{width: DeviceWidth, height: DeviceHeight, backgroundColor: colors.outerSpace}}>
 
-        <ConnectionInfo dispatch={this.props.dispatch}/>
+        <ConnectionInfo dispatch={this.props.dispatch} />
         { this.props.user && this.props.user.id && <LikeSender />}
 
-        <AppState dispatch={this.props.dispatch}/>
+        <AppState dispatch={this.props.dispatch} />
 
-        <DeepLinkHandler dispatch={this.props.dispatch}/>
+        <DeepLinkHandler dispatch={this.props.dispatch} />
 
-        <AppNav onboarded={this.props.onboarded} initialRoute={Router.getRoute(this.props.loggedIn ? this.props.onboarded ? 'Potentials' : 'Onboard' : 'Welcome')}/>
+        <AppNav onboarded={this.props.onboarded} initialRoute={Router.getRoute(this.props.loggedIn ? this.props.onboarded ? 'Potentials' : 'Onboard' : 'Welcome')} />
 
         <ModalDirector />
 
         <Notifications />
 
       </View>
-      )
+    )
   }
 }
 
 const Loading = () => (
-<View
-  style={{justifyContent:'center',alignItems:'center',flexGrow:1,position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight,backgroundColor:colors.outerSpace}}>
-  <ActivityIndicator
-            size="large"
-            color={colors.white}
-            animating={true}
-            style={{}} />
+  <View
+    style={{
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexGrow: 1,
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: DeviceWidth,
+      height: DeviceHeight,
+      backgroundColor: colors.outerSpace
+    }}
+  >
+    <ActivityIndicator
+      size="large"
+      color={colors.white}
+      animating
+      style={{}}
+    />
   </View>
 )
-const mapStateToProps = (state, ownProps) => {
-  return {
-    ...ownProps,
-    onboarded: state.user.status == 'onboarded',
-    user: state.user,
-    fbUser: state.fbUser,
-    auth: state.auth,
-    ui: {...state.ui, matchInfo: state.matches[state.ui.chat ? state.ui.chat.match_id : null]},
-    loggedIn: state.auth && state.auth.api_key && state.auth.user_id,
-    loadedUser: state.ui.loadedUser,
-    push_token: state.device.push_token,
-    exnavigation: state.exnavigation,
-    savedCredentials: state.auth.savedCredentials,
-    rehydrated: state.ui.rehydrated,
-    appState: state.app.appState,
-    booted: state.app.booted,
-    permissions: state.permissions,
-    loggingIn: state.ui.loggingIn
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps,
+  onboarded: state.user.status == 'onboarded',
+  user: state.user,
+  fbUser: state.fbUser,
+  auth: state.auth,
+  ui: {...state.ui, matchInfo: state.matches[state.ui.chat ? state.ui.chat.match_id : null]},
+  loggedIn: state.auth && state.auth.api_key && state.auth.user_id,
+  loadedUser: state.ui.loadedUser,
+  push_token: state.device.push_token,
+  exnavigation: state.exnavigation,
+  savedCredentials: state.auth.savedCredentials,
+  rehydrated: state.ui.rehydrated,
+  appState: state.app.appState,
+  booted: state.app.booted,
+  permissions: state.permissions,
+  loggingIn: state.ui.loggingIn
+})
 
-const mapDispatchToProps = (dispatch) => {
-  return { dispatch };
-}
+const mapDispatchToProps = (dispatch) => ({ dispatch })
 
 export default connect(mapStateToProps, mapDispatchToProps)((App));
