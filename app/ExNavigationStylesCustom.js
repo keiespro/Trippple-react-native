@@ -11,7 +11,7 @@ const {
   CardStackPanResponder,
 } = NavigationExperimental.Card;
 
-import type { ExNavigationStyles } from '../node_modules/@exponent/ex-navigation/src/ExNavigationTypeDefinition.js.flow';
+import type { ExNavigationStyles } from '@exponent/ex-navigation';
 
 const configureTimingTransition = (transitionProps, previousTransitionProps) => ({
   timing: Animated.timing,

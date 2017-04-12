@@ -4,7 +4,9 @@
     "browser"
   ],
   "plugins": {
-    "es_modules": {},
+    "es_modules": {
+
+    },
     "complete_strings": {
       "maxLength": 15
     },
