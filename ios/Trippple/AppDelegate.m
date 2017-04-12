@@ -24,9 +24,6 @@
 
 #import <React/RCTPushNotificationManager.h>
 
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
-#import <FBSDKLoginKit/FBSDKLoginKit.h>
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import "UIColor+TRColors.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
@@ -70,7 +67,6 @@
   HotlineConfig *config = [[HotlineConfig alloc]
                            initWithAppID:@"f54bba2a-84fa-43c8-afa9-098f3c1aefae"
                            andAppKey:@"fba1b915-fa8b-4c24-bdda-8bac99fcf92a"];
-  config.displayFAQsAsGrid = NO;
   config.voiceMessagingEnabled = NO;
   config.pictureMessagingEnabled = YES;
   config.cameraCaptureEnabled = NO;
