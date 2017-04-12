@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0DC9DB1028E14200A737D6B3 /* libRNNetworkInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 94881FB81C54442781AE7FE9 /* libRNNetworkInfo.a */; };
 		15AF47D00C9F40189C5BE57C /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 515999541FC441E78A1DD824 /* Zocial.ttf */; };
 		2EE81FEBCAE146C6936CE0B9 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA1B48184CE1460FAC281224 /* FontAwesome.ttf */; };
 		506BEE0EA3EF453BA8A4CA6A /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A1AD5DF31E04A07A1FC0B00 /* Entypo.ttf */; };
@@ -350,6 +351,13 @@
 			remoteGlobalIDString = A79185C61C30694E001236A6;
 			remoteInfo = RCTGoogleAnalyticsBridge;
 		};
+		AC54F0421E7923DA00F07B9C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 40476ACEF62C4B5F8CFC041F /* RNNetworkInfo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 045BEB3C1B52EA6A0013C1B9;
+			remoteInfo = RNNetworkInfo;
+		};
 		AC8B84341E5FEACD00965CF6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AC4885BF1E44E6B500D0EC0C /* ReactNativePermissions.xcodeproj */;
@@ -372,9 +380,11 @@
 		13B07F961A680F5B00A75B9A /* Trippple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Trippple.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DE66619845743FC9AFCC4E1 /* libRNKeychain.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNKeychain.a; sourceTree = "<group>"; };
 		3D62B1BBA6E77BCA8E6D76D0 /* libPods-Trippple.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Trippple.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		40476ACEF62C4B5F8CFC041F /* RNNetworkInfo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNNetworkInfo.xcodeproj; path = "../node_modules/react-native-network-info/ios/RNNetworkInfo.xcodeproj"; sourceTree = "<group>"; };
 		4123B0358F974CA1B2B2E6B4 /* RNKeychain.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNKeychain.xcodeproj; path = "../node_modules/react-native-keychain/RNKeychain.xcodeproj"; sourceTree = "<group>"; };
 		515999541FC441E78A1DD824 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		7B8DBC5D29F64D378FCC002F /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		94881FB81C54442781AE7FE9 /* libRNNetworkInfo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNNetworkInfo.a; sourceTree = "<group>"; };
 		9A1AD5DF31E04A07A1FC0B00 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		9A53CFF1C50041C18487C51D /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		AA1B48184CE1460FAC281224 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
@@ -545,6 +555,7 @@
 				ACBB209A1C050E8A00A63B9C /* CoreFoundation.framework in Frameworks */,
 				AA19ADFDD81241E9A802CB8A /* libRNKeychain.a in Frameworks */,
 				ACCD51DE1E5FEDAA00BAC119 /* libPods-Trippple.a in Frameworks */,
+				0DC9DB1028E14200A737D6B3 /* libRNNetworkInfo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -606,6 +617,7 @@
 				AC0549F41C671C8B0072E9E7 /* SystemConfiguration.framework */,
 				AC0549F21C671C730072E9E7 /* CoreData.framework */,
 				4123B0358F974CA1B2B2E6B4 /* RNKeychain.xcodeproj */,
+				40476ACEF62C4B5F8CFC041F /* RNNetworkInfo.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -933,6 +945,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		AC54F01B1E7923DA00F07B9C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AC54F0431E7923DA00F07B9C /* libRNNetworkInfo.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		AC9D8D321D3F34FF009D4C78 /* TripppleSnapshotTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -1213,6 +1233,10 @@
 				{
 					ProductGroup = AC4885D81E44E6B500D0EC0C /* Products */;
 					ProjectRef = AC4885D71E44E6B500D0EC0C /* RNMixpanel.xcodeproj */;
+				},
+				{
+					ProductGroup = AC54F01B1E7923DA00F07B9C /* Products */;
+					ProjectRef = 40476ACEF62C4B5F8CFC041F /* RNNetworkInfo.xcodeproj */;
 				},
 				{
 					ProductGroup = AC4885DB1E44E6B500D0EC0C /* Products */;
@@ -1502,6 +1526,13 @@
 			remoteRef = AC4886EA1E44E9F800D0EC0C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		AC54F0431E7923DA00F07B9C /* libRNNetworkInfo.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNNetworkInfo.a;
+			remoteRef = AC54F0421E7923DA00F07B9C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		AC8B84351E5FEACD00965CF6 /* libReactNativePermissions.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1714,6 +1745,7 @@
 					"$(SRCROOT)/../../node_modules/react-native/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-keychain/RNKeychainManager",
+					"$(SRCROOT)/../node_modules/react-native-network-info/ios",
 				);
 				INFOPLIST_FILE = Trippple/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
@@ -1727,6 +1759,7 @@
 					"$(PROJECT_DIR)/Build2/Products/Debug-iphoneos/FBSDKShareKit",
 					"$(PROJECT_DIR)/Build2/Products/Debug-iphoneos/Bolts",
 					"$(PROJECT_DIR)/Build2/Products/Debug-iphoneos/Mixpanel",
+					"\"$(SRCROOT)/Trippple\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -1791,6 +1824,7 @@
 					"$(SRCROOT)/../../node_modules/react-native/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-keychain/RNKeychainManager",
+					"$(SRCROOT)/../node_modules/react-native-network-info/ios",
 				);
 				INFOPLIST_FILE = Trippple/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
@@ -1801,6 +1835,7 @@
 					"$(PROJECT_DIR)/build/Release-iphoneos/FBSDKCoreKit",
 					"$(PROJECT_DIR)/build/Release-iphoneos/FBSDKLoginKit",
 					"$(PROJECT_DIR)/build/Release-iphoneos/FBSDKShareKit",
+					"\"$(SRCROOT)/Trippple\"",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -1872,6 +1907,7 @@
 					"$(SRCROOT)/../node_modules/react-native-app-info/RNAppInfo",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-keychain/RNKeychainManager",
+					"$(SRCROOT)/../node_modules/react-native-network-info/ios",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1932,6 +1968,7 @@
 					"$(SRCROOT)/../node_modules/react-native-app-info/RNAppInfo",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-keychain/RNKeychainManager",
+					"$(SRCROOT)/../node_modules/react-native-network-info/ios",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
