@@ -21,22 +21,9 @@ export default function potentialsReducer(state = initialState, action) {
       return [...(_.shuffle(starter))];
 
     case 'GET_POTENTIALS_FULFILLED':
-      const data = action.payload;
-      let pots;
-      if(!data || !data.matches || !data.matches.length){
-        pots = state
-      }else if(!data.matches[0] || !data.matches[0].user){
-        pots = data.matches.map(pot => ({user: pot}));
-      }else{
-        pots = data.matches
-      }
-      if(pots[0] && (pots[0].user.id == global.creds.user_id || pots[0].partner.id == global.creds.user_id)){
-        return [...(pots.slice(1, pots.length))];
-      }
 
-      return [...pots];
+      return [...state, ...action.payload.matches.map(m => (m))];
 
-    // case 'SEND_LIKE_FULFILLED':
     case 'SWIPE_CARD_FULFILLED':
       return [...(state.slice(1, state.length))];
 

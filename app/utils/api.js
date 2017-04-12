@@ -3,6 +3,7 @@ import Promise from 'bluebird'
 import config from '../../config'
 import DeviceInfo from './DeviceInfo'
 import Analytics from './Analytics'
+import {fetchNewestBrowse, fetchPopularBrowse, fetchNearbyBrowse, fetchPotentials} from './algolia'
 
 const { SERVER_URL } = config;
 
@@ -142,9 +143,23 @@ const api = {
   getNewMatches(page){ // v2 endpoint
     return authenticatedRequest('getNewMatches', {page})
   },
-  browse(p){ // v2 endpoint
-    console.log(p);
-    return authenticatedRequest('browse', p)
+
+  browse(p, c){ // v2 endpoint
+    console.log(p, c, 'BROWSE');
+
+    switch(p.filter){
+      case 'newest':
+        return fetchNewestBrowse(p,c)
+      case 'popular':
+        return fetchPopularBrowse(p,c)
+      case 'nearby':
+        return fetchNearbyBrowse(p,c)
+      default:
+        __DEV__ && console.warn('No filter given to browse request')
+    }
+
+    return
+
   },
   getFavorites(page){ // v2 endpoint
     return authenticatedRequest('getFavourites', {page})
@@ -191,9 +206,16 @@ const api = {
     return authenticatedRequest('messages', payload)
   },
 
-  getPotentials(coordinates){
-    return authenticatedRequest('potentials', {...coordinates})
+  getPotentials(){
+    const defaults = {relationshipStatus: 'single', gender: 'f', distanceInMeters: 48280, minAge: 18, maxAge: 60, coords: null}
+
+    return fetchPotentials(defaults)
   },
+
+  fetchPotentials(prefs){
+    return fetchPotentials(prefs)
+  },
+
 
   sendLike(like_user_id, like_status, like_user_type, from_user_type){
   // fix

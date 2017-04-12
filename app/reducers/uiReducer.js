@@ -89,11 +89,18 @@ export default function uiReducer(state = initialState, action) {
       return {...state, refreshingBrowse: true}
 
     case 'FETCH_BROWSE_FULFILLED':
-      console.log(state.browsePage);
-      return {...state, refreshingBrowse: false, browsePage: state.browsePage + 1}
+    console.log(action.payload);
+      return {
+        ...state,
+        refreshingBrowse: false,
+        [`browsePage${action.meta.filter}`]: state[`browsePage${action.meta.filter}`] + (action.payload ? 1 : 0)
+      }
 
     case 'FETCH_BROWSE_REJECTED':
       return {...state, refreshingBrowse: false}
+
+    case 'CHANGE_BROWSE_FILTER':
+      return {...state, browseFilter: action.payload}
 
 
     default:
@@ -111,6 +118,9 @@ const initialState = {
   currentIndex: 0,
   loggingIn: false,
   potentialsPage: 0,
-  browsePage:0,
+  browsePagenearby:0,
+  browsePagenewest:0,
+  browsePagepopular:0,
+  browseFilter: 'newest',
   refreshingBrowse:false
 };

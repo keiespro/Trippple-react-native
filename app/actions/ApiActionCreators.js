@@ -38,7 +38,7 @@ const endpointMap = apiActions.map(call => {
 })
 
 const ApiActionCreators = endpointMap.reduce((obj, endpoint) => {
-  obj[endpoint.call] = (...params) => (dispatch => dispatch({
+  obj[endpoint.call] = (...params) => ((dispatch, getState) => dispatch({
 
     type: endpoint.action,
     meta: endpoint.call == 'sendLike' ? {
@@ -72,11 +72,17 @@ const ApiActionCreators = endpointMap.reduce((obj, endpoint) => {
             dispatch({type: 'GET_USER_INFO', payload: api.getUserInfo()})
           }
           if(shouldFetchPotentials){
-            dispatch({type: 'GET_POTENTIALS', payload: api.getPotentials()})
+            const user = getState().user;
+            const prefs = {
+              relationshipStatus: user.relationship_status == 'single' ? 'couple' : 'single',
+              gender: 'f',//TODO: fix
+              minAge: user.match_age_min,
+              maxAge: user.match_age_max,
+              distanceInMeters: (user.match_distance || 25)*3,
+              coords: {lat:user.latitude,lng:user.longitude}
+            }
+            dispatch({type: 'GET_POTENTIALS', payload: api.getPotentials(prefs)})
           }
-
-
-
           return resolve(x);
         }).catch(err => {
           __DEV__ && console.log('CAUGHT ERR',err.status);
