@@ -8,7 +8,6 @@ import ActionMan from '../../../actions';
 import Analytics from '../../../utils/Analytics';
 import colors from '../../../utils/colors';
 import {MagicNumbers} from '../../../utils/DeviceConfig'
-import {SlideHorizontalIOS, FloatHorizontal} from '../../../ExNavigationStylesCustom'
 
 const iOS = Platform.OS == 'ios';
 const DeviceHeight = Dimensions.get('window').height;
@@ -18,26 +17,26 @@ const DeviceWidth = Dimensions.get('window').width;
 class SettingsSettings extends React.Component{
 
   static route = {
-    styles: NavigationStyles.SlideHorizontal,// iOS ? SlideHorizontalIOS : FloatHorizontal,
-    sceneStyle:{
+    styles: NavigationStyles.SlideHorizontal, // iOS ? SlideHorizontalIOS : FloatHorizontal,
+    sceneStyle: {
 
     },
     statusBar: {
       translucent: false,
     },
     navigationBar: {
-      visible:true,
-      translucent:false,
+      visible: true,
+      translucent: false,
       titleStyle: {
         color: '#fff',
         fontFamily: 'montserrat',
         borderBottomWidth: 0,
-        fontWeight:'800'
+        fontWeight: '800'
       },
       tintColor: '#fff',
       backgroundColor: colors.shuttleGrayAnimate,
       title(params){
-        return `SETTINGS`
+        return 'SETTINGS'
       }
     }
   };
@@ -52,7 +51,7 @@ class SettingsSettings extends React.Component{
   }
 
   componentDidMount() {
-    if (iOS){
+    if(iOS) {
       TouchID.isSupported().then(supported => {
         __DEV__ && console.log(`TOUCH ID ${supported}`);
         this.setState({
@@ -109,16 +108,8 @@ class SettingsSettings extends React.Component{
       type: 'tap',
     })
 
-    if(this.state.privacy != 'private'){
-      this.props.dispatch(ActionMan.showInModal({
-        component: 'PrivacyPermissions',
-        name: 'PrivacyPermissionsModal',
-        id: 'privacymodal',
-        passProps: {
-          initialScreen: 'CoupleReady',
-          success: () => { this.togglePrivacy('private') },
-        }
-      }))
+    if(this.state.privacy != 'private') {
+      this.togglePrivacy('private')
     }
   }
 
@@ -158,9 +149,6 @@ class SettingsSettings extends React.Component{
           style={{height: DeviceHeight, marginTop: 0, }}
           contentContainerStyle={{paddingHorizontal: 0, paddingBottom: 60}}
           alwaysBounceVertical
-
-
-
           showsVerticalScrollIndicator={false}
         >
           <View style={[styles.paddedSpace, {marginTop: 0}]}>
