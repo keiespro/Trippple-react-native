@@ -9,7 +9,7 @@ const { SERVER_URL } = config;
 
 const Device = DeviceInfo.get()
 
-const VERSION =  Device.app_version;
+const VERSION = Device.app_version;
 const iOSversion = Device.version;
 class authError extends Error{
   constructor(init){
@@ -25,8 +25,6 @@ class serverError extends Error{
 }
 
 async function baseRequest(endpoint = '', payload = {}, resource = 'user'){
-
-
 
   const params = {
     method: 'post',
@@ -44,13 +42,10 @@ async function baseRequest(endpoint = '', payload = {}, resource = 'user'){
   if(__DEV__) console.log(`API REQUEST ---->>>>> ${url}`, params);
 
   const res = await fetch(url, params)
-  __DEV__ && console.log(res,'<------------------------');
+  __DEV__ && console.log(res, '<------------------------');
   if(res.status == 504 || res.status == 502 || res.status == 500){
-    __DEV__ && console.log('show maintenance screen',res)
-
     Analytics.err(res)
     return res.status
-
   }else if(res.status == 401){
     Analytics.err(res)
     return res.status
@@ -135,37 +130,35 @@ const api = {
     return authenticatedRequest('info', {}, 'user', creds)
   },
 
-  getMatches(page){ // v2 endpoint
+  getMatches(page){
     return authenticatedRequest('getMatches', {page})
   },
 
 
-  getNewMatches(page){ // v2 endpoint
+  getNewMatches(page){
     return authenticatedRequest('getNewMatches', {page})
   },
 
-  browse(p, c){ // v2 endpoint
-    console.log(p, c, 'BROWSE');
+  browse(params){
 
-    switch(p.filter){
+    switch (params.filter){
       case 'newest':
-        return fetchNewestBrowse(p,c)
+        return fetchNewestBrowse(params)
       case 'popular':
-        return fetchPopularBrowse(p,c)
+        return fetchPopularBrowse(params)
       case 'nearby':
-        return fetchNearbyBrowse(p,c)
+        return fetchNearbyBrowse(params)
       default:
         __DEV__ && console.warn('No filter given to browse request')
     }
 
-    return
-
+    throw new Error('No filter')
   },
-  getFavorites(page){ // v2 endpoint
+  getFavorites(page){
     return authenticatedRequest('getFavourites', {page})
   },
 
-  toggleFavorite(match_id){ // v2 endpoint
+  toggleFavorite(match_id){
     return authenticatedRequest('toggleMatch', {match_id})
   },
 

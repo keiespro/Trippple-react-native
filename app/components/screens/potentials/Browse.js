@@ -17,38 +17,44 @@ const DeviceWidth = Dimensions.get('window').width;
 
 
 const Tooltip = () => (
-<View style={{position:'absolute',zIndex: 100, left: 60,top:220,}}>
-  <View style={{padding:10,borderRadius:9,overflow:'hidden',width: 180,height:50,backgroundColor:colors.mediumPurple}}>
-    <Text style={{color:colors.white,fontSize:22,textAlign:'center',fontFamily:'Montserrat'}}>TAP TO LIKE</Text>
-  </View>
+  <View style={{position: 'absolute', zIndex: 100, left: 60, top: 220, }}>
+    <View style={{padding: 10, borderRadius: 9, overflow: 'hidden', width: 180, height: 50, backgroundColor: colors.mediumPurple}}>
+      <Text style={{color: colors.white, fontSize: 22, textAlign: 'center', fontFamily: 'Montserrat'}}>TAP TO LIKE</Text>
+    </View>
 
-  <Image source={require('../chat/assets/TrianglePurple.png')} style={{
-    alignSelf:'center',top:-10,width:20,height:23,
-    transform: [
-      {rotate: "270deg"}
-    ]
-  }}/>
-</View>
+    <Image
+      source={require('../chat/assets/TrianglePurple.png')} style={{
+        alignSelf: 'center',
+        top: -10,
+        width: 20,
+        height: 23,
+        transform: [
+        {rotate: '270deg'}
+        ]
+      }}
+    />
+  </View>
 )
 
-class Browse extends React.Component{
+export class Browse extends React.Component{
 
   constructor(props) {
     super();
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2 && r1.liked !== r2.liked });
     this.state = {
       users: props.users,
-      dataSource: ds.cloneWithRows(props.users.reverse()),
+      dataSource: ds.cloneWithRows(props.users),
 
     };
+    console.log(props.users);
   }
   componentDidMount(){
     if(this.props.showBrowseTooltip){
       setTimeout(() => {
-        this.props.dispatch({ type: 'TOGGLE_SHOW_BROWSE_TOOLTIP', payload: {  }})
-      },8000)
+        this.props.dispatch({ type: 'TOGGLE_SHOW_BROWSE_TOOLTIP', payload: { }})
+      }, 8000)
     }
-    this.props.dispatch(ActionMan.fetchBrowse({coords: {lat: this.props.user.latitude, lng: this.props.user.longitude },filter: this.props.currentFilter, page: 0}))
+    this.props.dispatch(ActionMan.fetchBrowse({coords: {lat: this.props.user.latitude, lng: this.props.user.longitude }, filter: this.props.currentFilter, page: 0}))
 
   }
   componentWillReceiveProps(nProps){
@@ -57,24 +63,24 @@ class Browse extends React.Component{
       const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2 && r1.liked !== r2.liked });
       this.setState({
         users: nProps.users,
-        dataSource: ds.cloneWithRows(nProps.users.reverse()),
+        dataSource: ds.cloneWithRows(nProps.users),
       });
     }
 
     if(nProps.currentFilter != this.props.currentFilter){
-      this.props.dispatch(ActionMan.fetchBrowse({coords: {lat: this.props.user.latitude,lng: this.props.user.longitude },filter: this.props.currentFilter, page: this.props[`page${this.props.currentFilter}`]}))
+      this.props.dispatch(ActionMan.fetchBrowse({coords: {lat: this.props.user.latitude, lng: this.props.user.longitude }, filter: this.props.currentFilter, page: this.props[`page${this.props.currentFilter}`]}))
     }
   }
 
   _onRefresh() {
     if(this.props.refreshing) return;
 
-    this.props.dispatch(ActionMan.fetchBrowse({coords: {lat: this.props.user.latitude,lng: this.props.user.longitude },filter: this.props.currentFilter, page: this.props[`page${this.props.currentFilter}`]}))
+    this.props.dispatch(ActionMan.fetchBrowse({coords: {lat: this.props.user.latitude, lng: this.props.user.longitude }, filter: this.props.currentFilter, page: this.props[`page${this.props.currentFilter}`]}))
   }
 
   _onEndReached(){
     if(this.props.refreshing) return;
-    this.props.dispatch(ActionMan.fetchBrowse({coords: {lat: this.props.user.latitude,lng: this.props.user.longitude },filter: this.props.currentFilter, page: this.props[`page${this.props.currentFilter}`] + 1}))
+    this.props.dispatch(ActionMan.fetchBrowse({coords: {lat: this.props.user.latitude, lng: this.props.user.longitude }, filter: this.props.currentFilter, page: this.props[`page${this.props.currentFilter}`] + 1}))
   }
 
   pressRow(rowData){
@@ -91,7 +97,7 @@ class Browse extends React.Component{
   }
 
   renderRow(rowData, sectionID, rowID, highlightRow){
-
+    console.log(rowData);
     const {user, partner} = rowData;
     const isLiked = user ? user.liked : true;
     const img = (user && user.image_url) || (partner && partner.image_url);
@@ -101,8 +107,8 @@ class Browse extends React.Component{
         key={rowData.user.id}
         style={[{
           borderRadius: 12,
-          width: (MagicNumbers.screenWidth / 2) ,
-          height: (DeviceHeight-150)/2,
+          width: (MagicNumbers.screenWidth / 2),
+          height: (DeviceHeight - 150) / 2,
           backgroundColor: '#fff',
           marginBottom: 20,
           shadowColor: colors.darkShadow,
@@ -121,7 +127,7 @@ class Browse extends React.Component{
             borderRadius: 11,
             overflow: 'hidden'
           }}
-          onPress={this.pressRow.bind(this,rowData)}
+          onPress={this.pressRow.bind(this, rowData)}
         >
           <Image
             source={imgSource}
@@ -129,14 +135,14 @@ class Browse extends React.Component{
               borderTopLeftRadius: 11,
               borderTopRightRadius: 11,
               overflow: 'hidden',
-              height: ((DeviceHeight-150)/2)-52,
-              width: (MagicNumbers.screenWidth / 2) ,
+              height: ((DeviceHeight - 150) / 2) - 52,
+              width: (MagicNumbers.screenWidth / 2),
             }}
           />
           <View
             style={{
               padding: 5,
-              height:52
+              height: 52
             }}
           >
             <View
@@ -177,7 +183,7 @@ class Browse extends React.Component{
                 right: 7,
                 top: 9
               }}
-              onPress={this.toggleLike.bind(this,rowData)}
+              onPress={this.toggleLike.bind(this, rowData)}
             >
               <Icon
                 name="check-circle"
@@ -199,24 +205,24 @@ class Browse extends React.Component{
         <BlurView
           blurType="dark"
           style={{
-            backgroundColor:colors.shuttleGray70,
-            zIndex:9999,
-            height:50,
-            width:DeviceWidth,
-            top:0,
-            position:'absolute'
+            backgroundColor: colors.shuttleGray70,
+            zIndex: 9999,
+            height: 50,
+            width: DeviceWidth,
+            top: 0,
+            position: 'absolute'
           }}
         >
           <ScrollView
             style={{
               height: 50,
               width: DeviceWidth,
-              backgroundColor:'transparent'
+              backgroundColor: 'transparent'
             }}
             contentContainerStyle={{
               alignItems: 'stretch',
               minWidth: DeviceWidth,
-              backgroundColor:'transparent',
+              backgroundColor: 'transparent',
 
             }}
             showsHorizontalScrollIndicator={false}
@@ -229,8 +235,8 @@ class Browse extends React.Component{
                   overflow: 'hidden',
                   height: 45,
                   flexGrow: 1,
-                  alignSelf:'stretch',
-                  backgroundColor:'transparent',
+                  alignSelf: 'stretch',
+                  backgroundColor: 'transparent',
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}
@@ -250,7 +256,7 @@ class Browse extends React.Component{
           </ScrollView>
         </BlurView>
 
-        {this.props.users && this.props.users.length > 0 && this.props.showBrowseTooltip && <Tooltip/>}
+        {this.props.users && this.props.users.length > 0 && this.props.showBrowseTooltip && <Tooltip />}
 
         <ListView
           contentContainerStyle={{
@@ -283,19 +289,23 @@ class Browse extends React.Component{
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  ...ownProps,
-  users: Object.values(state.browse.toJS()[state.ui.browseFilter]),
-  currentFilter: state.ui.browseFilter,
-  user: state.user,
-  refreshing: state.ui.refreshingBrowse,
-  pagenewest: state.ui.browsePagenewest,
-  pagenearby: state.ui.browsePagenearby,
-  pagepopular: state.ui.browsePagepopular,
-  likes: {...state.swipeQueue, ...state.swipeHistory},
-  showBrowseTooltip: state.user.showBrowseTooltip
-})
+const mapStateToProps = (state, ownProps) => {
 
+  console.log(state.browse.toJS());
+
+  return ({
+    ...ownProps,
+    users: Object.values(state.browse.toJS()[state.ui.browseFilter]),
+    currentFilter: state.ui.browseFilter,
+    user: state.user,
+    refreshing: state.ui.refreshingBrowse,
+    pagenewest: state.ui.browsePagenewest,
+    pagenearby: state.ui.browsePagenearby,
+    pagepopular: state.ui.browsePagepopular,
+    likes: {...state.swipeQueue, ...state.swipeHistory},
+    showBrowseTooltip: state.user.showBrowseTooltip
+  })
+}
 const mapDispatchToProps = (dispatch) => ({ dispatch })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Browse);

@@ -33,5 +33,6 @@ function createBrowseReducer(filter = 'newest') {
   }
 
 }
+const filters = ['newest', 'nearby', 'popular'];
 
-export default combineReducers(['newest', 'nearby', 'popular'].map(createBrowseReducer))
+export default combineReducers(filters.reduce((a, r) => ({...a, [`${r}`]: createBrowseReducer(r)}), {}))

@@ -108,6 +108,7 @@
     "react-native-debugger-open": "^0.3.2",
     "react-test-renderer": "^15.4.2",
     "redux-devtools": "^3.3.2",
+    "redux-perf-middleware": "^1.2.2",
     "remote-redux-devtools": "^0.5.7",
     "remote-redux-devtools-on-debugger": "^0.7.0",
     "remotedev-server": "^0.3.0-beta-3"

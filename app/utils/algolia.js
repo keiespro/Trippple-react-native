@@ -42,7 +42,7 @@ export async function fetchPotentials({relationshipStatus, gender, distanceInMet
 
     return ({matches: result.content.hits.map((h, i) => ({user: h, partner: {id: `partner${i}`}, couple: {id: `couple${i}`}}))})
   }catch(err){
-    console.error(err)
+    __DEV__ && console.error(err)
     return err
   }
 }
@@ -55,7 +55,7 @@ function formatForBrowse(result){
   }, {})
 }
 
-export async function fetchNewestBrowse(params,coords){
+export async function fetchNewestBrowse(params){
   try{
 
     const result = await helper
@@ -65,14 +65,14 @@ export async function fetchNewestBrowse(params,coords){
     return formatForBrowse(result)
 
   }catch(err){
-    console.error(err)
+    __DEV__ && console.error(err)
     return err
   }
 }
 
 
 
-export async function fetchPopularBrowse(params,coords){
+export async function fetchPopularBrowse(params){
   try{
 
     const result = await popularityHelper
@@ -82,16 +82,15 @@ export async function fetchPopularBrowse(params,coords){
     return formatForBrowse(result)
 
   }catch(err){
-    console.error(err)
+    __DEV__ && console.error(err)
     return err
   }
 }
 
 
-export async function fetchNearbyBrowse(params,coords){
-  console.log(params.page,coords);
+export async function fetchNearbyBrowse(params){
   try{
-    const c = getGeo(coords)
+    const c = getGeo(params.coords)
 
     const result = await helper.setQueryParameter(c.geoLabel, c.geoValue)
       .setQueryParameter('getRankingInfo', true)
@@ -101,7 +100,7 @@ export async function fetchNearbyBrowse(params,coords){
 
     return formatForBrowse(result)
   }catch(err){
-    console.error(err)
+    __DEV__ && console.error(err)
     return err
   }
 }
