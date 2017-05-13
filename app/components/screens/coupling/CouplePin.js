@@ -88,7 +88,7 @@ class CouplePin extends React.Component{
 
     const payload = {
       relationship_status: 'couple',
-      genders: this.props.selected_genders || `${this.props.user.gender}f`,
+      genders: this.props.selected_genders || this.props.user.coupling.genders,
       ...lookingfor
     };
 

@@ -80,7 +80,7 @@ class NoPartner extends React.Component{
       this.props.onboardUser() :
       this.props.dispatch(ActionMan.onboard({
         relationship_status: 'couple',
-        genders: `${this.props.user.gender}f`
+        genders: `${this.props.user.coupling.genders}`
       }));
     this.props.dispatch(ActionMan.showInModal({
       component: 'CoupleReady',

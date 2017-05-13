@@ -1,20 +1,15 @@
 import Promise from 'bluebird'
-import { AsyncStorage, Platform, NativeModules } from 'react-native'
-import { LoginManager } from 'react-native-fbsdk'
-
+import { AsyncStorage, NativeModules } from 'react-native'
+import * as Keychain from 'react-native-keychain';
 import config from '../../config'
 
-
-const iOS = Platform.OS == 'ios';
-const {FBLoginManager,RNKeychainManager} = NativeModules
+const {FBLoginManager} = NativeModules
 const {KEYCHAIN_NAMESPACE} = config
 
-
 async function Logout(){
-  // console.log('log out');
   global.creds = null;
-  return await Promise.all([
-    RNKeychainManager.resetInternetCredentialsForServer(KEYCHAIN_NAMESPACE),
+  return Promise.all([
+    Keychain.resetInternetCredentials(KEYCHAIN_NAMESPACE),
     AsyncStorage.clear(),
     FBLoginManager.logOut()
   ])

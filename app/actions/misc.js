@@ -6,6 +6,9 @@ import api from '../utils/api'
 const iOS = Platform.OS == 'ios';
 
 
+export const selectCoupleGenders = (payload) => (dispatch, getState) => dispatch({ type: 'SELECT_COUPLE_GENDERS',
+  payload,
+})
 
 export const fetchBrowse = ({filter, page, coords}) => (dispatch, getState) => dispatch({ type: 'FETCH_BROWSE',
   payload: api.browse({filter: filter.toLowerCase(), page, coords}),

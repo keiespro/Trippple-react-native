@@ -42,6 +42,8 @@ export default function userReducer(state = initialState, action) {
     case 'HIDE_PROFILE_FULFILLED':
         return { ...state, profile_visible: false };
 
+    case 'SELECT_COUPLE_GENDERS':
+      return { ...state, coupling: action.payload}
 
     default:
 

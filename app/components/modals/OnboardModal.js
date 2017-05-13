@@ -114,6 +114,17 @@ class OnboardModal extends Component {
     if(this.state.selected_relationship_status == 'single') {
       this.onboardUser()
     }else{
+      const payload = {
+        relationship_status: this.state.selected_relationship_status,
+        genders: this.state.selected_genders,
+        ...Object.keys(this.state.selected_theirs).reduce((acc, s) => {
+          acc[`looking_for_${s}`] = this.state.selected_theirs[s];
+          return acc;
+        }, {})
+      };
+      console.log('GENDERS',payload);
+      this.props.dispatch(ActionMan.selectCoupleGenders(payload))
+
       this.props.navigator.push(Router.getRoute('JoinCouple', {
         ...this.state
       }))
