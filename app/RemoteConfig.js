@@ -2,11 +2,11 @@
 import { RemoteConfig } from 'react-native-firebase3';
 
 RemoteConfig.setDefaults({
-  'init_actions': 'getUserInfo,getPotentials,getPushToken'
+  init_actions: 'getUserInfo,getPotentials,getPushToken'
 });
 
 class RC {
-  static getValue = async (key) => await RemoteConfig.getString(key)
+  static getValue = async (key) => RemoteConfig.getString(key)
 }
 
 export default RC

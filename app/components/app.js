@@ -5,7 +5,7 @@ import { withNavigation} from '@exponent/ex-navigation';
 import SplashScreen from 'react-native-splash-screen'
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin'
-import RC from '../RemoteConfig'
+// import RC from '../RemoteConfig'
 import _ from 'lodash'
 import pure from 'recompose/pure'
 import AppNav from '../AppNav';
@@ -124,6 +124,7 @@ class App extends React.Component{
       'getPotentials',
       'getMatches',
       'getNewMatches',
+      'getUsersLiked'
 
     ] : this.props.loggedIn ? ['getUserInfo'] : [];
 
