@@ -1,55 +1,61 @@
-import React, {Component} from 'react';
-import {StyleSheet, BackAndroid, Text, View, Platform, Dimensions, TouchableOpacity,ActivityIndicator} from 'react-native';
-import colors from '../../../utils/colors'
-import Carousel from './carousel'
-import Analytics from '../../../utils/Analytics'
-import {MagicNumbers} from '../../../utils/DeviceConfig'
-import FacebookButton from '../../buttons/FacebookButton/welcomeScreen';
-import ActionMan from '../../../actions/'
+import React, {Component} from 'react'
+import {StyleSheet, BackAndroid, Text, View, Dimensions, TouchableOpacity, ActivityIndicator} from 'react-native'
 import TimerMixin from 'react-timer-mixin'
 import reactMixin from 'react-mixin'
 import {connect} from 'react-redux'
-import {NavigationStyles,withNavigation} from '@exponent/ex-navigation'
+import {NavigationStyles, withNavigation} from '@exponent/ex-navigation'
+import colors from '../../../utils/colors'
+import Carousel from './carousel'
+import {MagicNumbers} from '../../../utils/DeviceConfig'
+import FacebookButton from '../../buttons/FacebookButton/welcomeScreen';
+import ActionMan from '../../../actions/'
+import Loading from './Loading'
 
-const iOS = Platform.OS == 'ios';
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
 
 @reactMixin.decorate(TimerMixin)
-class Welcome extends Component{
+export class Welcome extends Component{
   static route = {
-      styles: NavigationStyles.Fade,
-      navigationBar: {
-        visible: false,
-        translucent: true,
-        backgroundColor: colors.transparent,
-        renderRight(route, props){
-          return false
-        },
-        renderLeft(route, props){
-          return false
-        }
+    styles: NavigationStyles.Fade,
+    navigationBar: {
+      visible: false,
+      translucent: true,
+      backgroundColor: colors.transparent,
+      renderRight(route, props){
+        return false
       },
+      renderLeft(route, props){
+        return false
+      }
+    },
 
-      statusBar: {
-        translucent: false,
-        backgroundColor: colors.dark70,
+    statusBar: {
+      translucent: false,
+      backgroundColor: colors.dark70,
 
-      },
-    };
+    },
+  };
   static displayName: 'Intro';
 
   constructor() {
     super()
-    this.state = {isAnimating: false,busy:false}
+    this.state = {isAnimating: false, busy: false}
   }
 
   componentDidMount() {
-      // setTimeout(() => {
-    Analytics.screen('Welcome Screen')
-      // }, 1000);
-      this._backandroid = BackAndroid.addEventListener('hardwareBackPress', this.handleBackAndroid)
+    this._backandroid = BackAndroid.addEventListener('hardwareBackPress', this.handleBackAndroid)
+  }
+
+  componentWillReceiveProps(nProps){
+    if(nProps.loggedIn && nProps.status != this.props.status){
+      if(nProps.status == 'onboarded'){
+        this.props.dispatch(ActionMan.resetRoute('Potentials'))
+      }else{
+        this.props.dispatch(ActionMan.resetRoute('Onboard'))
+      }
+    }
   }
 
   componentWillUnmount(){
@@ -67,23 +73,14 @@ class Welcome extends Component{
   whyFacebookModal(){
     this.props.dispatch(ActionMan.showInModal({component: 'WhyFacebook', passProps: {} }))
   }
-  componentWillReceiveProps(nProps){
 
-    if(nProps.loggedIn && nProps.status != this.props.status){
-      if(nProps.status == 'onboarded'){
-          this.props.dispatch(ActionMan.resetRoute('Potentials'))
-      }else{
-          this.props.dispatch(ActionMan.resetRoute('Onboard'))
-      }
-    }
-  }
 
   login(){
     this.setState({busy: true})
-    this.props.dispatch({type:'LOADING_PENDING'})
-    this.setTimeout(()=>{
+    this.props.dispatch({type: 'LOADING_PENDING'})
+    this.setTimeout(() => {
       this.setState({busy: false})
-    },20000)
+    }, 20000)
 
     this.props.dispatch(ActionMan.loginWithFacebook())
   }
@@ -92,13 +89,10 @@ class Welcome extends Component{
     return (
       <View style={[styles.container]}>
         <View style={{}}>
-          <Carousel/>
-
-
+          <Carousel />
         </View>
 
-        <View style={{ marginHorizontal:20}}>
-
+        <View style={{ marginHorizontal: 20}}>
           <FacebookButton
             shouldAuthenticate
             buttonText={'LOG IN WITH FACEBOOK'}
@@ -113,18 +107,18 @@ class Welcome extends Component{
         <TouchableOpacity
           onPress={this.whyFacebookModal.bind(this)}
         >
-          <View style={{ height:50,alignSelf:'center'}}>
-          <Text
-            style={{
-              color: colors.rollingStone,
-              fontFamily: 'omnes',
-              fontSize: 12,
-              textDecorationLine: 'underline'
-            }}
-          >Why Facebook?</Text>
-        </View>
+          <View style={{ height: 50, alignSelf: 'center'}}>
+            <Text
+              style={{
+                color: colors.rollingStone,
+                fontFamily: 'omnes',
+                fontSize: 12,
+                textDecorationLine: 'underline'
+              }}
+            >Why Facebook?</Text>
+          </View>
         </TouchableOpacity>
-        {this.state.busy && <Loading/>}
+        {this.state.busy && <Loading />}
 
       </View>
     )
@@ -132,23 +126,12 @@ class Welcome extends Component{
 }
 
 
-const Loading = () => (
-<View
-  style={{justifyContent:'center',alignItems:'center',flexGrow:1,position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight,backgroundColor:colors.outerSpace}}>
-  <ActivityIndicator
-            size="large"
-            color={colors.white}
-            animating={true}
-            style={{}} />
-  </View>
-)
 
 
-const mapStateToProps = (state,p) => ({...p, loggedIn: state.auth.api_key && state.auth.user_id, status: state.user.status})
+const mapStateToProps = (state, p) => ({...p, loggedIn: state.auth.api_key && state.auth.user_id, status: state.user.status})
 const mapDispatchToProps = (dispatch) => ({dispatch })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Welcome);
-
 
 
 const styles = StyleSheet.create({
@@ -261,7 +244,7 @@ const styles = StyleSheet.create({
     //
     alignSelf: 'stretch',
     width: undefined,
-    bottom:40
+    bottom: 40
   },
   // dot: {
   //   backgroundColor: colors.shuttleGray,

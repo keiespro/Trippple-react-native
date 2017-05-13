@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
-import {StyleSheet, BackAndroid, Text, View, Platform, Dimensions, TouchableOpacity,ActivityIndicator} from 'react-native';
+import {StyleSheet, BackAndroid, Text, View, Platform, Dimensions, TouchableOpacity, ActivityIndicator} from 'react-native';
 import colors from '../../../utils/colors'
 import Carousel from './carousel'
-import Analytics from '../../../utils/Analytics'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 import FacebookButton from '../../buttons/FacebookButton/welcomeScreen';
 import ActionMan from '../../../actions/'
 import TimerMixin from 'react-timer-mixin'
 import reactMixin from 'react-mixin'
 import {connect} from 'react-redux'
-import {NavigationStyles,withNavigation} from '@exponent/ex-navigation'
+import {NavigationStyles, withNavigation} from '@exponent/ex-navigation'
+import Loading from './Loading'
 
 const iOS = Platform.OS == 'ios';
 const DeviceHeight = Dimensions.get('window').height
@@ -17,7 +17,7 @@ const DeviceWidth = Dimensions.get('window').width
 
 
 @reactMixin.decorate(TimerMixin)
-class Welcome extends Component{
+export class Welcome extends Component{
   static route = {
     styles: NavigationStyles.Fade,
     navigationBar: {
@@ -40,51 +40,35 @@ class Welcome extends Component{
   };
 
 
-static displayName: 'Intro';
+  static displayName: 'Intro';
 
   constructor() {
     super()
     this.state = {isAnimating: false}
   }
 
-  componentDidMount() {
-    Analytics.screen('Welcome Screen')
-
-      // setTimeout(() => {
-      //   if(this.props.loggedIn){
-      //     this.props.dispatch(ActionMan.actuallyLoggedIn())
-      //   }
-      // }, 1000);
-
-
-  }
   componentWillReceiveProps(nProps){
 
     if(nProps.loggedIn && nProps.status != this.props.status){
       if(nProps.status == 'onboarded'){
-          this.props.dispatch(ActionMan.resetRoute('Potentials'))
+        this.props.dispatch(ActionMan.resetRoute('Potentials'))
       }else{
-          this.props.dispatch(ActionMan.resetRoute('Onboard'))
+        this.props.dispatch(ActionMan.resetRoute('Onboard'))
       }
     }
   }
-
-
-
-
 
   whyFacebookModal(){
     this.props.dispatch(ActionMan.showInModal({component: 'WhyFacebook', passProps: {} }))
   }
 
-
   login(){
-    this.props.dispatch({type:'LOADING_PENDING'})
+    this.props.dispatch({type: 'LOADING_PENDING'})
 
     this.setState({busy: true})
-    this.setTimeout(()=>{
+    this.setTimeout(() => {
       this.setState({busy: false})
-    },10000)
+    }, 10000)
 
     this.props.dispatch(ActionMan.loginWithFacebook())
   }
@@ -93,7 +77,7 @@ static displayName: 'Intro';
     return (
       <View style={[styles.container]}>
         <View>
-          <Carousel/>
+          <Carousel />
         </View>
 
         <View style={styles.bottomButtons}>
@@ -108,46 +92,35 @@ static displayName: 'Intro';
             iconTintColor={'#fff'}
             busy={this.state.busy}
           />
-        <TouchableOpacity
-          style={{marginVertical: 20, height:30,width:100,zIndex:9999}}
-          onPress={this.whyFacebookModal.bind(this)}
-        >
-          <View>
-            <Text
-              style={{
-                color: colors.rollingStone,
-                fontFamily: 'omnes',
-                fontSize: 12,
-                textDecorationLine: 'underline',
-                textAlign:'center'
-              }}
-            >Why Facebook?</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-      {this.state.busy && <Loading/>}
+          <TouchableOpacity
+            style={{marginVertical: 20, height: 30, width: 100, zIndex: 9999}}
+            onPress={this.whyFacebookModal.bind(this)}
+          >
+            <View>
+              <Text
+                style={{
+                  color: colors.rollingStone,
+                  fontFamily: 'omnes',
+                  fontSize: 12,
+                  textDecorationLine: 'underline',
+                  textAlign: 'center'
+                }}
+              >Why Facebook?</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        {this.state.busy && <Loading />}
       </View>
     )
   }
 }
 
 
-const Loading = () => (
-<View
-  style={{justifyContent:'center',alignItems:'center',flexGrow:1,position:'absolute',top:0,left:0,width:DeviceWidth,height:DeviceHeight,backgroundColor:colors.outerSpace}}>
-  <ActivityIndicator
-            size="large"
-            color={colors.white}
-            animating={true}
-            style={{}} />
-  </View>
-)
 
-const mapStateToProps = (state,p) => ({...p, loggedIn: state.auth.api_key && state.auth.user_id, status: state.user.status})
+const mapStateToProps = (state, p) => ({...p, loggedIn: state.auth.api_key && state.auth.user_id, status: state.user.status})
 const mapDispatchToProps = (dispatch) => ({dispatch })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Welcome);
-
 
 
 const styles = StyleSheet.create({
@@ -180,7 +153,7 @@ const styles = StyleSheet.create({
     margin: 0,
     padding: 0,
     height: DeviceHeight,
-    position:'relative',
+    position: 'relative',
     backgroundColor: colors.outerSpace,
     alignItems: 'stretch',
     justifyContent: 'space-between',
@@ -214,8 +187,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: MagicNumbers.screenPadding / 2
   },
-
-
 
 
   button: {
