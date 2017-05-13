@@ -199,10 +199,13 @@ const api = {
     return authenticatedRequest('messages', payload)
   },
 
-  getPotentials(){
+  getPotentials(coordinates){
     const defaults = {relationshipStatus: 'single', gender: 'f', distanceInMeters: 48280, minAge: 18, maxAge: 60, coords: null}
+    return authenticatedRequest('potentials', {...coordinates})
+  },
 
-    return fetchPotentials(defaults)
+  getUsersLiked(){
+    return authenticatedRequest('get_users_liked')
   },
 
   fetchPotentials(prefs){
