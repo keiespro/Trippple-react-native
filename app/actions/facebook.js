@@ -41,14 +41,15 @@ const parameters = { fields: { string: FACEBOOK_PROFILE_FIELDS.join(',') } }
 
 
 /* loginWithFacebook | LOGIN_WITH_FACEBOOK */
-export const loginWithFacebook = () => async (dispatch,getState) => {
+export const loginWithFacebook = () => async (dispatch, getState) => {
   // LoginManager.setLoginBehavior('native')
   const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS);
   dispatch({ type: 'FACEBOOK_RESPONSE', payload: fb})
 
   const fbAuth = await AccessToken.getCurrentAccessToken()
   const fbData = {...fb, ...fbAuth}
-    dispatch({ type: 'LOGIN_WITH_FACEBOOK', payload: api.fbLogin(fbData).then(result => {
+  dispatch({ type: 'LOGIN_WITH_FACEBOOK',
+    payload: api.fbLogin(fbData).then(result => {
       __DEV__ && console.log(result);
       if(result.error){
         throw new Error(result.error)
@@ -67,11 +68,11 @@ export const loginWithFacebook = () => async (dispatch,getState) => {
     })
   })
   .catch(err => {
-      __DEV__ && console.warn('fb login failed',err)
+    __DEV__ && console.warn('fb login failed', err)
     // LoginManager.logOut()
   })
 }
-export const actuallyLoggedIn = () => (dispatch,getState) => dispatch({ type: 'ACTUALLY_LOGGED_IN',
+export const actuallyLoggedIn = () => (dispatch, getState) => dispatch({ type: 'ACTUALLY_LOGGED_IN',
   payload: new Promise((resolve, reject) => {
 
 
@@ -79,7 +80,7 @@ export const actuallyLoggedIn = () => (dispatch,getState) => dispatch({ type: 'A
     const navs = Object.keys(state.navigation.navigators)
     const navigatorUID = navs[0];
     const onboarded = state.user.user_id && state.user.status == 'onboarded';
-    dispatch(NavigationActions.replace(navigatorUID, Router.getRoute( onboarded ? 'Potentials' : 'Onboard')));
+    dispatch(NavigationActions.replace(navigatorUID, Router.getRoute(onboarded ? 'Potentials' : 'Onboard')));
     dispatch(NavigationActions.popToTop(navigatorUID));
 
     // dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute(  'Potentials' )]));
@@ -88,7 +89,7 @@ export const actuallyLoggedIn = () => (dispatch,getState) => dispatch({ type: 'A
 })
 
 
-export const pushRoute = (route,params) => (dispatch,getState) => dispatch({ type: 'PUSH_ROUTE',
+export const pushRoute = (route, params) => (dispatch, getState) => dispatch({ type: 'PUSH_ROUTE',
   payload: new Promise((resolve, reject) => {
     const state = getState()
     const navs = Object.keys(state.navigation.navigators)
@@ -103,7 +104,7 @@ export const pushRoute = (route,params) => (dispatch,getState) => dispatch({ typ
   }),
 });
 
-export const resetRoute = (route,params = {}) => (dispatch,getState) => dispatch({ type: 'RESET_ROUTE',
+export const resetRoute = (route, params = {}) => (dispatch, getState) => dispatch({ type: 'RESET_ROUTE',
   payload: new Promise((resolve, reject) => {
     const state = getState()
     const navs = Object.keys(state.navigation.navigators)
@@ -114,7 +115,7 @@ export const resetRoute = (route,params = {}) => (dispatch,getState) => dispatch
   }),
 });
 
-export const replaceRoute = (route,params = {}) => (dispatch,getState) => dispatch({ type: 'REPLACE_ROUTE',
+export const replaceRoute = (route, params = {}) => (dispatch, getState) => dispatch({ type: 'REPLACE_ROUTE',
   payload: new Promise((resolve, reject) => {
     const state = getState()
     const navs = Object.keys(state.navigation.navigators)
@@ -126,17 +127,17 @@ export const replaceRoute = (route,params = {}) => (dispatch,getState) => dispat
 });
 
 
-export const loginWithSavedFbCreds = (fbData) => (dispatch,getState) => dispatch({ type: 'LOGIN_WITH_SAVED_FB_CREDS',
-payload: new Promise((resolve, reject) => {
-  __DEV__ && console.log('loginWithSavedFbCreds',fbData);
-    api.fbLogin(fbData).then( result => {
+export const loginWithSavedFbCreds = (fbData) => (dispatch, getState) => dispatch({ type: 'LOGIN_WITH_SAVED_FB_CREDS',
+  payload: new Promise((resolve, reject) => {
+    __DEV__ && console.log('loginWithSavedFbCreds', fbData);
+    api.fbLogin(fbData).then(result => {
       dispatch({ type: 'FIREBASE_AUTH', payload: checkFireLoginState(fbData, dispatch) })
       const state = getState()
       const navs = Object.keys(state.navigation.navigators)
       const navigatorUID = navs[0];
       const onboarded = result.user_id && result.fb_authorized && result.user_info.status == 'onboarded';
-      __DEV__ && console.log(result,onboarded);
-      dispatch(NavigationActions.replace(navigatorUID, Router.getRoute(onboarded ? 'Potentials' : 'Onboard' )));
+      __DEV__ && console.log(result, onboarded);
+      dispatch(NavigationActions.replace(navigatorUID, Router.getRoute(onboarded ? 'Potentials' : 'Onboard')));
       dispatch(NavigationActions.popToTop(navigatorUID));
 
       // dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute( onboarded ?  'Potentials' : 'OnboardModal')]));
@@ -146,26 +147,23 @@ payload: new Promise((resolve, reject) => {
   })
 })
 
-export const onboardUserNowWhat = payload => (dispatch,getState) => dispatch({ type: 'ONBOARD_USER_NOW_WHAT',
+export const onboardUserNowWhat = payload => (dispatch, getState) => dispatch({ type: 'ONBOARD_USER_NOW_WHAT',
   payload: new Promise((resolve, reject) => {
-    console.log(payload);
+    __DEV__ && console.log('onboard payload', payload);
     api.onboard(payload).then(result => {
-      const state = getState()
-        __DEV__ && console.log(result);
-        const navs = Object.keys(state.navigation.navigators)
-        const navigatorUID = navs[0];
+      const state = getState();
+      __DEV__ && console.log(result);
+      const navs = Object.keys(state.navigation.navigators)
+      const navigatorUID = navs[0];
 
-        resolve( result)
-        dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute('Potentials')]));
+      resolve(result)
+      dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute('Potentials')]));
 
     })
 
 
-
   })
 })
-
-
 
 
 export const sessionAuth = () => async dispatch => {
@@ -222,23 +220,23 @@ export const getFacebookProfile = fbUser => dispatch => {
 
 /* fetchFacebookAlbums | FETCH_FACEBOOK_ALBUMS */
 export const fetchFacebookAlbums = fbUser => dispatch => dispatch({ type: 'FETCH_FACEBOOK_ALBUMS',
-    payload: {
-      promise: new Promise((resolve, reject) => {
+  payload: {
+    promise: new Promise((resolve, reject) => {
 
-        const {accessToken} = fbUser;
-        const fbUrl = `https://graph.facebook.com/v2.8/${fbUser.userID}/albums?access_token=${fbUser.accessToken}&fields=id,photos{images},name,link,picture{url},count`;
+      const {accessToken} = fbUser;
+      const fbUrl = `https://graph.facebook.com/v2.8/${fbUser.userID}/albums?access_token=${fbUser.accessToken}&fields=id,photos{images},name,link,picture{url},count`;
 
-        return fetch(fbUrl).then(res => {
-          __DEV__ && console.log(res);
-          return res.json()
-        })
+      return fetch(fbUrl).then(res => {
+        __DEV__ && console.log(res);
+        return res.json()
+      })
         .then(responseData => {
           __DEV__ && console.log(responseData);
           resolve(responseData)
         })
-      })
-    }
-  })
+    })
+  }
+})
 
   // const infoRequest = new GraphRequest('me', {parameters, accessToken}, (err, fbProfile) => {
   //   if(err){

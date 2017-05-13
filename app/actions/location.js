@@ -11,7 +11,7 @@ export const getLocation = () => dispatch => dispatch({ type: 'GET_LOCATION',
       Permissions.getPermissionStatus('location')
         .then(permission => {
           if(permission == 'authorized'){
-            global.navigator.geolocation.getCurrentPosition(geo => {
+            navigator.geolocation.getCurrentPosition(geo => {
               if(geo && geo.coords){
                 dispatch({ type: 'GOT_LOCATION', payload: geo.coords})
                 return api.updateUser(geo.coords)

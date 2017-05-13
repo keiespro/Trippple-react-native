@@ -29,7 +29,8 @@ const apiActions = [
   'verifyPin',
   'hideProfile',
   'showProfile',
-  'browse'
+  'browse',
+  'getUsersLiked'
 ];
 
 const endpointMap = apiActions.map(call => {

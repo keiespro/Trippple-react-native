@@ -1,9 +1,8 @@
 
 import Promise from 'bluebird'
-import {NativeModules, Alert, VibrationIOS, PushNotificationIOS, Platform} from 'react-native'
-import PushNotification from 'react-native-push-notification'
+import {NativeModules, Alert, VibrationIOS, Platform,PushNotificationIOS} from 'react-native'
 import api from '../utils/api'
-const getBadgeNumber = Promise.promisify(PushNotification.getApplicationIconBadgeNumber)
+
 import ApiActionCreators from './ApiActionCreators'
 const iOS = Platform.OS == 'ios';
 
@@ -35,10 +34,10 @@ const NOTIFICATION_TYPES = {
 
 export const updateBadgeNumber = (delta) => dispatch => dispatch({ type: 'UPDATE_BADGE_NUMBER',
   payload: new Promise((resolve, reject) => {
-    getBadgeNumber()
-    .then(currentBadge => PushNotification.setApplicationIconBadgeNumber(currentBadge + delta))
+    iOS ? PushNotificationIOS.getApplicationIconBadgeNumber()
+    .then(currentBadge => PushNotificationIOS.setApplicationIconBadgeNumber(currentBadge + delta))
     .then(resolve)
-    .catch(reject)
+    .catch(reject) : resolve()
   })
 });
 

@@ -9,6 +9,7 @@ import {persistStore, autoRehydrate, } from 'redux-persist'
 import {REHYDRATE} from 'redux-persist/constants'
 import { composeWithDevTools } from 'redux-devtools-instrument'
 import immutableTransform from 'redux-persist-transform-immutable'
+import perflogger from 'redux-perf-middleware';
 
 import { createNavigationEnabledStore } from '@exponent/ex-navigation'
 import ActionMan from './actions/'
@@ -22,25 +23,26 @@ const logger = createLogger({
 });
 
 const middlewares = [
+  perflogger,
   thunk,
   promiseMiddleware(),
   createActionBuffer(REHYDRATE),
   // throttleActions(['UPDATE_USER'], 2000, {leading: true, trailing: false }),
   // throttleActions(['EX_NAVIGATION.PUSH'], 700, {leading: true, trailing: false }),
-  throttleActions(['OPEN_PROFILE','CLOSE_PROFILE',], 300, {leading: true, trailing: false }),
-  throttleActions(['FETCH_BROWSE','GET_POTENTIALS','GET_MESSAGES','GET_MATCHES'], 1000, {leading: true, trailing: false }),
+  throttleActions(['OPEN_PROFILE', 'CLOSE_PROFILE',], 300, {leading: true, trailing: false }),
+  throttleActions(['GET_POTENTIALS', 'GET_MESSAGES', 'GET_MATCHES'], 1000, {leading: true, trailing: false }),
   createPrefetcher({
     watchKeys: [
       {
-        'GET_POTENTIALS_FULFILLED': {
+        GET_POTENTIALS_FULFILLED: {
           key: 'matches',
           location: {
             user: {
-            image_url: true
+              image_url: true
+            }
           }
         }
-      }
-    }
+      },
 
     ]
   }),
@@ -65,34 +67,34 @@ const middlewares = [
 function configureStore(initialState = ({})) {
   if(global.__DEV__) {
     const bak = global.XMLHttpRequest;
-      const xhr = global.originalXMLHttpRequest ?
+    const xhr = global.originalXMLHttpRequest ?
         global.originalXMLHttpRequest :
         global.XMLHttpRequest;
 
-      global.XMLHttpRequest = xhr;
+    global.XMLHttpRequest = xhr;
       //
 
-      const comp = typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-        actionCreators: ActionMan,
-        maxAge: 200,
-      }) : compose
+    const comp = typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+      actionCreators: ActionMan,
+      maxAge: 200,
+    }) : compose
 
     const store = createNavigationEnabledStore(createStore)(
         createReducer(),
         comp(
           autoRehydrate({log: true}),
-          applyMiddleware(...middlewares),//logger
+          applyMiddleware(...middlewares), //logger
         ),
       );
 
     const persistor = persistStore(store, {
       storage: AsyncStorage,
-      blacklist: ['appNav','navigation','ui', 'potentials'],
+      blacklist: ['appNav', 'navigation', 'ui', 'potentials'],
       transforms: [immutableTransform({
         whitelist: ['browse']
       })]
     })
-    persistor.purge(['ui','navigation'])
+    persistor.purge(['ui', 'navigation'])
 
     if(module.hot) {
       module.hot.accept(() => {
@@ -102,9 +104,8 @@ function configureStore(initialState = ({})) {
     }
 
 
-
     return store
-  } else {
+  }else{
     const store = createNavigationEnabledStore(createStore)(
       createReducer(),
       compose(

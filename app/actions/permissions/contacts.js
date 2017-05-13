@@ -1,10 +1,10 @@
 import { PermissionsAndroid, Platform } from 'react-native'
-import Contacts from 'react-native-contacts'
+// import Contacts from 'react-native-contacts'
 import Promise from 'bluebird'
-
-const ContactGetter = Promise.promisify(Contacts.getAll)
-const checkPermission = Promise.promisify(Contacts.checkPermission)
-const requestPermission = Promise.promisify(Contacts.requestPermission)
+//
+// const ContactGetter = Promise.promisify(Contacts.getAll)
+// const checkPermission = Promise.promisify(Contacts.checkPermission)
+// const requestPermission = Promise.promisify(Contacts.requestPermission)
 
 export default {checkContactsPermission, requestContactsPermission}
 
@@ -26,24 +26,24 @@ export const requestContactsPermission = () => dispatch => dispatch({ type: 'CHE
 
 const request = {
   async ios(){
-    const permission = await requestPermission()
-    let perm;
-    try{
-   // ContactGetter.PERMISSION_AUTHORIZED || ContactGetter.PERMISSION_UNDEFINED || ContactGetter.PERMISSION_DENIED
-      if(permission === ContactGetter.PERMISSION_UNDEFINED){
-        perm = 'unknown'
-      }
-      if(permission === ContactGetter.PERMISSION_AUTHORIZED){
-        perm = 'true'
-      }
-      if(permission === ContactGetter.PERMISSION_DENIED){
-        perm = 'denied'
-      }
-    }catch(err){
-      // __DEV__ && console.warn(err)
-      throw new Error(err)
-    }
-    return perm
+  //   const permission = await requestPermission()
+  //   let perm;
+  //   try{
+  //  // ContactGetter.PERMISSION_AUTHORIZED || ContactGetter.PERMISSION_UNDEFINED || ContactGetter.PERMISSION_DENIED
+  //     if(permission === ContactGetter.PERMISSION_UNDEFINED){
+  //       perm = 'unknown'
+  //     }
+  //     if(permission === ContactGetter.PERMISSION_AUTHORIZED){
+  //       perm = 'true'
+  //     }
+  //     if(permission === ContactGetter.PERMISSION_DENIED){
+  //       perm = 'denied'
+  //     }
+  //   }catch(err){
+  //     // __DEV__ && console.warn(err)
+  //     throw new Error(err)
+  //   }
+    return 'Depricated'
   },
 
   async android() {
@@ -64,24 +64,24 @@ const request = {
 
 const check = {
   async ios(){
-    const permission = await checkPermission()
-    let perm;
-    try{
-   // ContactGetter.PERMISSION_AUTHORIZED || ContactGetter.PERMISSION_UNDEFINED || ContactGetter.PERMISSION_DENIED
-      if(permission === ContactGetter.PERMISSION_UNDEFINED){
-        perm = 'unknown'
-      }
-      if(permission === ContactGetter.PERMISSION_AUTHORIZED){
-        perm = 'true'
-      }
-      if(permission === ContactGetter.PERMISSION_DENIED){
-        perm = 'denied'
-      }
-    }catch(err){
-      // __DEV__ && console.warn(err)
-      throw new Error(err)
-    }
-    return perm
+  //   const permission = await checkPermission()
+  //   let perm;
+  //   try{
+  //  // ContactGetter.PERMISSION_AUTHORIZED || ContactGetter.PERMISSION_UNDEFINED || ContactGetter.PERMISSION_DENIED
+  //     if(permission === ContactGetter.PERMISSION_UNDEFINED){
+  //       perm = 'unknown'
+  //     }
+  //     if(permission === ContactGetter.PERMISSION_AUTHORIZED){
+  //       perm = 'true'
+  //     }
+  //     if(permission === ContactGetter.PERMISSION_DENIED){
+  //       perm = 'denied'
+  //     }
+  //   }catch(err){
+  //     // __DEV__ && console.warn(err)
+  //     throw new Error(err)
+  //   }
+    return 'deprecated'
   },
 
   async android() {

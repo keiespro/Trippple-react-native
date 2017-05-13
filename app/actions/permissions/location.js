@@ -3,7 +3,7 @@ import Promise from 'bluebird'
 import Permissions from 'react-native-permissions'
 import {getLocation} from '../location'
 
-const askLocation = Promise.promisify(global.navigator.geolocation.getCurrentPosition)
+// const askLocation = Promise.promisify(navigator.geolocation.getCurrentPosition)
 
 export default {checkLocationPermission, requestLocationPermission}
 
@@ -48,7 +48,7 @@ export const requestLocationPermission = () => dispatch => dispatch({ type: 'REQ
 
 const request = {
   async ios(){
-    const geo = await askLocation()
+    const geo = await navigator.geolocation.getCurrentPosition()
     return geo.coords;
   },
   async android() {
