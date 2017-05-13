@@ -29,3 +29,5 @@ if(__DEV__){
 const Trippple = (props => <NewBoot {...props}/>)
 
 AppRegistry.registerComponent('Trippple', () => Trippple)
+
+export default Trippple

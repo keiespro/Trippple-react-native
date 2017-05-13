@@ -3,7 +3,6 @@ import {Settings, View, Platform} from 'react-native'
 import TouchID from 'react-native-touch-id'
 import LockFailed from './components/LockFailed'
 import AppContainer from './AppContainer'
-import loadSavedCredentials from './utils/Credentials'
 import configureStore from './store';
 import {sessionAuth} from './actions/facebook'
 
@@ -25,17 +24,13 @@ class NewBoot extends Component{
     }
     if(!this.state.initialized) this.initialize()
   }
-  component(){
 
-  }
   initialize(){
-
-      this.setState({initialized: true})
-      // store.dispatch(sessionAuth())
-
+    this.setState({initialized: true})
+    // store.dispatch(sessionAuth())
   }
+
   checkTouchId(){
-    console.log('c');
     TouchID.authenticate('Access Trippple')
       .then(success => {
         __DEV__ && console.log(success, 'success');
@@ -54,9 +49,9 @@ class NewBoot extends Component{
   }
 
   render() {
-    if(this.state.lockFailed){ return <LockFailed retry={this.checkTouchId.bind(this)}/> }
+    if(this.state.lockFailed){ return <LockFailed retry={this.checkTouchId.bind(this)} /> }
 
-    return this.state.locked || !this.state.initialized ? <View/> : <AppContainer store={store} />
+    return this.state.locked || !this.state.initialized ? <View /> : <AppContainer store={store} />
   }
 }
 

@@ -44,7 +44,7 @@ class SettingsSettings extends React.Component{
 
   constructor(props){
     super()
-    const settings = Settings._settings || {}
+    const settings = (Settings && Settings._settings) ? Settings._settings : {LockedWithTouchID:false}
     this.state = {
       privacy: props.user.privacy || 'public',
       isLocked: (iOS && settings.LockedWithTouchID) || null

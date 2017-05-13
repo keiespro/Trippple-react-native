@@ -1,6 +1,7 @@
-import {Platform, NativeModules} from 'react-native'
+import {Platform} from 'react-native'
+import RNDeviceInfo from 'react-native-device-info'
 
-const systemVersion = NativeModules.RNDeviceInfo.systemVersion;
+const systemVersion = RNDeviceInfo.systemVersion;
 const iOS = Platform.OS == 'ios';
 
 export default function settingsReducer(state = initialState, action) {
