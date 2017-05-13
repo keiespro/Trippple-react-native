@@ -40,7 +40,7 @@ export class Browse extends React.Component{
 
   constructor(props) {
     super();
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2 && r1.liked !== r2.liked });
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) =>  r1.liked != r2.liked});
     this.state = {
       users: props.users,
       dataSource: ds.cloneWithRows(props.users),
@@ -58,9 +58,8 @@ export class Browse extends React.Component{
 
   }
   componentWillReceiveProps(nProps){
-    if(nProps.currentFilter != this.props.currentFilter || nProps.users.length != this.props.users.length){
-
-      const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2 && r1.liked !== r2.liked });
+    if(nProps.currentFilter != this.props.currentFilter || nProps.users.length != this.props.users.length || this.props.likeCount != nProps.likeCount){
+      const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.liked != r2.liked });
       this.setState({
         users: nProps.users,
         dataSource: ds.cloneWithRows(nProps.users),
@@ -93,12 +92,13 @@ export class Browse extends React.Component{
       likeStatus: rowData.user.liked ? 'deny' : 'approve',
       relStatus: this.props.user.relationship_status == 'single' ? 'couple' : 'single',
       rel: this.props.user.relationship_status,
+      filter: this.props.currentFilter
     }));
+
   }
 
   renderRow(rowData, sectionID, rowID, highlightRow){
-    console.log(rowData);
-    const {user, partner} = rowData;
+    const {user,partner} = rowData;
     const isLiked = user ? user.liked : true;
     const img = (user && user.image_url) || (partner && partner.image_url);
     const imgSource = img ? {uri: img.replace('test/', '').replace('images/', '')} : require('./assets/defaultuser.png')
@@ -198,7 +198,6 @@ export class Browse extends React.Component{
   }
 
   render(){
-    console.log('render')
     const tabs = ['Newest', 'Popular', 'Nearby']
     return (
       <View style={{marginTop: 66}}>
@@ -291,7 +290,6 @@ export class Browse extends React.Component{
 
 const mapStateToProps = (state, ownProps) => {
 
-  console.log(state.browse.toJS());
 
   return ({
     ...ownProps,
@@ -303,6 +301,7 @@ const mapStateToProps = (state, ownProps) => {
     pagenearby: state.ui.browsePagenearby,
     pagepopular: state.ui.browsePagepopular,
     likes: {...state.swipeQueue, ...state.swipeHistory},
+    likeCount: state.likes.fullCount,
     showBrowseTooltip: state.user.showBrowseTooltip
   })
 }

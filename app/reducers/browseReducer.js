@@ -16,16 +16,20 @@ function createBrowseReducer(filter = 'newest') {
         return initialState;
 
       case 'SEND_LIKE_FULFILLED':
-        return action.meta.filter == filter ? state.merge({
-          user: {
-            liked: action.meta.likeStatus == 'approve',
-          },
-          likedAt: Date.now()
+        return action.meta.filter == filter ? state.mergeDeep({
+          [action.meta.likeUserId]: {
+            user: {
+              ...state.toJS()[action.meta.likeUserId].user,
+              liked: action.meta.likeStatus == 'approve',
+
+            },
+            likedAt: Date.now()
+          }
         }) : state
 
       case 'FETCH_BROWSE_FULFILLED':
         if(action.meta.filter != filter) return state;
-        return action.payload ? state.merge(action.payload) : state;
+        return action.payload ? state.mergeDeep(action.payload) : state;
 
       default:
         return state;
