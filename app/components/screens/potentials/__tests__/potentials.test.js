@@ -1,13 +1,14 @@
 import 'react-native';
 import React from 'react';
-
-// Note: test renderer must be required after react-native.
-import renderer from 'react-test-renderer';
 import Potentials from '../potentials';
+import mockStore from 'redux-mock-store'
 
-it('renders correctly', () => {
+import renderer from 'react-test-renderer';
+
+test('renders correctly', () => {
+  const store = mockStore({ui:{potentialsPage:1},auth:{}})()
   const tree = renderer.create(
-    <Potentials />
+    <Potentials store={store} profileVisible={false} potentialsPage={1} />
   ).toJSON();
   expect(tree).toMatchSnapshot();
 

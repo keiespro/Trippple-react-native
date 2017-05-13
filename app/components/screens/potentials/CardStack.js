@@ -324,9 +324,9 @@ class CardStack extends React.Component {
               }),
               top:  iOS ? 60 : this.props.profileVisible ? 0 : 40,// iOS ? this.props.profileVisible ? 0 : 0 :  this.props.profileVisible ? 0 : 0,
               transform: [
-                {
+              {
                   scale: this.state.cardopen
-                },
+              },
               ],
 
             }]}

@@ -20,7 +20,7 @@ export default class CityState extends Component{
   }
 
   componentDidMount(){
-    this.geocode()
+    if(!this.props.cityState){this.geocode()}
   }
 
   async geocode(){

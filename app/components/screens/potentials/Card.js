@@ -1,6 +1,6 @@
 import { Dimensions } from 'react-native';
 import React from 'react';
-import NewCard from './NewCard';
+import NewCard from './NewerCard';
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth  = Dimensions.get('window').width;

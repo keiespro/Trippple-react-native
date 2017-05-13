@@ -20,7 +20,7 @@ const DeviceWidth = Dimensions.get('window').width;
 
 
 
-class Potentials extends React.Component{
+export class Potentials extends React.Component{
   static route = {
     styles: NavigationStyles.Fade,
     statusBar: {
@@ -166,58 +166,58 @@ class Potentials extends React.Component{
           flexGrow: 1,height:DeviceHeight,width:DeviceWidth
         }}
       >
-      {potentialsPage == 0 ? (
-        <View
-          style={[
-            styles.cardStackContainer,
-            {
+        {potentialsPage == 0 ? (
+          <View
+            style={[
+              styles.cardStackContainer,
+              {
+                top: 0,
+                bottom:0,
+                left:0,right:0,
+                position: 'absolute',
+                flexGrow: 1,
+              }
+            ]}
+            pointerEvents={'box-none'}
+          >
+            <PotentialsPlaceholder
+              navigator={this.props.navigator}
+              navigation={this.props.navigation}
+              user={this.props.user}
+              hasPotentials={potentials.length > 1}
+              didShow={this.state.didShow}
+              onDidShow={() => { this.setState({didShow: true}); }}
+            />
+
+            { potentials.length && this.state.showPotentials ?
+              <CardStack
+                user={user}
+                rel={this.props.user.relationship_status}
+                dispatch={this.props.dispatch}
+                potentials={potentials}
+                drawerOpen={this.props.drawerOpen}
+                navigator={this.props.navigator}
+                profileVisible={this.props.profileVisible}
+                toggleProfile={this.toggleProfile.bind(this)}
+
+              />
+            : null}
+
+            <Toolbar dispatch={this.props.dispatch} key={'ts'}/>
+          </View>
+        ) : (
+          <View
+            style={{
               top: 0,
               bottom:0,
+              position:'absolute',
               left:0,right:0,
-              position: 'absolute',
-              flexGrow: 1,
-            }
-          ]}
-          pointerEvents={'box-none'}
-        >
-          <PotentialsPlaceholder
-            navigator={this.props.navigator}
-            navigation={this.props.navigation}
-            user={this.props.user}
-            hasPotentials={potentials.length > 1}
-            didShow={this.state.didShow}
-            onDidShow={() => { this.setState({didShow: true}); }}
-          />
-
-          { potentials.length && this.state.showPotentials ?
-            <CardStack
-              user={user}
-              rel={this.props.user.relationship_status}
-              dispatch={this.props.dispatch}
-              potentials={potentials}
-              drawerOpen={this.props.drawerOpen}
-              navigator={this.props.navigator}
-              profileVisible={this.props.profileVisible}
-              toggleProfile={this.toggleProfile.bind(this)}
-
-            />
-           : null}
-
-          <Toolbar dispatch={this.props.dispatch} key={'ts'}/>
-        </View>
-      ) : (
-        <View
-          style={{
-            top: 0,
-            bottom:0,
-            position:'absolute',
-            left:0,right:0,
-            alignItems:'stretch',
-            backgroundColor: colors.outerSpace,
-            flexGrow: 1,height:DeviceHeight,width:DeviceWidth
-          }}
-        >
-          <Browse/>
+              alignItems:'stretch',
+              backgroundColor: colors.outerSpace,
+              flexGrow: 1,height:DeviceHeight,width:DeviceWidth
+            }}
+          >
+            <Browse/>
           <Toolbar dispatch={this.props.dispatch} key={'ts'}/>
 
         </View>
