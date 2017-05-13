@@ -1,12 +1,14 @@
 // import Arrows from "./Arrows";
 
-import Mixpanel from 'react-native-mixpanel'
+import MixPanel from 'react-native-mixpanel'
 // import TrackEvt from "rn-redux-mixpanel/lib/api/trackEvent";
+const MP = MixPanel || {}
+console.log(MP);
 
 function TrackEvt(name,e){
   let event = Object.keys(e).length ? e : null;
-  // __DEV__ && console.log('Mixpanel: ', name , event ?  ' ---> '+ "| " +  event.name + " | <---" :  " <---")
-  event ? Mixpanel.trackWithProperties(name, event) : Mixpanel.track(name)
+  // __DEV__ && console.log('MP: ', name , event ?  ' ---> '+ "| " +  event.name + " | <---" :  " <---")
+  event ? MP.trackWithProperties(name, event) : MP.track(name)
 }
 
 const TOKEN = 'c829c0dc2c5cf14f573f72bf58ef3600';
@@ -23,8 +25,8 @@ const THREE_SECONDS = 5000;
 
 var _distinctId;
 
-Mixpanel.sharedInstanceWithToken(TOKEN)
-// 
+MP.sharedInstanceWithToken && MP.sharedInstanceWithToken(TOKEN)
+//
 // function now() {
 //     let now = new Date();
 //     return now.getTime();
@@ -83,7 +85,7 @@ export default {
   },
   identify(distinctId) {
     _distinctId = distinctId;
-    Mixpanel.identify(distinctId)
+    MP.identify(distinctId)
     // return this;
   }
 }

@@ -1,22 +1,12 @@
 import RNMixpanel from 'react-native-mixpanel'
-
-import {Settings, NativeModules,Platform} from 'react-native'
-import _ from 'lodash'
+import {NativeModules, Platform} from 'react-native'
 import { GoogleAnalyticsTracker, GoogleAnalyticsSettings } from 'react-native-google-analytics-bridge';
-
 import RNFB from 'react-native-firebase3'
 import SETTINGS_CONSTANTS from './SettingsConstants'
 import Mixpanel from './mixpanel'
 
 const iOS = Platform.OS == 'ios';
-
-const {HAS_IDENTITY} = SETTINGS_CONSTANTS
 const {RNUXCam} = NativeModules
-
-
-
-const __TEST__ = global.__TEST__ || false;
-
 const Firelytics = RNFB.Analytics;
 
 if(!__DEV__){
@@ -32,9 +22,8 @@ class Analytics{
       GoogleAnalyticsSettings.setDryRun(false);
       this.ga.allowIDFA(true)
     }
-    if(__DEBUG__ || __TEST__) {
+    if(__DEV__ || __TEST__){
       GoogleAnalyticsSettings.setDryRun(true);
-
       Firelytics.setEnabled(false);
     }
   }
@@ -76,7 +65,7 @@ class Analytics{
   setUserProperties(propsToTag){
     // MIXPANEL: assign user extra properties which can help identify them
 
-    if(!propsToTag || typeof propsToTag != 'object' || !Object.keys(propsToTag).length){ return }
+    if(!propsToTag || typeof propsToTag != 'object' || !Object.keys(propsToTag).length){ }
 
     // Object.keys(propsToTag).map(k => RNMixpanel.set(k,propsToTag[k]));
     // RNMixpanel.set(propsToTag)
@@ -111,8 +100,7 @@ class Analytics{
 
 
     if(iOS){
-        RNUXCam.tagScreenName(screen,(result) => {
-      });
+      RNUXCam.tagScreenName(screen, result => { __DEV__ && console.log(result) });
     }else{
       RNUXCam.tagScreenName(screen)
     }
@@ -150,25 +138,27 @@ class Analytics{
     // __DEV__ && console.log(`ERROR:`, error)
 
     // __DEV__ && console.warn(`ERROR:`, error)
-    this.ga && this.ga.trackException( JSON.stringify(error), false);
+    this.ga && this.ga.trackException(JSON.stringify(error), false);
   }
 
-  log(){
-    __DEV__ && console.log('LOG:', {...arguments})
+  log(...args){
+    __DEV__ && console.log('LOG:', {...args})
   }
 
   timeEvent(event, data){
-    __DEV__ && console.log(`Event: ${event}`, 'EventData:', ...eventData)
+    if(__TEST__) return;
+    __DEV__ && console.log(`Event: ${event}`, 'EventData:', ...data)
 
     RNMixpanel.timeEvent(event);
   }
 
   timeEnd(event){
+    if(__TEST__) return;
     Mixpanel.track(event);
   }
 
   warning(title, body){
-    const warningSigns = `\n\n⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️\n\n`;
+    const warningSigns = '\n\n⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️\n\n';
 
     __DEV__ && console.warn(`WARNING - ${title}`, warningSigns + body + warningSigns);
   }
