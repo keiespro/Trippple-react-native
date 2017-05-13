@@ -1,16 +1,18 @@
 {
     "parser": "babel-eslint",
     "env": {
-        "browser": true
+        "browser": true,
+        "jest/globals": true
     },
     "globals": {
       "__DEV__": true,
       "__DEBUG__": true,
-      "__TEST__": false
+      "__TEST__": true
     },
     "plugins": [
         "react",
-        "react-native"
+        "react-native",
+        "jest"
     ],
     "extends": [
         "airbnb",
