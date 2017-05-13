@@ -1,3 +1,4 @@
+
 import {StyleSheet, AppState, Text, Image, Linking, Platform, View, Dimensions, TouchableOpacity} from 'react-native';
 
 import React, {Component, PropTypes} from 'react';
@@ -34,7 +35,7 @@ class PermissionsModal extends Component{
     buttonText: 'YES',
     imageStyle: {},
     isPersistant: false,
-    imageSource: require('../assets/iconModalDenied@3x.png'),
+    imageSource: '../assets/iconModalDenied@3x.png',
    };
 
   componentDidMount(){
@@ -203,7 +204,7 @@ class PermissionsModal extends Component{
 
           {this.props.hasPermission == 'denied' ? this.renderFailed() :
             <View style={{flexDirection:'column', width: DeviceWidth,
-                justifyContent:'space-between',height:500,alignItems: 'center'}}>
+            justifyContent:'space-between',height:500,alignItems: 'center'}}>
               <View style={{alignItems: 'center'}}>
                 {this.props.renderImage ? this.props.renderImage() :
                   <Image
@@ -214,7 +215,7 @@ class PermissionsModal extends Component{
                       marginBottom: MagicNumbers.is4s ? 15 : 30,
                       marginTop: MagicNumbers.is4s ? 10 : 20
                     },this.props.imageStyle]}
-                    source={this.props.imageSource}
+                    source={typeof this.props.imageSource == 'string' ? require(this.props.imageSource) : this.props.imageSource}
                   />
                 }
               </View>
