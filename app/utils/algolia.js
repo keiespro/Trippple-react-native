@@ -5,11 +5,21 @@ const ALGOLIA_APP_ID = '4EUY1VTSEK';
 const ALGOLIA_READ_KEY = 'b8bc2299cd2d7beef40707a3c152cf38';
 
 const helper = algoliaSearchHelper(algoliasearch(ALGOLIA_APP_ID, ALGOLIA_READ_KEY), 'User', {
-  facets: ['relationship_status', 'gender'],
+  hitsPerPage: 20,
+  hierarchicalFacets: [{
+    name: 'users',
+    attributes: ['id'],
+    sortBy: ['desc']
+  }]
+});
+
+const geoHelper = algoliaSearchHelper(algoliasearch(ALGOLIA_APP_ID, ALGOLIA_READ_KEY), 'User', {
+  hitsPerPage: 20,
+  getRankingInfo: true,
 });
 
 const popularityHelper = algoliaSearchHelper(algoliasearch(ALGOLIA_APP_ID, ALGOLIA_READ_KEY), 'User_by_popularity', {
-  facets: ['relationship_status', 'gender'],
+  hitsPerPage: 20,
 });
 
 const defaults = {relationshipStatus: 'single', gender: 'f', distanceInMeters: 48280, minAge: 18, maxAge: 60, coords: null}
@@ -18,7 +28,7 @@ const defaults = {relationshipStatus: 'single', gender: 'f', distanceInMeters: 4
 function getGeo(coords){
   let c;
   if(coords && coords.lat && coords.lng){
-    c = { geoLabel: 'aroundLatLng', geoValue: `${coords.lat},${coords.lng}` }
+    c = { geoLabel: 'aroundLatLng', geoValue: `${coords.lat.toFixed(2)},${coords.lng.toFixed(2)}` }
   }else{
     c = { geoLabel: 'aroundLatLngViaIP', geoValue: true }
   }
@@ -59,6 +69,7 @@ export async function fetchNewestBrowse(params){
   try{
 
     const result = await helper
+      .setQueryParameter('getRankingInfo', true)
       .setPage(params.page)
       .searchOnce();
 
@@ -76,8 +87,9 @@ export async function fetchPopularBrowse(params){
   try{
 
     const result = await popularityHelper
+      .setQueryParameter('getRankingInfo', true)
       .setPage(params.page)
-      .searchOnce()
+      .searchOnce();
 
     return formatForBrowse(result)
 
@@ -91,12 +103,12 @@ export async function fetchPopularBrowse(params){
 export async function fetchNearbyBrowse(params){
   try{
     const c = getGeo(params.coords)
-
-    const result = await helper.setQueryParameter(c.geoLabel, c.geoValue)
-      .setQueryParameter('getRankingInfo', true)
-      .setQueryParameter('aroundRadius', 100000)
+    const result = await geoHelper
+      .setQueryParameter(c.geoLabel, c.geoValue)
+      .setQueryParameter('aroundRadius', 20000)
+      .setQueryParameter('aroundPrecision', 100)
       .setPage(params.page)
-      .searchOnce({hitsPerPage: 20});
+      .searchOnce();
 
     return formatForBrowse(result)
   }catch(err){

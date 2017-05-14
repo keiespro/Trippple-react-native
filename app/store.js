@@ -89,12 +89,12 @@ function configureStore(initialState = ({})) {
 
     const persistor = persistStore(store, {
       storage: AsyncStorage,
-      blacklist: ['appNav', 'navigation', 'ui', 'potentials'],
+      blacklist: ['appNav', 'navigation', 'ui', 'potentials', 'browse'],
       transforms: [immutableTransform({
         whitelist: ['browse']
       })]
     })
-    persistor.purge(['ui', 'navigation'])
+    persistor.purge(['ui', 'navigation', 'browse'])
 
     if(module.hot) {
       module.hot.accept(() => {

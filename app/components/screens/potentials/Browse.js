@@ -1,10 +1,14 @@
 
-import { View, Dimensions, Text, ScrollView, ListView, Platform, RefreshControl, TouchableOpacity, Image } from 'react-native'
+import { View, Dimensions, Text, ScrollView, ListView, StyleSheet, Platform, RefreshControl, TouchableOpacity, Image } from 'react-native'
 import _ from 'lodash'
 import React from 'react'
 import { connect } from 'react-redux'
 import {BlurView} from 'react-native-blur'
-
+import {
+  SlidingTabNavigation,
+  withNavigation,
+  SlidingTabNavigationItem,
+} from '@exponent/ex-navigation'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 import CardLabel from '../../CardLabel'
@@ -46,7 +50,7 @@ export class Browse extends React.Component{
       dataSource: ds.cloneWithRows(props.users),
 
     };
-    console.log(props.users);
+    // console.log(props.users);
   }
   componentDidMount(){
     if(this.props.showBrowseTooltip){
@@ -58,7 +62,7 @@ export class Browse extends React.Component{
 
   }
   componentWillReceiveProps(nProps){
-    if(nProps.currentFilter != this.props.currentFilter || nProps.users.length != this.props.users.length || this.props.likeCount != nProps.likeCount){
+    if(nProps.users.length != this.props.users.length || this.props.likeCount != nProps.likeCount){
       const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.liked != r2.liked });
       this.setState({
         users: nProps.users,
@@ -66,9 +70,9 @@ export class Browse extends React.Component{
       });
     }
 
-    if(nProps.currentFilter != this.props.currentFilter){
-      this.props.dispatch(ActionMan.fetchBrowse({coords: {lat: this.props.user.latitude, lng: this.props.user.longitude }, filter: this.props.currentFilter, page: this.props[`page${this.props.currentFilter}`]}))
-    }
+    // if(nProps.currentFilter != this.props.currentFilter){
+    //   this.props.dispatch(ActionMan.fetchBrowse({coords: {lat: this.props.user.latitude, lng: this.props.user.longitude }, filter: this.props.currentFilter, page: this.props[`page${this.props.currentFilter}`]}))
+    // }
   }
 
   _onRefresh() {
@@ -96,7 +100,17 @@ export class Browse extends React.Component{
     }));
 
   }
-
+  getRankingInfo(rowData){
+    // console.log(this.props.currentFilter,rowData.user);
+    switch(this.props.currentFilter){
+      case "newest":
+        return rowData.user.id
+      case "nearby":
+        return rowData.user._rankingInfo.matchedGeoLocation.distance
+      case "popular":
+        return rowData.user._rankingInfo.userScore
+    }
+  }
   renderRow(rowData, sectionID, rowID, highlightRow){
     const {user,partner} = rowData;
     const isLiked = user ? user.liked : true;
@@ -104,7 +118,7 @@ export class Browse extends React.Component{
     const imgSource = img ? {uri: img.replace('test/', '').replace('images/', '')} : require('./assets/defaultuser.png')
     return (
       <View
-        key={rowData.user.id}
+        key={rowData.user.id+this.props.currentFilter}
         style={[{
           borderRadius: 12,
           width: (MagicNumbers.screenWidth / 2),
@@ -157,7 +171,7 @@ export class Browse extends React.Component{
                 textColor={colors.shuttleGray}
               />
 
-              {partner && partner.id && partner.id !== 'NONE' &&
+              {partner && partner.id && partner.id.length && partner.id !== 'NONE' &&
                 <Image
                   source={require('./assets/iconCouple.png')}
                   resizeMode="contain"
@@ -169,6 +183,8 @@ export class Browse extends React.Component{
                   }}
                 />
               }
+
+              {__DEV__ && <View style={{position:'absolute'}}><Text>{this.getRankingInfo(rowData)}</Text></View>}
             </View>
 
             <TouchableOpacity
@@ -200,60 +216,7 @@ export class Browse extends React.Component{
   render(){
     const tabs = ['Newest', 'Popular', 'Nearby']
     return (
-      <View style={{marginTop: 66}}>
-        <BlurView
-          blurType="dark"
-          style={{
-            backgroundColor: colors.shuttleGray70,
-            zIndex: 9999,
-            height: 50,
-            width: DeviceWidth,
-            top: 0,
-            position: 'absolute'
-          }}
-        >
-          <ScrollView
-            style={{
-              height: 50,
-              width: DeviceWidth,
-              backgroundColor: 'transparent'
-            }}
-            contentContainerStyle={{
-              alignItems: 'stretch',
-              minWidth: DeviceWidth,
-              backgroundColor: 'transparent',
-
-            }}
-            showsHorizontalScrollIndicator={false}
-            horizontal
-          >
-            {tabs.map(t => (
-              <TouchableOpacity
-                key={`tab${t}`}
-                style={{
-                  overflow: 'hidden',
-                  height: 45,
-                  flexGrow: 1,
-                  alignSelf: 'stretch',
-                  backgroundColor: 'transparent',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}
-                onPress={() => {
-                  this.props.dispatch({ type: 'CHANGE_BROWSE_FILTER', payload: t.toLowerCase() })
-                }}
-              >
-                <Text
-                  style={{
-                    color: '#fff',
-                    opacity: t.toLowerCase() == this.props.currentFilter ? 1 : 0.6,
-                    fontFamily: 'Montserrat'
-                  }}
-                >{t.toUpperCase()}</Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </BlurView>
+      <View style={{marginTop: 64}}>
 
         {this.props.users && this.props.users.length > 0 && this.props.showBrowseTooltip && <Tooltip />}
 
@@ -268,10 +231,10 @@ export class Browse extends React.Component{
             alignSelf: 'stretch',
           }}
           initialListSize={6}
-          pageSize={6}
-          scrollRenderAheadDistance={400}
+          pageSize={20}
+          scrollRenderAheadDistance={800}
           enableEmptySections
-          style={{flexDirection: 'column', alignSelf: 'center', paddingTop: 65 }}
+          style={{flexDirection: 'column', alignSelf: 'center', paddingTop: 20 }}
           dataSource={this.state.dataSource}
           renderRow={this.renderRow.bind(this)}
           onEndReached={this._onEndReached.bind(this)}
@@ -288,13 +251,106 @@ export class Browse extends React.Component{
   }
 }
 
+const TabBar = (props) => (
+  <BlurView
+    blurType="dark"
+    style={{
+      backgroundColor: colors.shuttleGray70,
+      zIndex: 9999,
+      height: 50,
+      width: DeviceWidth,
+      top: 0,
+      position: 'absolute'
+    }}
+  >
+    <ScrollView
+      style={{
+        height: 50,
+        width: DeviceWidth,
+        backgroundColor: 'transparent'
+      }}
+      contentContainerStyle={{
+        alignItems: 'stretch',
+        minWidth: DeviceWidth,
+        backgroundColor: 'transparent',
+
+      }}
+      showsHorizontalScrollIndicator={false}
+      horizontal
+    >
+      {tabs.map(t => (
+        <TouchableOpacity
+          key={`tab${t}`}
+          style={{
+            overflow: 'hidden',
+            height: 45,
+            flexGrow: 1,
+            alignSelf: 'stretch',
+            backgroundColor: 'transparent',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+          onPress={() => {
+            this.props.dispatch({ type: 'CHANGE_BROWSE_FILTER', payload: t.toLowerCase() })
+          }}
+        >
+          <Text
+            style={{
+              color: '#fff',
+              opacity: t.toLowerCase() == this.props.currentFilter ? 1 : 0.6,
+              fontFamily: 'Montserrat'
+            }}
+          >{t.toUpperCase()}</Text>
+        </TouchableOpacity>
+      ))}
+    </ScrollView>
+  </BlurView>
+
+);
+
 const mapStateToProps = (state, ownProps) => {
 
+  function getSorted(users, filter){
+    switch(filter){
+      case "newest":
+        return users.reverse();
+      case "nearby":
+        return users.reverse()
+        // return users.sort((a,b) => {
+        //   // console.log(a.user._rankingInfo,b.user._rankingInfo);
+        //   //
+        //   // console.log(a.user._rankingInfo.matchedGeoLocation.distance,b.user._rankingInfo.matchedGeoLocation.distance);
+        //   if(!a.user._rankingInfo){ return 0; }
+        //   if(!b.user._rankingInfo){ return 0; }
+        //
+        //   if (a.user._rankingInfo.matchedGeoLocation.distance < b.user._rankingInfo.matchedGeoLocation.distance) { return -1; }
+        //   if (a.user._rankingInfo.matchedGeoLocation.distance > b.user._rankingInfo.matchedGeoLocation.distance) { return 1; }
+        //   if (a.user._rankingInfo.matchedGeoLocation.distance === b.user._rankingInfo.matchedGeoLocation.distance) { return 0; }
+        // });
+      case "popular":
+        return users.sort((a,b) => {
+          // console.log(a.user._rankingInfo,b.user._rankingInfo);
+          // console.log(a.user._rankingInfo.userScore,b.user._rankingInfo.userScore);
+          if(!a.user._rankingInfo){ return 0; }
+          if(!b.user._rankingInfo){ return 0; }
+
+          if (a.user._rankingInfo.userScore < b.user._rankingInfo.userScore) { return 1; }
+          if (a.user._rankingInfo.userScore > b.user._rankingInfo.userScore) { return -1; }
+          if (a.user._rankingInfo.userScore === b.user._rankingInfo.userScore) { return 0; }
+
+          return a.user._rankingInfo && b.user._rankingInfo && a.user._rankingInfo.userScore <= b.user._rankingInfo.userScore
+        })
+    }
+    return;
+  }
+
+  const all = state.browse.get(ownProps.currentFilter)
+  // console.log(all);
 
   return ({
     ...ownProps,
-    users: Object.values(state.browse.toJS()[state.ui.browseFilter]),
-    currentFilter: state.ui.browseFilter,
+    // users: Object.values(users.toJS()),
+    users: getSorted(Object.values(all.toJS()), ownProps.currentFilter),
     user: state.user,
     refreshing: state.ui.refreshingBrowse,
     pagenewest: state.ui.browsePagenewest,
@@ -302,9 +358,107 @@ const mapStateToProps = (state, ownProps) => {
     pagepopular: state.ui.browsePagepopular,
     likes: {...state.swipeQueue, ...state.swipeHistory},
     likeCount: state.likes.fullCount,
-    showBrowseTooltip: state.user.showBrowseTooltip
+    showBrowseTooltip: state.user.showBrowseTooltip,
+    currentFilter: ownProps.currentFilter
   })
 }
 const mapDispatchToProps = (dispatch) => ({ dispatch })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Browse);
+const BrowseTab = connect(mapStateToProps, mapDispatchToProps)(Browse);
+
+
+
+@withNavigation
+class BrowseNavigator extends React.Component {
+  static route = {};
+
+  componentDidMount(){
+    // console.log(this.props)
+
+  }
+
+
+  _renderLabel = ({ route }) => {
+    let title;
+    title =  route && route.key ? route.key : '';
+    return (
+      <TouchableOpacity
+        key={`tab${title}`}
+        style={{
+          flexGrow: 1,
+          alignSelf: 'stretch',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex:10000,
+          position:'relative'
+        }}
+        onPress={() => {
+          console.log('PRESS TTTTTT');
+          this.props.dispatch({ type: 'CHANGE_BROWSE_FILTER', payload: title.toLowerCase() })
+          this.props.navigation.performAction(({ tabs, stacks }) => {
+            tabs('browse-navigation').jumpToTab(title.toLowerCase());
+          });
+        }}
+      >
+        <Text style={styles.tabLabel}>{title.toUpperCase()}</Text>
+      </TouchableOpacity>
+    );
+  };
+
+  render() {
+    const tabs = ['Newest', 'Popular', 'Nearby']
+
+    return (
+      <View style={styles.container}>
+        <SlidingTabNavigation
+          id="browse-navigation"
+          navigation={this.props.navigation}
+          navigatorUID="browse-navigation"
+          initialTab="newest"
+          onChangeTab={t => console.log(t)}
+          renderLabel={this._renderLabel}
+          barBackgroundColor="transparent"
+          indicatorStyle={styles.tabIndicator}
+          tabBarStyle={styles.tabBar}
+          labelStyle={styles.tabTouchLabel}
+        >
+          {tabs.map((tab,i) => (
+            <SlidingTabNavigationItem title={tab} key={tab+i} id={tab.toLowerCase()}>
+              <BrowseTab currentFilter={tab.toLowerCase()} />
+            </SlidingTabNavigationItem>
+          ))}
+        </SlidingTabNavigation>
+      </View>
+    );
+  }
+}
+
+export default BrowseNavigator
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+
+  tabLabel: {
+    margin: 8,
+    fontSize: 13,
+    fontFamily: 'Montserrat',
+    color: '#fff',
+  },
+  tabBar: {
+    top:64,
+    backgroundColor: colors.shuttleGray70,
+    zIndex: 9999,
+    height: 48,
+    position:'relative'
+  },
+  tabTouchLabel:{
+    zIndex: 9999,
+
+  },
+  tabIndicator: {
+    backgroundColor: '#fff',
+  },
+
+})
