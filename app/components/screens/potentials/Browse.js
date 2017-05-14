@@ -44,7 +44,7 @@ export class Browse extends React.Component{
 
   constructor(props) {
     super();
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) =>  r1.liked != r2.liked});
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.liked != r2.liked});
     this.state = {
       users: props.users,
       dataSource: ds.cloneWithRows(props.users),
@@ -69,10 +69,6 @@ export class Browse extends React.Component{
         dataSource: ds.cloneWithRows(nProps.users),
       });
     }
-
-    // if(nProps.currentFilter != this.props.currentFilter){
-    //   this.props.dispatch(ActionMan.fetchBrowse({coords: {lat: this.props.user.latitude, lng: this.props.user.longitude }, filter: this.props.currentFilter, page: this.props[`page${this.props.currentFilter}`]}))
-    // }
   }
 
   _onRefresh() {
@@ -101,24 +97,23 @@ export class Browse extends React.Component{
 
   }
   getRankingInfo(rowData){
-    // console.log(this.props.currentFilter,rowData.user);
-    switch(this.props.currentFilter){
-      case "newest":
+    switch (this.props.currentFilter){
+      case 'newest':
         return rowData.user.id
-      case "nearby":
+      case 'nearby':
         return rowData.user._rankingInfo.matchedGeoLocation.distance
-      case "popular":
+      case 'popular':
         return rowData.user._rankingInfo.userScore
     }
   }
   renderRow(rowData, sectionID, rowID, highlightRow){
-    const {user,partner} = rowData;
+    const {user, partner} = rowData;
     const isLiked = user ? user.liked : true;
     const img = (user && user.image_url) || (partner && partner.image_url);
     const imgSource = img ? {uri: img.replace('test/', '').replace('images/', '')} : require('./assets/defaultuser.png')
     return (
       <View
-        key={rowData.user.id+this.props.currentFilter}
+        key={rowData.user.id + this.props.currentFilter}
         style={[{
           borderRadius: 12,
           width: (MagicNumbers.screenWidth / 2),
@@ -184,7 +179,12 @@ export class Browse extends React.Component{
                 />
               }
 
-              {__DEV__ && <View style={{position:'absolute'}}><Text>{this.getRankingInfo(rowData)}</Text></View>}
+              {__DEV__ && (
+                <View style={{position: 'absolute'}}>
+                  <Text>{this.getRankingInfo(rowData)}</Text>
+                </View>
+              )}
+
             </View>
 
             <TouchableOpacity
@@ -231,7 +231,7 @@ export class Browse extends React.Component{
             alignSelf: 'stretch',
           }}
           initialListSize={6}
-          pageSize={20}
+          pageSize={8}
           scrollRenderAheadDistance={800}
           enableEmptySections
           style={{flexDirection: 'column', alignSelf: 'center', paddingTop: 20 }}
@@ -278,7 +278,7 @@ const TabBar = (props) => (
       showsHorizontalScrollIndicator={false}
       horizontal
     >
-      {tabs.map(t => (
+      {props.tabs.map(t => (
         <TouchableOpacity
           key={`tab${t}`}
           style={{
@@ -305,51 +305,35 @@ const TabBar = (props) => (
       ))}
     </ScrollView>
   </BlurView>
-
 );
 
 const mapStateToProps = (state, ownProps) => {
 
   function getSorted(users, filter){
     switch(filter){
-      case "newest":
+      case 'newest':
         return users.reverse();
-      case "nearby":
+      case 'nearby':
         return users.reverse()
-        // return users.sort((a,b) => {
-        //   // console.log(a.user._rankingInfo,b.user._rankingInfo);
-        //   //
-        //   // console.log(a.user._rankingInfo.matchedGeoLocation.distance,b.user._rankingInfo.matchedGeoLocation.distance);
-        //   if(!a.user._rankingInfo){ return 0; }
-        //   if(!b.user._rankingInfo){ return 0; }
-        //
-        //   if (a.user._rankingInfo.matchedGeoLocation.distance < b.user._rankingInfo.matchedGeoLocation.distance) { return -1; }
-        //   if (a.user._rankingInfo.matchedGeoLocation.distance > b.user._rankingInfo.matchedGeoLocation.distance) { return 1; }
-        //   if (a.user._rankingInfo.matchedGeoLocation.distance === b.user._rankingInfo.matchedGeoLocation.distance) { return 0; }
-        // });
-      case "popular":
-        return users.sort((a,b) => {
-          // console.log(a.user._rankingInfo,b.user._rankingInfo);
-          // console.log(a.user._rankingInfo.userScore,b.user._rankingInfo.userScore);
+
+      case 'popular':
+        return users.sort((a, b) => {
           if(!a.user._rankingInfo){ return 0; }
           if(!b.user._rankingInfo){ return 0; }
 
-          if (a.user._rankingInfo.userScore < b.user._rankingInfo.userScore) { return 1; }
-          if (a.user._rankingInfo.userScore > b.user._rankingInfo.userScore) { return -1; }
-          if (a.user._rankingInfo.userScore === b.user._rankingInfo.userScore) { return 0; }
+          if(a.user._rankingInfo.userScore < b.user._rankingInfo.userScore) { return 1; }
+          if(a.user._rankingInfo.userScore > b.user._rankingInfo.userScore) { return -1; }
+          if(a.user._rankingInfo.userScore === b.user._rankingInfo.userScore) { return 0; }
 
           return a.user._rankingInfo && b.user._rankingInfo && a.user._rankingInfo.userScore <= b.user._rankingInfo.userScore
         })
     }
-    return;
+
   }
 
   const all = state.browse.get(ownProps.currentFilter)
-  // console.log(all);
-
   return ({
     ...ownProps,
-    // users: Object.values(users.toJS()),
     users: getSorted(Object.values(all.toJS()), ownProps.currentFilter),
     user: state.user,
     refreshing: state.ui.refreshingBrowse,
@@ -367,20 +351,12 @@ const mapDispatchToProps = (dispatch) => ({ dispatch })
 const BrowseTab = connect(mapStateToProps, mapDispatchToProps)(Browse);
 
 
-
 @withNavigation
 class BrowseNavigator extends React.Component {
   static route = {};
 
-  componentDidMount(){
-    // console.log(this.props)
-
-  }
-
-
   _renderLabel = ({ route }) => {
-    let title;
-    title =  route && route.key ? route.key : '';
+    const title = route && route.key ? route.key : '';
     return (
       <TouchableOpacity
         key={`tab${title}`}
@@ -389,11 +365,10 @@ class BrowseNavigator extends React.Component {
           alignSelf: 'stretch',
           alignItems: 'center',
           justifyContent: 'center',
-          zIndex:10000,
-          position:'relative'
+          zIndex: 10000,
+          position: 'relative'
         }}
         onPress={() => {
-          console.log('PRESS TTTTTT');
           this.props.dispatch({ type: 'CHANGE_BROWSE_FILTER', payload: title.toLowerCase() })
           this.props.navigation.performAction(({ tabs, stacks }) => {
             tabs('browse-navigation').jumpToTab(title.toLowerCase());
@@ -422,8 +397,8 @@ class BrowseNavigator extends React.Component {
           tabBarStyle={styles.tabBar}
           labelStyle={styles.tabTouchLabel}
         >
-          {tabs.map((tab,i) => (
-            <SlidingTabNavigationItem title={tab} key={tab+i} id={tab.toLowerCase()}>
+          {tabs.map((tab, i) => (
+            <SlidingTabNavigationItem title={tab} key={tab + i} id={tab.toLowerCase()}>
               <BrowseTab currentFilter={tab.toLowerCase()} />
             </SlidingTabNavigationItem>
           ))}
@@ -447,13 +422,13 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   tabBar: {
-    top:64,
+    top: 64,
     backgroundColor: colors.shuttleGray70,
     zIndex: 9999,
     height: 48,
-    position:'relative'
+    position: 'relative'
   },
-  tabTouchLabel:{
+  tabTouchLabel: {
     zIndex: 9999,
 
   },
