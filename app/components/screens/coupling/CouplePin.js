@@ -88,7 +88,7 @@ class CouplePin extends React.Component{
 
     const payload = {
       relationship_status: 'couple',
-      genders: this.props.selected_genders || this.props.user.coupling.genders,
+      genders: this.props.selected_genders || this.props.user.coupling ? this.props.user.coupling.genders : 'mf',
       ...lookingfor
     };
 
@@ -144,14 +144,15 @@ class CouplePin extends React.Component{
 
   renderSuccess(){
     return (
-      <View style={{flexGrow: 1,  backgroundColor: colors.outerSpace}}>
+      <View style={{flexGrow: 1, backgroundColor: colors.outerSpace}}>
         <Animated.View
           style={{
             width: DeviceWidth,
             height: 150,
             alignItems: 'center',
             justifyContent: 'center',
-            flex: 1, marginTop: 80,
+            flex: 1,
+            marginTop: 80,
             transform: [{scale: this.state.bounceValue ? this.state.bounceValue : 1}, ],
           }}
         >
@@ -176,26 +177,28 @@ class CouplePin extends React.Component{
             }]}
           >COUPLE CREATED</Text>
 
-          <Text style={[styles.rowtext, styles.bigtext, {
-            fontSize: 17,
-            backgroundColor: 'transparent',
-            marginVertical: 10,
-            color: '#fff',
-            marginBottom: 15,
-            textAlign: 'center',
-            flexDirection: 'column'
-          }]}
+          <Text
+            style={[styles.rowtext, styles.bigtext, {
+              fontSize: 17,
+              backgroundColor: 'transparent',
+              marginVertical: 10,
+              color: '#fff',
+              marginBottom: 15,
+              textAlign: 'center',
+              flexDirection: 'column'
+            }]}
           >When your partner joins Trippple, they can use your couple code to conenct with you.</Text>
 
-          <Text style={[styles.rowtext, styles.bigtext, {
-            fontSize: 17,
-            backgroundColor: 'transparent',
-            marginVertical: 10,
-            color: '#fff',
-            marginBottom: 15,
-            textAlign: 'center',
-            flexDirection: 'column'
-          }]}
+          <Text
+            style={[styles.rowtext, styles.bigtext, {
+              fontSize: 17,
+              backgroundColor: 'transparent',
+              marginVertical: 10,
+              color: '#fff',
+              marginBottom: 15,
+              textAlign: 'center',
+              flexDirection: 'column'
+            }]}
           >You can access your couple code at any time in your Trippple settings screen.</Text>
 
           <TouchableHighlight
@@ -237,27 +240,30 @@ class CouplePin extends React.Component{
           </Text>
 
           <View style={{flexDirection: 'column' }} >
-            <Text style={[styles.rowtext, styles.bigtext, {
-              fontSize: MagicNumbers.is5orless ? 17 : 20,
-              marginVertical: 10,
-              color: '#fff',
-              marginBottom: 15,
-              backgroundColor: 'transparent',
-              flexDirection: 'column'
-            }]}
+            <Text
+              style={[styles.rowtext, styles.bigtext, {
+                fontSize: MagicNumbers.is5orless ? 17 : 20,
+                marginVertical: 10,
+                color: '#fff',
+                marginBottom: 15,
+                backgroundColor: 'transparent',
+                flexDirection: 'column'
+              }]}
             >
             Share this number with your partner to help them connect with you on trippple.
             </Text>
           </View>
 
-          <Text style={[styles.rowtext, styles.bigtext, {
-            fontSize: 50,
-            marginVertical: MagicNumbers.is5orless ? 10 : 30,
-            color: '#fff',
-            backgroundColor: 'transparent',
-            textAlign: 'center',
-            fontFamily: 'montserrat', fontWeight: '800',
-          }]}
+          <Text
+            style={[styles.rowtext, styles.bigtext, {
+              fontSize: 50,
+              marginVertical: MagicNumbers.is5orless ? 10 : 30,
+              color: '#fff',
+              backgroundColor: 'transparent',
+              textAlign: 'center',
+              fontFamily: 'montserrat',
+              fontWeight: '800',
+            }]}
           >
             {this.props.pin}
           </Text>
@@ -288,27 +294,34 @@ class CouplePin extends React.Component{
   }
   render(){
     return (
-      <View style={{height: DeviceHeight,flexGrow:1,
-    top:0,position:'absolute',
-    width: DeviceWidth,flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
-
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        vertical
+      <View
+        style={{height: DeviceHeight,
+          flexGrow: 1,
+          top: 0,
+          position: 'absolute',
+          width: DeviceWidth,
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center'}}
       >
-        { this.state.success ? this.renderSuccess() : this.renderMain() }
-        <View style={{width: 100, height: 20, left: 10, top: 0, flex: 1, position: 'absolute', alignSelf: 'flex-start', zIndex: 9999}}>
-          <TouchableOpacity onPress={() => this.props.navigator.pop()}>
-            <View style={btnstyles.goBackButton}>
-              <Text textAlign={'left'} style={[btnstyles.bottomTextIcon]}>◀︎ </Text>
-              <Text textAlign={'left'} style={[btnstyles.bottomText]}>Go back</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          vertical
+        >
+          { this.state.success ? this.renderSuccess() : this.renderMain() }
+          <View style={{width: 100, height: 20, left: 10, top: 0, flex: 1, position: 'absolute', alignSelf: 'flex-start', zIndex: 9999}}>
+            <TouchableOpacity onPress={() => this.props.navigator.pop()}>
+              <View style={btnstyles.goBackButton}>
+                <Text textAlign={'left'} style={[btnstyles.bottomTextIcon]}>◀︎ </Text>
+                <Text textAlign={'left'} style={[btnstyles.bottomText]}>Go back</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
 
 
-      </ScrollView>
-    </View>
+        </ScrollView>
+      </View>
 
     )
   }
@@ -338,18 +351,14 @@ const btnstyles = StyleSheet.create({
     justifyContent: 'center'
   },
 });
-const mapStateToProps = (state, ownProps) => {
-  return {
-    ...ownProps,
-    pin: state.app.couplePin,
-    user: state.user,
-    couple: state.app.coupling,
-    sentInvite: state.app.sentInvite
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps,
+  pin: state.app.couplePin,
+  user: state.user,
+  couple: state.app.coupling,
+  sentInvite: state.app.sentInvite
+})
 
-const mapDispatchToProps = (dispatch) => {
-  return { dispatch };
-}
+const mapDispatchToProps = (dispatch) => ({ dispatch })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CouplePin);

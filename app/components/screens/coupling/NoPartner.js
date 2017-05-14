@@ -71,16 +71,14 @@ class NoPartner extends React.Component{
 
   couple(){
 
-    __DEV__ && console.log(this.props.onboardUser);
-
     // TODO: if we are not coming from the onboard modal, we should confirm
     // with the user if they want really to join a couple. Then we need to
-    // ask their partner's gender, for now it assumes partner is female.
+    // ask their partner's gender, for now it assumes hetero couple but user can manually change partner gender.
     this.props.onboardUser ?
       this.props.onboardUser() :
       this.props.dispatch(ActionMan.onboard({
         relationship_status: 'couple',
-        genders: `${this.props.user.coupling.genders}`
+        genders: `${this.props.user.coupling ? this.props.user.coupling.genders : 'mf'}`
       }));
     this.props.dispatch(ActionMan.showInModal({
       component: 'CoupleReady',
