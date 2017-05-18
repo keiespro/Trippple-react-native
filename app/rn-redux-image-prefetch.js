@@ -2,9 +2,13 @@
 
 
 import Promise from 'bluebird'
-
+import Geocoder from 'react-native-geocoder';
 import { Image, NativeModules, ImageStore, Platform } from 'react-native'
 import _ from 'lodash'
+
+import {GOOGLE_MAPS_API_KEY} from '../config'
+
+Geocoder.fallbackToGoogle(GOOGLE_MAPS_API_KEY);
 
 const {ImageLoader, } = NativeModules
 const PREFETCH_STARTED = 'PREFETCH_STARTED';
@@ -18,6 +22,7 @@ export default function createPrefetcher(config = {}) {
   const {
     debug = __DEBUG__,
     watchKeys,
+    source,
   } = config;
 
   return ({ dispatch, getState }) => (next) => (action) => {
@@ -33,9 +38,14 @@ export default function createPrefetcher(config = {}) {
 
 
   if(action.type == imgKey ){
-    const incoming = action.payload['matches']
-
-    processStateKey(imgKey, state['potentials'], incoming, () => {})
+    const incoming = action.payload['matches'] ? action.payload['matches'] : action.payload;
+    let dataSource;
+    if(source == 'browse'){
+      dataSource = state['browse'][action.meta.filter]
+    }else if(source == 'potentials'){
+      dataSource = state['potentials']
+    }
+    processStateKey(imgKey, dataSource, incoming, () => {}, state.cityState, source)
   }else{
     next(action)
   }
@@ -44,7 +54,7 @@ export default function createPrefetcher(config = {}) {
 
 
 
-    function processStateKey(pointer, stateValue, incoming, callback){
+    function processStateKey(pointer, stateValue, incoming, callback,cityStates,source){
       let images = [];
       if(debug) console.log(incoming);
       if(!incoming || !incoming.length){
@@ -77,6 +87,7 @@ export default function createPrefetcher(config = {}) {
 
 
       let cacheCheck;
+      const newAction = {...action}
       if(Platform.OS == 'android'){
 
         return ImageLoader.queryCache(images).then(cache => {
@@ -104,11 +115,13 @@ export default function createPrefetcher(config = {}) {
               if(debug) console.log('prefetch (2)',uri,i,Date.now());
                return Image.prefetch(uri).then(resolve).catch( resolve)
             })
+
           }))
 
 
 
         })
+
         .then(results => {
           if(debug) console.log('LAST STEP',results);
           next(action)
@@ -137,11 +150,54 @@ export default function createPrefetcher(config = {}) {
             })
           }))
         })
+        .then(async r => {
+          let payload =  Promise.mapSeries(incoming, (async (item,i) => {
+            let cityState;
+            console.log(i,item);
+            if(cityStates[item.user.id] && cityStates[item.user.id] != "" && cityStates[item.user.id] != null){
+              console.log(cityStates[item.user.id]);
+              return {...item,user:{...item.user,cityState: cityStates[item.user.id]}}
+            }
+
+            try{
+              cityState =  await Geocoder.geocodePosition({lng:item.user.longitude,lat:item.user.latitude});
+              console.log('cityState',cityState);
+            }catch(err){
+              cityState = ['']
+            }
+            console.log('cityState',cityState);
+
+            return {...item, user: {...item.user, cityState: cityState[0]}}
+          }))
+
+          console.log(newAction,'newActionSOURCE',payload);
+
+         return  payload.then(p => {
+            if(action.type.toLowerCase().indexOf('potentials') > -1){
+              newAction.payload.matches = p
+            }else{
+              newAction.payload = p
+
+            }
+            return r
+
+          }).catch(err=>{
+            console.log(err);
+            return r
+
+          })
+          console.log(newAction);
+
+        })
         .then(results => {
           if(debug) console.log('LAST STEP',results);
-          next(action)
           if(debug) console.log('done',results,Date.now());
           if(debug) console.log("prefetched",results);
+          next(newAction)
+
+        }).catch(err=>{
+          console.log(err);
+          next(newAction)
 
         })
 

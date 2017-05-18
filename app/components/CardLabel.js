@@ -5,7 +5,7 @@ import { pure } from 'recompose'
 import styles from './screens/potentials/styles'
 import CityState from './CityState'
 
-const CardLabel = pure(({potential, city = [], textColor, matchName}) => (
+const CardLabel = pure(({potential, city = '', textColor, matchName, cacheCity, afterNameIcon, cityStateStyle, nameStyle}) => (
   <View
     pointerEvents={'none'}
     style={{
@@ -13,19 +13,30 @@ const CardLabel = pure(({potential, city = [], textColor, matchName}) => (
       flexGrow: 1
     }}
   >
-    <Text
-      style={[
-        styles.cardBottomText,
-        {color: textColor}
-      ]}
-      key={`${potential.user.id}-names`}
-    >{ matchName }</Text>
-
+    <View
+      pointerEvents={'none'}
+      style={{
+        flexDirection: 'row',
+      }}
+    >
+      <Text
+        style={[
+          styles.cardBottomText,
+          {color: textColor},
+          nameStyle || {}
+        ]}
+        key={`${potential.user.id}-names`}
+      >{ matchName }</Text>
+      {afterNameIcon ? afterNameIcon : null}
+    </View>
     <CityState
       key={'matchName'}
-      cityState={city.length > 0 ? city : null}
+      userId={potential.user.id}
+      cityState={potential.user.cityState}
       potential={potential}
+      cityStateStyle={cityStateStyle}
       color={textColor}
+      cacheCity={cacheCity}
       coords={{lat: potential.user.latitude, lng: potential.user.longitude}}
     />
 

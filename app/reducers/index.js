@@ -14,6 +14,7 @@ import nagReducer from './nagReducer'
 import newMatchesReducer from './newMatchesReducer'
 import notificationsReducer from './notificationsReducer'
 import potentialsReducer from './potentialsReducer'
+import cityStateReducer from './cityStateReducer'
 import uiReducer from './uiReducer'
 import unreadReducer from './unreadReducer'
 import userReducer from './userReducer'
@@ -33,6 +34,7 @@ const applicationReducers = ({
   fbUser:         facebookReducer,
   unread:         unreadReducer,
   matches:        matchesReducer,
+  cityState:      cityStateReducer,
   newMatches:     newMatchesReducer,
   matchesList:    matchesListReducer,
   potentials:     potentialsReducer,

@@ -29,13 +29,14 @@ const middlewares = [
   createActionBuffer(REHYDRATE),
   // throttleActions(['UPDATE_USER'], 2000, {leading: true, trailing: false }),
   // throttleActions(['EX_NAVIGATION.PUSH'], 700, {leading: true, trailing: false }),
-  throttleActions(['OPEN_PROFILE', 'CLOSE_PROFILE',], 300, {leading: true, trailing: false }),
+  throttleActions(['OPEN_PROFILE', 'CLOSE_PROFILE'], 300, {leading: true, trailing: false }),
   throttleActions(['GET_POTENTIALS', 'GET_MESSAGES', 'GET_MATCHES'], 1000, {leading: true, trailing: false }),
   createPrefetcher({
     watchKeys: [
       {
         GET_POTENTIALS_FULFILLED: {
           key: 'matches',
+          source: 'potentials',
           location: {
             user: {
               image_url: true
@@ -43,7 +44,16 @@ const middlewares = [
           }
         }
       },
-
+      {
+        FETCH_BROWSE_FULFILLED: {
+          source: 'browse',
+          location: {
+            user: {
+              image_url: true
+            }
+          }
+        }
+      },
     ]
   }),
   // createPrefetcher({

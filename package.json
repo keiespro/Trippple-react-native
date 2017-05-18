@@ -51,7 +51,7 @@
     "react-native-fbsdk": "0.5.0",
     "react-native-fcm": "latest",
     "react-native-firebase3": "^0.1.5",
-    "react-native-geocoder": "^0.4.5",
+    "react-native-geocoder": "^0.4.8",
     "react-native-gesture-responder": "^0.1.1",
     "react-native-google-analytics-bridge": "5.0.1",
     "react-native-hotline": "github:trippple/react-native-hotline#dev",
