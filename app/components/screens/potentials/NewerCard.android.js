@@ -50,7 +50,7 @@ class NewerCard extends React.Component {
           automaticallyAdjustContentInsets={false}
           ref={component => { this._scrollView = component }}
           scrollEnabled={profileVisible}
-          keyboardShouldPersistTaps
+          keyboardShouldPersistTaps="always"
           showsVerticalScrollIndicator={false}
           horizontal={false}
 

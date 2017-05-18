@@ -156,7 +156,7 @@ class ParallaxSwiper extends React.Component{
           automaticallyAdjustContentInsets={false}
           ref={component => { this._scrollView = component }}
           scrollEnabled={profileVisible}
-          keyboardShouldPersistTaps
+          keyboardShouldPersistTaps="always"
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             flexGrow: 100,

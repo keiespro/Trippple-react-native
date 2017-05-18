@@ -542,27 +542,28 @@ class FieldModal extends React.Component{
                   textAlign:'center',
                   fontFamily:'omnes',
                   marginTop:MagicNumbers.screenPadding,
-                }}>{field.long_label ? field.long_label : field.label}</Text>
+              }}>{field.long_label ? field.long_label : field.label}</Text>
               <View style={{minHeight:200}}>
                 <View style={{marginBottom:20, borderBottomWidth: 1, borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone }}>
 
-                {React.cloneElement(inputField,{
-                  defaultValue:fieldValue,
-                  selectionColor:colors.mediumPurple,
-                  autoFocus:true,
-                  onChangeText:(value) => {
-                    this.onChange(value)
-                  }
-                })}
+                  {React.cloneElement(inputField,{
+                    defaultValue:fieldValue,
+                    selectionColor:colors.mediumPurple,
+                    autoFocus:true,
+                    onChangeText:(value) => {
+                      this.onChange(value)
+                    }
+                  })}
+                </View>
+
+
               </View>
-
-
-            </View>
 
             </ScrollView>
             {this.renderButtons()}
 
           </View>
+
         )
 
       }
@@ -571,9 +572,9 @@ class FieldModal extends React.Component{
 
         <View style={{ position:'absolute',left:0,flex:1}}>
           <KeyboardAvoidingView  style={{flex:1}} behavior={'padding'}>
-      <ScrollView
-        scrollEnabled={false}
-        keyboardShouldPersistTaps={true}
+            <ScrollView
+              scrollEnabled={false}
+              keyboardShouldPersistTaps="always"
         keyboardDismissMode={'interactive'}
 
         onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}

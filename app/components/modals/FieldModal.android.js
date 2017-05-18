@@ -355,14 +355,12 @@ class FieldModal extends React.Component{
               itemStyle={{fontSize: 24, color: colors.white, textAlign: 'center'}}
               selectedValue={this.props.fieldValue || theField.values[this.state.selectedDropdown] || null}
             >
-              {get_values.map((val) => {
-                return (<PickerItem
-                  key={val}
-                  value={get_key_vals[val] || val}
-                  label={(theField.labelPrefix || '') + (get_key_vals[val] || val) + (theField.labelSuffix || '')}
-                />
+              {get_values.map((val) => (<PickerItem
+                key={val}
+                value={get_key_vals[val] || val}
+                label={(theField.labelPrefix || '') + (get_key_vals[val] || val) + (theField.labelSuffix || '')}
+              />
                 )
-              }
               )}
             </Picker>
           );
@@ -425,26 +423,29 @@ class FieldModal extends React.Component{
                     alignSelf: 'stretch'
                   }}
                 >
-                  <Text style={{
-                    color: colors.rollingStone,
-                    fontSize: 20,
-                    textAlign: 'center',
-                    textAlign: 'center',
-                    fontFamily: 'omnes', alignSelf: 'stretch',
-                    marginBottom: MagicNumbers.screenPadding,
+                  <Text
+                    style={{
+                      color: colors.rollingStone,
+                      fontSize: 20,
+                      textAlign: 'center',
+                      textAlign: 'center',
+                      fontFamily: 'omnes',
+                      alignSelf: 'stretch',
+                      marginBottom: MagicNumbers.screenPadding,
 
-                  }}
+                    }}
                   >{field.long_label ? field.long_label : field.label}</Text>
-                  <Text style={{
-                    padding: 8,
-                    fontSize: 30,
-                    width: MagicNumbers.screenWidth - MagicNumbers.screenPadding,
-                    marginHorizontal: MagicNumbers.screenPadding / 2,
-                    borderBottomWidth: 0,
-                    borderBottomColor: colors.rollingStone,
-                    textAlign: 'center',
-                    fontFamily: 'montserrat',
-                    color: colors.white}}
+                  <Text
+                    style={{
+                      padding: 8,
+                      fontSize: 30,
+                      width: MagicNumbers.screenWidth - MagicNumbers.screenPadding,
+                      marginHorizontal: MagicNumbers.screenPadding / 2,
+                      borderBottomWidth: 0,
+                      borderBottomColor: colors.rollingStone,
+                      textAlign: 'center',
+                      fontFamily: 'montserrat',
+                      color: colors.white}}
                   >{displayStateFieldValue}</Text>
                 </View>
               </View>
@@ -466,11 +467,11 @@ class FieldModal extends React.Component{
                   selectedValue: (selectedFieldValue || null),
                   ref: (dropdown) => { this.dropdown = dropdown }
                 }
-            )}
+                )}
 
               </View>
             </View>
-        )
+          )
 
         case 'input':
           return (
@@ -531,7 +532,7 @@ class FieldModal extends React.Component{
                           autoCapitalize: 'characters',
                           ref: (textField) => { this.textField = textField }
                         }
-                      )}
+                        )}
                       </View>
                       {field.sub_label ?
                         <Text
@@ -548,11 +549,11 @@ class FieldModal extends React.Component{
                     </View>
 
                     {/*
-              this.state.error &&
-                <View style={styles.bottomErrorTextWrap}>
-                  <Text textAlign={'right'} style={[styles.bottomErrorText]}></Text>
-                </View>
-            */}
+                      this.state.error &&
+                      <View style={styles.bottomErrorTextWrap}>
+                      <Text textAlign={'right'} style={[styles.bottomErrorText]}></Text>
+                      </View>
+                    */}
 
 
                   </View>
@@ -561,21 +562,21 @@ class FieldModal extends React.Component{
               </KeyboardAvoidingView>
             </View>
 
-      )
+          )
 
         case 'phone_input':
           return (
             <View style={{ alignSelf: 'stretch', flex: 1, justifyContent: 'space-between'}}>
               <View style={{ alignSelf: 'stretch', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', padding: 0}}>
                 {/* <Text style={{
-                color: colors.rollingStone,
-                fontSize: 20,textAlign:'center',
-                fontFamily:'omnes',
-                marginBottom:40,alignSelf:'stretch',
-                marginHorizontal:10
+                  color: colors.rollingStone,
+                  fontSize: 20,textAlign:'center',
+                  fontFamily:'omnes',
+                  marginBottom:40,alignSelf:'stretch',
+                  marginHorizontal:10
 
 
-              }}>{'PHONE NUMBER'}</Text> */}
+                }}>{'PHONE NUMBER'}</Text> */}
                 <View style={{ borderBottomWidth: 1, borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone }}>
                   {React.cloneElement(inputField, {
                     handleInputChange: (value) => {
@@ -584,49 +585,42 @@ class FieldModal extends React.Component{
                     renderButtons: this.renderButtons.bind(this),
                     ref: (phoneField) => { this.phoneField = phoneField }
                   }
-            )}
+                  )}
                 </View>
 
               </View>
               {this.renderButtons()}
 
             </View>
-      )
+          )
 
         case 'date':
           return (
             <View style={{ alignSelf: 'stretch', }}>
-              <View style={{ alignSelf: 'stretch',
-              width: MagicNumbers.screenWidth - MagicNumbers.screenPadding,
-              marginHorizontal: MagicNumbers.screenPadding,
-           height: DeviceHeight - 260,
-           alignItems: 'center',
-           justifyContent: 'center',
-           flexDirection: 'column'}}
-              >
-                <View style={{ alignSelf: 'stretch',
-                  flex: 1,
+              <View
+                style={{
+                  alignSelf: 'stretch',
+                  width: MagicNumbers.screenWidth - MagicNumbers.screenPadding,
+                  marginHorizontal: MagicNumbers.screenPadding,
+                  height: DeviceHeight - 260,
                   alignItems: 'center',
                   justifyContent: 'center',
-                  flexDirection: 'column',
-                  padding: 20}}>
-                  <Text style={{
-                    color: colors.rollingStone,
-                    fontSize: 20,
-                    textAlign: 'center',
-                    fontFamily: 'omnes',
-                    marginBottom: 40,
-                    alignSelf: 'stretch'
-
-                  }}
-                  >{field.long_label ? field.long_label : field.label}</Text>
-
-                  <View style={{ borderBottomWidth: 1,
-                    borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone,
+                  flexDirection: 'column'
+                }}
+              >
+                <View
+                  style={{
                     alignSelf: 'stretch',
-                    height: 50 }}>
-                    <Text style={{
-                      color: colors.white,
+                    flex: 1,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexDirection: 'column',
+                    padding: 20
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: colors.rollingStone,
                       fontSize: 20,
                       textAlign: 'center',
                       fontFamily: 'omnes',
@@ -634,6 +628,25 @@ class FieldModal extends React.Component{
                       alignSelf: 'stretch'
 
                     }}
+                  >{field.long_label ? field.long_label : field.label}</Text>
+
+                  <View
+                    style={{
+                      borderBottomWidth: 1,
+                      borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone,
+                      alignSelf: 'stretch',
+                      height: 50
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: colors.white,
+                        fontSize: 20,
+                        textAlign: 'center',
+                        fontFamily: 'omnes',
+                        marginBottom: 40,
+                        alignSelf: 'stretch'
+                      }}
                     >{moment(this.state.birthday).format('MM/DD/YYYY')}</Text>
                   </View>
                 </View>
@@ -641,21 +654,23 @@ class FieldModal extends React.Component{
               </View>
               {this.renderButtons()}
 
-              <View style={{ height: 260,
-                backgroundColor: colors.white }}>
+              <View
+                style={{ height: 260,
+                  backgroundColor: colors.white }}
+              >
                 {React.cloneElement(inputField,
                   {
-                  onDateChange: this.onDateChange,
-                  date: new Date(this.state.birthday),
-                  ref: (dateField) => { this.dateField = dateField }
-                }
-            )}
+                    onDateChange: this.onDateChange,
+                    date: new Date(this.state.birthday),
+                    ref: (dateField) => { this.dateField = dateField }
+                  }
+                )}
               </View>
 
 
             </View>
 
-        );
+          );
         case 'textarea':
           return (
             <View
@@ -677,66 +692,64 @@ class FieldModal extends React.Component{
                 }}
               >{field.long_label ? field.long_label : field.label}</Text>
 
-              <View style={{margin:0}}>
+              <View style={{margin: 0}}>
 
                 {React.cloneElement(inputField,
                   {
-                  defaultValue: fieldValue,
-                  selectionColor: colors.mediumPurple,
-                  autoFocus: true,
-                  onChangeText: (value) => {
-                    this.onChange(value)
-                  }
-                })}
+                    defaultValue: fieldValue,
+                    selectionColor: colors.mediumPurple,
+                    autoFocus: true,
+                    onChangeText: (value) => {
+                      this.onChange(value)
+                    }
+                  })}
 
 
               </View>
 
-              <View style={{bottom:-20}}>
+              <View style={{bottom: -20}}>
                 {this.renderButtons()}
               </View>
             </View>
-        )
+          )
 
       }
     }
     return (
 
       <View style={{ flexGrow: 1}}>
-          <ScrollView
-            contentContainerStyle={{
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              flex: 1,
-              flexGrow: 1,
+        <ScrollView
+          contentContainerStyle={{
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flex: 1,
+            flexGrow: 1,
 
-            }}
-            style={{
-              flex: 1,
-              flexGrow: 1,
-            }}
-            keyboardShouldPersistTaps
-            keyboardDismissMode={'interactive'}
-          >
+          }}
+          style={{
+            flex: 1,
+            flexGrow: 1,
+          }}
+          keyboardShouldPersistTaps="always"
+          keyboardDismissMode={'interactive'}
+        >
 
-            {inside()}
+          {inside()}
 
-          </ScrollView>
+        </ScrollView>
       </View>
     )
   }
 }
 
-reactMixin(FieldModal.prototype,
-  TrackKeyboardMixin)
+reactMixin(FieldModal.prototype, TrackKeyboardMixin)
 
 const mapStateToProps = (state,
   ownProps) => ({...ownProps })
 
 const mapDispatchToProps = (dispatch) => ({ dispatch });
 
-export default connect(mapStateToProps,
-  mapDispatchToProps)(FieldModal)
+export default connect(mapStateToProps, mapDispatchToProps)(FieldModal)
 
 
 const styles = StyleSheet.create({
