@@ -21,7 +21,7 @@ const DeviceWidth = Dimensions.get('window').width;
 
 
 const Tooltip = () => (
-  <View style={{position: 'absolute', zIndex: 100, left: 60, top: 220, }}>
+  <View style={{position: 'absolute', zIndex: 100, left: 76, top: 210, }}>
     <View style={{padding: 10, borderRadius: 9, overflow: 'hidden', width: 180, height: 50, backgroundColor: colors.mediumPurple}}>
       <Text style={{color: colors.white, fontSize: 22, textAlign: 'center', fontFamily: 'Montserrat'}}>TAP TO LIKE</Text>
     </View>
@@ -107,9 +107,9 @@ export class Browse extends React.Component{
     }
   }
   renderRow(rowData, sectionID, rowID, highlightRow){
-    const {user, partner} = rowData;
+    const {user} = rowData;
     const isLiked = user ? user.liked : true;
-    const img = (user && user.image_url) || (partner && partner.image_url);
+    const img = (user && user.image_url);
     const imgSource = img ? {uri: img.replace('test/', '').replace('images/', '')} : require('./assets/defaultuser.png')
     return (
       <View
@@ -129,8 +129,6 @@ export class Browse extends React.Component{
           }
         }]}
       >
-
-
         <TouchableOpacity
           style={{
             borderRadius: 11,
@@ -154,33 +152,42 @@ export class Browse extends React.Component{
               height: 52
             }}
           >
+
+
             <View
               style={{
                 flexDirection: 'row',
-                paddingLeft: 5
+                paddingLeft: 5,
+                alignItems:'flex-start'
               }}
             >
+
+
               <CardLabel
+                cacheCity={this.props.dispatch}
                 matchName={user.firstname}
                 potential={rowData}
                 textColor={colors.shuttleGray}
+                nameStyle={{fontSize:16}}
+                cityStateStyle={{fontSize:12}}
+                afterNameIcon={user.relationship_status == 'couple' ?
+                  <Image
+                    source={require('./assets/iconCouple.png')}
+                    resizeMode="contain"
+                    style={{
+                      marginLeft: 5,
+                      marginTop:4,
+                      width: 20,
+                      height: 12,
+                    }}
+                  /> : null
+                }
               />
 
-              {partner && partner.id && partner.id.length && partner.id !== 'NONE' &&
-                <Image
-                  source={require('./assets/iconCouple.png')}
-                  resizeMode="contain"
-                  style={{
-                    marginLeft: 8,
-                    marginTop: 3,
-                    width: 20,
-                    height: 15
-                  }}
-                />
-              }
+
 
               {__DEV__ && (
-                <View style={{position: 'absolute'}}>
+                <View style={{position: 'absolute',top:-20,right:0}}>
                   <Text>{this.getRankingInfo(rowData)}</Text>
                 </View>
               )}
@@ -330,11 +337,13 @@ const mapStateToProps = (state, ownProps) => {
     }
 
   }
-
+  function getCachedCityState(users){
+    return users.map(p => {p.user.cityState = p.user.cityState || (state.cityState[p.user.id] && state.cityState[p.user.id]['cityState']) || null; return p})
+  }
   const all = state.browse.get(ownProps.currentFilter)
   return ({
     ...ownProps,
-    users: getSorted(Object.values(all.toJS()), ownProps.currentFilter),
+    users: getCachedCityState(getSorted(Object.values(all.toJS()), ownProps.currentFilter)),
     user: state.user,
     refreshing: state.ui.refreshingBrowse,
     pagenewest: state.ui.browsePagenewest,
