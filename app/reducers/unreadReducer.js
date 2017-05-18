@@ -1,21 +1,29 @@
 
 export default function unreadReducer(state = initialState, action) {
+let newState = {...state};
 
   switch (action.type) {
 
 
   case 'MARK_CHAT_READ':
-    const newmState = {...state};
-    newmState.realTotal = Math.ceil(state.realTotal - newmState[action.payload.match_id],0);
-    newmState[action.payload.match_id] = 0;
-    return newmState
+
+    newState.realTotal = Math.ceil(state.realTotal - newState[action.payload.match_id],0);
+    newState[action.payload.match_id] = 0;
+    return newState
 
   case 'HANDLE_NOTIFICATION_NEW_MATCH':
+    newState[action.payload.match_id] = 1;
+    return newState;
+
   case 'HANDLE_NOTIFICATION_NEW_MESSAGE':
-    const newState = {...state};
-    newState[action.payload.match_id] = (state[action.payload.match_id] ? parseInt(state[action.payload.match_id]) : 0) + 1;
+    newState[action.payload.match_id] = state[action.payload.match_id] + 1;
     newState.realTotal = state.realTotal + 1;
     return newState;
+
+  case 'CLEAR_NEW_MATCH_NOTIFICATIONS':
+   newState.realTotal = 0;
+   return newState;
+
 
   case 'GET_NOTIFICATION_COUNT_FULFILLED':
 

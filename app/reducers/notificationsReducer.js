@@ -18,8 +18,11 @@ export default function notificationsReducer(state = initialState, action) {
       case 'CLEAR_ALL_NOTIFICATIONS':
         return initialState;
 
+      case 'CLEAR_NEW_MATCH_NOTIFICATIONS':
+        return state.filter(n => n.type != 'new_match')
+
       case 'ENQUEUE_NOTIFICATION':
-        
+
         const newNotification = {...action.meta, ...action.payload}
         return [newNotification, ...state];
 
