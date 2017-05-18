@@ -29,7 +29,7 @@ class LocationPermissionsModal extends React.Component{
           // if(!this.props.permissions.notifications){
           //   this.props.navigator.push(Router.getRoute('NotificationsPermissions', {}))
           // }else{
-            this.props.navigator.immediatelyReplaceStack([Router.getRoute('Potentials', {})])
+          this.props.navigator.immediatelyReplaceStack([Router.getRoute('Potentials', {})])
           // }
         }}
         permissionLabel={'Location'}

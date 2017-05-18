@@ -36,6 +36,8 @@ export const requestLocationPermission = () => dispatch => dispatch({ type: 'REQ
           dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_ON'})
           dispatch(getLocation())
         }
+        dispatch({type: 'KILL_MODAL'})
+
         resolve(permission)
       })
       .catch(err => {
@@ -48,8 +50,12 @@ export const requestLocationPermission = () => dispatch => dispatch({ type: 'REQ
 
 const request = {
   async ios(){
-    const geo = await navigator.geolocation.getCurrentPosition()
-    return geo.coords;
+
+    return Permissions.requestPermission('location')
+      .then(response => {
+        return response
+      })
+
   },
   async android() {
     try{
