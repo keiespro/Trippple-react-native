@@ -1,6 +1,8 @@
 import {REHYDRATE, REHYDRATE_ERROR} from 'redux-persist/constants'
 
 export default function appReducer(state = initialState, action) {
+  let newState = {};
+
   switch (action.type) {
     case REHYDRATE_ERROR:
       return {...state, booted: true, hydrateError: true}
@@ -26,13 +28,7 @@ export default function appReducer(state = initialState, action) {
       return {...state, coupling: {...state.coupling, sentInvite: null, inviteMethod: null}};
 
     case 'CONNECTION_CHANGE':
-      let newState = {};
-      if(action.payload.hasOwnProperty('isConnected')){
-        newState = action.payload
-      }else if(action.payload.hasOwnProperty('connectionType')){
-        newState = action.payload
-      }
-      return {...state, ...newState}
+      return {...state, connection: {...state.connection, [action.payload.conn]: action.payload.connInfo }}
 
     case 'APP_STATE_CHANGE':
 
@@ -80,5 +76,6 @@ const initialState = {
   version: null,
   network: null,
   potentialsReturnedEmpty: false,
-  appInitialized: false
+  appInitialized: false,
+  connection:{}
 };

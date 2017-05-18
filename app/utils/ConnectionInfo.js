@@ -1,27 +1,32 @@
-import React from "react";
-import { NetInfo, View } from 'react-native'
+import React from 'react';
+import { NetInfo } from 'react-native'
 
 export default class ConnectionInfo extends React.Component{
+  componentWillMount(){
+    NetInfo.isConnected.addEventListener('change', this._handleConnectivityChange.bind(this))
+
+    NetInfo.addEventListener('change', this._handleConnectionInfoChange.bind(this))
+
+  }
   componentDidMount() {
-    NetInfo.isConnected.addEventListener( 'change', this._handleConnectivityChange.bind(this) )
-    NetInfo.isConnected.fetch().done( isConnected => this._handleConnectivityChange(isConnected)  );
-    NetInfo.addEventListener( 'change', this._handleConnectionTypeChange.bind(this) )
-    NetInfo.fetch().done(
-      (isConnected) => { this._handleConnectionTypeChange(isConnected) }
-    )}
+    // NetInfo.fetch().then(connectionInfo => this._handleConnectionInfoChange(connectionInfo))
+    // NetInfo.isConnected.fetch().then(isConnected => this._handleConnectivityChange(isConnected))
+
+  }
 
   componentWillUnmount() {
-    NetInfo.removeEventListener( 'change', this._handleConnectionTypeChange.bind(this) )
-    NetInfo.isConnected.removeEventListener( 'change', this._handleConnectivityChange.bind(this) )
+    NetInfo.removeEventListener('change', this._handleConnectionInfoChange.bind(this))
+    NetInfo.isConnected.removeEventListener('change', this._handleConnectivityChange.bind(this))
   }
 
-  _handleConnectionTypeChange(connectionType) {
-    this.props.dispatch({type:'CONNECTION_CHANGE',payload: {connectionType}})
+  _handleConnectionInfoChange(connectionInfo) {
+    this.props.handleChange(connectionInfo,'connectionInfo')
   }
+
   _handleConnectivityChange(isConnected) {
-    this.props.dispatch({type:'CONNECTION_CHANGE',payload: {isConnected}})
+    this.props.handleChange(isConnected,'isConnected')
   }
   render() {
-    return <View style={{position:'absolute'}}/>
+    return null
   }
 }

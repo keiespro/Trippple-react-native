@@ -169,7 +169,10 @@ class App extends React.Component{
     return (
       <View style={{width: DeviceWidth, height: DeviceHeight, backgroundColor: colors.outerSpace}}>
 
-        <ConnectionInfo dispatch={this.props.dispatch} />
+        <ConnectionInfo
+          handleChange={(connInfo,conn)=> this.props.dispatch({type: 'CONNECTION_CHANGE', payload: {conn, connInfo}})}
+        />
+
         { this.props.user && this.props.user.id && <LikeSender />}
 
         <AppState dispatch={this.props.dispatch} />
