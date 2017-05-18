@@ -18,8 +18,9 @@ class LikeSender extends React.Component{
 
 
   componentWillReceiveProps(nProps){
+    console.log(this.props);
     if(!nProps.sendingLike && nProps.pendingLikes && nProps.internet && nProps.swipeQueue[0]){
-        nProps.dispatch(ActionMan.sendLike(nProps.swipeQueue[0]))
+      nProps.dispatch(ActionMan.sendLike(nProps.swipeQueue[0]))
     }
   }
 
@@ -35,7 +36,7 @@ const mapStateToProps = (state, ownProps) => ({
   user: state.user,
   pendingLikes: Object.keys(state.swipeQueue).length > 0,
   swipeQueue: Object.values(state.swipeQueue),
-  internet: state.app.isConnected,
+  internet: state.app.connection.isConnected,
   sendingLike: state.app.sendingLike
 })
 
