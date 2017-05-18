@@ -57,90 +57,91 @@ class NewerCard extends React.Component {
           vertical
 
         >
-        <Header {...this.props} size={{width: this.state.width, height: this.state.height,borderRadius:12, overflow:'hidden',}}/>
-        <View style={{flexGrow: 1,backgroundColor: colors.outerSpace, width: this.state.width, alignItems: 'flex-start'}} >
+          <Header {...this.props} size={{width: this.state.width, height: this.state.height,borderRadius:12, overflow:'hidden',}}/>
+          <View style={{flexGrow: 1,backgroundColor: colors.outerSpace, width: this.state.width, alignItems: 'flex-start'}} >
 
-        <View
-          style={{
-            marginVertical: 8,
-            width: 40,
-            height: 8,
-            borderRadius: 15,
-            alignSelf: 'center',
-            backgroundColor: 'rgba(255,255,255,.2)',
-            position: 'absolute',
-            left: (DeviceWidth / 2) - 20
-          }}
-        />
-        <View
-          key={`blurkey${potential.user.id}`}
-          style={{
-            zIndex: 100,
-            height: profileVisible ? this.state.height : 0,
-            opacity: profileVisible ? 1 : 0,
-            flexGrow: 1
-          }}
-        >
-
-          <View style={{ paddingVertical: 40, width: DeviceWidth, flex: 10, marginTop: 0}}>
-
-            <View style={{marginHorizontal: MagicNumbers.screenPadding / 2, marginBottom: 20}}>
-              <CardLabel
-                potential={potential}
-                seperator={seperator}
-                matchName={matchName}
-                city={city}
-                distance={distance}
-                textColor={colors.white}
-              />
-              {verifiedCouple &&
-                <VerifiedCoupleBadge
-                  placementStyle={{position: 'relative', alignSelf: 'flex-start', left: 0, top: 0, marginTop: 20}}
-                />
-              }
-
-            </View>
-
-            {potential.user.bio && potential.user.bio.length ?
-              <View style={{ margin: MagicNumbers.screenPadding / 2, width: MagicNumbers.screenWidth, flexDirection: 'column' }}>
-                <Text
-                  style={[styles.cardBottomOtherText, {
-                    color: colors.white,
-                    marginBottom: 15,
-                    marginLeft: 0
-                  }]}
-                  >{ !hasPartner ? 'Looking for' : 'Looking for' }</Text>
-                <Text
-                  style={{
-                    color: colors.white,
-                    fontFamily: 'omnes',
-                    fontSize: 18,
-                    marginBottom: 15
-                  }}
-                >{ potential.user.bio }</Text>
-              </View> : null }
-
-            {hasPartner && potential.partner.bio && potential.partner.bio.length ?
-              <View
-                style={{
-                  margin: MagicNumbers.screenPadding / 2,
-                  width: MagicNumbers.screenWidth
-                }}
-              >
-                <Text style={{ fontFamily: 'omnes', color: colors.white, fontSize: 18, marginBottom: 15 }}>
-                  {potential.partner.bio}
-                </Text>
-              </View> : null
-                            }
-
-            <UserDetails
-              potential={potential}
-              user={this.props.user}
-              location={'card'}
+            <View
+              style={{
+                marginVertical: 8,
+                width: 40,
+                height: 8,
+                borderRadius: 15,
+                alignSelf: 'center',
+                backgroundColor: 'rgba(255,255,255,.2)',
+                position: 'absolute',
+                left: (DeviceWidth / 2) - 20
+              }}
             />
-            <TouchableOpacity onPress={this.props.reportModal}>
-              <View style={{ marginTop: 20, paddingBottom: 50 }}>
-                <Text style={{ fontFamily: 'omnes', color: colors.mandy, textAlign: 'center' }}>Report or Block this user</Text>
+            <View
+              key={`blurkey${potential.user.id}`}
+              style={{
+                zIndex: 100,
+                height: profileVisible ? this.state.height : 0,
+                opacity: profileVisible ? 1 : 0,
+                flexGrow: 1
+              }}
+            >
+
+              <View style={{ paddingVertical: 40, width: DeviceWidth, flex: 10, marginTop: 0}}>
+
+                <View style={{marginHorizontal: MagicNumbers.screenPadding / 2, marginBottom: 20}}>
+                  <CardLabel
+                    cacheCity={this.props.dispatch}
+                    potential={potential}
+                    seperator={seperator}
+                    matchName={matchName}
+                    city={city}
+                    distance={distance}
+                    textColor={colors.white}
+                  />
+                  {verifiedCouple &&
+                    <VerifiedCoupleBadge
+                      placementStyle={{position: 'relative', alignSelf: 'flex-start', left: 0, top: 0, marginTop: 20}}
+                    />
+                  }
+
+                </View>
+
+                {potential.user.bio && potential.user.bio.length ?
+                  <View style={{ margin: MagicNumbers.screenPadding / 2, width: MagicNumbers.screenWidth, flexDirection: 'column' }}>
+                    <Text
+                      style={[styles.cardBottomOtherText, {
+                        color: colors.white,
+                        marginBottom: 15,
+                        marginLeft: 0
+                      }]}
+                    >{ !hasPartner ? 'Looking for' : 'Looking for' }</Text>
+                    <Text
+                      style={{
+                        color: colors.white,
+                        fontFamily: 'omnes',
+                        fontSize: 18,
+                        marginBottom: 15
+                      }}
+                    >{ potential.user.bio }</Text>
+                  </View> : null }
+
+                {hasPartner && potential.partner.bio && potential.partner.bio.length ?
+                  <View
+                    style={{
+                      margin: MagicNumbers.screenPadding / 2,
+                      width: MagicNumbers.screenWidth
+                    }}
+                  >
+                    <Text style={{ fontFamily: 'omnes', color: colors.white, fontSize: 18, marginBottom: 15 }}>
+                      {potential.partner.bio}
+                    </Text>
+                  </View> : null
+                }
+
+                <UserDetails
+                  potential={potential}
+                  user={this.props.user}
+                  location={'card'}
+                />
+                <TouchableOpacity onPress={this.props.reportModal}>
+                  <View style={{ marginTop: 20, paddingBottom: 50 }}>
+                    <Text style={{ fontFamily: 'omnes', color: colors.mandy, textAlign: 'center' }}>Report or Block this user</Text>
               </View>
             </TouchableOpacity>
 
@@ -179,10 +180,10 @@ class NewerCard extends React.Component {
     return (
       <Image source={{uri: potential.user.image_url}} style={{height: DeviceHeight-60,width:cardWidth}}>
 
-                <View
-                  pointerEvents={'box-none'}
+        <View
+          pointerEvents={'box-none'}
 
-                  style={{
+          style={{
                     width: cardWidth,
                     height: 100,
                     opacity: profileVisible ? 0 : 1,
@@ -194,23 +195,25 @@ class NewerCard extends React.Component {
                     position: 'absolute',
 
                     top: profileVisible ? -200 : DeviceHeight - 120,
-                  }}
-                >
-                  <TouchableOpacity
-                    onPress={this.props.toggleProfile}
-                    pointerEvents={'box-only'}
-                  >
-                    <View
+          }}
+        >
+          <TouchableOpacity
+            onPress={this.props.toggleProfile}
+            pointerEvents={'box-only'}
+          >
+            <View
 
-                      style={{
+              style={{
                         borderBottomLeftRadius: 11,
                         borderBottomRightRadius: 11,
                         padding: 20,
                         height: 100,
 
-                      }}
-                    >
-                      <CardLabel
+              }}
+            >
+              <CardLabel
+                cacheCity={this.props.dispatch}
+                
                         potential={potential}
                         seperator={seperator}
                         matchName={matchName}

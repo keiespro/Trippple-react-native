@@ -12,12 +12,11 @@ import ActionMan from '../../../actions'
 import {NavigationStyles, withNavigation} from '@exponent/ex-navigation'
 import Router from '../../../Router'
 import Toolbar from './Toolbar'
-import {pure,onlyUpdateForKeys} from 'recompose'
+import {pure, onlyUpdateForKeys} from 'recompose'
 import Browse from './Browse'
 const iOS = Platform.OS == 'ios';
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
-
 
 
 export class Potentials extends React.Component{
@@ -47,7 +46,7 @@ export class Potentials extends React.Component{
     }
   }
   componentDidMount(){
-    this.props.dispatch({type:'LOADING_FULFILLED'})
+    this.props.dispatch({type: 'LOADING_FULFILLED'})
     if(!this.props.loggedIn || (this.props.loadedUser && !this.props.user.id)){
       this.props.navigator.immediatelyResetStack([Router.getRoute('Welcome')], 0)
 
@@ -78,11 +77,11 @@ export class Potentials extends React.Component{
       this.props.dispatch(ActionMan.getPotentials())
     }
 
-   if(!this.props.loadedUser && nProps.loadedUser && nProps.user.status && nProps.user.status != 'onboarded'){
+    if(!this.props.loadedUser && nProps.loadedUser && nProps.user.status && nProps.user.status != 'onboarded'){
       this.props.dispatch(ActionMan.resetRoute('Onboard'))
 
     }
-    if(!this.state.askedLocation && nProps.user.status == 'onboarded' ){
+    if(!this.state.askedLocation && nProps.user.status == 'onboarded'){
       this.checkIfNoLocationPermission()
 
     }
@@ -103,9 +102,10 @@ export class Potentials extends React.Component{
 
   }
   checkIfNoLocationPermission(){
-    let ask, get;
+    let ask,
+      get;
     this.setState({
-      askedLocation:true
+      askedLocation: true
     })
     const locperm = this.props.permissions.location;
     if(locperm != 'soft-denied'){
@@ -115,18 +115,16 @@ export class Potentials extends React.Component{
         }else if(locperm == 'authorized'){
           get = true
         }
+      }else if(locperm){
+        get = true
       }else{
-        if(locperm){
-          get = true
-        }else{
-          ask = true
-        }
+        ask = true
       }
     }
     if(ask){
       this.props.dispatch(ActionMan.showInModal({
-        component:'LocationPermissions',
-        passProps:{
+        component: 'LocationPermissions',
+        passProps: {
         }
       }))
     }
@@ -152,18 +150,21 @@ export class Potentials extends React.Component{
   }
 
   render(){
-    const { potentials, user,potentialsPage } = this.props
+    const { potentials, user, potentialsPage } = this.props
 
     return (
       <View
         style={{
           top: 0,
-          bottom:0,
-          position:'absolute',
-          left:0,right:0,
-          alignItems:'stretch',
+          bottom: 0,
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          alignItems: 'stretch',
           backgroundColor: colors.outerSpace,
-          flexGrow: 1,height:DeviceHeight,width:DeviceWidth
+          flexGrow: 1,
+          height: DeviceHeight,
+          width: DeviceWidth
         }}
       >
         {potentialsPage == 0 ? (
@@ -172,8 +173,9 @@ export class Potentials extends React.Component{
               styles.cardStackContainer,
               {
                 top: 0,
-                bottom:0,
-                left:0,right:0,
+                bottom: 0,
+                left: 0,
+                right: 0,
                 position: 'absolute',
                 flexGrow: 1,
               }
@@ -203,24 +205,27 @@ export class Potentials extends React.Component{
               />
             : null}
 
-            <Toolbar dispatch={this.props.dispatch} key={'ts'}/>
+            <Toolbar dispatch={this.props.dispatch} key={'ts'} />
           </View>
         ) : (
           <View
             style={{
               top: 0,
-              bottom:0,
-              position:'absolute',
-              left:0,right:0,
-              alignItems:'stretch',
+              bottom: 0,
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              alignItems: 'stretch',
               backgroundColor: colors.outerSpace,
-              flexGrow: 1,height:DeviceHeight,width:DeviceWidth
+              flexGrow: 1,
+              height: DeviceHeight,
+              width: DeviceWidth
             }}
           >
-            <Browse/>
-          <Toolbar dispatch={this.props.dispatch} key={'ts'}/>
+            <Browse />
+            <Toolbar dispatch={this.props.dispatch} key={'ts'} />
 
-        </View>
+          </View>
       )
       }
 
@@ -234,7 +239,7 @@ Potentials.displayName = 'Potentials'
 const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
   user: state.user,
-  potentials: _.reject(state.potentials, p => state.swipeQueue[p.user.id] != null),
+  potentials: _.reject(state.potentials, p => state.swipeQueue[p.user.id] != null).map(p => {p.user.cityState = p.user.cityState || (state.cityState[p.user.id] && state.cityState[p.user.id]['cityState']) || null; return p}),
   unread: state.unread,
   ui: state.ui,
   profileVisible: state.ui.profileVisible,
