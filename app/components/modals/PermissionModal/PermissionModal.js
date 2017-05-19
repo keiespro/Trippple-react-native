@@ -1,7 +1,8 @@
 
 import {StyleSheet, AppState, Text, Image, Linking, Platform, View, Dimensions, TouchableOpacity} from 'react-native';
 
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import colors from '../../../utils/colors'
 import BlurModal from '../BlurModal'

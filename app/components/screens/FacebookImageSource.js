@@ -6,27 +6,25 @@ import {
   Dimensions,
   NativeModules,
 } from 'react-native';
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { NavigationStyles, } from '@exponent/ex-navigation';
 
+import FBPhotoAlbums from '../FBPhotoAlbums'
+import {MagicNumbers} from '../../utils/DeviceConfig'
+import ActionMan from '../../actions/';
 import BoxyButton from '../controls/boxyButton';
 import colors from '../../utils/colors';
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
-import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
-import FBPhotoAlbums from '../FBPhotoAlbums'
-import {MagicNumbers} from '../../utils/DeviceConfig'
-import { connect } from 'react-redux'
-
-import ActionMan from '../../actions/';
-import {
-  NavigationStyles,
-} from '@exponent/ex-navigation';
+// import NavigatorSceneConfigs from 'NavigatorSceneConfigs'
 
 class FacebookImageSource extends Component{
 
   static route = {
-    styles: NavigationStyles.FloatVertical,
+    // styles: NavigationStyles.FloatVertical,
     navigationBar: {
       backgroundColor: colors.transparent,
       visible: false
@@ -47,24 +45,23 @@ class FacebookImageSource extends Component{
     }
 
   }
+
+  componentDidMount(){
+    this.onPressFacebook(this.props.fbUser)
+  }
+
   componentWillReceiveProps(nProps){
     // console.log(nProps);
     if(!this.props.fbUser && nProps.fbUser){
       this.onPressFacebook(nProps.fbUser)
     }
   }
-  componentDidMount(){
-    this.onPressFacebook(this.props.fbUser)
-  }
+
   onPressFacebook(fbUser){
-    // console.log(fbUser);
-
-
     if(fbUser.accessToken){
       this.props.navigator.replace(this.props.navigator.navigationContext.router.getRoute('FBPhotoAlbums'), {
         ...this.props,
         image_type: this.props.image_type || this.props.imageType,
-        nextRoute: EditImage,
         fbUser
       })
     }else{
@@ -73,7 +70,6 @@ class FacebookImageSource extends Component{
       this.props.navigator.replace(this.props.navigator.navigationContext.router.getRoute('FBPhotoAlbums'), {
         ...this.props,
         image_type: this.props.image_type || this.props.imageType,
-        nextRoute: EditImage,
         fbUser
       })
 
@@ -156,7 +152,8 @@ class FacebookImageSource extends Component{
                 _onPress={this.onPressFacebook.bind(this)}
               >
 
-                <Image source={{uri: 'assets/fBlogo@3x.png'}}
+                <Image
+                  source={{uri: 'assets/fBlogo@3x.png'}}
                   resizeMode={Image.resizeMode.contain}
                   style={{height: 30, width: 20, }}
                 />
@@ -172,18 +169,14 @@ class FacebookImageSource extends Component{
 }
 
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    ...ownProps,
-    user: state.user,
-    fbUser: state.fbUser,
-    loggedIn: state.auth.api_key && state.auth.user_id
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps,
+  user: state.user,
+  fbUser: state.fbUser,
+  loggedIn: state.auth.api_key && state.auth.user_id
+})
 
-const mapDispatchToProps = (dispatch) => {
-  return { dispatch };
-}
+const mapDispatchToProps = (dispatch) => ({ dispatch })
 FacebookImageSource.displayName = 'FacebookImageSource'
 
 export default connect(mapStateToProps, mapDispatchToProps)(FacebookImageSource);
