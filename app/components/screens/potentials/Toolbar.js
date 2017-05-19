@@ -19,7 +19,7 @@ const DeviceWidth = Dimensions.get('window').width;
 
 
 const MatchesBrowse = () => (
-  <View style={{marginTop: 16,width:DeviceWidth*.5,flexDirection:'column',}}>
+  <View style={{paddingTop: 30, marginBottom:0,paddingBottom:0,width:DeviceWidth*.5,alignItems:'flex-end',flexDirection:'column',}}>
     <SliderTabBar width={DeviceWidth*.5}/>
   </View>
 )

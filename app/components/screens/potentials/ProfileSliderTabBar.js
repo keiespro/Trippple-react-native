@@ -62,7 +62,6 @@ class SliderTabBar extends React.Component{
   }
 
   render() {
-    console.log(this.props);
     const w = this.props.width / 2;
 
     const tabUnderlineStyle = {
@@ -78,7 +77,7 @@ class SliderTabBar extends React.Component{
     };
 
     return (
-      <View style={[styles.tabs]}>
+      <View style={[styles.tabs,{marginBottom:20}]}>
         {this.props.tabs.map((tab, i) => this.renderTabOption(tab, i))}
         <Animated.View style={tabUnderlineStyle} ref={'TAB_UNDERLINE_REF'} />
       </View>

@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf:'flex-start',
-    marginBottom: 20
   },
   animatedIcon: {
     height: 100,
