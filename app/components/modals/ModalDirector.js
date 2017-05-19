@@ -9,6 +9,7 @@ import FieldModal from './FieldModal'
 import LocationPermissions from './LocationPermissionsModal'
 import OnboardModal from './OnboardModal'
 import WhyFacebook from '../screens/welcome/WhyFacebook'
+import Terms from '../screens/welcome/Terms'
 import PrivacyPermissions from './PrivacyPermissions'
 import ReportModal from './ReportModal'
 import UnmatchModal from './UnmatchModal'
@@ -26,6 +27,7 @@ const Modals = {
   Action,
   BlurModal,
   WhyFacebook,
+  Terms,
   FieldModal,
   LocationPermissions,
   MaintenanceScreen,

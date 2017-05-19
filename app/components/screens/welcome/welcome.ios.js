@@ -61,7 +61,10 @@ export class Welcome extends Component{
   whyFacebookModal(){
     this.props.dispatch(ActionMan.showInModal({component: 'WhyFacebook', passProps: {} }))
   }
+  termsModal(){
+    this.props.dispatch(ActionMan.showInModal({component: 'Terms', passProps: {} }))
 
+  }
   login(){
     this.props.dispatch({type: 'LOADING_PENDING'})
 
@@ -92,22 +95,51 @@ export class Welcome extends Component{
             iconTintColor={'#fff'}
             busy={this.state.busy}
           />
-          <TouchableOpacity
-            style={{marginVertical: 20, height: 30, width: 100, zIndex: 9999}}
-            onPress={this.whyFacebookModal.bind(this)}
-          >
-            <View>
+
+          <View style={{flexDirection:'row',justifyContent: 'space-around',alignItems:'center'}}>
+            <TouchableOpacity
+              style={{marginVertical: 20, height: 30, width: 100, zIndex: 9999}}
+              onPress={this.whyFacebookModal.bind(this)}
+            >
+              <View>
+                <Text
+                  style={{
+                    color: colors.rollingStone,
+                    fontFamily: 'omnes',
+                    fontSize: 12,
+                    textDecorationLine: 'underline',
+                    textAlign: 'right'
+                  }}
+                >Why Facebook?</Text>
+              </View>
+            </TouchableOpacity>
+            <View style={{marginVertical: 20, height: 30, width: 10, zIndex: 9999}} >
               <Text
                 style={{
                   color: colors.rollingStone,
                   fontFamily: 'omnes',
                   fontSize: 12,
-                  textDecorationLine: 'underline',
                   textAlign: 'center'
                 }}
-              >Why Facebook?</Text>
+              >•</Text>
             </View>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={{marginVertical: 20, height: 30, width: 50, zIndex: 9999}}
+              onPress={this.termsModal.bind(this)}
+            >
+              <View>
+                <Text
+                  style={{
+                    color: colors.rollingStone,
+                    fontFamily: 'omnes',
+                    fontSize: 12,
+                    textDecorationLine: 'underline',
+                    textAlign: 'left'
+                  }}
+                >Terms</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
         {this.state.busy && <Loading />}
       </View>
