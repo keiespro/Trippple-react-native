@@ -14,7 +14,7 @@ export default class CityState extends Component{
 
   constructor(props){
     super()
-    console.log(props);
+
     this.state = {
       cityState: props.cityState && typeof props.cityState == 'object' ? props.cityState.cityState || `${props.cityState.locality}, ${props.cityState.adminArea}` : props.cityState
     }
@@ -45,7 +45,7 @@ export default class CityState extends Component{
         }
       }catch(err){
         __DEV__ && console.log('geocode err', err);
-        setTimeout(()=>{this.geocode()},parseInt(Math.random(30)*5000))
+        setTimeout(()=>{this.geocode()},parseInt(Math.random(30)*5000 + 5000))
       }
     }
   }

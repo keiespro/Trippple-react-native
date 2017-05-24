@@ -5,7 +5,7 @@ import { pure } from 'recompose'
 import styles from './screens/potentials/styles'
 import CityState from './CityState'
 
-const CardLabel = pure(({potential, city = '', textColor, matchName, cacheCity, afterNameIcon, cityStateStyle, nameStyle}) => (
+const CardLabel = pure(({potential, city = '', textColor, matchName, cacheCity, afterNameIcon, cityStateStyle, hideCityState, nameStyle}) => (
   <View
     pointerEvents={'none'}
     style={{
@@ -29,7 +29,7 @@ const CardLabel = pure(({potential, city = '', textColor, matchName, cacheCity, 
       >{ matchName }</Text>
       {afterNameIcon ? afterNameIcon : null}
     </View>
-    <CityState
+    {!hideCityState && <CityState
       key={'matchName'}
       userId={potential.user.id}
       cityState={potential.user.cityState}
@@ -38,7 +38,7 @@ const CardLabel = pure(({potential, city = '', textColor, matchName, cacheCity, 
       color={textColor}
       cacheCity={cacheCity}
       coords={{lat: potential.user.latitude, lng: potential.user.longitude}}
-    />
+    />}
 
   </View>
 ));
