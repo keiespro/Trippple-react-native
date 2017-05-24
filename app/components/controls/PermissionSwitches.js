@@ -43,6 +43,7 @@ class PermissionSwitches extends React.Component{
       this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_OFF'})
     }else if(permissions.location){
       this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_ON'})
+      this.props.dispatch(ActionMan.getLocation())
     }
   }
   toggleNotification(){

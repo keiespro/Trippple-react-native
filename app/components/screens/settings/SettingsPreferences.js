@@ -29,7 +29,7 @@ import {MagicNumbers} from '../../../utils/DeviceConfig'
 import ActionMan from '../../../actions'
 import Selectable from '../../controls/Selectable'
 import {connect} from 'react-redux'
-
+import DistanceSlider from '../../controls/distanceSlider'
 import {
   NavigationStyles,
 } from '@exponent/ex-navigation';
@@ -130,7 +130,7 @@ class SettingsPreferences extends React.Component{
           <View style={[styles.paddedSpace, {marginTop: 0}]}>
             <View style={styles.formHeader}>
               <Text style={styles.formHeaderText}>
-                    What are you looking for in a Match?
+                What are you looking for in a Match?
               </Text>
             </View>
           </View>
@@ -159,7 +159,7 @@ class SettingsPreferences extends React.Component{
               values={values}
               selected={this.state.looking_for_mf}
               moreStyle={defaultStyles.selectable}
-            />}
+                                                                />}
             {this.props.user.relationship_status == 'single' && <Selectable
               field={'looking_for_mm'}
               onPress={this.onPressSelectable.bind(this, 'looking_for_mm')}
@@ -167,7 +167,7 @@ class SettingsPreferences extends React.Component{
               selected={this.state.looking_for_mm}
               moreStyle={defaultStyles.selectable}
               values={values}
-            />}
+                                                                />}
             {this.props.user.relationship_status == 'single' && <Selectable
               field={'looking_for_ff'}
               selected={this.state.looking_for_ff}
@@ -175,7 +175,7 @@ class SettingsPreferences extends React.Component{
               onPress={this.onPressSelectable.bind(this, 'looking_for_ff')}
               label={'Couples (FEMALE/FEMALE)'}
               values={values}
-            />}
+                                                                />}
             {this.props.user.relationship_status == 'couple' && <Selectable
               field={'looking_for_f'}
               onPress={this.onPressSelectable.bind(this, 'looking_for_f')}
@@ -183,7 +183,7 @@ class SettingsPreferences extends React.Component{
               selected={this.state.looking_for_f}
               moreStyle={defaultStyles.selectable}
               values={values}
-            />}
+                                                                />}
             {this.props.user.relationship_status == 'couple' && <Selectable
               field={'looking_for_m'}
               selected={this.state.looking_for_m}
@@ -191,7 +191,7 @@ class SettingsPreferences extends React.Component{
               onPress={this.onPressSelectable.bind(this, 'looking_for_m')}
               label={'SINGLE MALES'}
               values={values}
-            />}
+                                                                />}
           </View>
           <View style={{paddingTop: 50}}>
 
@@ -200,6 +200,15 @@ class SettingsPreferences extends React.Component{
               user={this.props.user}
               dispatch={this.props.dispatch}
             />
+
+            <DistanceSlider
+              handler={(val) => {
+                this.props.dispatch(ActionMan.updateUser({match_distance:val}))
+                this.props.dispatch(ActionMan.hardReloadPotentials())
+              }}
+                val={this.props.user.match_distance || 10}
+                />
+
 
             <PermissionSwitches {...this.props} />
           </View>

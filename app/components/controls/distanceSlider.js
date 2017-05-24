@@ -1,65 +1,92 @@
-/**
- * @flow
- */
 
-import React from "react";
+import React from 'react';
 
-import {SliderIOS, Text, StyleSheet, View} from "react-native";
+import {Slider, Text, StyleSheet, View} from 'react-native';
+import { MagicNumbers } from '../../utils/DeviceConfig'
+import colors from '../../utils/colors'
 
-const DistanceSlider = React.createClass({
-  getInitialState() {
-    return {
-      value: 0,
-    };
-  },
+class DistanceSlider extends React.Component{
 
-  render() {
+  constructor(props){
+    super()
+    this.state = {
+      val: props.val
+    }
+  }
+  componentWillReceiveProps(nProps){
+    if(nProps.val != this.state.val){
+      this.setState({val:nProps.val})
+    }
+  }
+  render(){
     return (
-      <View
-        style={styles.container}
-        pointerEvents={'box-none'}
-        onMoveShouldSetResponder={()=>{return true}}
-        onResponderGrant={()=>{}}
-        onStartShouldSetResponderCapture={(e)=>{}}
-        onMoveShouldSetResponderCapture={(e)=>{}}
-        onResponderTerminate={()=>{}}
+      <View style={styles.container} >
+        <View
+          style={{
+            paddingHorizontal: 0,
+            flexDirection: 'row',
+            width: MagicNumbers.screenWidth,
+            justifyContent: 'space-between',
+          }}
         >
-        <Text style={styles.text} >
-          {this.state.value}
-        </Text>
-        <SliderIOS
+          <Text
+            style={{
+              alignSelf: 'flex-start',
+              color: colors.rollingStone,
+              textAlign: 'left',
+              fontFamily: 'omnes'
+            }}
+          >{'Distance'}</Text>
+
+          <Text
+            style={{
+              alignSelf: 'flex-end',
+              fontFamily: 'omnes',
+              color: colors.white,
+              textAlign: 'right',
+              marginRight: 0,
+            }}
+          >{`${this.state.val} miles`}</Text>
+        </View>
+
+        <Slider
+          value={this.props.val}
           style={styles.slider}
-          pointerEvents={'box-none'}
-          minimumValue={10}
-          maximumValue={500}
-          onValueChange={(value) => this.props.handler(parseInt(value))} />
+          minimumValue={5}
+          maximumValue={150}
+          step={1}
+          minimumTrackTintColor={colors.mediumPurple}
+          maximumTrackTintColor={colors.white}
+          onValueChange={val => {
+            this.setState({val: parseInt(val)})
+          }}
+          onSlidingComplete={(value) => {
+            this.props.handler(parseInt(value))
+          }}
+        />
       </View>
     );
   }
-});
+}
 
 const styles = StyleSheet.create({
-  container:{
-    height:150,
-    flex:1,
-    alignSelf:'stretch',
-    alignItems:'stretch',
-    left:0,
-    right:0
+  container: {
+    marginTop: 40,
+    flex: 1,
+    alignSelf: 'stretch',
+    alignItems: 'stretch',
+    left: 0,
+    paddingHorizontal: 20,
+    right: 0
   },
   slider: {
-    height: 100,
-    alignSelf:'stretch',
-    flex:1,
-    left:0,
-    right:0
+    alignSelf: 'stretch',
+    flex: 1,
+    left: 0,
+    right: 0
   },
-  text: {
-    fontSize: 14,
-    textAlign: 'center',
-    fontWeight: '500',
-    margin: 10,
-  },
+
+
 });
 
 export default DistanceSlider;
