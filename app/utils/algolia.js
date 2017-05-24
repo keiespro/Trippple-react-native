@@ -1,5 +1,6 @@
 import algoliasearch from 'algoliasearch/reactnative'
 import algoliaSearchHelper from 'algoliasearch-helper';
+import _ from 'lodash'
 
 const ALGOLIA_APP_ID = '4EUY1VTSEK';
 const ALGOLIA_READ_KEY = 'b8bc2299cd2d7beef40707a3c152cf38';
@@ -47,6 +48,18 @@ function getGeo(coords){
 }
 
 
+function getPartnerGender(gender, encoding){
+  console.log(encoding)
+  const pairMap = {
+    0: 'mf',
+    1: 'mm',
+    2: 'mf',
+    3: 'fm',
+    4: 'ff'
+  } 
+  return pairMap[encoding].replace(gender,'') 
+}
+
 export async function fetchPotentials({relationshipStatus, gender, distanceMiles = 25, minAge = 18, maxAge = 80, coords} = defaults, liked = [], page = 0){
   const c = getGeo(coords)
   try{
@@ -56,8 +69,8 @@ export async function fetchPotentials({relationshipStatus, gender, distanceMiles
     }
     if(gender){
       potentialsHelper.addFacetRefinement('gender', gender)
-
     }
+    
     const result = await potentialsHelper.addFacetRefinement('relationship_status', relationshipStatus)
       .addNumericRefinement('age', '>=', 18)
       .addNumericRefinement('age', '<=', 80)
@@ -65,20 +78,51 @@ export async function fetchPotentials({relationshipStatus, gender, distanceMiles
       .setQueryParameter('getRankingInfo', true)
       .setQueryParameter('aroundPrecision', 100)
       .setQueryParameter('aroundRadius', distanceMiles*1609)
-      // .setPage(page)
       .searchOnce();
+    
+    const partners = result.content.hits.reduce((acc,el) => {
+      if(el.relationship_status == 'couple'){
+        acc.push(el.partner_id);
+      }
+      return acc
+    },[]);
+
+    potentialsHelper.clearRefinements();
+
+    potentialsHelper.addNumericRefinement('id', '=', partners)
+
+    const partnersResult = await potentialsHelper.setQueryParameter('hitsPerPage',partners.length).searchOnce();
+
+    const partnersMap = partnersResult.content.hits.reduce((acc,el) => {
+      acc[el.id] = el;
+      return acc
+    },{});
+
+    const usrs = result.content.hits.reduce((acc,el) => {
+      if(el.id < el.partner_id || !partnersMap[el.id]){
+	acc.push(el)
+      }
+      return acc
+    },[]);
+
     return ({
-      matches: result.content.hits.map((h, i) => (
-        {
-          user: h,
-          partner: {
-            id: h.partner_id || `NONE`
-          },
-          couple: {
-            id: h.couple_id || `NONE`
-          }
-        }
-      ))
+      matches: usrs.map((h, i) => {
+	console.log(h.partner_id,partnersMap[h.partner_id])
+
+	return (
+	  {
+	    user: h,
+	    partner: h.partner_id ? partnersMap[h.partner_id] || {
+	      id: h.partner_id,
+	      firstname: '+1',
+	      age: h.age,
+	      gender: getPartnerGender(h.gender, h.pair_encoding)
+	    } : `NONE`,
+	    couple: {
+	      id: h.couple_id || `NONE`
+	    }
+	  }
+      )})
     })
   }catch(err){
     __DEV__ && console.error(err)
@@ -90,7 +134,11 @@ function formatForBrowse(result){
   return result.content.hits.reduce((acc, hit) => {
     const sum = acc;
     sum[hit.id] = {user: hit, likedAt: null}
-    return acc
+    if(hit.relationship_status == 'couple'){
+      sum[hit.id].partner = { gender: getPartnerGender(hit.gender,hit.pair_encoding), firstname: '', age: hit.age, id: hit.partner_id };
+      sum[hit.id].couple =  {id: hit.couple_id  }
+    }
+    return sum
   }, {})
 }
 

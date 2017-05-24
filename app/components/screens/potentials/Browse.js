@@ -14,6 +14,7 @@ import {MagicNumbers} from '../../../utils/DeviceConfig'
 import CardLabel from '../../CardLabel'
 import ActionMan from '../../../actions'
 import colors from '../../../utils/colors'
+import config from '../../../../config'
 
 const iOS = Platform.OS == 'ios';
 const DeviceHeight = Dimensions.get('window').height;
@@ -110,7 +111,7 @@ export class Browse extends React.Component{
     }
   }
   renderRow(rowData, sectionID, rowID, highlightRow){
-    const {user} = rowData;
+    const {user,partner,couple} = rowData;
     const isLiked = user ? user.liked : true;
     const img = (user && user.image_url);
     const imgSource = img ? {uri: img.replace('test/', '').replace('images/', '')} : require('./assets/defaultuser.png')
@@ -160,13 +161,13 @@ export class Browse extends React.Component{
               width: (MagicNumbers.screenWidth / 2),
             }}
           />
+
           <View
             style={{
               padding: 5,
               height: 52
             }}
           >
-
 
             <View
               style={{
@@ -176,7 +177,6 @@ export class Browse extends React.Component{
               }}
             >
 
-
               <CardLabel
                 cacheCity={this.props.dispatch}
                 matchName={user.firstname}
@@ -185,21 +185,10 @@ export class Browse extends React.Component{
                 nameStyle={{fontSize:16}}
                 cityStateStyle={{fontSize:12}}
                 hideCityState={true}
-                afterNameIcon={user.relationship_status == 'couple' ?
-                  <Image
-                    source={require('./assets/iconCouple.png')}
-                    resizeMode="contain"
-                    style={{
-                      marginLeft: 5,
-                      marginTop:4,
-                      width: 20,
-                      height: 12,
-                    }}
-                  /> : null
-                }
+                afterNameIcon={user.relationship_status == 'couple' && partner && partner.gender ? (
+                  <Text style={{fontSize:20,color:colors.mediumPurple}}>{config.glyphs[`${user.gender}${partner.gender}`]}</Text>
+                ) : null }
               />
-
-
 
               {__DEV__ && (
                 <View style={{position: 'absolute',top:-20,right:0}}>
