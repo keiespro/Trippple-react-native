@@ -85,6 +85,8 @@ class SettingsPreferences extends React.Component{
     this.setState(newState)
     // console.log(newState);
     this.props.dispatch(ActionMan.updateUser(newState))
+    this.props.dispatch(ActionMan.fetchPotentials())
+
   }
 
   toggleScroll(direction){
@@ -204,10 +206,10 @@ class SettingsPreferences extends React.Component{
             <DistanceSlider
               handler={(val) => {
                 this.props.dispatch(ActionMan.updateUser({match_distance:val}))
-                this.props.dispatch(ActionMan.hardReloadPotentials())
+                this.props.dispatch(ActionMan.fetchPotentials())
               }}
-                val={this.props.user.match_distance || 10}
-                />
+              val={this.props.user.match_distance || 10}
+            />
 
 
             <PermissionSwitches {...this.props} />

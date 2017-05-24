@@ -53,7 +53,7 @@ class DistanceSlider extends React.Component{
           value={this.props.val}
           style={styles.slider}
           minimumValue={5}
-          maximumValue={150}
+          maximumValue={250}
           step={1}
           minimumTrackTintColor={colors.mediumPurple}
           maximumTrackTintColor={colors.white}

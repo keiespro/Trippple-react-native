@@ -14,7 +14,7 @@ const helper = algoliaSearchHelper(algoliasearch(ALGOLIA_APP_ID, ALGOLIA_READ_KE
 });
 
 const potentialsHelper = algoliaSearchHelper(algoliasearch(ALGOLIA_APP_ID, ALGOLIA_READ_KEY), 'User', {
-  hitsPerPage: 20,
+  hitsPerPage: 50,
   hierarchicalFacets: [{
     name: 'users',
     attributes: ['id'],
@@ -47,9 +47,10 @@ function getGeo(coords){
 }
 
 
-export async function fetchPotentials({relationshipStatus, gender, distanceMiles = 25, minAge = 18, maxAge = 80, coords} = defaults, liked, page = 0){
+export async function fetchPotentials({relationshipStatus, gender, distanceMiles = 25, minAge = 18, maxAge = 80, coords} = defaults, liked = [], page = 0){
   const c = getGeo(coords)
   try{
+
     for(i of liked){
       potentialsHelper.addNumericRefinement('id', '!=', i)
     }
@@ -65,7 +66,7 @@ export async function fetchPotentials({relationshipStatus, gender, distanceMiles
       .setQueryParameter('getRankingInfo', true)
       .setQueryParameter('aroundPrecision', 100)
       .setQueryParameter('aroundRadius', distanceMiles*1609)
-      .setPage(page)
+      // .setPage(page)
       .searchOnce();
 
     return ({

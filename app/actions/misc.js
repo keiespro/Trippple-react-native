@@ -3,37 +3,9 @@ import Promise from 'bluebird'
 import FCM from 'react-native-fcm'
 import RNHotline from 'react-native-hotline'
 import api from '../utils/api'
+import {fetchPotentials as fetchPotentialsAlgolia} from '../utils/algolia'
 const iOS = Platform.OS == 'ios';
 
-
-export const hardReloadPotentials = () => (dispatch, getState) => dispatch({
-
-  type: 'HARD_RELOAD_POTENTIALS',
-  payload: {
-    promise: new Promise((resolve, reject) => {
-      const user = getState().user;
-      const genders = user.relationship_status != 'single' ? ['looking_for_m', 'looking_for_f'] : ['looking_for_mf', 'looking_for_ff', 'looking_for_mm'];
-      const gender = genders.reduce((acc, el) => {
-        if(user[el]){
-          acc += el.replace('looking_for_', '')
-        }
-        return acc
-      }, '')
-      const prefs = {
-        relationshipStatus: user.relationship_status == 'single' ? 'couple' : 'single',
-        gender: gender.length > 1 ? null : gender,
-        minAge: user.match_age_min,
-        maxAge: user.match_age_max,
-        distanceMiles: user.match_distance || 25,
-        coords: {lat: user.latitude, lng: user.longitude}
-      }
-      const likes = [...getState().likes.likedUsers, ...Object.keys(getState().swipeQueue)];
-      const page = getState().ui.potentialsPageNumber || 0;
-      return api.fetchPotentials(prefs, likes, page).then(resolve)
-
-    })
-  }
-})
 export const fetchPotentials = () => (dispatch, getState) => dispatch({
 
   type: 'FETCH_POTENTIALS',
@@ -56,8 +28,9 @@ export const fetchPotentials = () => (dispatch, getState) => dispatch({
         coords: {lat: user.latitude, lng: user.longitude}
       }
       const likes = [...getState().likes.likedUsers, ...Object.keys(getState().swipeQueue)];
+
       const page = getState().ui.potentialsPageNumber || 0;
-      return api.fetchPotentials(prefs, likes, page).then(resolve)
+      return fetchPotentialsAlgolia(prefs, likes, page).then(resolve)
 
     })
   }

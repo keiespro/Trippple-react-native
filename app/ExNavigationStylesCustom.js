@@ -2,9 +2,11 @@ import {
   Animated,
   Easing,
   I18nManager,
-  NavigationExperimental,
   Platform
 } from 'react-native';
+
+import NavigationExperimental from 'navigation-experimental-fork'
+
 
 const {
   CardStackStyleInterpolator,
@@ -111,7 +113,7 @@ function customForHorizontal(props: NavigationSceneRendererProps): Object {
   };
 }
 
-export const SlideHorizontalIOS: ExNavigationStyles = {
+export const SlideHorizontalIOS = {
   configureTransition: configureSpringTransition,
   sceneAnimations: customForHorizontal,
   navigationBarAnimations: {
@@ -213,11 +215,11 @@ export const SlideHorizontalIOS: ExNavigationStyles = {
       };
     },
   },
-  gestures: CardStackPanResponder.forHorizontal,
+  // gestures: CardStackPanResponder.forHorizontal,
 };
 export const FloatHorizontal = SlideHorizontal
 
-export const SlideHorizontal: ExNavigationStyles = {
+export const SlideHorizontal = {
   configureTransition: configureSpringTransition,
   sceneAnimations: customForHorizontal,
   navigationBarAnimations: {
@@ -322,7 +324,7 @@ export const SlideHorizontal: ExNavigationStyles = {
       };
     },
   },
-  gestures: CardStackPanResponder.forHorizontal,
+  // gestures: CardStackPanResponder.forHorizontal,
 };
 
 // TODO: this will become the Android style horizontal float transition (see
@@ -360,7 +362,7 @@ function customForVertical(props: NavigationSceneRendererProps): Object {
   };
 }
 
-export const SlideVerticalIOS: ExNavigationStyles = {
+export const SlideVerticalIOS = {
   configureTransition: configureSpringTransition,
   sceneAnimations: customForVertical,
   navigationBarAnimations: {
@@ -453,7 +455,7 @@ export const SlideVerticalIOS: ExNavigationStyles = {
   gestures: CardStackPanResponder.forVertical,
 };
 
-export const SlideVerticalNoGesturesIOS: ExNavigationStyles = {
+export const SlideVerticalNoGesturesIOS = {
   configureTransition: configureSpringTransition,
   sceneAnimations: customForVertical,
   navigationBarAnimations: {
@@ -548,7 +550,7 @@ export const SlideVerticalNoGesturesIOS: ExNavigationStyles = {
 
 
 
-const Fade: ExNavigationStyles = {
+const Fade = {
   configureTransition: configureSpringTransition,
   sceneAnimations: (props) => {
     const {
@@ -637,7 +639,7 @@ const Fade: ExNavigationStyles = {
   gestures: null,
 };
 
-const NoAnimation: ExNavigationStyles = {
+const NoAnimation = {
   configureTransition: configureNoopTransition,
 };
 

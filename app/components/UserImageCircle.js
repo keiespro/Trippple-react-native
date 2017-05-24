@@ -39,7 +39,7 @@ class UserImageCircle extends Component{
           <Image
             style={[styles.userimage, overrideStyles]}
             key={`${id}thumb`}
-            defaultSource={require('./screens/settings/assets/placeholderUser.png')}
+            defaultSource={require('./screens/settings/assets/placeholderUser@3x.png')}
             resizeMode={Image.resizeMode.cover}
             onLoadStart={e => {
               // console.log('image load',e)

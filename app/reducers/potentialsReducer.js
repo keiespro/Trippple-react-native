@@ -30,8 +30,6 @@ export default function potentialsReducer(state = initialState, action) {
     case 'SWIPE_CARD_FULFILLED':
       return [...(state.slice(1, state.length))];
 
-    case 'HARD_RELOAD_POTENTIALS_FULFILLED':
-      return initialState
 
     default:
 
