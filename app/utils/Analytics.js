@@ -22,9 +22,9 @@ class Analytics{
       GoogleAnalyticsSettings.setDryRun(false);
       this.ga.allowIDFA(true)
     }
-    if(__DEV__ || __TEST__){
-      GoogleAnalyticsSettings.setDryRun(true);
-      Firelytics.setEnabled(false);
+    if((__DEV__ || __TEST__) && GoogleAnalyticsSettings){
+      // GoogleAnalyticsSettings.setDryRun(true);
+      if(Firelytics) Firelytics.setAnalyticsCollectionEnabled(false);
     }
   }
 

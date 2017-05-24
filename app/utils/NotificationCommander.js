@@ -25,7 +25,6 @@ class NotificationCommander extends Component{
   componentDidMount(){
     const dispatch = this.props.dispatch.bind(this);
     const handleAction = this.handleAction.bind(this);
-    console.log(FCMEvent);
     this.notificationUnsubscribe = FCM.on(FCMEvent.Notification, (notification, ...x) => {
       __DEV__ && console.log('NOTIFICATION:', notification, x);
       if(notification && notification.type){
@@ -61,8 +60,8 @@ class NotificationCommander extends Component{
   }
 
   componentWillUnmount(){
-    this.notificationUnsubscribe()
-    this.refreshUnsubscribe()
+    if(this.notificationUnsubscribe && typeof this.notificationUnsubscribe == 'function'){this.notificationUnsubscribe()}
+    if(this.refreshUnsubscribe && typeof this.refreshUnsubscribe == 'function'){this.refreshUnsubscribe()}
   }
 
   openChat(match_id){

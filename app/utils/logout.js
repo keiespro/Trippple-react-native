@@ -9,7 +9,7 @@ const {KEYCHAIN_NAMESPACE} = config
 async function Logout(){
   global.creds = null;
   return Promise.all([
-    Keychain.resetInternetCredentials(KEYCHAIN_NAMESPACE),
+    // Keychain.resetInternetCredentials(KEYCHAIN_NAMESPACE),
     AsyncStorage.clear(),
     FBLoginManager.logOut()
   ])

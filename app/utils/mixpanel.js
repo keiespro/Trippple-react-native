@@ -3,7 +3,6 @@
 import MixPanel from 'react-native-mixpanel'
 // import TrackEvt from "rn-redux-mixpanel/lib/api/trackEvent";
 const MP = MixPanel || {}
-console.log(MP);
 
 function TrackEvt(name,e){
   let event = Object.keys(e).length ? e : null;
