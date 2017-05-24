@@ -28,8 +28,9 @@ export default function userReducer(state = initialState, action) {
         return user_info && user_info.id ? {...state, ...user_info, isNewUser: false } : state
 
     case 'ONBOARD_FULFILLED':
+    case 'ONBOARD_USER_NOW_WHAT_FULFILLED':
     case 'HANDLE_NOTIFICATION_COUPLE_READY':
-        return {...user_info, }
+        return {...state,...user_info, }
 
     case 'LOGIN_WITH_FACEBOOK_FULFILLED':
     case 'ONBOARD_USER_NOW_WHAT_FULFILLED':

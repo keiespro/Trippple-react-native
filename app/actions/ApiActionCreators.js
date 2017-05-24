@@ -2,7 +2,7 @@ import api from '../utils/api'
 import { createAction, handleAction, handleActions } from 'redux-actions';
 import _ from 'lodash'
 import {logOut} from './appActions'
-import {showInModal} from './misc'
+import {showInModal,fetchPotentials} from './misc'
 
 const apiActions = [
   'requestPin',
@@ -61,7 +61,7 @@ const ApiActionCreators = endpointMap.reduce((obj, endpoint) => {
           shouldFetchUserInfo = true
         }
 
-        if(['sendLike','decouple', 'verifycouplepin', 'onboard','updateuser','fblogin'].indexOf(endpoint.call.toLowerCase()) > -1){
+        if(['decouple', 'verifycouplepin', 'onboard','updateuser','fblogin'].indexOf(endpoint.call.toLowerCase()) > -1){
           shouldFetchPotentials = true
 
         }
@@ -76,7 +76,7 @@ const ApiActionCreators = endpointMap.reduce((obj, endpoint) => {
             dispatch({type: 'GET_USER_INFO', payload: api.getUserInfo()})
           }
           if(shouldFetchPotentials){
-            // dispatch({type: 'GET_POTENTIALS', payload: api.fetchPotentials(...params)})
+            dispatch(fetchPotentials())
           }
           return resolve(x);
         })

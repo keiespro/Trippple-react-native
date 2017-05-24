@@ -20,24 +20,27 @@ const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
 
-const Tooltip = () => (
-  <View style={{position: 'absolute', zIndex: 100, left: 76, top: 210, }}>
-    <View style={{padding: 10, borderRadius: 9, overflow: 'hidden', width: 180, height: 50, backgroundColor: colors.mediumPurple}}>
-      <Text style={{color: colors.white, fontSize: 22, textAlign: 'center', fontFamily: 'Montserrat'}}>TAP TO LIKE</Text>
-    </View>
+const Tooltip = props => (
+  <View style={{position: 'absolute', zIndex: 10000, left: 66, bottom: 35, }}>
 
-    <Image
-      source={require('../chat/assets/TrianglePurple.png')} style={{
-        alignSelf: 'center',
-        top: -10,
-        width: 20,
-        height: 23,
-        transform: [
-        {rotate: '270deg'}
-        ]
-      }}
-    />
-  </View>
+    <TouchableOpacity onPress={props.onPress} >
+      <View style={{padding: 10, borderRadius: 9, overflow: 'hidden', width: 180, height: 50, backgroundColor: colors.mediumPurple}}>
+	<Text style={{color: colors.white, fontSize: 22, textAlign: 'center', fontFamily: 'Montserrat'}}>TAP TO LIKE</Text>
+      </View>
+
+      <Image
+	source={require('../chat/assets/TrianglePurple.png')} style={{
+	  alignSelf: 'center',
+	  top: -10,
+	  width: 20,
+	  height: 23,
+	  transform: [
+	    {rotate: '270deg'}
+	  ]
+	}}
+      />
+  </TouchableOpacity>
+</View>
 )
 
 export class Browse extends React.Component{
@@ -116,7 +119,9 @@ export class Browse extends React.Component{
         key={rowData.user.id + this.props.currentFilter}
         style={[{
           borderRadius: 12,
+	  zIndex: rowID == 0 ? 9999 : 1,
           width: (MagicNumbers.screenWidth / 2),
+	  position:'relative',
           height: (DeviceHeight - 150) / 2,
           backgroundColor: '#fff',
           marginBottom: 20,
@@ -129,10 +134,19 @@ export class Browse extends React.Component{
           }
         }]}
       >
+
+        {rowID == 0 && this.props.showBrowseTooltip && (
+	  <Tooltip 
+	    onPress={()=>{
+	      this.props.dispatch({ type: 'TOGGLE_SHOW_BROWSE_TOOLTIP', payload: { }})
+	    }} 
+	  />
+	)}
+
         <TouchableOpacity
           style={{
             borderRadius: 11,
-            overflow: 'hidden'
+	    overflow:'hidden'
           }}
           onPress={this.pressRow.bind(this, rowData)}
         >
@@ -225,7 +239,6 @@ export class Browse extends React.Component{
     return (
       <View style={{marginTop: 64,backgroundColor: colors.outerSpace }}>
 
-        {this.props.users && this.props.users.length > 0 && this.props.showBrowseTooltip && <Tooltip />}
 
         <ListView
           contentContainerStyle={{

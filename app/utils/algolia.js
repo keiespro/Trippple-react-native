@@ -50,11 +50,10 @@ function getGeo(coords){
 export async function fetchPotentials({relationshipStatus, gender, distanceMiles = 25, minAge = 18, maxAge = 80, coords} = defaults, liked = [], page = 0){
   const c = getGeo(coords)
   try{
-
+    potentialsHelper.clearRefinements();
     for(i of liked){
       potentialsHelper.addNumericRefinement('id', '!=', i)
     }
-    console.log(gender,'gender')
     if(gender){
       potentialsHelper.addFacetRefinement('gender', gender)
 
@@ -68,16 +67,15 @@ export async function fetchPotentials({relationshipStatus, gender, distanceMiles
       .setQueryParameter('aroundRadius', distanceMiles*1609)
       // .setPage(page)
       .searchOnce();
-
     return ({
       matches: result.content.hits.map((h, i) => (
         {
           user: h,
           partner: {
-            id: `NONE`
+            id: h.partner_id || `NONE`
           },
           couple: {
-            id: `NONE`
+            id: h.couple_id || `NONE`
           }
         }
       ))
