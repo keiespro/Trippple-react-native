@@ -13,6 +13,17 @@ const helper = algoliaSearchHelper(algoliasearch(ALGOLIA_APP_ID, ALGOLIA_READ_KE
   }]
 });
 
+const potentialsHelper = algoliaSearchHelper(algoliasearch(ALGOLIA_APP_ID, ALGOLIA_READ_KEY), 'User', {
+  hitsPerPage: 20,
+  hierarchicalFacets: [{
+    name: 'users',
+    attributes: ['id'],
+    sortBy: ['desc']
+  }],
+  facets: ['id','relationship_status','gender','age']
+});
+
+
 const geoHelper = algoliaSearchHelper(algoliasearch(ALGOLIA_APP_ID, ALGOLIA_READ_KEY), 'User', {
   hitsPerPage: 20,
   getRankingInfo: true,
@@ -36,21 +47,40 @@ function getGeo(coords){
 }
 
 
-export async function fetchPotentials({relationshipStatus, gender, distanceInMeters, minAge, maxAge, coords} = defaults, page = 20){
+export async function fetchPotentials({relationshipStatus, gender, distanceMiles = 25, minAge = 18, maxAge = 80, coords} = defaults, liked, page = 0){
   const c = getGeo(coords)
-
   try{
+    for(i of liked){
+      potentialsHelper.addNumericRefinement('id', '!=', i)
+    }
+    console.log(gender,'gender')
+    if(gender){
+      potentialsHelper.addFacetRefinement('gender', gender)
 
-    const result = await helper.addFacetRefinement('relationship_status', relationshipStatus)
-      .addFacetRefinement('gender', gender)
-      .addNumericRefinement('age', '>=', minAge)
-      .addNumericRefinement('age', '<=', maxAge)
+    }
+    const result = await potentialsHelper.addFacetRefinement('relationship_status', relationshipStatus)
+      .addNumericRefinement('age', '>=', 18)
+      .addNumericRefinement('age', '<=', 80)
       .setQueryParameter(c.geoLabel, c.geoValue)
       .setQueryParameter('getRankingInfo', true)
-      .setQueryParameter('aroundRadius', distanceInMeters)
+      .setQueryParameter('aroundPrecision', 100)
+      .setQueryParameter('aroundRadius', distanceMiles*1609)
+      .setPage(page)
       .searchOnce();
 
-    return ({matches: result.content.hits.map((h, i) => ({user: h, partner: {id: `partner${i}`}, couple: {id: `couple${i}`}}))})
+    return ({
+      matches: result.content.hits.map((h, i) => (
+        {
+          user: h,
+          partner: {
+            id: `NONE`
+          },
+          couple: {
+            id: `NONE`
+          }
+        }
+      ))
+    })
   }catch(err){
     __DEV__ && console.error(err)
     return err

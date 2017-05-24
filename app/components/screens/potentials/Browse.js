@@ -5,9 +5,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import {BlurView} from 'react-native-blur'
 import {
-  SlidingTabNavigation,
+  TabNavigation,
   withNavigation,
-  SlidingTabNavigationItem,
+  TabNavigationItem,
 } from '@exponent/ex-navigation'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
@@ -170,6 +170,7 @@ export class Browse extends React.Component{
                 textColor={colors.shuttleGray}
                 nameStyle={{fontSize:16}}
                 cityStateStyle={{fontSize:12}}
+                hideCityState={true}
                 afterNameIcon={user.relationship_status == 'couple' ?
                   <Image
                     source={require('./assets/iconCouple.png')}
@@ -221,9 +222,8 @@ export class Browse extends React.Component{
   }
 
   render(){
-    const tabs = ['Newest', 'Popular', 'Nearby']
     return (
-      <View style={{marginTop: 64}}>
+      <View style={{marginTop: 64,backgroundColor: colors.outerSpace }}>
 
         {this.props.users && this.props.users.length > 0 && this.props.showBrowseTooltip && <Tooltip />}
 
@@ -236,16 +236,19 @@ export class Browse extends React.Component{
             width: DeviceWidth,
             paddingHorizontal: 5,
             alignSelf: 'stretch',
+            backgroundColor: colors.outerSpace,
           }}
-          initialListSize={6}
-          pageSize={8}
-          scrollRenderAheadDistance={800}
+          initialListSize={30}
+          contentInset={{top: 50, left: 0, bottom: 0, right: 0}}
+          contentOffset={{x: 0, y: 50}}
+          pageSize={4}
+          scrollRenderAheadDistance={1400}
           enableEmptySections
           style={{flexDirection: 'column', alignSelf: 'center', paddingTop: 20 }}
           dataSource={this.state.dataSource}
           renderRow={this.renderRow.bind(this)}
           onEndReached={this._onEndReached.bind(this)}
-          onEndReachedThreshold={1800}
+          onEndReachedThreshold={800}
           refreshControl={
             <RefreshControl
               refreshing={this.props.refreshing}
@@ -266,8 +269,9 @@ const TabBar = (props) => (
       zIndex: 9999,
       height: 50,
       width: DeviceWidth,
-      top: 0,
-      position: 'absolute'
+      alignSelf: 'flex-start',
+      position:'absolute',
+      top:60
     }}
   >
     <ScrollView
@@ -277,8 +281,9 @@ const TabBar = (props) => (
         backgroundColor: 'transparent'
       }}
       contentContainerStyle={{
-        alignItems: 'stretch',
+        alignItems: 'center',
         minWidth: DeviceWidth,
+        justifyContent:'center',
         backgroundColor: 'transparent',
 
       }}
@@ -290,7 +295,7 @@ const TabBar = (props) => (
           key={`tab${t}`}
           style={{
             overflow: 'hidden',
-            height: 45,
+            height: 50,
             flexGrow: 1,
             alignSelf: 'stretch',
             backgroundColor: 'transparent',
@@ -298,13 +303,14 @@ const TabBar = (props) => (
             justifyContent: 'center'
           }}
           onPress={() => {
-            this.props.dispatch({ type: 'CHANGE_BROWSE_FILTER', payload: t.toLowerCase() })
+            props.onPress(t)
+            console.log(props)
           }}
         >
           <Text
             style={{
               color: '#fff',
-              opacity: t.toLowerCase() == this.props.currentFilter ? 1 : 0.6,
+              opacity: t.toLowerCase() == props.selectedTab ? 1 : 0.6,
               fontFamily: 'Montserrat'
             }}
           >{t.toUpperCase()}</Text>
@@ -364,54 +370,32 @@ const BrowseTab = connect(mapStateToProps, mapDispatchToProps)(Browse);
 class BrowseNavigator extends React.Component {
   static route = {};
 
-  _renderLabel = ({ route }) => {
-    const title = route && route.key ? route.key : '';
-    return (
-      <TouchableOpacity
-        key={`tab${title}`}
-        style={{
-          flexGrow: 1,
-          alignSelf: 'stretch',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 10000,
-          position: 'relative'
-        }}
-        onPress={() => {
-          this.props.dispatch({ type: 'CHANGE_BROWSE_FILTER', payload: title.toLowerCase() })
-          this.props.navigation.performAction(({ tabs, stacks }) => {
-            tabs('browse-navigation').jumpToTab(title.toLowerCase());
-          });
-        }}
-      >
-        <Text style={styles.tabLabel}>{title.toUpperCase()}</Text>
-      </TouchableOpacity>
-    );
-  };
 
   render() {
     const tabs = ['Newest', 'Popular', 'Nearby']
 
     return (
       <View style={styles.container}>
-        <SlidingTabNavigation
+        <TabNavigation
           id="browse-navigation"
           navigation={this.props.navigation}
           navigatorUID="browse-navigation"
           initialTab="newest"
-          onChangeTab={t => console.log(t)}
           renderLabel={this._renderLabel}
           barBackgroundColor="transparent"
           indicatorStyle={styles.tabIndicator}
-          tabBarStyle={styles.tabBar}
-          labelStyle={styles.tabTouchLabel}
+          renderTabBar={(props)=><TabBar {...props} tabs={tabs} onPress={title => {
+            this.props.navigation.performAction(({ tabs, stacks }) => {
+              tabs('browse-navigation').jumpToTab(title.toLowerCase());
+            });
+          }}/>}
         >
           {tabs.map((tab, i) => (
-            <SlidingTabNavigationItem title={tab} key={tab + i} id={tab.toLowerCase()}>
+            <TabNavigationItem title={tab} key={tab + i} id={tab.toLowerCase()}>
               <BrowseTab currentFilter={tab.toLowerCase()} />
-            </SlidingTabNavigationItem>
+            </TabNavigationItem>
           ))}
-        </SlidingTabNavigation>
+        </TabNavigation>
       </View>
     );
   }
@@ -422,6 +406,8 @@ export default BrowseNavigator
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor:colors.outerSpace
+
   },
 
   tabLabel: {
@@ -430,13 +416,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat',
     color: '#fff',
   },
-  tabBar: {
-    top: 64,
-    backgroundColor: colors.shuttleGray70,
-    zIndex: 9999,
-    height: 48,
-    position: 'relative'
-  },
+
   tabTouchLabel: {
     zIndex: 9999,
 

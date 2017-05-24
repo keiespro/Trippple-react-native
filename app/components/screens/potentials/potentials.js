@@ -18,7 +18,7 @@ const iOS = Platform.OS == 'ios';
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
-
+@withNavigation
 export class Potentials extends React.Component{
   static route = {
     styles: NavigationStyles.Fade,
@@ -48,6 +48,7 @@ export class Potentials extends React.Component{
   componentDidMount(){
     this.props.dispatch({type: 'LOADING_FULFILLED'})
     if(!this.props.loggedIn || (this.props.loadedUser && !this.props.user.id)){
+      __DEV__ && console.log('NAVIG')
       this.props.navigator.immediatelyResetStack([Router.getRoute('Welcome')], 0)
 
     }else{
@@ -64,17 +65,17 @@ export class Potentials extends React.Component{
 
     const nui = nProps.ui;
     const ui = this.props.ui;
-    if(nui.profileVisible && !ui.profileVisible){
+    if(!iOS && nui.profileVisible && !ui.profileVisible){
       this.ba = BackAndroid.addEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
     }else if(!nui.profileVisible && this.ba){
 
     }
 
     if(!this.props.loggedIn && nProps.loggedIn && nProps.user.status == 'onboarded'){
-      this.props.dispatch(ActionMan.getPotentials())
+      this.props.dispatch(ActionMan.fetchPotentials())
     }
     if(this.props.user.status != 'onboarded' && nProps.user.status == 'onboarded'){
-      this.props.dispatch(ActionMan.getPotentials())
+      this.props.dispatch(ActionMan.fetchPotentials())
     }
 
     if(!this.props.loadedUser && nProps.loadedUser && nProps.user.status && nProps.user.status != 'onboarded'){
@@ -182,14 +183,7 @@ export class Potentials extends React.Component{
             ]}
             pointerEvents={'box-none'}
           >
-            <PotentialsPlaceholder
-              navigator={this.props.navigator}
-              navigation={this.props.navigation}
-              user={this.props.user}
-              hasPotentials={potentials.length > 1}
-              didShow={this.state.didShow}
-              onDidShow={() => { this.setState({didShow: true}); }}
-            />
+
 
             { potentials.length && this.state.showPotentials ?
               <CardStack
@@ -203,7 +197,16 @@ export class Potentials extends React.Component{
                 toggleProfile={this.toggleProfile.bind(this)}
 
               />
-            : null}
+              : (
+                <PotentialsPlaceholder
+                  navigator={this.props.navigator}
+                  navigation={this.props.navigation}
+                  user={this.props.user}
+                  hasPotentials={potentials.length > 1}
+                  didShow={this.state.didShow}
+                  onDidShow={() => { this.setState({didShow: true}); }}
+                />
+              )}
 
             <Toolbar dispatch={this.props.dispatch} key={'ts'} />
           </View>

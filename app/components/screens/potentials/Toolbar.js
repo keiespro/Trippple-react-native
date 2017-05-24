@@ -66,6 +66,8 @@ class Toolbar extends React.Component{
           position: 'absolute',
           top: 0,
           flexGrow: 1,
+          backgroundColor: colors.outerSpace,
+          
           margin: 0,
           left:0,
           alignSelf: 'stretch',

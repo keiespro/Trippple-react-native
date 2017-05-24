@@ -9,6 +9,7 @@ export default function potentialsReducer(state = initialState, action) {
     case 'HANDLE_NOTIFICATION_COUPLE_READY':
     case 'HANDLE_NOTIFICATION_DECOUPLE':
     case 'CLEAR_POTENTIALS':
+    case 'HARD_RELOAD_POTENTIALS_PENDING':
       return initialState;
 
     case 'REMOVE_POTENTIAL':
@@ -20,12 +21,17 @@ export default function potentialsReducer(state = initialState, action) {
       const starter = starters[action.payload.relationshipStatus || 'single'];
       return [...(_.shuffle(starter))];
 
+    case 'FETCH_POTENTIALS_FULFILLED':
     case 'GET_POTENTIALS_FULFILLED':
+    case 'HARD_RELOAD_POTENTIALS_FULFILLED':
 
-      return [...state, ...action.payload.matches.map(m => (m))];
+      return [ ...action.payload.matches.map(m => (m))];
 
     case 'SWIPE_CARD_FULFILLED':
       return [...(state.slice(1, state.length))];
+
+    case 'HARD_RELOAD_POTENTIALS_FULFILLED':
+      return initialState
 
     default:
 

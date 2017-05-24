@@ -1,3 +1,4 @@
+import _ from 'lodash'
 
 export default function LikeReducer(state = initialState, action) {
   switch (action.type) {
@@ -19,7 +20,17 @@ export default function LikeReducer(state = initialState, action) {
 
       return {
         ...state,
+        likedUsers:  _.uniq([...state.likedUsers, parseInt(action.meta.likeUserId)]) ,
         fullCount: state.fullCount + 1
+      }
+
+    case 'GET_USERS_LIKED_FULFILLED':
+      let newLikedUsers = (action.payload.usersLiked.replace(')','').substring(5, action.payload.length).split(' AND id!='));
+
+      return {
+        ...state,
+        likedUsers: _.uniq([...state.likedUsers, ...newLikedUsers.map(s => parseInt(s))])
+
       }
     default:
 
@@ -30,5 +41,6 @@ export default function LikeReducer(state = initialState, action) {
 
 const initialState = {
   likeCount: 0,
-  fullCount: 0
+  fullCount: 0,
+  likedUsers: []
 };

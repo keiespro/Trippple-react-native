@@ -1,10 +1,69 @@
-import {Share,NativeModules,Platform} from 'react-native'
+import {Share, NativeModules, Platform} from 'react-native'
 import Promise from 'bluebird'
 import FCM from 'react-native-fcm'
 import RNHotline from 'react-native-hotline'
 import api from '../utils/api'
 const iOS = Platform.OS == 'ios';
 
+
+export const hardReloadPotentials = () => (dispatch, getState) => dispatch({
+
+  type: 'HARD_RELOAD_POTENTIALS',
+  payload: {
+    promise: new Promise((resolve, reject) => {
+      const user = getState().user;
+      const genders = user.relationship_status != 'single' ? ['looking_for_m', 'looking_for_f'] : ['looking_for_mf', 'looking_for_ff', 'looking_for_mm'];
+      const gender = genders.reduce((acc, el) => {
+        if(user[el]){
+          acc += el.replace('looking_for_', '')
+        }
+        return acc
+      }, '')
+      const prefs = {
+        relationshipStatus: user.relationship_status == 'single' ? 'couple' : 'single',
+        gender: gender.length > 1 ? null : gender,
+        minAge: user.match_age_min,
+        maxAge: user.match_age_max,
+        distanceMiles: user.match_distance || 25,
+        coords: {lat: user.latitude, lng: user.longitude}
+      }
+      const likes = [...getState().likes.likedUsers, ...Object.keys(getState().swipeQueue)];
+      const page = getState().ui.potentialsPageNumber || 0;
+      return api.fetchPotentials(prefs, likes, page).then(resolve)
+
+    })
+  }
+})
+export const fetchPotentials = () => (dispatch, getState) => dispatch({
+
+  type: 'FETCH_POTENTIALS',
+  payload: {
+    promise: new Promise((resolve, reject) => {
+      const user = getState().user;
+      const genders = user.relationship_status != 'single' ? ['looking_for_m', 'looking_for_f'] : ['looking_for_mf', 'looking_for_ff', 'looking_for_mm'];
+      const gender = genders.reduce((acc, el) => {
+        if(user[el]){
+          acc += el.replace('looking_for_', '')
+        }
+        return acc
+      }, '')
+      const prefs = {
+        relationshipStatus: user.relationship_status == 'single' ? 'couple' : 'single',
+        gender: gender.length > 1 ? null : gender,
+        minAge: user.match_age_min,
+        maxAge: user.match_age_max,
+        distanceMiles: user.match_distance || 25,
+        coords: {lat: user.latitude, lng: user.longitude}
+      }
+      const likes = [...getState().likes.likedUsers, ...Object.keys(getState().swipeQueue)];
+      const page = getState().ui.potentialsPageNumber || 0;
+      return api.fetchPotentials(prefs, likes, page).then(resolve)
+
+    })
+  }
+})
+
+export const getPotentials = fetchPotentials;
 
 export const selectCoupleGenders = (payload) => (dispatch, getState) => dispatch({ type: 'SELECT_COUPLE_GENDERS',
   payload,
@@ -15,14 +74,14 @@ export const fetchBrowse = ({filter, page, coords}) => (dispatch, getState) => d
   meta: {filter, page}
 })
 
-export const SwipeCard = params => (dispatch,getState) => dispatch({ type: 'SWIPE_CARD',
+export const SwipeCard = params => (dispatch, getState) => dispatch({ type: 'SWIPE_CARD',
   payload: new Promise((resolve, reject) => {
     const state = getState()
 
     if(state.likes.likeCount > 0 && state.permissions.notifications == 'undetermined'){
       dispatch(showInModal({
-        component:'NotificationsPermissions',
-        passProps:{
+        component: 'NotificationsPermissions',
+        passProps: {
 
         }
       }))
@@ -44,7 +103,7 @@ export const popChat = match_id => dispatch => dispatch({ type: 'POP_CHAT'});
 export const setHotlineUser = user => dispatch => dispatch({ type: 'SET_HOTLINE_USER',
   payload: {
     promise: new Promise((resolve, reject) => {
-      __DEV__ && console.log('SET HOTLINE USER',user);
+      __DEV__ && console.log('SET HOTLINE USER', user);
 
       if(!iOS) RNHotline.init('f54bba2a-84fa-43c8-afa9-098f3c1aefae', 'fba1b915-fa8b-4c24-bdda-8bac99fcf92a', false);
         // .then(result => {
@@ -52,19 +111,19 @@ export const setHotlineUser = user => dispatch => dispatch({ type: 'SET_HOTLINE_
           // RCT_EXPORT_METHOD(setUser:(NSString *)user_id name:(NSString *)name phone:(NSString *)phone relStatus:(NSString *)relStatus gender:(NSString *)gender image:(NSString *)image thumb:(NSString *)thumb partner_id:(NSString *)partner_id ){
 
 
-          const {id, firstname, email, gender, relationship_status, image_url, thumb_url, partner_id} = user;
+      const {id, firstname, email, gender, relationship_status, image_url, thumb_url, partner_id} = user;
 
-          const meta = {
-            relationship_status,
-            gender,
-          }
+      const meta = {
+        relationship_status,
+        gender,
+      }
 
-          if(partner_id){
-            meta.partner_id = `${partner_id}`
-          }
+      if(partner_id){
+        meta.partner_id = `${partner_id}`
+      }
 
-          RNHotline.setUser(`${id}`, firstname, email, relationship_status, gender, image_url, thumb_url, partner_id+'');//gender, '', thumb_url, partner_id)
-          resolve(true)
+      RNHotline.setUser(`${id}`, firstname, email, relationship_status, gender, image_url, thumb_url, `${partner_id}`);// gender, '', thumb_url, partner_id)
+      resolve(true)
 
         // });
     })
@@ -75,16 +134,17 @@ export const showFaqs = () => dispatch => dispatch({ type: 'SHOW_FAQS',
   payload: {
     promise: new Promise((resolve, reject) => {
       if(iOS){
-        RNHotline.showFaqs()
+        // RNHotline.showFaqs()
+        NativeModules.RNHotlineController.showFaqs()
         resolve(true)
       }else{
         RNHotline.showFaqs('DisplayFAQsAsGrid')
         resolve(true)
 
       }
-     })
-   }
- })
+    })
+  }
+})
 
 
 export const showConvos = () => dispatch => dispatch({ type: 'SHOW_CONVOS',
@@ -123,7 +183,7 @@ export const share = payload => dispatch => dispatch({ type: 'SHARE_COUPLE_PIN',
   }
 });
 
-export const receivePushToken = ({push_token, loggedIn}) => (dispatch,getState) => dispatch({ type: 'RECEIVE_PUSH_TOKEN',
+export const receivePushToken = ({push_token, loggedIn}) => (dispatch, getState) => dispatch({ type: 'RECEIVE_PUSH_TOKEN',
   payload: {
     promise: new Promise((resolve, reject) => {
       if(getState().auth.api_key){

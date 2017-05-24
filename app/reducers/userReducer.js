@@ -22,6 +22,9 @@ export default function userReducer(state = initialState, action) {
         return { ...state, ...updates[0]};
     case 'GET_USER_INFO_FULFILLED':
     case 'VERIFY_PIN_FULFILLED':
+        delete user_info.match_distance;
+        delete user_info.match_age_min;
+        delete user_info.match_age_max;
         return user_info && user_info.id ? {...state, ...user_info, isNewUser: false } : state
 
     case 'ONBOARD_FULFILLED':

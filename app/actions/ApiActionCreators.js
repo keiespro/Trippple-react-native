@@ -23,7 +23,7 @@ const apiActions = [
   'updatePushToken',
   'disableAccount',
   'getUserInfo',
-  'getPotentials',
+  //'getPotentials',
   'uploadFacebookPic',
   'onboard',
   'verifyPin',
@@ -37,6 +37,7 @@ const endpointMap = apiActions.map(call => {
   const action = call.replace(/([A-Z])/g, ($1) => { return (`_${$1}`).toLowerCase() }).toUpperCase();
   return { action, call }
 })
+
 
 const ApiActionCreators = endpointMap.reduce((obj, endpoint) => {
   obj[endpoint.call] = (...params) => ((dispatch, getState) => dispatch({
@@ -54,45 +55,39 @@ const ApiActionCreators = endpointMap.reduce((obj, endpoint) => {
           dispatch({type: 'KILL_MODAL', payload: true})
         }
 
+        const user = getState().user;
+
         if(['uploadfacebookpic', 'decouple', 'verifycouplepin', 'updateuser','fblogin', 'onboard'].indexOf(endpoint.call.toLowerCase()) > -1){
           shouldFetchUserInfo = true
         }
 
         if(['sendLike','decouple', 'verifycouplepin', 'onboard','updateuser','fblogin'].indexOf(endpoint.call.toLowerCase()) > -1){
           shouldFetchPotentials = true
+
         }
         if(endpoint.call == 'sendLike'){
           p = Object.values(params[0])
-          // console.log(p);
         }else{
           p = params
         }
-        api[endpoint.call](...p).then(x => {
-
+        api[endpoint.call](...p)
+        .then(x => {
           if(shouldFetchUserInfo){
             dispatch({type: 'GET_USER_INFO', payload: api.getUserInfo()})
           }
           if(shouldFetchPotentials){
-            const user = getState().user;
-            const prefs = {
-              relationshipStatus: user.relationship_status == 'single' ? 'couple' : 'single',
-              gender: 'f',//TODO: fix
-              minAge: user.match_age_min,
-              maxAge: user.match_age_max,
-              distanceInMeters: (user.match_distance || 25)*3,
-              coords: {lat:user.latitude,lng:user.longitude}
-            }
-            dispatch({type: 'GET_POTENTIALS', payload: api.getPotentials(prefs)})
+            // dispatch({type: 'GET_POTENTIALS', payload: api.fetchPotentials(...params)})
           }
           return resolve(x);
-        }).catch(err => {
+        })
+        .catch(err => {
           __DEV__ && console.log('CAUGHT ERR',err.status);
           if(err.status == '401'){
             dispatch(logOut())
             return reject(err)
           }else if(err.status == '500' || err.status == '502' || err.status == '504'){
 
-            dispatch(showInModal({component:'MaintenanceScreen',passProps:{}}))
+            // dispatch(showInModal({component:'MaintenanceScreen',passProps:{}}))
             return reject(err)
           }
 

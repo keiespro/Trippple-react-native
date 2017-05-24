@@ -18,7 +18,6 @@ class LikeSender extends React.Component{
 
 
   componentWillReceiveProps(nProps){
-    console.log(this.props);
     if(!nProps.sendingLike && nProps.pendingLikes && nProps.internet && nProps.swipeQueue[0]){
       nProps.dispatch(ActionMan.sendLike(nProps.swipeQueue[0]))
     }
