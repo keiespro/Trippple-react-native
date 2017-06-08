@@ -126,7 +126,7 @@ class NewCard extends React.Component {
                     marginBottom: 15,
                     marginLeft: 0
                   }]}
-                  >{ !hasPartner ? 'Looking for' : 'Looking for' }</Text>
+                >{ !hasPartner ? 'Looking for' : 'Looking for' }</Text>
                 <Text
                   style={{
                     color: colors.white,
@@ -148,7 +148,7 @@ class NewCard extends React.Component {
                   {potential.partner.bio}
                 </Text>
               </View> : null
-                            }
+            }
 
             <UserDetails
               potential={potential}
@@ -231,7 +231,7 @@ class NewCard extends React.Component {
               position:'absolute',
               top:0,left:0,right:0,
             }}
-          />}
+                                />}
           autoplay={verifiedCouple}
           slideFrames={slideFrames}
           height={profileVisible ? DeviceHeight : DeviceHeight-70 }
@@ -260,7 +260,7 @@ class NewCard extends React.Component {
             style={{position:'absolute',top:0,flexGrow:1}}
           >
 
-          { profileVisible && this.renderInsideProfile()}
+            { profileVisible && this.renderInsideProfile()}
           </View>
         </ParallaxSwiper>
         {profileVisible && <TouchableOpacity
@@ -268,7 +268,7 @@ class NewCard extends React.Component {
             height: 50, zIndex: 9999, alignItems: 'center', width: 50, justifyContent: 'center', flex: 0, top: -70, left: -10, position: 'absolute'
           }}
           onPress={() => this.props.closeProfile ? this.props.closeProfile() : this.props.navigator.pop()}
-        >
+                           >
           <Image
             resizeMode={Image.resizeMode.contain}
             style={{ height: 12, width: 12, marginTop: 10, opacity: 0.2 }}

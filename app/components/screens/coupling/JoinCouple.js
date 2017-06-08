@@ -93,31 +93,32 @@ class JoinCouple extends Component{
 
     return (
       <View style={{height: DeviceHeight,flexGrow:1,
-  top:0,position:'absolute',
-  width: DeviceWidth,flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+        top:0,position:'absolute',
+      width: DeviceWidth,flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
 
 
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          paddingBottom: 150
-        }}
-        style={{flexGrow: 1,
-          backgroundColor: colors.outerSpace
-        }}
-      >
-        <View style={[{width: DeviceWidth, paddingTop: MagicNumbers.is5orless ? 20 : 20, paddingHorizontal: MagicNumbers.screenPadding / 2 }]} >
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingBottom: 150
+          }}
+          style={{flexGrow: 1,
+            backgroundColor: colors.outerSpace
+          }}
+        >
+          <View style={[{width: DeviceWidth, paddingTop: MagicNumbers.is5orless ? 20 : 20, paddingHorizontal: MagicNumbers.screenPadding / 2 }]} >
 
-          <View style={{height: imgWidth, marginVertical: MagicNumbers.is5orless ? 10 : 30,
+            <View style={{height: imgWidth, marginVertical: MagicNumbers.is5orless ? 10 : 30,
               transform: [{scale: MagicNumbers.is5orless ? 0.8 : 1 }], flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}
-          >
-            <View
-              style={{width: imgWidth, height: imgWidth, borderRadius: imgWidth / 2, marginRight: imgWidth * -1 + 20, borderColor: colors.white, borderWidth: 3, borderStyle: 'dashed'}}
-            />
-            <Image style={[{width: imgWidth, height: imgWidth, borderRadius: imgWidth / 2, marginLeft: imgWidth * -1 + 20}]}
-              source={{uri: this.props.user.image_url}}
-              defaultSource={require('../../../assets/placeholderUser@3x.png')}
-            />
+            >
+              <View
+                style={{width: imgWidth, height: imgWidth, borderRadius: imgWidth / 2, marginRight: imgWidth * -1 + 20, borderColor: colors.white, borderWidth: 3, borderStyle: 'dashed'}}
+              />
+              <Image style={[{width: imgWidth, height: imgWidth, borderRadius: imgWidth / 2, marginLeft: imgWidth * -1 + 20}]}
+                source={{uri: this.props.user.image_url}}
+                defaultSource={require('../../../assets/placeholderUser.png')}
+                resizeMode={Image.resizeMode.cover}
+              />
           </View>
 
           {/* <Text style={[styles.rowtext,styles.bigtext,{ textAlign:'center',backgroundColor:'transparent', fontFamily:'montserrat',fontWeight:'800',fontSize:22,color:'#fff',marginVertical:10 }]}>

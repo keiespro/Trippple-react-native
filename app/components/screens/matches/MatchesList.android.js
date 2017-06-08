@@ -55,11 +55,11 @@ class MatchesList extends Component {
       })
     }, 3000);
 
-    Analytics.event('Interaction', {
-      type: 'scroll',
-      name: 'Load more matches',
-      page: nextPage
-    })
+    // Analytics.event('Interaction', {
+    //   type: 'scroll',
+    //   name: 'Load more matches',
+    //   page: nextPage
+    // })
     this.props.dispatch(ActionMan.getMatches(nextPage))
   }
 

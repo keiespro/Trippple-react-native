@@ -22,7 +22,7 @@ const DeviceWidth = Dimensions.get('window').width;
 const {INVITE_FRIENDS_APP_LINK} = config;
 const getPotentialsButtonEnabled = true;
 
-@onlyUpdateForKeys(['hasPotentials'])
+@onlyUpdateForKeys(['hasPotentials','fetchingPotentials'])
 @reactMixin.decorate(TimerMixin)
 class PotentialsPlaceholder extends React.Component{
   constructor(){
@@ -34,6 +34,8 @@ class PotentialsPlaceholder extends React.Component{
     this.startTimer()
     if(this.props.user.status == 'onboarded'){
       this.props.dispatch(ActionMan.fetchPotentials())
+      this.setState({loading:false})
+
     }
   }
 
@@ -54,8 +56,8 @@ class PotentialsPlaceholder extends React.Component{
   }
 
   getMorePotentials(){
-    this.setState({loading: true})
     this.props.dispatch(ActionMan.fetchPotentials())
+
   }
 
   openProfileEditor(){
@@ -63,20 +65,18 @@ class PotentialsPlaceholder extends React.Component{
       style: styles.container,
       settingOptions: profileOptions,
     }));
-    this.setState({loading: true})
+
   }
 
   openPrefs(){
     this.props.navigator.push(Router.getRoute('SettingsPreferences'));
-    this.setTimeout(() => {
-      this.setState({loading: true})
-    }, 5000)
+
+
   }
 
   startTimer(){
-    this.setTimeout(() => {
-      this.setState({loading: false})
-    }, 15000)
+
+
   }
 
   inviteFriends(){
@@ -153,23 +153,23 @@ class PotentialsPlaceholder extends React.Component{
             />
 
 
-            {this.state.loading &&
-            <View style={{flex: 0, zIndex:999, flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+            {this.state.loading || this.props.fetchingPotentials ?
+              <View style={{flex: 0, zIndex:999, flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
 
-              <Text
-                style={{
-                  color: colors.white,
-                  fontSize: MagicNumbers.size18 + 2,
-                  textAlign: 'center',
-                  fontFamily: 'montserrat',
-                  fontWeight: '800',
-                }}
-              >{'LOOKING FOR MATCHES'}</Text>
-              <Spinner />
+                <Text
+                  style={{
+                    color: colors.white,
+                    fontSize: MagicNumbers.size18 + 2,
+                    textAlign: 'center',
+                    fontFamily: 'montserrat',
+                    fontWeight: '800',
+                  }}
+                >{'LOOKING FOR MATCHES'}</Text>
+                <Spinner />
 
-            </View> }
+              </View> : null }
 
-            {userProfileIncomplete && !this.state.loading ?
+            {/*userProfileIncomplete && !this.state.loading ?
               <View
                 style={{
                   flexGrow: 0,
@@ -186,22 +186,23 @@ class PotentialsPlaceholder extends React.Component{
                   loading={this.state.loading}
                   onTap={this.openProfileEditor.bind(this)}
                 />
-              </View> : null
+              </View> : null */
             }
 
-            {!userProfileIncomplete && getPotentialsButtonEnabled && !potentialsReturnedEmpty && !this.state.loading ?
-              <View style={{flexGrow: 0,height:115,maxHeight:115,alignItems:'center',flexDirection:'column'}}>
+            { getPotentialsButtonEnabled && !potentialsReturnedEmpty && (!this.state.loading && !this.props.fetchingPotentials) ?
+              <View style={{flexGrow: 0,height:80,maxHeight:80,alignItems:'center',flexDirection:'column'}}>
                 <Button
                   loading={this.state.loading}
                   btnText={'GET MORE MATCHES'}
                   labelText={'GO AHEAD, TREAT YOURSELF'}
                   labelPosition={'bottom'}
+ style={{flexGrow: 0,height:80,maxHeight:80}}
                   onTap={this.getMorePotentials.bind(this)}
                 />
               </View> : null
             }
 
-            {/* {!userProfileIncomplete && potentialsReturnedEmpty && (!this.state.loading) ?
+             { potentialsReturnedEmpty && (!this.state.loading) ?
               <View style={{flexGrow: 0,height:115,maxHeight:115,alignItems:'center',flexDirection:'column'}}>
                 <Button
                 loading={this.state.loading}
@@ -210,7 +211,7 @@ class PotentialsPlaceholder extends React.Component{
                 labelPosition={'top'}
                 onTap={this.openPrefs.bind(this)}
               /></View> : null
-            } */}
+            }
 
             {!userProfileIncomplete && getPotentialsButtonEnabled && potentialsReturnedEmpty && !this.state.loading ?
               <View style={{flexGrow: 0,height:115,maxHeight:115,alignItems:'center',flexDirection:'column'}}>
@@ -257,7 +258,8 @@ const Button = ({labelText, labelPosition = 'top', btnText, onTap}) => (
       marginTop: 30,
       marginHorizontal: 0,
       paddingHorizontal: 0,
-      flexGrow:1
+      flexGrow:1,
+      height:80
     }}
   >
     {labelText && labelPosition == 'top' &&
@@ -328,7 +330,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
     user: state.user,
-    potentialsReturnedEmpty: state.app.potentialsReturnedEmpty
+    potentialsReturnedEmpty: state.app.potentialsReturnedEmpty,
+    fetchingPotentials: state.ui.fetchingPotentials
   }
 }
 const mapDispatchToProps = (dispatch) => {

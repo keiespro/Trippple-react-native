@@ -1,5 +1,5 @@
 
-import { View, Dimensions, Text, ScrollView, ListView, StyleSheet, Platform, RefreshControl, TouchableOpacity, Image } from 'react-native'
+import { View, Dimensions, Text, ScrollView, ListView, StyleSheet, ActivityIndicator,Platform, RefreshControl, TouchableOpacity, Image } from 'react-native'
 import _ from 'lodash'
 import React from 'react'
 import { connect } from 'react-redux'
@@ -9,13 +9,16 @@ import {
   withNavigation,
   TabNavigationItem,
 } from '@exponent/ex-navigation'
+
+import reactMixin from 'react-mixin'
+import TimerMixin from 'react-timer-mixin';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 import CardLabel from '../../CardLabel'
 import ActionMan from '../../../actions'
 import colors from '../../../utils/colors'
 import config from '../../../../config'
-
+import Toolbar from './Toolbar'
 const iOS = Platform.OS == 'ios';
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -26,24 +29,25 @@ const Tooltip = props => (
 
     <TouchableOpacity onPress={props.onPress} >
       <View style={{padding: 10, borderRadius: 9, overflow: 'hidden', width: 180, height: 50, backgroundColor: colors.mediumPurple}}>
-	<Text style={{color: colors.white, fontSize: 22, textAlign: 'center', fontFamily: 'Montserrat'}}>TAP TO LIKE</Text>
+        <Text style={{color: colors.white, fontSize: 22, textAlign: 'center', fontFamily: 'Montserrat'}}>TAP TO LIKE</Text>
       </View>
 
       <Image
-	source={require('../chat/assets/TrianglePurple.png')} style={{
-	  alignSelf: 'center',
-	  top: -10,
-	  width: 20,
-	  height: 23,
-	  transform: [
-	    {rotate: '270deg'}
-	  ]
-	}}
+        source={require('../chat/assets/TrianglePurple.png')} style={{
+          alignSelf: 'center',
+          top: -10,
+          width: 20,
+          height: 23,
+          transform: [
+          {rotate: '270deg'}
+          ]
+        }}
       />
   </TouchableOpacity>
 </View>
 )
 
+@reactMixin.decorate(TimerMixin)
 export class Browse extends React.Component{
 
   constructor(props) {
@@ -52,16 +56,16 @@ export class Browse extends React.Component{
     this.state = {
       users: props.users,
       dataSource: ds.cloneWithRows(props.users),
-
+      busy:[]
     };
     // console.log(props.users);
   }
   componentDidMount(){
-    if(this.props.showBrowseTooltip){
-      setTimeout(() => {
-        this.props.dispatch({ type: 'TOGGLE_SHOW_BROWSE_TOOLTIP', payload: { }})
-      }, 8000)
-    }
+    // if(this.props.showBrowseTooltip){
+    //   setTimeout(() => {
+    //     this.props.dispatch({ type: 'TOGGLE_SHOW_BROWSE_TOOLTIP', payload: { }})
+    //   }, 8000)
+    // }
     this.props.dispatch(ActionMan.fetchBrowse({coords: {lat: this.props.user.latitude, lng: this.props.user.longitude }, filter: this.props.currentFilter, page: 0}))
 
   }
@@ -71,7 +75,8 @@ export class Browse extends React.Component{
       this.setState({
         users: nProps.users,
         dataSource: ds.cloneWithRows(nProps.users),
-      });
+        busy: []
+       });
     }
   }
 
@@ -83,7 +88,8 @@ export class Browse extends React.Component{
 
   _onEndReached(){
     if(this.props.refreshing) return;
-    this.props.dispatch(ActionMan.fetchBrowse({coords: {lat: this.props.user.latitude, lng: this.props.user.longitude }, filter: this.props.currentFilter, page: this.props[`page${this.props.currentFilter}`] + 1}))
+    const page = this.props[`page${this.props.currentFilter}`] + 1;
+    this.props.dispatch(ActionMan.fetchBrowse({coords: {lat: this.props.user.latitude, lng: this.props.user.longitude }, filter: this.props.currentFilter, page}))
   }
 
   pressRow(rowData){
@@ -91,13 +97,17 @@ export class Browse extends React.Component{
   }
 
   toggleLike(rowData){
-    this.props.dispatch(ActionMan.sendLike({
-      likeUserId: rowData.user.id,
-      likeStatus: rowData.user.liked ? 'deny' : 'approve',
-      relStatus: this.props.user.relationship_status == 'single' ? 'couple' : 'single',
-      rel: this.props.user.relationship_status,
-      filter: this.props.currentFilter
-    }));
+    this.setState({busy: [...this.state.busy, rowData.user.id]});
+
+    this.setTimeout(() => {
+      this.props.dispatch(ActionMan.sendLike({
+        likeUserId: rowData.user.id,
+        likeStatus: rowData.user.liked ? 'deny' : 'approve',
+        relStatus: this.props.user.relationship_status == 'single' ? 'couple' : 'single',
+        rel: this.props.user.relationship_status,
+        filter: this.props.currentFilter
+      }));
+    },100)
 
   }
   getRankingInfo(rowData){
@@ -114,15 +124,16 @@ export class Browse extends React.Component{
     const {user,partner,couple} = rowData;
     const isLiked = user ? user.liked : true;
     const img = (user && user.image_url);
+
     const imgSource = img ? {uri: img.replace('test/', '').replace('images/', '')} : require('./assets/defaultuser.png')
     return (
       <View
         key={rowData.user.id + this.props.currentFilter}
         style={[{
           borderRadius: 12,
-	  zIndex: rowID == 0 ? 9999 : 1,
+          zIndex: rowID == 0 ? 9999 : 1,
           width: (MagicNumbers.screenWidth / 2),
-	  position:'relative',
+          position:'relative',
           height: (DeviceHeight - 150) / 2,
           backgroundColor: '#fff',
           marginBottom: 20,
@@ -136,13 +147,13 @@ export class Browse extends React.Component{
         }]}
       >
 
-        {rowID == 0 && this.props.showBrowseTooltip && (
-	  <Tooltip 
+        {/*rowID == 0 && this.props.showBrowseTooltip && (
+          <Tooltip
 	    onPress={()=>{
 	      this.props.dispatch({ type: 'TOGGLE_SHOW_BROWSE_TOOLTIP', payload: { }})
-	    }} 
+	    }}
 	  />
-	)}
+	)*/}
 
         <TouchableOpacity
           style={{
@@ -150,8 +161,11 @@ export class Browse extends React.Component{
 	    overflow:'hidden'
           }}
           onPress={this.pressRow.bind(this, rowData)}
+          delayPressIn={60}
         >
           <Image
+          resizeMode="cover"
+
             source={imgSource}
             style={{
               borderTopLeftRadius: 11,
@@ -165,15 +179,21 @@ export class Browse extends React.Component{
           <View
             style={{
               padding: 5,
-              height: 52
+              height: 52,
+                flexDirection: 'row',
+
+              width: (MagicNumbers.screenWidth / 2),
             }}
           >
 
             <View
               style={{
-                flexDirection: 'row',
+                width: (MagicNumbers.screenWidth / 2) - 40,
                 paddingLeft: 5,
-                alignItems:'flex-start'
+
+                justifyContent:'center',
+                paddingTop:7,
+                height:52
               }}
             >
 
@@ -185,8 +205,16 @@ export class Browse extends React.Component{
                 nameStyle={{fontSize:16}}
                 cityStateStyle={{fontSize:12}}
                 hideCityState={true}
-                afterNameIcon={user.relationship_status == 'couple' && partner && partner.gender ? (
-                  <Text style={{fontSize:20,color:colors.mediumPurple}}>{config.glyphs[`${user.gender}${partner.gender}`]}</Text>
+                afterNameIcon={user.relationship_status == 'couple' && user.partnerGender ? (
+                  <Text
+                    style={{
+                      fontSize:20,
+                      marginTop:-5,
+                      marginLeft:5,
+                      backgroundColor:'transparent',
+                      color:colors.mediumPurple
+                    }}
+                  >{config.glyphs[`${user.gender}${user.partnerGender}`]}</Text>
                 ) : null }
               />
 
@@ -198,7 +226,25 @@ export class Browse extends React.Component{
 
             </View>
 
-            <TouchableOpacity
+            {this.state.busy.indexOf(user.id) > -1 ?  (
+              <View
+                style={{
+                  borderRadius: 15,
+                  width: 30,
+                  height: 30,
+                  flexGrow: 1,
+                  backgroundColor:colors.shuttleGray20,
+                  padding:6,
+                  top: 10,
+                  left:3
+                }}
+               >
+                <ActivityIndicator
+                  animating
+                  color={colors.white}
+                />
+              </View>
+            ) : <TouchableOpacity
               style={{
                 borderRadius: 20,
                 width: 35,
@@ -206,8 +252,6 @@ export class Browse extends React.Component{
                 flexGrow: 1,
                 alignItems: 'center',
                 justifyContent: 'center',
-                position: 'absolute',
-                right: 7,
                 top: 9
               }}
               onPress={this.toggleLike.bind(this, rowData)}
@@ -217,7 +261,7 @@ export class Browse extends React.Component{
                 size={35}
                 color={isLiked ? colors.mediumPurple : '#CED3E0'}
               />
-            </TouchableOpacity>
+            </TouchableOpacity> }
           </View>
         </TouchableOpacity>
       </View>
@@ -263,7 +307,7 @@ export class Browse extends React.Component{
   }
 }
 
-const TabBar = (props) => (
+const TabBar = (props) => iOS ? (
   <BlurView
     blurType="dark"
     style={{
@@ -306,7 +350,6 @@ const TabBar = (props) => (
           }}
           onPress={() => {
             props.onPress(t)
-            console.log(props)
           }}
         >
           <Text
@@ -320,6 +363,61 @@ const TabBar = (props) => (
       ))}
     </ScrollView>
   </BlurView>
+) : (
+  <View
+    style={{
+      backgroundColor: colors.shuttleGray70,
+      zIndex: 9999,
+      height: 50,
+      width: DeviceWidth,
+      alignSelf: 'flex-start',
+      position:'absolute',
+      top:60
+    }}
+  >
+    <ScrollView
+      style={{
+        height: 50,
+        width: DeviceWidth,
+        backgroundColor: 'transparent'
+      }}
+      contentContainerStyle={{
+        alignItems: 'center',
+        minWidth: DeviceWidth,
+        justifyContent:'center',
+        backgroundColor: 'transparent',
+
+      }}
+      showsHorizontalScrollIndicator={false}
+      horizontal
+    >
+      {props.tabs.map(t => (
+        <TouchableOpacity
+          key={`tab${t}`}
+          style={{
+            overflow: 'hidden',
+            height: 50,
+            flexGrow: 1,
+            alignSelf: 'stretch',
+            backgroundColor: 'transparent',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+          onPress={() => {
+            props.onPress(t)
+          }}
+        >
+          <Text
+            style={{
+              color: '#fff',
+              opacity: t.toLowerCase() == props.selectedTab ? 1 : 0.6,
+              fontFamily: 'Montserrat'
+            }}
+          >{t.toUpperCase()}</Text>
+        </TouchableOpacity>
+      ))}
+    </ScrollView>
+  </View>
 );
 
 const mapStateToProps = (state, ownProps) => {
@@ -374,7 +472,7 @@ class BrowseNavigator extends React.Component {
 
 
   render() {
-    const tabs = ['Newest', 'Popular', 'Nearby']
+    const tabs = ['Newest',  'Nearby']; //'Popular',
 
     return (
       <View style={styles.container}>
@@ -387,7 +485,7 @@ class BrowseNavigator extends React.Component {
           barBackgroundColor="transparent"
           indicatorStyle={styles.tabIndicator}
           renderTabBar={(props)=><TabBar {...props} tabs={tabs} onPress={title => {
-            this.props.navigation.performAction(({ tabs, stacks }) => {
+            (props.navigation || this.props.navigation).performAction(({ tabs, stacks }) => {
               tabs('browse-navigation').jumpToTab(title.toLowerCase());
             });
           }}/>}

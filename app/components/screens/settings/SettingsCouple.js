@@ -4,7 +4,6 @@ import moment from 'moment';
 import BoxyButton from '../../controls/boxyButton';
 import Contacts from '../contacts';
 import colors from '../../../utils/colors';
-import formatPhone from '../../../utils/formatPhone';
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 import {
   NavigationStyles, withNavigation

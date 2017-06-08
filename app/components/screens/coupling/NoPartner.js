@@ -79,16 +79,15 @@ class NoPartner extends React.Component{
       this.props.dispatch(ActionMan.onboard({
         relationship_status: 'couple',
         genders: `${this.props.user.coupling ? this.props.user.coupling.genders : 'mf'}`,
-        looking_for_f: this.props.user.looking_for_f,
-        looking_for_m: this.props.user.looking_for_m,
-
+        // looking_for_f: this.props.user.coupling.looking_for_f,
+        // looking_for_m: this.props.user.coupling.looking_for_m,
 
       }));
-      this.props.dispatch(ActionMan.updateUser({
+      // this.props.dispatch(ActionMan.updateUser({
 
-        looking_for_f: this.props.user.looking_for_f,
-        looking_for_m: this.props.user.looking_for_m,
-      }))
+      //   looking_for_f: this.props.user.coupling.looking_for_f,
+      //   looking_for_m: this.props.user.coupling.looking_for_m,
+      // }))
 
     this.props.dispatch(ActionMan.showInModal({
       component: 'CoupleReady',
@@ -101,7 +100,7 @@ class NoPartner extends React.Component{
           }
         },
         closeModal: () => {
-          //this.props.navigator.popToTop()
+          this.props.navigator.popToTop()
         }
       }
     }));
@@ -152,7 +151,9 @@ class NoPartner extends React.Component{
                 <Image
                   style={[{width: 120, height: 120, borderRadius: 60, marginLeft: -100}]}
                   source={{uri: this.props.user.image_url}}
-                  defaultSource={require('../../../assets/placeholderUser@3x.png')}
+                  defaultSource={require('../../../assets/placeholderUser.png')}
+                  resizeMode={Image.resizeMode.cover}
+
                 />
               </View>
 

@@ -11,7 +11,7 @@ import DenyIcon from './DenyIcon'
 import Router from '../../../Router'
 import TimerMixin from 'react-timer-mixin';
 import Toolbar from './Toolbar'
-
+import CustomLayoutAnimations from './LayoutAnimations'
 import reactMixin from 'react-mixin'
 
 
@@ -56,14 +56,19 @@ class CardStack extends React.Component {
   componentWillReceiveProps(nProps) {
     const n = nProps;
     const p = this.props;
+
     if(n.profileVisible != p.profileVisible){
-      Animated.spring(this.state.cardopen, {
+
+      LayoutAnimation.configureNext(CustomLayoutAnimations.layout.spring)
+
+      Animated.timing(this.state.cardopen, {
         toValue: n.profileVisible ? 1.00 : 0.92,
-        tension: 15,
-        friction: 7,
+        duration: 300,
         useNativeDriver: true,
-        velocity: 2,
-      }).start(() => {});
+      }).start(() => {
+        this.state.pan.setValue({ x: 0, y: 0 });
+
+      });
     }
   }
 
@@ -77,12 +82,13 @@ class CardStack extends React.Component {
           this.state.pan.setValue({ x: 0, y: 0 });
 
           this.state.cardopen.setValue(0.92);
-        // }, 10)
+
+      // }, 10)
 
       }else{
         this.state.pan.setValue({ x: 0, y: 0 });
       }
-    }else if((this.props.drawerOpen != pProps.drawerOpen)){
+    }else if(!iOS && this.props.drawerOpen != pProps.drawerOpen){
       this.state.cardopen.setValue(0.92);
     }
   }
@@ -270,7 +276,7 @@ class CardStack extends React.Component {
     }
 
 
-    const cardHeight = DeviceHeight - 60;
+    const cardHeight = DeviceHeight - (iOS ? 60 : 40);
     const cardWidth = DeviceWidth;
 
     return (
@@ -301,7 +307,7 @@ class CardStack extends React.Component {
               width: DeviceWidth,
               overflow: 'visible',
               backfaceVisibility: 'hidden',
-              height: this.props.profileVisible ? DeviceHeight + 60 : DeviceHeight - 60,
+              height: iOS ? (this.props.profileVisible ? DeviceHeight : DeviceHeight - 60) : this.props.profileVisible ? DeviceHeight : DeviceHeight-40,
               top: 0, // iOS ? this.props.profileVisible ? 0 : 0 :  this.props.profileVisible ? 0 : 0,
               position: 'absolute',
               flexGrow: 1,
@@ -309,7 +315,7 @@ class CardStack extends React.Component {
                 inputRange: [-DeviceWidth, -DeviceWidth + 40, -DeviceWidth / 2, 0, DeviceWidth / 2, DeviceWidth - 40, DeviceWidth],
                 outputRange: [1, 0.8, 0.1, 0.0, 0.1, 0.8, 1],
               }),
-              top: iOS ? 60 : this.props.profileVisible ? 0 : 40, // iOS ? this.props.profileVisible ? 0 : 0 :  this.props.profileVisible ? 0 : 0,
+              top: iOS ? (60) : this.props.profileVisible ? -40 : 40, // iOS ? this.props.profileVisible ? 0 : 0 :  this.props.profileVisible ? 0 : 0,
               transform: [
               {
                   scale: this.state.cardopen
@@ -350,9 +356,8 @@ class CardStack extends React.Component {
               alignSelf: 'center',
               borderRadius: 11,
               width: DeviceWidth,
-              backfaceVisibility: 'hidden',
-              height: this.props.profileVisible ? DeviceHeight : DeviceHeight - 60,
-              top: iOS ? 60 : this.props.profileVisible ? 0 : 40,
+              height: this.props.profileVisible ? DeviceHeight : (iOS ? DeviceHeight - 60 : DeviceHeight-40),
+              top: this.props.profileVisible ? (iOS ? 60 : 0) : (iOS ? 60 : 40),
               position: 'absolute',
               flexGrow: 1,
 
@@ -380,7 +385,7 @@ class CardStack extends React.Component {
               pan={this.state.pan}
               city={city}
               cardWidth={this.props.profileVisible ? DeviceWidth : cardWidth}
-              cardHeight={cardHeight}
+              cardHeight={this.props.profileVisible ? DeviceHeight : cardHeight}
               matchName={matchName}
               profileVisible={this.props.profileVisible}
               closeProfile={this._hideProfile.bind(this)}

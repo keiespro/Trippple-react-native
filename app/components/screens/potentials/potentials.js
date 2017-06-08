@@ -151,8 +151,7 @@ export class Potentials extends React.Component{
   }
 
   render(){
-    const { potentials, user, potentialsPage } = this.props
-
+    const { potentials, user, potentialsPage } = this.props;
     return (
       <View
         style={{
@@ -179,6 +178,7 @@ export class Potentials extends React.Component{
                 right: 0,
                 position: 'absolute',
                 flexGrow: 1,
+                marginTop: iOS ? 0 : (this.props.profileVisible ? 0 : 20)
               }
             ]}
             pointerEvents={'box-none'}
@@ -192,10 +192,10 @@ export class Potentials extends React.Component{
                 dispatch={this.props.dispatch}
                 potentials={potentials}
                 drawerOpen={this.props.drawerOpen}
-                navigator={this.props.navigator}
+                navigator={this.props.navigator || this.props.navigation.getNavigatorByUID(this.props.navigation.getCurrentNavigatorUID())}
                 profileVisible={this.props.profileVisible}
                 toggleProfile={this.toggleProfile.bind(this)}
-
+                navigation={this.props.navigation}
               />
               : (
                 <PotentialsPlaceholder
@@ -227,7 +227,7 @@ export class Potentials extends React.Component{
           >
             <Browse />
             <Toolbar dispatch={this.props.dispatch} key={'ts'} />
-
+            
           </View>
       )
       }

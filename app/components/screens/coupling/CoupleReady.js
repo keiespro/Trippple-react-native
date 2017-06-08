@@ -57,13 +57,11 @@ class CoupleReady extends React.Component{
   }
 
   popToTop(){
-    // if(this.props.navigator){
-    //   this.props.navigator.pop()
-    // }
+
+
     __DEV__ && console.log(this.props);
-    // if(this.props.user.status == 'onboarded'){
-    //   this.props.dispatch(ActionMan.)
-    // }
+    this.props.dispatch(ActionMan.onboardUserNowWhat({relationship_status:'couple'}))
+
     if(this.props.isModal){
       if(this.props.closeModal){
         this.props.closeModal()
@@ -79,172 +77,170 @@ class CoupleReady extends React.Component{
       this.props.kill()
     }
 
-    let nav
-
-
-    this.props.dispatch(ActionMan.onboardUserNowWhat({relationship_status:'couple'}))
-    // this.props.goBack && this.props.goBack()
-
   }
 
   render(){
     return this.props.user && this.props.user.partner ? (
       <View style={{flexGrow: 1, backgroundColor: colors.outerSpace}}>
-      <ScrollView
+        <ScrollView
 
-        showsVerticalScrollIndicator={false}
-        vertical
-        contentContainerStyle={[{
-          width: DeviceWidth,
-          backgroundColor: colors.outerSpace,
-          height: DeviceHeight,
-          flexDirection: 'column',
-          justifyContent: 'center',
-          flex: 1,
-          top: 0
-        }]}
-      >
-
-        <Text
-          style={[styles.rowtext, styles.bigtext, {
-            backgroundColor: 'transparent',
-            textAlign: 'center',
-            fontFamily: 'montserrat',
-            fontWeight: '800',
-            fontSize: 40,
-            color: '#fff',
-            marginVertical: 10
+          showsVerticalScrollIndicator={false}
+          vertical
+          contentContainerStyle={[{
+            width: DeviceWidth,
+            backgroundColor: colors.outerSpace,
+            height: DeviceHeight,
+            flexDirection: 'column',
+            justifyContent: 'center',
+            flex: 1,
+            top: 0
           }]}
         >
-          SUCCESS!
-        </Text>
 
-        <Text
-          style={[styles.rowtext, styles.bigtext, {
-            fontSize: 18,
-            marginVertical: 10,
-            color: '#fff',
-            backgroundColor: 'transparent',
-            marginBottom: 15,
-            textAlign: 'center',
-            flexDirection: 'column'
-          }]}
-        >You're now a couple.</Text>
-
-        {this.props.user.partner ? <View
-          style={{
-            height: 120,
-            marginVertical: 30,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          <Image
-            style={[{
-              width: 120,
-              height: 120,
-              borderRadius: 60,
-              marginRight: -100
+          <Text
+            style={[styles.rowtext, styles.bigtext, {
+              backgroundColor: 'transparent',
+              textAlign: 'center',
+              fontFamily: 'montserrat',
+              fontWeight: '800',
+              fontSize: 40,
+              color: '#fff',
+              marginVertical: 10
             }]}
-            source={this.props.user.partner.image_url ? {uri: this.props.user.partner.image_url } : require('../chat/assets/placeholderUserWhite@3x.png')}
-            defaultSource={require('../chat/assets/placeholderUserWhite@3x.png')}
-          />
-
-          <Image
-            style={[{
-              width: 120,
-              height: 120,
-              borderRadius: 60,
-              marginLeft: -100
-            }]}
-            source={this.props.user.image_url ? {uri: this.props.user.image_url } : require('../chat/assets/placeholderUserWhite@3x.png')}
-            defaultSource={require('../chat/assets/placeholderUserWhite@3x.png')}
-          />
-        </View> : null}
-
-        {/* {!this.props.user.partner ? <View>
-
-        <Text style={[styles.rowtext,styles.bigtext,{
-          fontSize:18,
-          marginVertical:10,
-          color:'#fff',
-          marginBottom:15,textAlign:'center',
-          flexDirection:'column'
-        }]}>Your couple will be set up shortly.</Text></View> : null}*/}
-
-        <TouchableHighlight
-          underlayColor={colors.white20}
-          style={{
-            backgroundColor: 'transparent',
-            borderColor: colors.white,
-            borderWidth: 1,
-            borderRadius: 5,
-            marginHorizontal: MagicNumbers.screenPadding,
-            marginTop: 50,
-            marginBottom: 15
-          }}
-          onPress={this.popToTop.bind(this)}
-        >
-          <View
-            style={{
-              paddingVertical: 20,
-              paddingHorizontal: 20
-            }}
           >
-            <Text
+            SUCCESS!
+          </Text>
+
+          <Text
+            style={[styles.rowtext, styles.bigtext, {
+              fontSize: 18,
+              marginVertical: 10,
+              color: '#fff',
+              backgroundColor: 'transparent',
+              marginBottom: 15,
+              textAlign: 'center',
+              flexDirection: 'column'
+            }]}
+          >You're now a couple.</Text>
+
+          {this.props.user.partner ? (
+            <View
               style={{
-                fontFamily: 'montserrat',
-                fontWeight: '800',
-                fontSize: 18,
-                textAlign: 'center',
-                color: '#fff',
+                height: 120,
+                marginVertical: 30,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center'
               }}
             >
-              CONTINUE
-            </Text>
-          </View>
-        </TouchableHighlight>
+              <Image
+                style={[{
+                  width: 120,
+                  height: 120,
+                  borderRadius: 60,
+                  marginRight: -100
+                }]}
+                source={this.props.user.partner.image_url ? {uri: this.props.user.partner.image_url } : require('../chat/assets/placeholderUser.png')}
+                resizeMode={Image.resizeMode.cover}
+                defaultSource={require('../chat/assets/placeholderUser.png')}
+              />
 
-      </ScrollView>
-    </View>
-  ) : (
-    <View
-      style={{
-        height: DeviceHeight,
-        flexGrow: 1,
-        backgroundColor: colors.outerSpace,
-        top: 0,
-        position: 'absolute',
-        width: DeviceWidth,
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}
-    >
-      <ScrollView
-        contentContainerStyle={[{
-          width: DeviceWidth,
+              <Image
+                style={[{
+                  width: 120,
+                  height: 120,
+                  borderRadius: 60,
+                  marginLeft: -100
+                }]}
+                resizeMode={Image.resizeMode.cover}
+                source={this.props.user.image_url ? {uri: this.props.user.image_url } : require('../chat/assets/placeholderUser.png')}
+                defaultSource={require('../chat/assets/placeholderUser.png')}
+              />
+            </View>
+          ) : null}
+
+          {/* {!this.props.user.partner ? <View>
+
+            <Text style={[styles.rowtext,styles.bigtext,{
+            fontSize:18,
+            marginVertical:10,
+            color:'#fff',
+            marginBottom:15,textAlign:'center',
+            flexDirection:'column'
+          }]}>Your couple will be set up shortly.</Text></View> : null}*/}
+
+          <TouchableHighlight
+            underlayColor={colors.white20}
+            style={{
+              backgroundColor: 'transparent',
+              borderColor: colors.white,
+              borderWidth: 1,
+              borderRadius: 5,
+              marginHorizontal: MagicNumbers.screenPadding,
+              marginTop: 50,
+              marginBottom: 15
+            }}
+            onPress={this.popToTop.bind(this)}
+          >
+            <View
+              style={{
+                paddingVertical: 20,
+                paddingHorizontal: 20
+              }}
+            >
+              <Text
+                style={{
+                  fontFamily: 'montserrat',
+                  fontWeight: '800',
+                  fontSize: 18,
+                  textAlign: 'center',
+                  color: '#fff',
+                }}
+              >
+                CONTINUE
+              </Text>
+            </View>
+          </TouchableHighlight>
+
+        </ScrollView>
+      </View>
+    ) : (
+      <View
+        style={{
           height: DeviceHeight,
+          flexGrow: 1,
+          backgroundColor: colors.outerSpace,
+          top: 0,
+          position: 'absolute',
+          width: DeviceWidth,
           flexDirection: 'column',
-          justifyContent: 'center',
-          flex: 1,
-          top: 0
-        }]}
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
       >
-        <Text
-          style={{
-            fontFamily: 'montserrat',
-            fontWeight: '800',
-            fontSize: 18,
-            textAlign: 'center',
-            color: '#fff',
-          }}
+        <ScrollView
+          contentContainerStyle={[{
+            width: DeviceWidth,
+            height: DeviceHeight,
+            flexDirection: 'column',
+            justifyContent: 'center',
+            flex: 1,
+            top: 0
+          }]}
         >
-          Connecting couple...
-        </Text>
-      </ScrollView>
-    </View>
+          <Text
+            style={{
+              fontFamily: 'montserrat',
+              fontWeight: '800',
+              fontSize: 18,
+              textAlign: 'center',
+              color: '#fff',
+            }}
+          >
+            Connecting couple...
+          </Text>
+        </ScrollView>
+      </View>
     )
   }
 }

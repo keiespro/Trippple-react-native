@@ -61,25 +61,28 @@ export default class CoupleSuccess extends React.Component{
   render(){
     return (
       <View style={{flexGrow: 1,  backgroundColor: colors.outerSpace}}>
-      <ScrollView
-         contentContainerStyle={[{ backgroundColor: colors.outerSpace, width: DeviceWidth, height: DeviceHeight, flexDirection: 'column', justifyContent: 'center', flexGrow: 1, top: 0 }]}
+        <ScrollView
+          contentContainerStyle={[{ backgroundColor: colors.outerSpace, width: DeviceWidth, height: DeviceHeight, flexDirection: 'column', justifyContent: 'center', flexGrow: 1, top: 0 }]}
 
-         showsVerticalScrollIndicator={false}
-         vertical
+          showsVerticalScrollIndicator={false}
+          vertical
         >
 
-        <Text style={[styles.rowtext, styles.bigtext, { textAlign: 'center', fontFamily: 'montserrat', fontWeight: '800', fontSize: 20, color: '#fff', marginVertical: 10 }]}>
-          SUCCESS
-        </Text>
-        {this.props.user.partner && this.props.user.partner.gender ?
-          <View style={{height: 120, marginVertical: 30, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-            <Image style={[{width: 120, height: 120, borderRadius: 60, marginRight: -100}]}
-              source={this.props.user.partner.image_url ? {uri: this.props.user.partner.image_url } : require('../../../assets/placeholderUser@3x.png')}
-              defaultSource={require('../../../assets/placeholderUser@3x.png')}
-            />
-            <Image style={[{width: 120, height: 120, borderRadius: 60, marginLeft: -100}]}
-              source={this.props.user.image_url ? {uri: this.props.user.image_url } : require('../../../assets/placeholderUser@3x.png')}
-              defaultSource={require('../../../assets/placeholderUser@3x.png')}
+          <Text style={[styles.rowtext, styles.bigtext, { textAlign: 'center', fontFamily: 'montserrat', fontWeight: '800', fontSize: 20, color: '#fff', marginVertical: 10 }]}>
+            SUCCESS
+          </Text>
+          {this.props.user.partner && this.props.user.partner.gender ?
+            <View style={{height: 120, marginVertical: 30, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+              <Image
+                style={[{width: 120, height: 120, borderRadius: 60, marginRight: -100}]}
+                source={this.props.user.partner.image_url ? {uri: this.props.user.partner.image_url } : require('../../../assets/placeholderUser.png')}
+                defaultSource={require('../../../assets/placeholderUser.png')}
+              />
+              <Image
+                style={[{width: 120, height: 120, borderRadius: 60, marginLeft: -100}]}
+                resizeMode={Image.resizeMode.cover}
+                source={this.props.user.image_url ? {uri: this.props.user.image_url } : require('../../../assets/placeholderUser.png')}
+                defaultSource={require('../../../assets/placeholderUser.png')}
             />
           </View> :
             <View>

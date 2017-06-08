@@ -67,13 +67,13 @@ class Toolbar extends React.Component{
           top: 0,
           flexGrow: 1,
           backgroundColor: colors.outerSpace,
-          
+
           margin: 0,
           left:0,
           alignSelf: 'stretch',
           width: DeviceWidth,
           alignItems: 'flex-end',
-          zIndex: 900,
+          zIndex: 1900,
         }}
       >
         <SettingsButton />

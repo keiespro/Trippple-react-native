@@ -11,12 +11,11 @@ import CityState from '../../CityState'
 import CardLabel from '../../CardLabel'
 import ApproveIcon from './ApproveIcon'
 import DenyIcon from './DenyIcon'
-import Carousel from 'react-native-looped-carousel';
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
-
+@pure
 class NewerCard extends React.Component {
   constructor(props){
     super()
@@ -24,11 +23,7 @@ class NewerCard extends React.Component {
       size: { width: props.cardWidth, height: props.cardHeight },
     };
   }
-  //
-  // _onLayoutDidChange = (e) => {
-  //   const layout = e.nativeEvent.layout;
-  //   this.setState({ size: { width: layout.width, height: layout.height } });
-  // }
+
 
   reportModal() {
     const {potential} = this.props;
@@ -46,66 +41,57 @@ class NewerCard extends React.Component {
 
     const {profileVisible, cardWidth, city, seperator, potential, isTopCard, matchName, distance} = this.props;
 
-    const hasPartner = !!(potential.partner && potential.partner.gender);
-    const slideFrames = isTopCard && hasPartner ? [potential.user, potential.partner] : [potential.user];
-    const verifiedCouple = hasPartner && potential.couple.verified;
+    const hasPartner = (potential.partner && potential.partner.firstname ? true : false);
+    const verifiedCouple = hasPartner && potential.partner.partner_id;
 
     return (
-      <View key={`outer${potential.user.id}`} style={{backgroundColor: 'black',width: DeviceWidth,top:0 }}>
+      <View
+        key={`outer${potential.user.id}`}
+        style={{backgroundColor: '#000', width: DeviceWidth, top: 0,flexGrow:1 }}
+      >
 
 
-        <ScrollView>
+        <ScrollView
+          scrollEnabled
+          key={`scrollouter${potential.user.id}`}
+          style={{flexGrow:1}}
+        >
           <Header
             {...this.props}
-            size={{
-              width: this.state.size.width,
-              height: this.state.size.height - 260,
-              borderRadius: 12,
-              overflow: 'hidden',
-            }}
             carouselImgLoaded={this.state.carouselImgLoaded}
-            closeProfile={() => {
-              this.props.closeProfile ? this.props.closeProfile() : this.props.navigator.pop()
-            }}
+            showCloseProfile
+            closeProfile={() => (this.props.toggleProfile ? this.props.toggleProfile() : this.props.navigator.pop())}
+            cardWidth={DeviceWidth}
+            cardHeight={DeviceHeight}
           />
 
           <View
+            key={`cardlabel${potential.user.id}`}
+
             style={{
               flexGrow: 1,
               backgroundColor: colors.outerSpace,
-              width: this.state.size.width,
               alignItems: 'flex-start',
-              paddingBottom: 100
+              alignSelf: 'flex-start',
+              paddingBottom: 100,
+              top: 0
             }}
+
           >
 
-            <View
-              style={{
-                marginVertical: 8,
-                width: 40,
-                height: 8,
-                borderRadius: 15,
-                alignSelf: 'center',
-                overflow: 'hidden',
-                backgroundColor: 'rgba(255,255,255,.2)',
-                position: 'absolute',
-                left: (DeviceWidth / 2) - 20
-              }}
-            />
+
             <View
               key={`blurkey${potential.user.id}`}
               style={{
-                zIndex: 100,
-                height: profileVisible ? this.state.height : 0,
-                opacity: profileVisible ? 1 : 0,
                 flexGrow: 1
               }}
             >
 
-              <View style={{ paddingVertical: 40, width: DeviceWidth, flex: 10, marginTop: 0}}>
+              <View style={{ paddingVertical: 20, width: DeviceWidth, flexGrow: 10, marginTop: 0,paddingBottom:200}}>
 
                 <View style={{marginHorizontal: MagicNumbers.screenPadding / 2, marginBottom: 20}}>
                   <CardLabel
+                    showDistance={!this.props.isBrowse}
                     cacheCity={this.props.dispatch}
                     potential={potential}
                     seperator={seperator}
@@ -167,7 +153,11 @@ class NewerCard extends React.Component {
                     style={{ marginTop: 20, paddingBottom: 50 }}
                   >
                     <Text
-                      style={{ fontFamily: 'omnes', color: colors.mandy, textAlign: 'center' }}
+                      style={{
+                        fontFamily: 'omnes',
+                        color: colors.mandy,
+                        textAlign: 'center'
+                      }}
                     >Report or Block this user</Text>
                   </View>
                 </TouchableOpacity>
@@ -182,12 +172,14 @@ class NewerCard extends React.Component {
                     flex: 0,
                     alignSelf: 'center',
                   }}
+                  hitSlop={{top: 50, bottom: 50, left: 50, right: 50}}
                   onPress={() => (this.props.toggleProfile ? this.props.toggleProfile() : this.props.navigator.pop())}
                 >
                   <Image
                     resizeMode={Image.resizeMode.contain}
                     style={{ height: 12, width: 12, marginTop: 10 }}
                     source={require('./assets/close@3x.png')}
+
                   />
                 </TouchableOpacity>
 
@@ -204,88 +196,41 @@ class NewerCard extends React.Component {
     )
   }
   renderClosed(){
-    const {profileVisible, cardWidth, city, seperator, potential, isTopCard, cardHeight, matchName, distance} = this.props;
-    const hasPartner = !!(potential.partner && potential.partner.gender);
-    const verifiedCouple = hasPartner && potential.couple.verified;
-    const slideFrames = potential.partner ? [potential.user, potential.partner] : [potential.user];
-
+    const {potential} = this.props;
 
     return (
-      <View key={`outer${potential.user.id}`} pointerEvents={'box-none'} >
-        <Image
-          source={potential.user.image_url ? {uri: potential.user.image_url } : require('./assets/defaultuser.png')}
-          style={{
-            height: cardHeight,
-            width: cardWidth,
+      <View key={`outer${potential.user.id}`} pointerEvents={'box-none'} style={{flexGrow: 1}} >
 
-          }}
-          onLayout={e => console.log(e.nativeEvent.layout)}
-          key={`card${potential.user.id}img`}
+
+        <ScrollView
+          contentOffset={{x: 0, y: 0}}
+          scrollEnabled={false}
+          key={`scrollouter${potential.user.id}`}
         >
-
-          <View
-            pointerEvents={'box-none'}
-            style={{
-              width: cardWidth,
-              height: 100,
-              opacity: profileVisible ? 0 : 1,
-              alignSelf: 'flex-end',
-              zIndex: 10,
-              backgroundColor: colors.white,
-              borderBottomLeftRadius: 11,
-              borderBottomRightRadius: 11,
-              position: 'absolute',
-              top: profileVisible ? -200 : DeviceHeight - 160,
+          <Header
+            {...this.props}
+            carouselImgLoaded={this.state.carouselImgLoaded}
+            closeProfile={() => {
+              this.props.closeProfile ? this.props.closeProfile() : this.props.navigator.pop()
             }}
-          >
-            <View
+          />
 
-              style={{
-                  borderBottomLeftRadius: 11,
-                  borderBottomRightRadius: 11,
-                  padding: 20,
-                  height: 100,
+        </ScrollView>
 
-              }}
-            >
-              <CardLabel
-                cacheCity={this.props.dispatch}
-                potential={potential}
-                seperator={seperator}
-                matchName={matchName}
-                city={city}
-                distance={distance}
-                textColor={colors.shuttleGray}
-              />
-              {verifiedCouple && (
-                <VerifiedCoupleBadge
-                  placementStyle={{
-                      position: 'absolute',
-                      alignSelf: 'flex-start',
-                      right: 15,
-                      top: 63
-                  }}
-                />
-              )}
-            </View>
-
-
-          </View>
-
-        </Image>
       </View>
     )
   }
   render() {
+    const {profileVisible, cardWidth, city, seperator, potential, cardHeight, matchName, distance} = this.props;
+    const hasPartner = (potential.partner && potential.partner.firstname ? true : false);
+    const verifiedCouple = hasPartner && potential.partner.partner_id ? true : false;
+
     return (
       <View
         style={{
           flexGrow: 1,
           borderRadius: 12,
-          overflow: 'hidden',
-          top: this.props.profileVisible && !this.props.spacedTop ? -60 : 0,
-          height: this.props.profileVisible ? DeviceHeight : this.props.cardHeight,
-
+          top: profileVisible && !this.props.spacedTop ? -60 : 0,
 
         }}
         pointerEvents={'box-none'}
@@ -293,7 +238,7 @@ class NewerCard extends React.Component {
 
       >
         <StatusBar
-          hidden={this.props.profileVisible}
+          hidden={profileVisible}
           animated
           barStyle="default"
           translucent
@@ -304,18 +249,45 @@ class NewerCard extends React.Component {
           style={{
             borderRadius: 12,
             overflow: 'hidden',
-            height: this.props.profileVisible ? DeviceHeight : this.props.cardHeight,
-            position:'relative'
+            position: 'relative'
 
           }}
           pointerEvents={'box-none'}
-
-
         >
-          <Image
-            source={this.props.potential.user.image_url ? {uri: this.props.potential.user.image_url } : require('./assets/defaultuser.png')}
+          {profileVisible ? (
+            <TouchableOpacity
+              style={{
+                zIndex: 9999,
+                alignItems: 'center',
+                justifyContent: 'center',
+                flex: 0,
+                top: 10,
+                left: 10,
+                paddingVertical: 14,
+                paddingHorizontal: 12,
+                position: 'absolute'
+              }}
+              hitSlop={{top: 50, bottom: 50, left: 50, right: 50}}
+              onPress={() => (this.props.toggleProfile ? this.props.toggleProfile() : this.props.navigator.pop())}
+
+            >
+              <Image
+                pointerEvents={'none'}
+                resizeMode={Image.resizeMode.contain}
+                style={{
+                  height: 15,
+                  width: 15,
+                  marginTop: 0,
+                }}
+                source={require('./assets/close@3x.png')}
+              />
+            </TouchableOpacity>
+          ) : null}
+
+          {/* <Image
+            source={potential.user.image_url ? {uri: potential.user.image_url } : require('./assets/defaultuser.png')}
             style={{
-              height: this.props.profileVisible ? DeviceHeight : this.props.cardHeight,
+              height: profileVisible ? DeviceHeight : this.props.cardHeight,
               width: this.props.cardWidth,
               position: 'absolute',
               top: 0,
@@ -324,13 +296,63 @@ class NewerCard extends React.Component {
             }}
             pointerEvents="none"
             resizeMode="cover"
-            key={`cardbg${this.props.potential.user.id}img`}
+            key={`cardbg${potential.user.id}img`}
 
-          />
-          {this.props.profileVisible ? this.renderProfileVisible() : this.renderClosed()}
+          /> */}
+          {profileVisible ? this.renderProfileVisible() : this.renderClosed()}
         </View>
-        {this.props.isTopCard ? <DenyIcon pan={this.props.pan}/> : null}
-        {this.props.isTopCard ? <ApproveIcon pan={this.props.pan}/> : null}
+        <View
+          key={`cardlabell${potential.user.id}`}
+          pointerEvents={'box-none'}
+          style={{
+              height:  100,
+              flexGrow: 10,
+              zIndex:profileVisible ? 0 : 800,
+              overflow: 'hidden',
+              top: profileVisible ? cardHeight-10 : -10,
+              width: cardWidth,
+              backgroundColor: colors.white,
+              borderBottomLeftRadius: 11,
+              borderBottomRightRadius: 11,
+          }}
+        >
+          <View
+            style={{
+                borderBottomLeftRadius: 11,
+                borderBottomRightRadius: 11,
+                padding: 20,
+                height: 100,
+            }}
+            key={`blurkeyl${potential.user.id}`}
+
+          >
+            <CardLabel
+              showDistance={!this.props.isBrowse}
+              cacheCity={this.props.dispatch}
+              potential={potential}
+              hideCityState={!this.props.isBrowse}
+              seperator={seperator}
+              matchName={matchName}
+              city={city}
+              distance={distance}
+              textColor={colors.shuttleGray}
+            />
+            {verifiedCouple && (
+              <VerifiedCoupleBadge
+                placementStyle={{
+                    position: 'absolute',
+                    alignSelf: 'flex-start',
+                    right: 15,
+                    top: 63
+                }}
+              />
+            )}
+          </View>
+        </View>
+
+
+        {this.props.isTopCard ? <DenyIcon pan={this.props.pan} /> : null}
+        {this.props.isTopCard ? <ApproveIcon pan={this.props.pan} /> : null}
 
       </View>
     )
@@ -338,92 +360,105 @@ class NewerCard extends React.Component {
 }
 
 
-const Header = ({cardWidth, cardHeight, potential, closeProfile, imgLoadedCallback, carouselImgLoaded}) => (
-  <View
-    style={{
-      flexGrow: 1,
-      backgroundColor: colors.shuttleGray,
-      borderTopLeftRadius: 11,
-      overflow: 'hidden',
-      borderTopRightRadius: 11,
+class Header extends React.Component{
+  state = {
+    active: 0
+  };
 
-    }}
-  >
-    <TouchableOpacity
-      style={{
-        zIndex: 9999,
-        alignItems: 'center',
-        justifyContent: 'center',
-        flex: 0,
-        top: 0,
-        left: 0,
-        paddingVertical: 14,
-        paddingHorizontal: 12,
-        position: 'absolute'
-      }}
-      onPress={closeProfile}
-    >
-      <Image
-        pointerEvents={'none'}
-        resizeMode={Image.resizeMode.contain}
-        style={{
-          height: 15,
-          width: 15,
-          marginTop: 0,
-        }}
-        source={require('./assets/close@3x.png')}
-      />
-    </TouchableOpacity>
+  render(){
+    const { potential, imgLoadedCallback, carouselImgLoaded, showCloseProfile} = this.props
 
-    {(potential.partner && potential.partner.id != 'NONE' ? (
-      <Carousel
-        bullets
-        delay={2000}
+    return (
+      <View
         style={{
-          backgroundColor: 'transparent',
-          width: cardWidth,
-          overflow:'hidden',
-          height: DeviceHeight-200,
-          zIndex: carouselImgLoaded ? 1 : -1,
+          flexGrow: 1,
+          backgroundColor: '#000',
+          borderTopLeftRadius: 11,
+          overflow: 'hidden',
+          borderTopRightRadius: 11,
+
         }}
-        autoplay
-        bulletStyle={{
-          marginHorizontal: 5
-        }}
-        bulletsContainerStyle={{
-          width: 100,
-        }}
-        chosenBulletStyle={{
-          marginHorizontal: 5
-        }}
-        onAnimateNextPage={p => (__DEV__ && console.log(p))}
       >
-        {(potential.partner && potential.partner.id != 'NONE' ? [potential.user, potential.partner] : [potential.user]).map((slide, i) => (
-          <Image
-            key={`slide${potential.user.id}img${i == 1 ? 'partner' : ''}`}
-            style={{
-              width: DeviceWidth,
-              height: DeviceHeight-200
-            }}
-            onLoad={imgLoadedCallback}
-            resizeMode={Image.resizeMode.cover}
-            source={slide.image_url ? {uri: slide.image_url } : require('./assets/defaultuser.png')}
-          />
-        ))}
-      </Carousel>
-    ) : (
-      <Image
-        key={`card${potential.user.id}img`}
-        style={{
-          width: DeviceWidth,
-          height: DeviceHeight-200
-        }}
-        resizeMode={Image.resizeMode.cover}
-        source={potential.user.image_url ? {uri: potential.user.image_url } : require('./assets/defaultuser.png')}
-      />
-    ))}
 
-  </View>
-);
+        {(potential.partner && potential.partner.id != 'NONE' ? (
+
+
+          <ScrollView
+            horizontal
+
+            snapToInterval={DeviceWidth}
+            onScroll={e => console.log(e)}
+            scrollEnabled={showCloseProfile}
+            pagingEnabled
+
+            style={[{
+                flexGrow: 1,
+                backgroundColor: 'transparent',
+                zIndex: carouselImgLoaded ? 1 : -1,
+                height: this.props.cardHeight - 80,
+                width: this.props.cardWidth
+            }]}
+
+          >
+            {(potential.partner && potential.partner.id != 'NONE' ? [potential.user, potential.partner] : [potential.user]).map((slide, i) => (
+              <View
+                key={`vcard${potential.user.id}img${i == 1 ? 'partner' : ''}`}
+
+                style={[{
+                    height: this.props.cardHeight - 80,
+                    width: this.props.cardWidth,
+                    flexGrow: 1,
+                }]}
+              >
+                <Image
+                  key={`card${potential.user.id}img${i == 1 ? 'partner' : ''}`}
+
+                  style={[{
+                      height: this.props.cardHeight - 80,
+                      width: this.props.cardWidth,
+                      backgroundColor: slide.image_url ? 'transparent' : '#fff'
+                  }]}
+                  onLoad={imgLoadedCallback}
+                  resizeMode={Image.resizeMode.cover}
+                  source={slide.image_url ? {uri: slide.image_url } : require('./assets/defaultuser.png')}
+                />
+              </View>
+            ))}
+          </ScrollView>
+
+
+        ) : (
+          <View
+            style={{
+                height: this.props.cardHeight - 80,
+                width: this.props.cardWidth,
+                flexGrow: 1,
+                backgroundColor: 'transparent',
+                zIndex: carouselImgLoaded ? 1 : -1,
+
+
+            }}
+          >
+            <Image
+              key={`card${potential.user.id}img`}
+              style={{
+                height: this.props.cardHeight - 80,
+                width: this.props.cardWidth,
+                flexGrow: 1,
+
+              }}
+              onLoad={imgLoadedCallback}
+
+              resizeMode={Image.resizeMode.cover}
+              source={potential.user.image_url ? {uri: potential.user.image_url } : require('./assets/defaultuser.png')}
+            />
+          </View>
+
+        ))}
+
+      </View>
+        )
+          }
+}
 
 export default NewerCard;

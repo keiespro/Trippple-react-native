@@ -136,7 +136,7 @@ class EnterCouplePin extends React.Component{
     if(this.props.couple && nProps.couple && nProps.couple.hasOwnProperty('verified') && nProps.couple.verified){
       this.setState({
         success: true,
-        // submitting: false
+        submitting: false
       })
       // console.log(nProps.user);
       this.props.navigator.push(this.props.navigator.navigationContext.router.getRoute('CoupleReady'), {user: nProps.user});
@@ -144,7 +144,7 @@ class EnterCouplePin extends React.Component{
     }else if(this.props.couple && nProps.couple && nProps.couple.hasOwnProperty('verified') && nProps.couple.verified == false){
       this.setState({
         verifyError: true,
-      //  submitting: false
+       submitting: false
       })
     }
   }
@@ -168,60 +168,59 @@ class EnterCouplePin extends React.Component{
 
     return (
       <View style={{flexGrow: 1,  backgroundColor: colors.outerSpace}}>
-          <View style={{flexGrow: 1, top: iOS ? 0 : -20 }}
+        <View style={{flexGrow: 1, top: iOS ? 0 : -20 }}
           contentContainerStyle={[{  flex: 1,  alignItems:'stretch'}]} >
 
-            <View style={[{top: 0, marginBottom: MagicNumbers.is5orless ? 0 : 50, flexDirection: 'column', alignItems: 'center', justifyContent: 'center',marginHorizontal: MagicNumbers.screenPadding / 2, flex: 1 }]}>
-              <Text style={[styles.rowtext, styles.bigtext, { textAlign: 'center', fontFamily: 'montserrat', fontWeight: '800', fontSize: MagicNumbers.is5orless ? 17 : 20, color: '#fff', marginVertical: MagicNumbers.is5orless ? 5 : 10, backgroundColor: 'transparent' }]}>
-                CONNECT WITH YOUR PARTNER
-              </Text>
-              <Text style={[styles.rowtext, styles.bigtext, {
+          <View style={[{top: 0, marginBottom: MagicNumbers.is5orless ? 0 : 50, flexDirection: 'column', alignItems: 'center', justifyContent: 'center',marginHorizontal: MagicNumbers.screenPadding / 2, flex: 1 }]}>
+            <Text style={[styles.rowtext, styles.bigtext, { textAlign: 'center', fontFamily: 'montserrat', fontWeight: '800', fontSize: MagicNumbers.is5orless ? 17 : 20, color: '#fff', marginVertical: MagicNumbers.is5orless ? 5 : 10, backgroundColor: 'transparent' }]}>
+              CONNECT WITH YOUR PARTNER
+            </Text>
+            <Text style={[styles.rowtext, styles.bigtext, {
                 fontSize: MagicNumbers.is5orless ? 16 : 18,
                 marginVertical: MagicNumbers.is5orless ? 0 : 10,
                 color: '#fff',
                 fontFamily: 'omnes',
                 marginBottom: MagicNumbers.is5orless ? 5 : 15, textAlign: 'center', backgroundColor: 'transparent',
                 flexDirection: 'column'
-              }]}
-              >What is your partner’s couple code?</Text>
-              <View style={[styles.pinInputWrap, {marginHorizontal: MagicNumbers.screenPadding / 2, borderBottomColor: colors.mediumPurple}, (this.state.verifyError ? styles.pinInputWrapError : null), ]} >
-                <TextInput
-                  maxLength={10}
-                  style={[styles.pinInput, {
+            }]}
+            >What is your partner’s couple code?</Text>
+            <View style={[styles.pinInputWrap, {marginHorizontal: MagicNumbers.screenPadding / 2, borderBottomColor: colors.mediumPurple}, (this.state.verifyError ? styles.pinInputWrapError : null), ]} >
+              <TextInput
+                maxLength={10}
+                style={[styles.pinInput, {
                     fontSize: 26,
                     fontFamily: 'omnes',
                     color: this.state.verifyError ? colors.mandy : colors.white
-                  }]}
-                  ref={(inp) => this._inp = inp}
-                  editable
-                  keyboardAppearance={'dark'}
-                  keyboardType={'phone-pad'}
-                  autoCapitalize={'none'}
-                  placeholder={'ENTER CODE'}
-                  placeholderTextColor={'#fff'}
-                  autoCorrect={false}
-                  textAlign={'center'}
-                  clearButtonMode={'while-editing'}
-                  autoFocus
-                  selectionColor={colors.mediumPurple}
-                  onChange={this.handleInputChange.bind(this)}
-                />
-              </View>
-
-              <View style={[styles.middleTextWrap, styles.underPinInput, {marginHorizontal: MagicNumbers.screenPadding / 2}]}>
-                {this.state.verifyError &&
-                  <View style={styles.bottomErrorTextWrap}>
-                    <Text style={[styles.bottomErrorText, {backgroundColor: 'transparent', textAlign: 'right'}]}>Nope. Try again</Text>
-                  </View>
-            }
-              </View>
+                }]}
+                ref={(inp) => this._inp = inp}
+                editable
+                keyboardAppearance={'dark'}
+                keyboardType={'phone-pad'}
+                autoCapitalize={'none'}
+                placeholder={'ENTER CODE'}
+                placeholderTextColor={'#fff'}
+                autoCorrect={false}
+                textAlign={'center'}
+                clearButtonMode={'while-editing'}
+                autoFocus
+                selectionColor={colors.mediumPurple}
+                onChange={this.handleInputChange.bind(this)}
+              />
             </View>
+
+            <View style={[styles.middleTextWrap, styles.underPinInput, {marginHorizontal: MagicNumbers.screenPadding / 2}]}>
+              {this.state.verifyError &&
+                <View style={styles.bottomErrorTextWrap}>
+                  <Text style={[styles.bottomErrorText, {backgroundColor: 'transparent', textAlign: 'right'}]}>Nope. Try again</Text>
+                </View>
+              }
+            </View>
+          </View>
 
 
 
           <ContinueButton
             canContinue={this.state.inputFieldValue.length > 0}
-            loading={this.state.submitting}
             absoluteContinue
             handlePress={this.handleSubmit.bind(this)}
           />
