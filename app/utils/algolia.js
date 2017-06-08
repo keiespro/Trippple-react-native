@@ -21,7 +21,7 @@ const potentialsHelper = algoliaSearchHelper(algoliasearch(ALGOLIA_APP_ID, ALGOL
     attributes: ['id'],
     sortBy: ['desc']
   }],
-  facets: ['id','relationship_status','gender','age']
+  facets: ['id', 'relationship_status', 'gender', 'age']
 });
 
 
@@ -49,18 +49,17 @@ function getGeo(coords){
 
 
 function getPartnerGender(gender, encoding){
-  console.log(encoding)
   const pairMap = {
     0: 'mf',
     1: 'mm',
     2: 'mf',
     3: 'fm',
     4: 'ff'
-  } 
-  return pairMap[encoding].replace(gender,'') 
+  }
+  return pairMap[encoding].replace(gender, '')
 }
 
-export async function fetchPotentials({relationshipStatus, gender, distanceMiles = 25, minAge = 18, maxAge = 80, coords} = defaults, liked = [], page = 0){
+export async function fetchPotentials({relationshipStatus, gender, distanceMiles = 25, minAge = 18, maxAge = 80, coords, id, partner_id} = defaults, liked = [], page = 0){
   const c = getGeo(coords)
   try{
     potentialsHelper.clearRefinements();
@@ -70,63 +69,72 @@ export async function fetchPotentials({relationshipStatus, gender, distanceMiles
     if(gender){
       potentialsHelper.addFacetRefinement('gender', gender)
     }
-    
+    potentialsHelper.addNumericRefinement('id', '!=', id)
+    if(partner_id){
+      potentialsHelper.addNumericRefinement('id', '!=', partner_id)
+    }
+
     const result = await potentialsHelper.addFacetRefinement('relationship_status', relationshipStatus)
       .addNumericRefinement('age', '>=', 18)
       .addNumericRefinement('age', '<=', 80)
       .setQueryParameter(c.geoLabel, c.geoValue)
       .setQueryParameter('getRankingInfo', true)
       .setQueryParameter('aroundPrecision', 100)
-      .setQueryParameter('aroundRadius', distanceMiles*1609)
-      .searchOnce();
-    
-    const partners = result.content.hits.reduce((acc,el) => {
+      .setQueryParameter('aroundRadius', distanceMiles * 1609)
+      .searchOnce({
+        hitsPerPage: 20
+      });
+
+    if(!result.content.hits.length){
+      return ({matches: []})
+    }
+
+    const partners = result.content.hits.reduce((acc, el) => {
       if(el.relationship_status == 'couple'){
         acc.push(el.partner_id);
       }
       return acc
-    },[]);
+    }, []).filter(u => u != null);
 
     potentialsHelper.clearRefinements();
 
     potentialsHelper.addNumericRefinement('id', '=', partners)
 
-    const partnersResult = await potentialsHelper.setQueryParameter('hitsPerPage',partners.length).searchOnce();
+    const partnersResult = await potentialsHelper.setQueryParameter('hitsPerPage', partners.length || 20).searchOnce();
 
-    const partnersMap = partnersResult.content.hits.reduce((acc,el) => {
+    const partnersMap = partnersResult.content.hits.reduce((acc, el) => {
       acc[el.id] = el;
       return acc
-    },{});
+    }, {});
 
-    const usrs = result.content.hits.reduce((acc,el) => {
+    const usrs = result.content.hits.reduce((acc, el) => {
       if(el.id < el.partner_id || !partnersMap[el.id]){
-	acc.push(el)
+        acc.push(el)
       }
       return acc
-    },[]);
+    }, []);
 
     return ({
-      matches: usrs.map((h, i) => {
-	console.log(h.partner_id,partnersMap[h.partner_id])
-
-	return (
-	  {
-	    user: h,
-	    partner: h.partner_id ? partnersMap[h.partner_id] || {
-	      id: h.partner_id,
-	      firstname: '+1',
-	      age: h.age,
-	      gender: getPartnerGender(h.gender, h.pair_encoding)
-	    } : `NONE`,
-	    couple: {
-	      id: h.couple_id || `NONE`
-	    }
-	  }
-      )})
+      matches: usrs.map((h, i) => ({
+        user: {...h, partnerGender: getPartnerGender(h.gender, h.pair_encoding)},
+        partner: h.partner_id ? partnersMap[h.partner_id] || {
+          id: h.partner_id,
+          firstname: '+1',
+          age: h.age,
+          gender: getPartnerGender(h.gender, h.pair_encoding)
+        } : {
+          id: h.partner_id || 'NONE',
+        },
+        couple: {
+          id: h.couple_id || 'NONE'
+        }
+      }))
     })
   }catch(err){
     __DEV__ && console.error(err)
-    return err
+
+    return ({matches: []})
+
   }
 }
 
@@ -135,8 +143,11 @@ function formatForBrowse(result){
     const sum = acc;
     sum[hit.id] = {user: hit, likedAt: null}
     if(hit.relationship_status == 'couple'){
-      sum[hit.id].partner = { gender: getPartnerGender(hit.gender,hit.pair_encoding), firstname: '', age: hit.age, id: hit.partner_id };
-      sum[hit.id].couple =  {id: hit.couple_id  }
+      // sum[hit.id].partner = { gender: getPartnerGender(hit.gender,hit.pair_encoding), firstname: '', age: hit.age, id: hit.partner_id };
+      // sum[hit.id].couple =  {id: hit.couple_id  }
+
+      sum[hit.id].user.partnerGender = getPartnerGender(hit.gender, hit.pair_encoding);
+      sum[hit.id].user.is_couple = true;
     }
     return sum
   }, {})
@@ -157,7 +168,6 @@ export async function fetchNewestBrowse(params){
     return err
   }
 }
-
 
 
 export async function fetchPopularBrowse(params){

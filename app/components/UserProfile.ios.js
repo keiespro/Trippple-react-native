@@ -5,7 +5,6 @@ import { MagicNumbers } from '../utils/DeviceConfig'
 import { connect } from 'react-redux'
 import CityState from './CityState'
 import Card from './screens/potentials/NewerCard'
-import ParallaxSwiper from './controls/ParallaxSwiper';
 import UserDetails from './UserDetails';
 import colors from '../utils/colors';
 import VerifiedCoupleBadge from './Badge/VerifiedCoupleBadge'
@@ -134,7 +133,7 @@ class UserProfile extends React.Component {
       <View style={{
         backgroundColor: 'black',
       }}>
-        <Card {...this.props} profileVisible={true} spacedTop={true} matchName={matchName}/>
+        <Card {...this.props} profileVisible={true} spacedTop={true} matchName={matchName} isBrowse={true}/>
       </View>
 
     );

@@ -6,12 +6,59 @@ import api from '../utils/api'
 import {fetchPotentials as fetchPotentialsAlgolia} from '../utils/algolia'
 const iOS = Platform.OS == 'ios';
 
+import firebase from 'firebase';
+import {fireAuth, fireLogin, app} from '../fire'
+
+
+const firedb = firebase.database();
+
+export const firebaseAuth = (fbUser) => (dispatch, getState) => dispatch({
+
+  type: 'FIREBASE_AUTH',
+  payload: {
+    promise: new Promise((resolve, reject) => {
+
+
+      fireAuth(fbUser, dispatch)
+  .then(resolve)
+        .catch(reject);
+    })
+  }
+})
+export const sessionToFirebase = (params) => (dispatch, getState) => dispatch({
+
+  type: 'SESSION_TO_FIREBASE',
+  payload: {
+    promise: new Promise((resolve, reject) => {
+
+      const {device, location, user, auth} = getState();
+      const key = app.database().ref('sessions').push({
+        date: firebase.database.ServerValue.TIMESTAMP,
+        latitude: location.latitude,
+        longitude: location.longitude,
+        device_type: device.model,
+        user_id: user.id,
+        firebase_user_id: auth.firebaseUser.uid
+      }).key
+      return app.database().ref('user_sessions').child(user.id)
+      .update({
+        [key]: true
+      })
+      .then(resolve)
+      .catch(reject);
+    })
+  }
+})
+
 export const fetchPotentials = () => (dispatch, getState) => dispatch({
 
   type: 'FETCH_POTENTIALS',
   payload: {
     promise: new Promise((resolve, reject) => {
-      const user = getState().user;
+      const {user, ui} = getState();
+      if(ui.fetchingPotentials){
+        resolve(false)
+      }
       const genders = user.relationship_status != 'single' ? ['looking_for_m', 'looking_for_f'] : ['looking_for_mf', 'looking_for_ff', 'looking_for_mm'];
       const gender = genders.reduce((acc, el) => {
         if(user[el]){
@@ -19,22 +66,36 @@ export const fetchPotentials = () => (dispatch, getState) => dispatch({
         }
         return acc
       }, '')
+
       const prefs = {
         relationshipStatus: user.relationship_status == 'single' ? 'couple' : 'single',
         gender: gender.length > 1 ? null : gender,
         minAge: user.match_age_min,
         maxAge: user.match_age_max,
         distanceMiles: user.match_distance || 25,
-        coords: {lat: user.latitude, lng: user.longitude}
+        coords: {lat: user.latitude, lng: user.longitude},
+        id: user.id,
+        partner_id: user.partner_id
       }
       const likes = [...getState().likes.likedUsers, ...Object.keys(getState().swipeQueue)];
 
       const page = getState().ui.potentialsPageNumber || 0;
-      return fetchPotentialsAlgolia(prefs, likes, page).then(resolve)
+      return fetchPotentialsAlgolia(prefs, likes, page).then(resolve).catch(err => {
+        __DEV__ && console.log('err', err)
+        reject(err)
+      })
 
     })
   }
 })
+
+
+export const clearPotentials = () => (dispatch, getState) => dispatch({
+
+  type: 'CLEAR_POTENTIALS',
+  payload: {}
+});
+
 
 export const getPotentials = fetchPotentials;
 
@@ -43,7 +104,22 @@ export const selectCoupleGenders = (payload) => (dispatch, getState) => dispatch
 })
 
 export const fetchBrowse = ({filter, page, coords}) => (dispatch, getState) => dispatch({ type: 'FETCH_BROWSE',
-  payload: api.browse({filter: filter.toLowerCase(), page, coords}),
+  payload: new Promise((resolve, reject) => {
+    const {likes} = getState();
+    return api.browse({filter: filter.toLowerCase(), page, coords}).then(browseUsers => {
+      const browse = Object.values(browseUsers).map(b => {
+        if(likes.likedUsers.indexOf(b.user.id) > -1){
+          b.liked = true;
+          b.user.liked = true;
+        }
+        return b
+      }).reduce((acc,el) => {
+        acc[el.user.id] = el;
+        return acc
+      },{})
+      resolve(browse)
+    })
+  }),
   meta: {filter, page}
 })
 
@@ -78,7 +154,7 @@ export const setHotlineUser = user => dispatch => dispatch({ type: 'SET_HOTLINE_
     promise: new Promise((resolve, reject) => {
       __DEV__ && console.log('SET HOTLINE USER', user);
 
-      if(!iOS) RNHotline.init('f54bba2a-84fa-43c8-afa9-098f3c1aefae', 'fba1b915-fa8b-4c24-bdda-8bac99fcf92a', false);
+      // if(!iOS) RNHotline.init('f54bba2a-84fa-43c8-afa9-098f3c1aefae', 'fba1b915-fa8b-4c24-bdda-8bac99fcf92a', false);
         // .then(result => {
 
           // RCT_EXPORT_METHOD(setUser:(NSString *)user_id name:(NSString *)name phone:(NSString *)phone relStatus:(NSString *)relStatus gender:(NSString *)gender image:(NSString *)image thumb:(NSString *)thumb partner_id:(NSString *)partner_id ){

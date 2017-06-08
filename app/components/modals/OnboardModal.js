@@ -100,10 +100,10 @@ class OnboardModal extends Component {
     const payload = {
       relationship_status: this.state.selected_relationship_status,
       genders: this.state.selected_genders,
-      ...Object.keys(this.state.selected_theirs).reduce((acc, s) => {
-        acc[`looking_for_${s}`] = this.state.selected_theirs[s];
-        return acc;
-      }, {})
+      // ...Object.keys(this.state.selected_theirs).reduce((acc, s) => {
+      //   acc[`looking_for_${s}`] = this.state.selected_theirs[s];
+      //   return acc;
+      // }, {}),
     };
 
     this.props.dispatch(ActionMan.onboardUserNowWhat(payload))
@@ -117,12 +117,11 @@ class OnboardModal extends Component {
       const payload = {
         relationship_status: this.state.selected_relationship_status,
         genders: this.state.selected_genders,
-        ...Object.keys(this.state.selected_theirs).reduce((acc, s) => {
-          acc[`looking_for_${s}`] = this.state.selected_theirs[s];
-          return acc;
-        }, {})
+        // ...Object.keys(this.state.selected_theirs).reduce((acc, s) => {
+        //   acc[`looking_for_${s}`] = this.state.selected_theirs[s];
+        //   return acc;
+        // }, {})
       };
-      console.log('GENDERS',payload);
       this.props.dispatch(ActionMan.selectCoupleGenders(payload))
 
       this.props.navigator.push(Router.getRoute('JoinCouple', {
@@ -137,7 +136,8 @@ class OnboardModal extends Component {
 
     selected_theirs[pref] = !selected_theirs[pref];
     LayoutAnimation.easeInEaseOut()
-
+    
+    this.props.dispatch(ActionMan.updateUser(selected_theirs))
     this.setState({selected_theirs})
   }
 

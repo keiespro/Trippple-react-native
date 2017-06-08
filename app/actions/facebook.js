@@ -94,7 +94,6 @@ export const pushRoute = (route, params) => (dispatch, getState) => dispatch({ t
     const state = getState()
     const navs = Object.keys(state.navigation.navigators)
     let navigatorUID = navs[0];
-    console.log(navs);
     if(navigatorUID == 'undefined'){
       navigatorUID = navs[1]
     }
@@ -149,15 +148,14 @@ export const loginWithSavedFbCreds = (fbData) => (dispatch, getState) => dispatc
 
 export const onboardUserNowWhat = payload => (dispatch, getState) => dispatch({ type: 'ONBOARD_USER_NOW_WHAT',
   payload: new Promise((resolve, reject) => {
-    __DEV__ && console.log('onboard payload', payload);
     api.onboard(payload).then(result => {
       const state = getState();
       __DEV__ && console.log(result);
       const navs = Object.keys(state.navigation.navigators)
       const navigatorUID = navs[0];
+      // dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute('Potentials')]));
 
       resolve(result)
-      dispatch(NavigationActions.immediatelyResetStack(navigatorUID, [Router.getRoute('Potentials')]));
 
     })
 

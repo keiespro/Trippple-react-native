@@ -24,11 +24,11 @@ class ContinueButton extends Component{
     super();
 
     this.state = {
-      submitting: false,
+      loading: false,
       yVal: new Animated.Value(0)
     }
   }
-  
+
   componentWillReceiveProps(nProps){
     if(nProps.canContinue != this.props.canContinue){
       Animated.timing(this.state.yVal, {
@@ -57,12 +57,12 @@ class ContinueButton extends Component{
           left: 0,
           opacity: this.state.yVal,
           transform: [
-            {
-              translateY: this.state.yVal.interpolate({
+          {
+            translateY: this.state.yVal.interpolate({
                 inputRange: [0, 1],
                 outputRange: [80, 0]
-              })
-            }
+            })
+          }
           ]
         }]}
       >
@@ -72,7 +72,7 @@ class ContinueButton extends Component{
           underlayColor={colors.darkPurple}
         >
           <View>
-            {this.props.loading ? (
+            {this.state.submitting || this.props.loading ? (
               <ActivityIndicator
                 style={{alignSelf: 'center', alignItems: 'center', flexGrow: 1, height: 60, width: 60, justifyContent: 'center'}}
                 animating

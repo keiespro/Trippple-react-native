@@ -5,12 +5,10 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import Analytics from '../../../utils/Analytics';
 import FieldModal from '../../modals/FieldModal';
-import PhoneNumberInput from '../phoneNumberInput';
 import ScrollableTabView from '../../scrollable-tab-view';
 import SelfImage from '../../SelfImage';
 import colors from '../../../utils/colors';
 import Birthday from '../../controls/birthday'
-import formatPhone from '../../../utils/formatPhone';
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import {MagicNumbers} from '../../../utils/DeviceConfig'

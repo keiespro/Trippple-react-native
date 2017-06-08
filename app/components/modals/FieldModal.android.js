@@ -334,12 +334,7 @@ class FieldModal extends React.Component{
             />
           );
         case 'phone_input':
-          return (
-            <PhoneNumberInput
-              key={'updatephone'}
-              style={styles.phoneInput}
-            />
-          )
+          return null
         case 'birthday':
         case 'date':
           // always add an empty option at the beginning of the array

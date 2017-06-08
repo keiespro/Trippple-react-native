@@ -2,6 +2,10 @@ import _ from 'lodash'
 
 export default function LikeReducer(state = initialState, action) {
   switch (action.type) {
+    case 'LOGOUT_FULFILLED':
+    case 'ONBOARD_USER_NOW_WHAT_FULFILLED':
+    case 'DECOUPLE_FULFILLED':
+      return initialState
 
     case 'SWIPE_CARD_FULFILLED':
 

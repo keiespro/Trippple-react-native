@@ -88,7 +88,7 @@ const check = {
   },
   async android() {
     try{
-      const granted = await PermissionsAndroid.checkPermission(
+      const granted = await PermissionsAndroid.check(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         {
           title: 'Location',

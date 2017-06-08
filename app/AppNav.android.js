@@ -54,9 +54,7 @@ class AppNav extends React.Component {
           drawerLockMode={this.props.canDrawerOpen ? 'unlocked' : 'locked-closed'}
           drawerBackgroundColor={colors.outerSpace}
           drawerPosition={DrawerLayoutAndroid.positions.Left}
-          renderNavigationView={(x) => {
-             return <Settings />
-          }}
+          renderNavigationView={() => <Settings />}
         >
           <StackNavigation
 

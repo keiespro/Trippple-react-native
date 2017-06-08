@@ -19,7 +19,7 @@ import Analytics from '../utils/Analytics'
 import ActionMan from '../actions/';
 import Onboard from './Onboard'
 import DeepLinkHandler from '../utils/DeepLinkHandler'
-import '../fire'
+import {fireLogin} from '../fire'
 import LikeSender from '../LikeSender'
 import Router from '../Router'
 
@@ -51,37 +51,22 @@ class App extends React.Component{
   componentDidMount(){
     SplashScreen.hide();
 
-    // if(!this.props.loggedIn && this.props.fbUser && this.props.fbUser.accessToken){
-    //   this.props.dispatch(ActionMan.loginWithSavedFbCreds(this.props.fbUser))
-    //
-    // }
+    if(this.props.user.id && this.props.auth.firebaseUser){
+      this.props.dispatch(ActionMan.firebaseAuth(this.props.fbUser))
 
-      // this.setTimeout(() => {
-      //
-      //   this.performInitActions()
-      //   if(this.props.loggedIn){
-      //
-      //   }else{
-      //
-      //   }
-      //
-      // }, 1000)
+      this.props.dispatch(ActionMan.sessionToFirebase())
+    }
   }
 
 
   componentWillReceiveProps(nProps){
-    // if((!this.props.fbUser || !this.props.fbUser.accessToken) && !nProps.loggedIn && nProps.fbUser &&  nProps.fbUser.accessToken){
-    //   nProps.dispatch(ActionMan.loginWithSavedFbCreds(nProps.fbUser))
-    //
-    // }
     if(nProps.loadedUser && !this.props.loadedUser){
 
       this.props.dispatch(ActionMan.setHotlineUser(nProps.user))
       Analytics.identifyUser(nProps.user)
 
     }
-
-    if(!this.state.initialized && nProps.booted){
+     if(!this.state.initialized && nProps.booted){
 
       this.initialize(nProps)
     }
@@ -89,11 +74,7 @@ class App extends React.Component{
       SplashScreen.hide();
 
     }
-      // if(this.state.initialized && this.props.loggedIn && !nProps.savedCredentials){
-      //   this.props.dispatch(ActionMan.saveCredentials())
-      //
-      // }
-
+   
     if(this.props.loadedUser && nProps.onboarded && !this.props.onboarded){
       this.props.dispatch(ActionMan.resetRoute('Potentials'))
     }else if(this.props.loadedUser && nProps.loggedIn && !this.props.loggedIn){

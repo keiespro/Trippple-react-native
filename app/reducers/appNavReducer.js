@@ -13,11 +13,11 @@ const initialState = {
   key: 'global',
   index: 0,
   routes: [
-  {
-    component: fakeScene,
-    index: 0,
-    key:'fakeScene'
-  },
+    {
+      component: fakeScene,
+      index: 0,
+      key:'fakeScene'
+    },
   ],
 };
 

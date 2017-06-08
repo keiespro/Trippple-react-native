@@ -12,13 +12,13 @@ export default class AppNav extends React.Component {
   render() {
     return (
       <View style={{flex: 1, backgroundColor: colors.outerSpace,}}>
-      <StatusBar
-        animated
-        backgroundColor={colors.outerSpace20}
-        barStyle="default"
-        translucent
-        showHideTransition={'slide'}
-      />
+        <StatusBar
+          animated
+          backgroundColor={colors.outerSpace20}
+          barStyle="default"
+          translucent
+          showHideTransition={'slide'}
+        />
         <StackNavigation
           id="exnavigation"
           sceneStyle={{

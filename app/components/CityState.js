@@ -65,7 +65,7 @@ export default class CityState extends Component{
           ]}
           key={`${this.props.potential.user.id}-matchn`}
         >{
-          cS ? cS.replace(', null','').replace('null','') : ''
+          cS ? `${cS}`.replace(', null','').replace('null','') : ''
         }</Text>
       </View>
     )

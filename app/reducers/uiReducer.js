@@ -101,9 +101,22 @@ export default function uiReducer(state = initialState, action) {
     case 'CHANGE_BROWSE_FILTER':
       return {...state, browseFilter: action.payload}
 
+    case 'FETCH_POTENTIALS_PENDING':
+    case 'GET_POTENTIALS_PENDING':
+      return {...state, fetchingPotentials: true}
+
+    case 'FETCH_POTENTIALS_REJECTED':
+    case 'GET_POTENTIALS_REJECTED':
+      return {...state, fetchingPotentials: false}
+
+
     case 'FETCH_POTENTIALS_FULFILLED':
     case 'GET_POTENTIALS_FULFILLED':
-      return action.payload.matches.length ? {...state, potentialsPageNumber: state.potentialsPageNumber + 1} : state
+      return action.payload ? (action.payload.matches.length ? {
+        ...state,
+        potentialsPageNumber: state.potentialsPageNumber + 1,
+        fetchingPotentials:false
+      } : {...state, fetchingPotentials:false}) : state
 
     default:
 

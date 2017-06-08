@@ -1,4 +1,3 @@
-import _ from 'underscore'
 export default function userReducer(state = initialState, action) {
     let {user_info, existed } = (action && action.payload ? action.payload || action.payload : {});
 
@@ -18,7 +17,7 @@ export default function userReducer(state = initialState, action) {
     //     return { ...state, err: action.payload };
 
     case 'UPDATE_USER_PENDING':
-        let updates = _.values(action.meta)
+        let updates = Object.values(action.meta)
         return { ...state, ...updates[0]};
     case 'GET_USER_INFO_FULFILLED':
     case 'VERIFY_PIN_FULFILLED':

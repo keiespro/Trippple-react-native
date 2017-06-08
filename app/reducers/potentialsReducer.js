@@ -10,6 +10,8 @@ export default function potentialsReducer(state = initialState, action) {
     case 'HANDLE_NOTIFICATION_DECOUPLE':
     case 'CLEAR_POTENTIALS':
     case 'HARD_RELOAD_POTENTIALS_PENDING':
+    case 'CLEAR_POTENTIALS_FULFILLED':
+    case 'DECOUPLE_FULFILLED':
       return initialState;
 
     case 'REMOVE_POTENTIAL':

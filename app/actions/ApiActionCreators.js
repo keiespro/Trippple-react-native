@@ -72,13 +72,16 @@ const ApiActionCreators = endpointMap.reduce((obj, endpoint) => {
         }
         api[endpoint.call](...p)
         .then(x => {
+
+          return resolve(x);
+        })
+        .then(ok => {
           if(shouldFetchUserInfo){
             dispatch({type: 'GET_USER_INFO', payload: api.getUserInfo()})
           }
           if(shouldFetchPotentials){
             dispatch(fetchPotentials())
           }
-          return resolve(x);
         })
         .catch(err => {
           __DEV__ && console.log('CAUGHT ERR',err.status);

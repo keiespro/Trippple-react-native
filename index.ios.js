@@ -20,11 +20,11 @@ if(__DEV__){
     'Value is a function',
     '%cfont-weight',
     'Warning',
-    'Task oprhaned',
+    'Task orphaned',
     'Animated: `use',
     'Image source',
     `View #`,
-    `console.error`
+    `console.error`,
   ];
   console.ignoredRedBox = [
     'Image source',

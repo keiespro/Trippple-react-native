@@ -1,7 +1,6 @@
 import { Text, Image, View, TouchableHighlight, Dimensions, TouchableOpacity } from 'react-native';
 import React, { Component } from 'react';
 import colors from '../../utils/colors'
-import _ from 'underscore'
 import ActionMan from '../../actions'
 import { BlurView,VibrancyView } from 'react-native-blur'
 import styles from './purpleModalStyles'

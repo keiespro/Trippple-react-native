@@ -90,7 +90,7 @@ const check = {
         title: 'Privacy Settings',
         message: 'Hide from people in your contacts'
       }]
-      const granted = await PermissionsAndroid.checkPermission(...params)
+      const granted = await PermissionsAndroid.check(...params)
       return granted
     }catch(err) {
       // console.warn(err)

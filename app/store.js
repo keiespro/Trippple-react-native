@@ -4,7 +4,7 @@ import {AsyncStorage} from 'react-native'
 import createActionBuffer from 'redux-action-buffer'
 import throttleActions from 'redux-throttle-actions';
 import promiseMiddleware from 'redux-promise-middleware';
-import createLogger from 'redux-logger';
+import {createLogger} from 'redux-logger';
 import {persistStore, autoRehydrate, } from 'redux-persist'
 import {REHYDRATE} from 'redux-persist/constants'
 import { composeWithDevTools } from 'redux-devtools-instrument'
@@ -23,18 +23,18 @@ const logger = createLogger({
 });
 
 const middlewares = [
-  perflogger,
+  // perflogger,
   thunk,
   promiseMiddleware(),
   createActionBuffer(REHYDRATE),
   // throttleActions(['UPDATE_USER'], 2000, {leading: true, trailing: false }),
   // throttleActions(['EX_NAVIGATION.PUSH'], 700, {leading: true, trailing: false }),
-  throttleActions(['OPEN_PROFILE', 'CLOSE_PROFILE'], 300, {leading: true, trailing: false }),
+  throttleActions(['OPEN_PROFILE', 'CLOSE_PROFILE'], 700, {leading: true, trailing: false }),
   throttleActions(['GET_POTENTIALS', 'GET_MESSAGES', 'GET_MATCHES'], 1000, {leading: true, trailing: false }),
   createPrefetcher({
     watchKeys: [
       {
-        GET_POTENTIALS_FULFILLED: {
+        FETCH_POTENTIALS_FULFILLED: {
           key: 'matches',
           source: 'potentials',
           location: {
@@ -44,16 +44,16 @@ const middlewares = [
           }
         }
       },
-      {
-        FETCH_BROWSE_FULFILLED: {
-          source: 'browse',
-          location: {
-            user: {
-              image_url: true
-            }
-          }
-        }
-      },
+      // {
+      //   FETCH_BROWSE_FULFILLED: {
+      //     source: 'browse',
+      //     location: {
+      //       user: {
+      //         image_url: true
+      //       }
+      //     }
+      //   }
+      // },
     ]
   }),
   // createPrefetcher({
@@ -125,7 +125,10 @@ function configureStore(initialState = ({})) {
     );
     persistStore(store, {
       storage: AsyncStorage,
-      blacklist: ['navigation', 'AppNav', 'ui', 'potentials']
+      blacklist: ['navigation', 'AppNav', 'ui', 'potentials', 'browse'],
+      transforms: [immutableTransform({
+        whitelist: ['browse']
+      })]
     })
     return store
   }

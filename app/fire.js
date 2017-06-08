@@ -4,7 +4,7 @@
 import firebase from 'firebase';
 import {Platform} from 'react-native'
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: 'AIzaSyBwQ0d87ygSNxEpcxJSDxpH2e9sb0tpNE8',
   authDomain: 'trippple-93bbc.firebaseio.com',
   databaseURL: 'https://trippple-93bbc.firebaseio.com',
@@ -13,19 +13,32 @@ const firebaseConfig = {
 
 // // Get default app
 
-const fireLogin = (fbUser, dispatch) => {
+export const app = firebase.initializeApp(firebaseConfig)
 
-  const app = firebase.initializeApp(firebaseConfig)
+export const fireAuth = (fbUser, dispatch) => {
+
+  const auth = firebase.auth;
+  console.log(auth)
+  const cred = auth.FacebookAuthProvider.credential(fbUser.accessToken);
+  return app.auth().signInWithCredential(cred)
+   
+}
+
+
+export const fireLogin = (fbUser, dispatch) => {
+
 
   const auth = app.auth();
 
+      __DEV__ && console.log(fbUser,auth);
+        const credential = firebase.auth.FacebookAuthProvider.credential(fbUser.accessToken);
+      __DEV__ && console.log(credential);
   auth.onAuthStateChanged(firebaseUser => {
     if(firebaseUser) {
-      __DEV__ && console.log(firebaseUser, fbUser);
+      __DEV__ && console.log(firebaseUser, fbUser,auth);
       if(fbUser && !isUserEqual(fbUser, firebaseUser)) {
 
-        const credential = auth.FacebookAuthProvider.credential(fbUser.accessToken);
-        __DEV__ && console.log(credential);
+        __DEV__ && console.log('have fbuser',credential);
 
         auth.signInWithCredential(credential)
           .then(firebaser => {

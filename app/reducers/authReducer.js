@@ -12,6 +12,7 @@ export default function authReducer(state = initialState, action) {
         return state
 
     case 'FIREBASE_AUTH':
+    case 'FIREBASE_AUTH_FULFILLED':
         return { ...state, firebaseUser: action.payload}
 
     case 'VERIFY_PIN_REJECTED':

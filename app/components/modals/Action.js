@@ -21,7 +21,6 @@ const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
 import colors from '../../utils/colors'
-import _ from 'underscore'
 import FadeInContainer from '../FadeInContainer'
 import ReportModal from './ReportModal'
 import BlurModal from './BlurModal'

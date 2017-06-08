@@ -25,6 +25,8 @@ import swipeHistoryReducer from './swipeHistoryReducer'
 import browseReducer from './browseReducer'
 import Immutable from 'immutable'
 
+import locationReducer from './locationReducer'
+
 const applicationReducers = ({
   user:           userReducer,
   device:         deviceReducer,
@@ -33,6 +35,7 @@ const applicationReducers = ({
   ui:             uiReducer,
   fbUser:         facebookReducer,
   unread:         unreadReducer,
+  location:       locationReducer,
   matches:        matchesReducer,
   cityState:      cityStateReducer,
   newMatches:     newMatchesReducer,

@@ -10,12 +10,18 @@ export default class DeepLinkHandler extends Component{
 
   componentDidMount(){
     Linking.addEventListener('url', this.handleDeepLink.bind(this))
+    Linking.getInitialURL().then((deeplinkUrl) => {
+      if(deeplinkUrl){
+        this.handleDeepLink({url: deeplinkUrl})
+      }
+    })
   }
 
   componentWillUnmount(){
     Linking.removeEventListener('url', this.handleDeepLink.bind(this))
   }
   handleDeepLink(event){
+    console.log(event);
     const deeplink = url.parse(event.url);
     __DEV__ && console.log('DEEPLINK',event,deeplink);
 
