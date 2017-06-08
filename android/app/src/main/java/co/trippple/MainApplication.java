@@ -17,23 +17,24 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.ReactApplication;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
+import com.oblador.keychain.KeychainPackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.pusherman.networkinfo.RNNetworkInfoPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
 import com.kevinejohn.RNMixpanel.RNMixpanel;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 
-import com.oblador.keychain.KeychainPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 
 import com.rt2zz.reactnativecontacts.ReactNativeContacts;
-import com.trippple.RNHotline.RNHotline;
+import co.trippple.RNHotline.RNHotline;
 
-import org.jall.reactnative.firebase.FirebasePackage;
+
 
 import java.util.Arrays;
 import java.util.List;
@@ -73,6 +74,8 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactNativePushNotificationPackage(),
+            new KeychainPackage(),
             new RNNetworkInfoPackage(),
             new RNHotline(),
             new RNGeocoderPackage(),
@@ -81,9 +84,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
             new RNUXCamPackage(),
             new VectorIconsPackage(),
             new SplashScreenReactPackage(),
-            new KeychainPackage(),
             new GoogleAnalyticsBridgePackage(),
-            new FirebasePackage(),
             new FIRMessagingPackage(),
             new FBSDKPackage(mCallbackManager),
             new RNDeviceInfo(),

@@ -34,7 +34,7 @@
 #import <Crashlytics/Answers.h>
 @import FBSDKCoreKit;
 #import <Bolts/Bolts.h>
-#import "../node_modules/react-native-fcm/ios/RNFIRMessaging.h"
+#import "RNFIRMessaging.h"
 #import "SplashScreen.h"
 
 @interface AppDelegate() <RCTBridgeDelegate>
