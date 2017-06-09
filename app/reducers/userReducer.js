@@ -8,14 +8,6 @@ export default function userReducer(state = initialState, action) {
     case 'HANDLE_NOTIFICATION_DECOUPLE':
         return {...state, partner: null, couple: null, relationship_status:'single'}
 
-    // case 'GET_USER_INFO_PENDING':
-    //
-    //     return state;
-
-    // case 'GET_USER_INFO_REJECTED':
-    //
-    //     return { ...state, err: action.payload };
-
     case 'UPDATE_USER_PENDING':
         let updates = Object.values(action.meta)
         return { ...state, ...updates[0]};
@@ -39,9 +31,11 @@ export default function userReducer(state = initialState, action) {
 
         return initialState;
 
+    case 'SHOW_PROFILE_PENDING':
     case 'SHOW_PROFILE_FULFILLED':
         return { ...state, profile_visible: true };
 
+    case 'HIDE_PROFILE_PENDING':
     case 'HIDE_PROFILE_FULFILLED':
         return { ...state, profile_visible: false };
 

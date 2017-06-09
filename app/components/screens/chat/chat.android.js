@@ -5,7 +5,7 @@ import reactMixin from 'react-mixin'
 import {pure} from 'recompose'
 import TimerMixin from 'react-timer-mixin';
 import { connect } from 'react-redux';
-import {withNavigation,NavigationStyles} from '@exponent/ex-navigation';
+import {withNavigation, NavigationStyles} from '@exponent/ex-navigation';
 import ActionMan from '../../../actions/';
 import ChatInside from './ChatInside'
 import ThreeDotsActionButton from '../../buttons/ThreeDotsAction';
@@ -23,31 +23,31 @@ class Chat extends React.Component {
 
   static route = {
     styles: NavigationStyles.FloatVertical,
-    sceneStyle:{
+    sceneStyle: {
       backgroundColor: colors.outerSpace
     },
-    navigationBar:{
-      visible:true,
+    navigationBar: {
+      visible: true,
       translucent: false,
       title(params) {
-          return params.title ? params.title : ''
-        },
-        tintColor: colors.white,
-        renderRight(route, props) {
-          return (
-            <ThreeDotsActionButton
-              fromChat
-              match={route.params.matchInfo || props.match || props.currentMatch || props.matchInfo}
-              dotColor={colors.white}
-              style={{paddingTop:3,alignItems:'center',alignSelf:'center'}}
-            />
-          )
+        return params.title ? params.title : ''
+      },
+      tintColor: colors.white,
+      renderRight(route, props) {
+        return (
+          <ThreeDotsActionButton
+            fromChat
+            match={route.params.matchInfo || props.match || props.currentMatch || props.matchInfo}
+            dotColor={colors.white}
+            style={{paddingTop: 3, alignItems: 'center', alignSelf: 'center'}}
+          />
+        )
 
-        }
+      }
     },
-    statusBar:{
+    statusBar: {
       translucent: false,
-      visible:true
+      visible: true
     },
   }
 
@@ -64,7 +64,7 @@ class Chat extends React.Component {
       const matchInfo = this.props.match;
       const theirIds = Object.keys(matchInfo.users).filter((u) => u != this.props.user.id && u != this.props.user.partner_id);
       const them = theirIds.map((id) => matchInfo.users[id]);
-      const chatTitle = them.reduce((acc, u, i) => { return acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ' & ' : '') }, '');
+      const chatTitle = them.reduce((acc, u, i) => acc + u.firstname.toUpperCase() + (them[1] && i == 0 ? ' & ' : ''), '');
       this.setTimeout(() => {
         this.props.navigator.updateCurrentRouteParams({title: chatTitle, match: this.props.match })
       }, 1200)
@@ -80,14 +80,14 @@ class Chat extends React.Component {
   toggleModal() {
     Keyboard.dismiss()
 
-         this.setState({
-          isVisible: !this.state.isVisible,
-        })
+    this.setState({
+      isVisible: !this.state.isVisible,
+    })
   }
   openProfile(){
     const {user} = this.props
     const match = this.props.match || this.props.currentMatch;
-    const theirIds = Object.keys(match.users).filter(u => { return u != user.id && u != user.partner_id })
+    const theirIds = Object.keys(match.users).filter(u => u != user.id && u != user.partner_id)
     const them = theirIds.map((id) => match.users[id])
 
     const MatchUserAsPotential = {
@@ -103,37 +103,33 @@ class Chat extends React.Component {
   render() {
 
     return (
-        <ChatInside
-          user={this.props.user}
-          match={this.props.match || this.props.currentMatch}
-          currentMatch={this.props.match || this.props.currentMatch}
-          messages={this.props.messages}
-          dispatch={this.props.dispatch}
-          key={`chat-${this.props.user.id}-${this.props.match_id}`}
-          pop={() => { this.props.navigator.pop() }}
-          fromNotification={this.props.fromNotification}
-          openProfile={this.openProfile.bind(this)}
-        />
+      <ChatInside
+        user={this.props.user}
+        match={this.props.match || this.props.currentMatch}
+        currentMatch={this.props.match || this.props.currentMatch}
+        messages={this.props.messages}
+        dispatch={this.props.dispatch}
+        key={`chat-${this.props.user.id}-${this.props.match_id}`}
+        pop={() => { this.props.navigator.pop() }}
+        fromNotification={this.props.fromNotification}
+        openProfile={this.openProfile.bind(this)}
+      />
     );
   }
 
 }
 
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    ...ownProps,
-    user: state.user,
-    messages: state.messages[ownProps.match_id],
-    match: state.matches[ownProps.match_id] || state.newMatches[ownProps.match_id],
-    currentMatch: state.matches[ownProps.match_id] || state.newMatches[ownProps.match_id]
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps,
+  user: state.user,
+  messages: state.messages[ownProps.match_id],
+  match: state.matches[ownProps.match_id] || state.newMatches[ownProps.match_id],
+  currentMatch: state.matches[ownProps.match_id] || state.newMatches[ownProps.match_id]
+})
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatch
-  };
-}
+const mapDispatchToProps = (dispatch) => ({
+  dispatch
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);

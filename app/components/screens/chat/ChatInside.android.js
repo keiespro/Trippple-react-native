@@ -1,4 +1,4 @@
-import { View, TextInput, Image, ListView, Keyboard, Text, Animated, Dimensions, TouchableOpacity, } from 'react-native';
+import { View, TextInput, Image, ListView, Keyboard, Text, Animated, Dimensions,   KeyboardAvoidingView,TouchableOpacity, } from 'react-native';
 import React, {Component} from 'react';
 import moment from 'moment';
 import styles from './chatStyles'
@@ -85,7 +85,9 @@ class ChatInside extends Component{
   }
 
 
-
+handleKeyboard(e){
+  console.log(e);
+}
   //
   onEndReached(e){
     if(!this.props.messages){ return false }
@@ -134,53 +136,59 @@ class ChatInside extends Component{
         <View
           style={{
             flexGrow: 1,
-            paddingBottom:20,
+            paddingBottom:0,
             width:DeviceWidth,
             backgroundColor: colors.transparent
-         }}
+          }}
         >
-        {this.props.messages && this.props.messages.length > 0 ? (
-          <ListView
-            dataSource={this.state.dataSource}
-            renderRow={this._renderRow.bind(this)}
-            style={{flexGrow:1,alignSelf:'stretch'}}
-            messages={this.props.messages || []}
-            renderScrollComponent={props => (
-              <InvertibleScrollView
-                {...props}
-                inverted
-                scrollsToTop
-                scrollEventThrottle={16}
-                indicatorStyle={'white'}
-                ref={c => { this.scroller = c }}
-                key={`${this.props.match_id}x`}
+          <KeyboardAvoidingView
+            onKeyboardChange={this.handleKeyboard.bind(this)}
+            style={{ alignSelf: 'stretch', flex: 1, justifyContent: 'space-between', flexDirection: 'column'}}
+            behavior={'padding'}
+            keyboardVerticalOffset={50}
+          >
+
+            {this.props.messages && this.props.messages.length > 0 ? (
+              <ListView
+                dataSource={this.state.dataSource}
+                renderRow={this._renderRow.bind(this)}
+                style={{flexGrow:1,alignSelf:'stretch'}}
+                messages={this.props.messages || []}
+                renderScrollComponent={props => (
+                  <InvertibleScrollView
+                    {...props}
+                    inverted
+                    scrollsToTop
+                    scrollEventThrottle={16}
+                    indicatorStyle={'white'}
+                    ref={c => { this.scroller = c }}
+                    key={`${this.props.match_id}x`}
+                  />
+                )}
               />
-          )}
-          />
-      ) : (
-        <NoMessages
-          {...this.props}
-          textInputValue={this.state.textInputValue}
-          onTextInputChange={this.onTextInputChange.bind(this)}
-          sendMessage={this.sendMessage.bind(this)}
-          isKeyboardOpened={this.state.isKeyboardOpened}
-          openProfile={this.props.openProfile}
-        />
-      )}
+            ) : (
+              <NoMessages
+                {...this.props}
+                textInputValue={this.state.textInputValue}
+                onTextInputChange={this.onTextInputChange.bind(this)}
+                sendMessage={this.sendMessage.bind(this)}
+                isKeyboardOpened={this.state.isKeyboardOpened}
+                openProfile={this.props.openProfile}
+              />
 
-          <MessageComposer
-            isKeyboardOpen={this.state.isKeyboardOpened}
-            textInputValue={this.state.textInputValue}
-            onTextInputChange={this.onTextInputChange.bind(this)}
-            sendMessage={this.sendMessage.bind(this)}
-          />
+            )}
+
+            <MessageComposer
+              isKeyboardOpen={this.state.isKeyboardOpened}
+              textInputValue={this.state.textInputValue}
+              onTextInputChange={this.onTextInputChange.bind(this)}
+              sendMessage={this.sendMessage.bind(this)}
+            />
 
 
-                    <KeyboardSpacer
-                      onToggle={(keyboardState,keyboardSpace) => {
-                          this.setState({isKeyboardOpened: keyboardState,kbs: keyboardSpace+60})
-                        }}
-                    />
+
+
+          </KeyboardAvoidingView>
 
 
       </View>

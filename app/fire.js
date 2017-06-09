@@ -18,10 +18,9 @@ export const app = firebase.initializeApp(firebaseConfig)
 export const fireAuth = (fbUser, dispatch) => {
 
   const auth = firebase.auth;
-  console.log(auth)
   const cred = auth.FacebookAuthProvider.credential(fbUser.accessToken);
   return app.auth().signInWithCredential(cred)
-   
+
 }
 
 
