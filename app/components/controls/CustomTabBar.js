@@ -5,6 +5,8 @@ const {
   View, Dimensions,
   TouchableOpacity,
 } = require('react-native');
+import PropTypes from 'prop-types';
+
 
 const deviceWidth = Dimensions.get('window').width;
 
@@ -32,9 +34,9 @@ const styles = StyleSheet.create({
 
 const CustomTabBar = React.createClass({
   propTypes: {
-    goToPage: React.PropTypes.func,
-    activeTab: React.PropTypes.number,
-    tabs: React.PropTypes.array,
+    goToPage: PropTypes.func,
+    activeTab: PropTypes.number,
+    tabs: PropTypes.array,
   },
 
   renderTabOption(name, page) {

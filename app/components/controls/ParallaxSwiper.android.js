@@ -4,6 +4,7 @@ import colors from '../../utils/colors'
 import Swiper from './swiper'
 import XButton from '../buttons/XButton'
 import FadeSwiper from '../fadeSlider'
+import PropTypes from 'prop-types';
 
 const iOS = Platform.OS == 'ios';
 const screen = Dimensions.get('window');
@@ -16,9 +17,9 @@ class ParallaxSwiper extends React.Component{
 
   static propTypes = {
     ...ScrollViewPropTypes,
-    windowHeight: React.PropTypes.number,
-    blur: React.PropTypes.string,
-    // contentInset: React.PropTypes.object,
+    windowHeight: PropTypes.number,
+    blur: PropTypes.string,
+    // contentInset: PropTypes.object,
   };
 
   static getDefaultProps = {

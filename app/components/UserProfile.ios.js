@@ -10,6 +10,7 @@ import colors from '../utils/colors';
 import VerifiedCoupleBadge from './Badge/VerifiedCoupleBadge'
 import ActionMan from '../actions'
 import {BlurView} from 'react-native-blur'
+import PropTypes from 'prop-types';
 
 const iOS = Platform.OS == 'ios';
 
@@ -145,10 +146,10 @@ class UserProfile extends React.Component {
 
 class CustomTabBar extends React.Component {
   static propTypes: {
-      goToPage: React.PropTypes.func,
-      activeTab: React.PropTypes.object,
-      tabs: React.PropTypes.array,
-      pageNumber:React.PropTypes.number
+      goToPage: PropTypes.func,
+      activeTab: PropTypes.object,
+      tabs: PropTypes.array,
+      pageNumber:PropTypes.number
 
     };
 

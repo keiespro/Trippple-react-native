@@ -16,6 +16,7 @@ import {NavigationStyles} from '@exponent/ex-navigation';
 import {connect} from 'react-redux';
 import colors from '../utils/colors'
 import ActionMan from '../actions/';
+import PropTypes from 'prop-types';
 
 const iOS = Platform.OS == 'ios';
 
@@ -45,7 +46,7 @@ class PhotoAlbums extends React.Component {
   };
 
   static propTypes = {
-    fbUser: React.PropTypes.object.isRequired
+    fbUser: PropTypes.object.isRequired
   };
 
   constructor(props) {

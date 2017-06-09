@@ -1,6 +1,6 @@
 import {StackNavigation,withNavigation} from '@exponent/ex-navigation';
 import React from 'react'
-import {View, Dimensions, BackAndroid, StatusBar, DrawerLayoutAndroid} from 'react-native'
+import {View, Dimensions, BackHandler, StatusBar, DrawerLayoutAndroid} from 'react-native'
 import { connect } from 'react-redux'
 
 import colors from './utils/colors'
@@ -28,16 +28,16 @@ class AppNav extends React.Component {
   }
   setDrawerClosed(){
     // StatusBar.setTranslucent(false);
-    BackAndroid.removeEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackHandler.bind(this))
     this.props.setDrawerClosed()
   }
   setDrawerOpen(){
 
-    BackAndroid.addEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackHandler.bind(this))
     this.props.setDrawerOpen()
   }
-  handleBackAndroid(){
-    BackAndroid.removeEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
+  handleBackHandler(){
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackHandler.bind(this))
     this.settingsdrawer.closeDrawer()
     return this.props.canDrawerOpen
   }

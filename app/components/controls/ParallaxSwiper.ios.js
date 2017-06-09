@@ -6,6 +6,7 @@ import Swiper from './swiper'
 import FadeSwiper from '../fadeSlider'
 import XButton from '../buttons/XButton'
 import {BlurView} from 'react-native-blur'
+import PropTypes from 'prop-types';
 
 const iOS = Platform.OS == 'ios';
 const screen = Dimensions.get('window');
@@ -18,9 +19,9 @@ class ParallaxSwiper extends React.Component{
 
   static propTypes = {
     ...ScrollViewPropTypes,
-    windowHeight: React.PropTypes.number,
-    blur: React.PropTypes.string,
-    // contentInset: React.PropTypes.object,
+    windowHeight: PropTypes.number,
+    blur: PropTypes.string,
+    // contentInset: PropTypes.object,
   };
 
   static getDefaultProps = {

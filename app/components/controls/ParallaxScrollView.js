@@ -1,6 +1,7 @@
 'use strict';
 
 import React from "react";
+import PropTypes from 'prop-types';
 import {StyleSheet, View, ScrollView, Animated, Dimensions} from "react-native";
 import {VibrancyView} from 'react-native-blur';
 const screen = Dimensions.get('window');
@@ -13,10 +14,10 @@ class ParallaxView extends React.Component{
 
     static propTypes = {
         ...ScrollViewPropTypes,
-        windowHeight: React.PropTypes.number,
-        header: React.PropTypes.node,
-        blur: React.PropTypes.string,
-        contentInset: React.PropTypes.object,
+        windowHeight: PropTypes.number,
+        header: PropTypes.node,
+        blur: PropTypes.string,
+        contentInset: PropTypes.object,
     };
 
     static getDefaultProps = {

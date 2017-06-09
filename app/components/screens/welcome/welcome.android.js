@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StyleSheet, BackAndroid, Text, View, Dimensions, TouchableOpacity, ActivityIndicator} from 'react-native'
+import {StyleSheet, BackHandler, Text, View, Dimensions, TouchableOpacity, ActivityIndicator} from 'react-native'
 import TimerMixin from 'react-timer-mixin'
 import reactMixin from 'react-mixin'
 import {connect} from 'react-redux'
@@ -45,7 +45,7 @@ export class Welcome extends Component{
   }
 
   componentDidMount() {
-    this._backandroid = BackAndroid.addEventListener('hardwareBackPress', this.handleBackAndroid)
+    this._BackHandler = BackHandler.addEventListener('hardwareBackPress', this.handleBackHandler)
   }
 
   componentWillReceiveProps(nProps){
@@ -59,13 +59,13 @@ export class Welcome extends Component{
   }
 
   componentWillUnmount(){
-    if(this._backandroid){
-      this._backandroid.remove()
-      // BackAndroid.EventListener('hardwareBackPress', this.handleBackAndroid)
+    if(this._BackHandler){
+      this._BackHandler.remove()
+      // BackHandler.EventListener('hardwareBackPress', this.handleBackHandler)
     }
   }
 
-  handleBackAndroid(){
+  handleBackHandler(){
     this.props.navigator.pop();
     return true;
   }

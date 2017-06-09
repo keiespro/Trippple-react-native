@@ -1,6 +1,7 @@
 import React from "react";
-import {Component, PropTypes} from "react";
+import {Component} from "react";
 import {Text} from "react-native";
+import PropTypes from 'prop-types';
 
 import moment from 'moment'
 import TimerMixin from 'react-timer-mixin'

@@ -12,6 +12,7 @@ const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 import {MagicNumbers} from '../../../utils/DeviceConfig'
 import {SlideHorizontalIOS, FloatHorizontal} from '../../../ExNavigationStylesCustom'
+import PropTypes from 'prop-types';
 
 import {
   NavigationStyles, withNavigation
@@ -62,10 +63,7 @@ class SettingsBasic extends React.Component{
       }
     });
   }
-  formattedPhone(){
-    if(!this.props.user.phone) return '';
-    return formatPhone(this.props.user.phone)
-  }
+
   render(){
     let user = this.props.user;
     let settingOptions = this.props.settingOptions || {};
@@ -79,13 +77,9 @@ class SettingsBasic extends React.Component{
       <View style={{backgroundColor:colors.outerSpace,width:DeviceWidth,paddingTop:0,height:DeviceHeight,overflow:'hidden',flex:1}}>
 
         <ScrollView
-            showsVerticalScrollIndicator={false}
-            style={{height:DeviceHeight-110}}
-            tabLabel={'GENERAL'}
-
-
-
-
+          showsVerticalScrollIndicator={false}
+          style={{height:DeviceHeight-110}}
+          tabLabel={'GENERAL'}
         >
           <View style={[{ paddingBottom:40}]}>
 
@@ -341,10 +335,10 @@ let TAB_UNDERLINE_REF = 'TAB_UNDERLINE';
 
 let CustomTabBar = React.createClass({
   propTypes: {
-    goToPage: React.PropTypes.func,
-    activeTab: React.PropTypes.object,
-    tabs: React.PropTypes.array,
-    pageNumber:React.PropTypes.number
+    goToPage: PropTypes.func,
+    activeTab: PropTypes.object,
+    tabs: PropTypes.array,
+    pageNumber:PropTypes.number
   },
 
   renderTabOption(name, page) {

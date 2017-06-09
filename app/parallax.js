@@ -9,6 +9,8 @@ var {
     ScrollView,
     Animated,
     } = ReactNative;
+import PropTypes from 'prop-types';
+
 /**
  * BlurView temporarily removed until semver stuff is set up properly
  */
@@ -22,17 +24,17 @@ var ParallaxView = React.createClass({
 
     propTypes: {
         ...ScrollViewPropTypes,
-        windowHeight: React.PropTypes.number,
-        backgroundSource: React.PropTypes.oneOfType([
-          React.PropTypes.shape({
-            uri: React.PropTypes.string,
+        windowHeight: PropTypes.number,
+        backgroundSource: PropTypes.oneOfType([
+          PropTypes.shape({
+            uri: PropTypes.string,
           }),
           // Opaque type returned by require('./image.jpg')
-          React.PropTypes.number,
+          PropTypes.number,
         ]),
-        header: React.PropTypes.node,
-        blur: React.PropTypes.string,
-        contentInset: React.PropTypes.object,
+        header: PropTypes.node,
+        blur: PropTypes.string,
+        contentInset: PropTypes.object,
     },
 
     getDefaultProps: function () {

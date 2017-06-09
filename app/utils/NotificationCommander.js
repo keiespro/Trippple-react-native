@@ -9,8 +9,6 @@ import Analytics from './Analytics'
 import ActionMan from '../actions/';
 import Router from '../Router'
 
-console.log(FCMEvent);
-
 
 @withNavigation
 class NotificationCommander extends Component{

@@ -1,4 +1,4 @@
-import { View, ActivityIndicator, StatusBar, Dimensions, BackAndroid, Platform, NativeModules, TouchableOpacity, Image } from 'react-native';
+import { View, ActivityIndicator, StatusBar, Dimensions, BackHandler, Platform, NativeModules, TouchableOpacity, Image } from 'react-native';
 import React from 'react';
 import { connect } from 'react-redux';
 import MatchesButton from './MatchesButtonIcon'
@@ -66,7 +66,7 @@ export class Potentials extends React.Component{
     const nui = nProps.ui;
     const ui = this.props.ui;
     if(!iOS && nui.profileVisible && !ui.profileVisible){
-      this.ba = BackAndroid.addEventListener('hardwareBackPress', this.handleBackAndroid.bind(this))
+      this.ba = BackHandler.addEventListener('hardwareBackPress', this.handleBackHandler.bind(this))
     }else if(!nui.profileVisible && this.ba){
 
     }
@@ -88,7 +88,7 @@ export class Potentials extends React.Component{
     }
   }
 
-  handleBackAndroid(){
+  handleBackHandler(){
 
     if(this.props.profileVisible){
       this.props.dispatch({ type: 'CLOSE_PROFILE' });
