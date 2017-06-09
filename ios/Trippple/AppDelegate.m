@@ -91,15 +91,18 @@
 
     [FIRApp configure];
     [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
-    [UXCam startWithKey:@"4cb7699bd5181ca"];
 
-    // NEEDED?
+  #ifndef DEBUG
+    [UXCam startWithKey:@"4cb7699bd5181ca"];
+  #endif
+
 
   if ([[Hotline sharedInstance]isHotlineNotification:launchOptions]) {
     [[Hotline sharedInstance]handleRemoteNotification:launchOptions
                                           andAppstate:application.applicationState];
   }
 
+   [SplashScreen show];
 
   [self.window makeKeyAndVisible];
 
@@ -112,19 +115,16 @@
 
 - (NSURL *)sourceURLForBridge:(__unused RCTBridge *)bridge
 {
-NSURL *sourceURL;
-// #ifdef DEBUG
-//  sourceURL = [NSURL URLWithString:@"http://127.0.0.1:8081/index.ios.bundle?platform=ios&dev=true"];
-// #else
-//  sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
-// #endif
-// return sourceURL;
-  RCTBundleURLProvider *settings = [RCTBundleURLProvider sharedSettings];
-  settings.jsLocation = @"192.168.0.100";
+  NSURL *sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle" ];
 
-  return [settings jsBundleURLForBundleRoot:@"index.ios"
-                                                        fallbackResource:nil];
-//
+  #ifdef DEBUG
+    NSLog(@"DEBUG");
+    RCTBundleURLProvider *settings = [RCTBundleURLProvider sharedSettings];
+    settings.jsLocation = @"192.168.0.100";
+    return [settings jsBundleURLForBundleRoot:@"index.ios" fallbackResource:[sourceURL absoluteString]];
+  #else
+    return sourceURL;
+  #endif
 }
 
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
