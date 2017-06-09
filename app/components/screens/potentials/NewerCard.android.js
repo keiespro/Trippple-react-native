@@ -230,7 +230,7 @@ class NewerCard extends React.Component {
         style={{
           flexGrow: 1,
           borderRadius: 12,
-          top: profileVisible && !this.props.spacedTop ? -60 : 0,
+          top: profileVisible && !this.props.spacedTop ? 0 : 0,
 
         }}
         pointerEvents={'box-none'}
@@ -309,7 +309,7 @@ class NewerCard extends React.Component {
               flexGrow: 10,
               zIndex:profileVisible ? 0 : 800,
               overflow: 'hidden',
-              top: profileVisible ? cardHeight-10 : -10,
+              top: profileVisible ? 60 : -40,
               width: cardWidth,
               backgroundColor: colors.white,
               borderBottomLeftRadius: 11,
@@ -320,6 +320,8 @@ class NewerCard extends React.Component {
             style={{
                 borderBottomLeftRadius: 11,
                 borderBottomRightRadius: 11,
+                overflow: 'hidden',
+
                 padding: 20,
                 height: 100,
             }}
@@ -330,7 +332,7 @@ class NewerCard extends React.Component {
               showDistance={!this.props.isBrowse}
               cacheCity={this.props.dispatch}
               potential={potential}
-              hideCityState={this.props.isBrowse}
+              hideCityState={!this.props.isBrowse}
               seperator={seperator}
               matchName={matchName}
               city={city}
@@ -351,8 +353,8 @@ class NewerCard extends React.Component {
         </View>
 
 
-          {this.props.isTopCard ? <DenyIcon pan={this.props.pan} /> : null}
-          {this.props.isTopCard ? <ApproveIcon pan={this.props.pan} /> : null}
+        {this.props.isTopCard ? <DenyIcon pan={this.props.pan} /> : null}
+        {this.props.isTopCard ? <ApproveIcon pan={this.props.pan} /> : null}
 
       </View>
     )
@@ -387,7 +389,9 @@ class Header extends React.Component{
             horizontal
 
             snapToInterval={DeviceWidth}
-            onScroll={e => console.log(e)}
+            onScroll={e => {
+              __DEV__ && console.log(e)
+            }}
             scrollEnabled={showCloseProfile}
             pagingEnabled
 
@@ -396,7 +400,10 @@ class Header extends React.Component{
                 backgroundColor: 'transparent',
                 zIndex: carouselImgLoaded ? 1 : -1,
                 height: this.props.cardHeight - 80,
-                width: this.props.cardWidth
+                width: this.props.cardWidth,
+                borderTopLeftRadius: 11,
+              overflow: 'hidden',
+              borderTopRightRadius: 11,
             }]}
 
           >
@@ -408,15 +415,22 @@ class Header extends React.Component{
                     height: this.props.cardHeight - 80,
                     width: this.props.cardWidth,
                     flexGrow: 1,
+                    borderTopLeftRadius: 11,
+                  overflow: 'hidden',
+                  borderTopRightRadius: 11,
+
                 }]}
               >
                 <Image
                   key={`card${potential.user.id}img${i == 1 ? 'partner' : ''}`}
 
                   style={[{
-                      height: this.props.cardHeight - 80,
-                      width: this.props.cardWidth,
-                      backgroundColor: slide.image_url ? 'transparent' : '#fff'
+                    borderTopLeftRadius: 11,
+                    overflow: 'hidden',
+                    borderTopRightRadius: 11,
+                    height: this.props.cardHeight - 80,
+                    width: this.props.cardWidth,
+                    backgroundColor: slide.image_url ? 'transparent' : '#fff'
                   }]}
                   onLoad={imgLoadedCallback}
                   resizeMode={Image.resizeMode.cover}
@@ -435,7 +449,9 @@ class Header extends React.Component{
                 flexGrow: 1,
                 backgroundColor: 'transparent',
                 zIndex: carouselImgLoaded ? 1 : -1,
-
+                borderTopLeftRadius: 11,
+              overflow: 'hidden',
+              borderTopRightRadius: 11,
 
             }}
           >
@@ -445,7 +461,9 @@ class Header extends React.Component{
                 height: this.props.cardHeight - 80,
                 width: this.props.cardWidth,
                 flexGrow: 1,
-
+                borderTopLeftRadius: 11,
+                overflow: 'hidden',
+                borderTopRightRadius: 11,
               }}
               onLoad={imgLoadedCallback}
 
@@ -454,512 +472,11 @@ class Header extends React.Component{
             />
           </View>
 
-            ))}
+        ))}
 
-          </View>
-        )
-          }
+      </View>
+    )
+  }
 }
 
 export default NewerCard;
-
-// import React from 'react'
-// import { Text, View, StatusBar, ScrollView, Image, Animated, TouchableOpacity, Dimensions } from 'react-native'
-// import ActionMan from '../../../actions'
-// import styles from './styles'
-// import { MagicNumbers } from '../../../utils/DeviceConfig'
-// import colors from '../../../utils/colors'
-// import UserDetails from '../../UserDetails'
-// import VerifiedCoupleBadge from '../../Badge/VerifiedCoupleBadge'
-// import {pure, onlyUpdateForKeys} from 'recompose'
-// import CityState from '../../CityState'
-// import CardLabel from '../../CardLabel'
-// import ApproveIcon from './ApproveIcon'
-// import DenyIcon from './DenyIcon'
-//
-// const DeviceHeight = Dimensions.get('window').height;
-// const DeviceWidth = Dimensions.get('window').width;
-//
-// @pure
-// class NewerCard extends React.Component {
-//   constructor(props){
-//     super()
-//     this.state = {
-//       size: { width: props.cardWidth, height: props.cardHeight },
-//     };
-//   }
-//
-//
-//   reportModal() {
-//     const {potential} = this.props;
-//
-//     this.props.dispatch(ActionMan.showInModal({
-//       component: 'ReportModal',
-//       passProps: {
-//         action: 'report',
-//         potential
-//       }
-//     }))
-//   }
-//
-//   renderProfileVisible(){
-//
-//     const {profileVisible, cardWidth, city, seperator, potential, isTopCard, matchName, distance} = this.props;
-//
-//     const hasPartner = !!(potential.partner && potential.partner.gender);
-//     const slideFrames = isTopCard && hasPartner ? [potential.user, potential.partner] : [potential.user];
-//     const verifiedCouple = hasPartner && potential.partner.partner_id;
-//
-//     return (
-//       <View
-//         key={`outer${potential.user.id}`}
-//         style={{backgroundColor: 'black', width: DeviceWidth, top: 0 }}
-//       >
-//
-//
-//         <ScrollView
-//           scrollEnabled={true}
-//           key={`scrollouter${potential.user.id}`}
-//         >
-//           <Header
-//             {...this.props}
-//             size={{
-//               width: this.props.cardWidth,
-//               height: this.props.cardHeight - 260,
-//               borderRadius: 12,
-//               overflow: 'hidden',
-//             }}
-//             carouselImgLoaded={this.state.carouselImgLoaded}
-//             showCloseProfile
-//             closeProfile={() => {
-//               this.props.closeProfile ? this.props.closeProfile() : this.props.navigator.pop()
-//             }}
-//           />
-//
-//           <View
-//             style={{
-//               flexGrow: 1,
-//               backgroundColor: colors.outerSpace,
-//               width: this.state.size.width,
-//
-//               alignItems: 'flex-start',
-//               paddingBottom: 100
-//             }}
-//
-//           >
-//
-//             <View
-//               style={{
-//                 marginVertical: 8,
-//                 width: 40,
-//                 height: 8,
-//                 borderRadius: 15,
-//                 alignSelf: 'center',
-//                 overflow: 'hidden',
-//                 backgroundColor: 'rgba(255,255,255,.2)',
-//                 position: 'absolute',
-//                 left: (DeviceWidth / 2) - 20
-//               }}
-//             />
-//             <View
-//               key={`blurkey${potential.user.id}`}
-//               style={{
-//                 zIndex: 100,
-//                 height: profileVisible ? this.state.height : 0,
-//                 opacity: profileVisible ? 1 : 0,
-//                 flexGrow: 1
-//               }}
-//             >
-//
-//               <View style={{ paddingVertical: 40, width: DeviceWidth, flex: 10, marginTop: 0}}>
-//
-//                 <View style={{marginHorizontal: MagicNumbers.screenPadding / 2, marginBottom: 20}}>
-//                   <CardLabel
-//                     cacheCity={this.props.dispatch}
-//                     potential={potential}
-//                     seperator={seperator}
-//                     matchName={matchName}
-//                     city={city}
-//                     distance={distance}
-//                     textColor={colors.white}
-//                   />
-//                   {verifiedCouple &&
-//                     <VerifiedCoupleBadge
-//                       placementStyle={{position: 'relative', alignSelf: 'flex-start', left: 0, top: 0, marginTop: 20}}
-//                     />
-//                   }
-//
-//                 </View>
-//
-//                 {potential.user.bio && potential.user.bio.length ?
-//                   <View style={{ margin: MagicNumbers.screenPadding / 2, width: MagicNumbers.screenWidth, flexDirection: 'column' }}>
-//                     <Text
-//                       style={[styles.cardBottomOtherText, {
-//                         color: colors.white,
-//                         marginBottom: 15,
-//                         marginLeft: 0
-//                       }]}
-//                     >{ !hasPartner ? 'Looking for' : 'Looking for' }</Text>
-//                     <Text
-//                       style={{
-//                         color: colors.white,
-//                         fontFamily: 'omnes',
-//                         fontSize: 18,
-//                         marginBottom: 15
-//                       }}
-//                     >{ potential.user.bio }</Text>
-//                   </View> : null }
-//
-//                 {hasPartner && potential.partner.bio && potential.partner.bio.length ?
-//                   <View
-//                     style={{
-//                       margin: MagicNumbers.screenPadding / 2,
-//                       width: MagicNumbers.screenWidth
-//                     }}
-//                   >
-//                     <Text style={{ fontFamily: 'omnes', color: colors.white, fontSize: 18, marginBottom: 15 }}>
-//                       {potential.partner.bio}
-//                     </Text>
-//                   </View> : null
-//                 }
-//
-//                 <UserDetails
-//                   potential={potential}
-//                   user={this.props.user}
-//                   location={'card'}
-//                 />
-//
-//                 <TouchableOpacity
-//                   onPress={this.reportModal.bind(this)}
-//                 >
-//                   <View
-//                     style={{ marginTop: 20, paddingBottom: 50 }}
-//                   >
-//                     <Text
-//                       style={{
-//                         fontFamily: 'omnes',
-//                         color: colors.mandy,
-//                         textAlign: 'center'
-//                       }}
-//                     >Report or Block this user</Text>
-//                   </View>
-//                 </TouchableOpacity>
-//
-//                 <TouchableOpacity
-//                   style={{
-//                     height: 50,
-//                     zIndex: 9999,
-//                     alignItems: 'center',
-//                     width: 50,
-//                     justifyContent: 'center',
-//                     flex: 0,
-//                     alignSelf: 'center',
-//                   }}
-//                   hitSlop={{top: 50, bottom: 50, left: 50, right: 50}}
-//                   onPress={() => (this.props.toggleProfile ? this.props.toggleProfile() : this.props.navigator.pop())}
-//                 >
-//                   <Image
-//                     resizeMode={Image.resizeMode.contain}
-//                     style={{ height: 12, width: 12, marginTop: 10 }}
-//                     source={require('./assets/close@3x.png')}
-//                   />
-//                 </TouchableOpacity>
-//
-//
-//               </View>
-//
-//             </View>
-//
-//           </View>
-//         </ScrollView>
-//       </View>
-//
-//
-//     )
-//   }
-//   renderClosed(){
-//     const { potential} = this.props;
-//
-//     return (
-//       <View
-//         key={`outer${potential.user.id}`}
-//         pointerEvents={'box-none'}
-//         style={{
-//           flexGrow: 1,
-//           overflow:'hidden',
-//           borderRadius: 11,
-//
-//         }}
-//       >
-//
-//
-//         <ScrollView
-//           contentOffset={{x:0,y:0}}
-//           scrollEnabled={false}
-//           key={`scrollouter${potential.user.id}`}
-//           style={{
-//             overflow:'hidden',
-//             borderRadius: 11,
-//           }}
-//         >
-//           <Header
-//             {...this.props}
-//             carouselImgLoaded={this.state.carouselImgLoaded}
-//             closeProfile={() => (this.props.toggleProfile ? this.props.toggleProfile() : this.props.navigator.pop())}
-//
-//           />
-//
-//         </ScrollView>
-//
-//       </View>
-//     )
-//   }
-//   render() {
-//     const {profileVisible, cardWidth, city, seperator, potential, isTopCard, cardHeight, matchName, distance} = this.props;
-//     const hasPartner = !!(potential.partner && potential.partner.gender);
-//     const verifiedCouple = hasPartner && potential.partner.partner_id;
-//
-//     return (
-//       <View
-//         style={{
-//           flexGrow: 1,
-//           borderRadius: 12,
-//           top: 0,
-//           height: cardHeight,
-//           overflow: 'hidden',
-//
-//         }}
-//         pointerEvents={'box-none'}
-//
-//
-//       >
-//         <StatusBar
-//           hidden={profileVisible}
-//           animated
-//           barStyle="default"
-//           translucent
-//           showHideTransition={'slide'}
-//         />
-//
-//         <View
-//           style={{
-//             borderRadius: 12,
-//             overflow: 'hidden',
-//             position: 'relative'
-//
-//           }}
-//           pointerEvents={'box-none'}
-//
-//
-//         >
-//           {profileVisible ? (
-//             <TouchableOpacity
-//               style={{
-//                 zIndex: 9999,
-//                 alignItems: 'center',
-//                 justifyContent: 'center',
-//                 flex: 0,
-//                 top: 10,
-//                 left: 10,
-//                 paddingVertical: 14,
-//                 paddingHorizontal: 12,
-//                 position: 'absolute'
-//               }}
-//               hitSlop={{top: 50, bottom: 50, left: 50, right: 50}}
-//               onPress={() => (this.props.toggleProfile ? this.props.toggleProfile() : this.props.navigator.pop())}
-//
-//             >
-//               <Image
-//                 pointerEvents={'none'}
-//                 resizeMode={Image.resizeMode.contain}
-//                 style={{
-//                   height: 15,
-//                   width: 15,
-//                   marginTop: 0,
-//                 }}
-//                 source={require('./assets/close@3x.png')}
-//               />
-//             </TouchableOpacity>
-//           ) : null}
-//
-//           <Image
-//             source={potential.user.image_url ? {uri: potential.user.image_url } : require('./assets/defaultuser.png')}
-//             style={{
-//               height: profileVisible ? DeviceHeight : this.props.cardHeight,
-//               width: this.props.cardWidth,
-//               position: 'absolute',
-//               top: 0,
-//               opacity: 1,
-//               borderRadius: 11,
-//               overflow:'hidden',
-//             }}
-//             pointerEvents="none"
-//             resizeMode="cover"
-//             key={`cardbg${potential.user.id}img`}
-//
-//           />
-//           {profileVisible ? this.renderProfileVisible() : this.renderClosed()}
-//         </View>
-//         <View
-//           key={`cardlabel${potential.user.id}`}
-//           pointerEvents={'box-none'}
-//           style={{
-//             height: !profileVisible ? 100 : 0,
-//             opacity: profileVisible ? 0 : 1,
-//             alignSelf: 'flex-end',
-//             zIndex: 100,
-//             flexGrow: 10,
-//             overflow:'hidden',
-//             top:-10,
-//             width: cardWidth,
-//             backgroundColor: colors.white,
-//             borderBottomLeftRadius: 11,
-//             borderBottomRightRadius: 11,
-//           }}
-//         >
-//           <View
-//             style={{
-//               borderBottomLeftRadius: 11,
-//               borderBottomRightRadius: 11,
-//               padding: 20,
-//               height: 100,
-//             }}
-//           >
-//             <CardLabel
-//               cacheCity={this.props.dispatch}
-//               potential={potential}
-//               seperator={seperator}
-//               hideCityState
-//               matchName={matchName}
-//               city={city}
-//               distance={distance}
-//               textColor={colors.shuttleGray}
-//             />
-//             {verifiedCouple && (
-//               <VerifiedCoupleBadge
-//                 placementStyle={{
-//                   position: 'absolute',
-//                   alignSelf: 'flex-start',
-//                   right: 15,
-//                   top: 63
-//                 }}
-//               />
-//             )}
-//           </View>
-//
-//
-//         </View>
-//         {this.props.isTopCard ? <DenyIcon pan={this.props.pan} /> : null}
-//         {this.props.isTopCard ? <ApproveIcon pan={this.props.pan} /> : null}
-//
-//       </View>
-//     )
-//   }
-// }
-//
-//
-// class Header extends React.Component{
-//   constructor(props){
-//     super()
-//     this.state = {
-//       size: {width: props.cardWidth, height: props.cardHeight}
-//     };
-//   }
-//   onLayout(e){
-//     const layout = e.nativeEvent.layout;
-//      this.setState({ size: { width: layout.width, height: layout.height } });
-//
-//   }
-//   render(){
-//     const {cardWidth, cardHeight, potential, closeProfile, imgLoadedCallback, carouselImgLoaded, showCloseProfile} = this.props
-//
-//      return (
-//       <View
-//         onLayout={this.onLayout.bind(this)}
-//         style={{
-//           flexGrow: 1,
-//           backgroundColor: colors.outerSpace,
-//           borderTopLeftRadius: 11,
-//           overflow: 'hidden',
-//           borderTopRightRadius: 11,
-//
-//         }}
-//       >
-//
-//         {(potential.partner && potential.partner.id != 'NONE' ? (
-//           <ScrollView
-//             horizontal
-//             scrollEnabled={showCloseProfile}
-//             pagingEnabled
-//             style={[{
-//               flexGrow: 1,
-//               backgroundColor: 'transparent',
-//               zIndex: carouselImgLoaded ? 1 : -1,
-//               height: this.props.cardHeight-100,
-//               width: this.props.cardWidth,
-//               borderTopLeftRadius: 11,
-//               overflow: 'hidden',
-//               borderTopRightRadius: 11,
-//
-//             }]}
-//             contentContainerStyle={{
-//               borderTopLeftRadius: 11,
-//               overflow: 'hidden',
-//               borderTopRightRadius: 11,
-//
-//             }}
-//
-//           >
-//             {(potential.partner && potential.partner.id != 'NONE' ? [potential.user, potential.partner] : [potential.user]).map((slide, i) => (
-//               <View
-//                 key={`vcard${potential.user.id}img${i == 1 ? 'partner' : ''}`}
-//
-//                 style={[{
-//                   height: this.props.cardHeight-100,
-//                   width: this.props.cardWidth,
-//                   flexGrow: 1,
-//                   borderTopLeftRadius: 11,
-//                   overflow: 'hidden',
-//                   borderTopRightRadius: 11,
-//
-//                 }]}
-//               >
-//                 <Image
-//                   key={`card${potential.user.id}img${i == 1 ? 'partner' : ''}`}
-//
-//                   style={[{
-//                     borderTopLeftRadius: 11,
-//                     overflow: 'hidden',
-//                     borderTopRightRadius: 11,
-//                     height: this.props.cardHeight-100,
-//                     width:this.props.cardWidth,
-//                   }]}
-//                   onLoad={imgLoadedCallback}
-//                   resizeMode={Image.resizeMode.cover}
-//                   source={slide.image_url ? {uri: slide.image_url } : require('./assets/defaultuser.png')}
-//                 />
-//               </View>
-//             ))}
-//           </ScrollView>
-//         ) : (
-//           <Image
-//             key={`card${potential.user.id}img`}
-//             style={{
-//               height: this.props.cardHeight - 100,
-//               width: this.props.cardWidth,
-//               borderTopLeftRadius: 11,
-//               overflow: 'hidden',
-//               borderTopRightRadius: 11,
-//
-//             }}
-//             resizeMode={Image.resizeMode.cover}
-//             source={potential.user.image_url ? {uri: potential.user.image_url } : require('./assets/defaultuser.png')}
-//           />
-//         ))}
-//
-//       </View>
-//     )
-//   }
-// }
-//
-// export default NewerCard;

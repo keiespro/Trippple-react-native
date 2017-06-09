@@ -138,16 +138,23 @@ class Settings extends React.Component{
     return (
 
       <View style={{backgroundColor: colors.outerSpace, paddingTop: 0, flex: 10}} pointerActions={'box-none'}>
-        {iOS && <TouchableOpacity
-        style={{ height: 50, alignItems: 'center', width: 50, justifyContent: 'center', flex: 0, position: 'absolute', left: 0, zIndex: 9999}}
-        onPress={() => { this.props.navigator.pop() }}
-      >
-        <Image
-            resizeMode={Image.resizeMode.contain}
-            style={{ height: 15, width: 15, marginTop: 20 }}
-            source={require('./assets/close@3x.png')}
-          />
-        </TouchableOpacity>}
+        {iOS && (
+          <TouchableOpacity
+            style={{ height: 50, alignItems: 'center', width: 50, justifyContent: 'center', flex: 0, position: 'absolute', left: 0, zIndex: 9999}}
+            onPress={() => {
+              if(this.props.ui.shouldFetchPotentials){
+                this.props.dispatch(ActionMan.fetchPotentials())
+              }
+              this.props.navigator.pop()
+            }}
+          >
+            <Image
+              resizeMode={Image.resizeMode.contain}
+              style={{ height: 15, width: 15, marginTop: 20 }}
+              source={require('./assets/close@3x.png')}
+            />
+          </TouchableOpacity>
+        )}
         <ParallaxView
           showsVerticalScrollIndicator={false}
           key={this.props.user.id}
@@ -200,7 +207,7 @@ class Settings extends React.Component{
 
 
             </View>
-            )}
+          )}
         >
 
           <View
@@ -239,7 +246,7 @@ class Settings extends React.Component{
                   }));
                 }}
               />
-             : null }
+            : null }
 
             { this.props.user.relationship_status == 'single' ?
 
@@ -326,23 +333,27 @@ class Settings extends React.Component{
 
             <View style={styles.paddedSpace}>
 
-              <LogoutButton dispatch={this.props.dispatch}/>
 
-              <TouchableOpacity
-                style={{
-                  alignItems: iOS ? 'center' : 'flex-start',
-                  marginVertical: 10
-                }}
-                onPress={this.disableAccount.bind(this)}
-              >
-                <Text
+              {this.props.profileVisible ? null : (
+                <TouchableOpacity
                   style={{
-                    color: colors.mandy,
-                    fontFamily: 'omnes',
-                    textAlign: iOS ? 'center' : 'left',
+                    alignItems: 'flex-start',
+                    marginVertical: 10,
+                    marginLeft:10
                   }}
-                >Delete My Account</Text>
-              </TouchableOpacity>
+                  onPress={this.disableAccount.bind(this)}
+                >
+                  <Text
+                    style={{
+                      color: colors.mandy,
+                      fontFamily: 'omnes',
+                      textAlign: 'left',
+                    }}
+                  >Delete My Account</Text>
+                </TouchableOpacity>
+              )}
+
+              <LogoutButton dispatch={this.props.dispatch}/>
 
             </View>
 
@@ -381,7 +392,7 @@ class Settings extends React.Component{
 Settings.displayName = 'Settings'
 
 const mapStateToProps = ({user, ui, navigation}, ownProps) => {
-  return {...ownProps, user, ui, navState: navigation }
+  return {...ownProps, user, ui, navState: navigation, profileVisible: user.profile_visible }
 }
 
 const mapDispatchToProps = (dispatch) => {

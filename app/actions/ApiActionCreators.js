@@ -79,8 +79,12 @@ const ApiActionCreators = endpointMap.reduce((obj, endpoint) => {
           if(shouldFetchUserInfo){
             dispatch({type: 'GET_USER_INFO', payload: api.getUserInfo()})
           }
+
+        })
+        .then(ok => {
           if(shouldFetchPotentials){
-            dispatch(fetchPotentials())
+            dispatch({type: 'SHOULD_REFETCH_POTENTIALS'})
+
           }
         })
         .catch(err => {

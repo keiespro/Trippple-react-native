@@ -40,16 +40,16 @@ class HideProfileSwitch extends React.Component{
     return (
       <View style={{paddingHorizontal: 40,marginTop:50}}>
 
-          <View style={[styles.insideSelectable, styles.formRow, {borderBottomWidth: 0}]}>
-            <Text style={{color: colors.white, fontSize: 18,fontFamily:'omnes'}}>Show me on Trippple</Text>
-            <Switch
-              onValueChange={this.toggleProfileVisible.bind(this)}
-              value={profileVisible}
-              onTintColor={colors.dark}
-              thumbTintColor={profileVisible ? colors.mediumPurple : colors.shuttleGray}
-              tintColor={colors.dark}
-            />
-          </View>
+        <View style={[styles.insideSelectable, styles.formRow, {borderBottomWidth: 0}]}>
+          <Text style={{color: colors.white, fontSize: 18, fontFamily:'omnes'}}>Show me on Trippple</Text>
+          <Switch
+            onValueChange={this.toggleProfileVisible.bind(this)}
+            value={profileVisible}
+            onTintColor={colors.dark}
+            thumbTintColor={profileVisible ? colors.mediumPurple : colors.shuttleGray}
+            tintColor={colors.dark}
+          />
+        </View>
 
       </View>
     )

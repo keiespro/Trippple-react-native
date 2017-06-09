@@ -387,7 +387,9 @@ class Header extends React.Component{
             horizontal
 
             snapToInterval={DeviceWidth}
-            onScroll={e => console.log(e)}
+            onScroll={e => {
+              __DEV__ && console.log(e)
+            }}
             scrollEnabled={showCloseProfile}
             pagingEnabled
 
