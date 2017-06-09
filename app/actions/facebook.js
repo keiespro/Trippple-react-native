@@ -45,7 +45,11 @@ export const loginWithFacebook = () => async (dispatch, getState) => {
   // LoginManager.setLoginBehavior('native')
   const fb = await LoginManager.logInWithReadPermissions(FACEBOOK_PERMISSIONS);
   dispatch({ type: 'FACEBOOK_RESPONSE', payload: fb})
+  if(fb.isCancelled){
+    dispatch({ type: 'FACEBOOK_LOGIN_ABORTED', payload: fb})
 
+    return false
+  }
   const fbAuth = await AccessToken.getCurrentAccessToken()
   const fbData = {...fb, ...fbAuth}
   dispatch({ type: 'LOGIN_WITH_FACEBOOK',

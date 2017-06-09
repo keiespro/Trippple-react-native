@@ -6,6 +6,8 @@ export default function uiReducer(state = initialState, action) {
     case REHYDRATE:
       return {...state, rehydrated: true };
 
+    case 'SHOULD_REFETCH_POTENTIALS':
+      return {...state, shouldFetchPotentials: true };
 
     case 'OPEN_PROFILE':
       return {...state, profileVisible: true };
@@ -103,11 +105,11 @@ export default function uiReducer(state = initialState, action) {
 
     case 'FETCH_POTENTIALS_PENDING':
     case 'GET_POTENTIALS_PENDING':
-      return {...state, fetchingPotentials: true}
+      return {...state, fetchingPotentials: true, shouldFetchPotentials: false}
 
     case 'FETCH_POTENTIALS_REJECTED':
     case 'GET_POTENTIALS_REJECTED':
-      return {...state, fetchingPotentials: false}
+      return {...state, fetchingPotentials: false, shouldFetchPotentials: false}
 
 
     case 'FETCH_POTENTIALS_FULFILLED':
@@ -115,8 +117,13 @@ export default function uiReducer(state = initialState, action) {
       return action.payload ? (action.payload.matches.length ? {
         ...state,
         potentialsPageNumber: state.potentialsPageNumber + 1,
-        fetchingPotentials:false
-      } : {...state, fetchingPotentials:false}) : state
+        fetchingPotentials:false,
+        shouldFetchPotentials: false
+      } : {
+        ...state,
+        fetchingPotentials:false,
+        shouldFetchPotentials: false
+      }) : state
 
     default:
 

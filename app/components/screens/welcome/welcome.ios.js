@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
-import {StyleSheet, BackAndroid, Text, View, Platform, Dimensions, TouchableOpacity, ActivityIndicator} from 'react-native';
+import {StyleSheet, BackHandler, Text, View, Platform, Dimensions, TouchableOpacity, ActivityIndicator} from 'react-native';
 import colors from '../../../utils/colors'
 import Carousel from './carousel'
 import {MagicNumbers} from '../../../utils/DeviceConfig'
+import SplashScreen from 'react-native-splash-screen'
+
 import FacebookButton from '../../buttons/FacebookButton/welcomeScreen';
 import ActionMan from '../../../actions/'
 import TimerMixin from 'react-timer-mixin'
@@ -46,7 +48,10 @@ export class Welcome extends Component{
     super()
     this.state = {isAnimating: false}
   }
+  componentDidMount(){
+    SplashScreen.hide();
 
+  }
   componentWillReceiveProps(nProps){
 
     if(nProps.loggedIn && nProps.status != this.props.status){
