@@ -8,50 +8,52 @@ PODS:
   - Crashlytics (3.8.4):
     - Fabric (~> 1.6.3)
   - Fabric (1.6.11)
-  - FBSDKCoreKit (4.21.0):
+  - FBSDKCoreKit (4.23.0):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.21.0):
+  - FBSDKLoginKit (4.23.0):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.21.0):
+  - FBSDKShareKit (4.23.0):
     - FBSDKCoreKit
-  - Firebase (3.15.0):
-    - Firebase/Core (= 3.15.0)
-  - Firebase/Auth (3.15.0):
+  - Firebase (4.0.2):
+    - Firebase/Core (= 4.0.2)
+  - Firebase/Auth (4.0.2):
     - Firebase/Core
-    - FirebaseAuth (= 3.1.1)
-  - Firebase/Core (3.15.0):
-    - FirebaseAnalytics (= 3.7.0)
-    - FirebaseCore (= 3.5.2)
-  - Firebase/Database (3.15.0):
+    - FirebaseAuth (= 4.0.0)
+  - Firebase/Core (4.0.2):
+    - FirebaseAnalytics (= 4.0.1)
+    - FirebaseCore (= 4.0.2)
+  - Firebase/Database (4.0.2):
     - Firebase/Core
-    - FirebaseDatabase (= 3.1.2)
-  - Firebase/Messaging (3.15.0):
+    - FirebaseDatabase (= 4.0.0)
+  - Firebase/Messaging (4.0.2):
     - Firebase/Core
-    - FirebaseMessaging (= 1.2.2)
-  - Firebase/RemoteConfig (3.15.0):
+    - FirebaseMessaging (= 2.0.0)
+  - Firebase/RemoteConfig (4.0.2):
     - Firebase/Core
-    - FirebaseRemoteConfig (= 1.3.4)
-  - FirebaseAnalytics (3.7.0):
-    - FirebaseCore (~> 3.5)
-    - FirebaseInstanceID (~> 1.0)
+    - FirebaseRemoteConfig (= 2.0.0)
+  - FirebaseAnalytics (4.0.1):
+    - FirebaseCore (~> 4.0)
+    - FirebaseInstanceID (~> 2.0)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseAuth (3.1.1):
-    - FirebaseAnalytics (~> 3.7)
+  - FirebaseAuth (4.0.0):
+    - FirebaseAnalytics (~> 4.0)
     - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
     - GTMSessionFetcher/Core (~> 1.1)
-  - FirebaseCore (3.5.2):
+  - FirebaseCore (4.0.2):
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseDatabase (3.1.2):
-    - FirebaseAnalytics (~> 3.7)
-  - FirebaseInstanceID (1.0.9)
-  - FirebaseMessaging (1.2.2):
-    - FirebaseAnalytics (~> 3.7)
-    - FirebaseInstanceID (~> 1.0)
+  - FirebaseDatabase (4.0.0):
+    - FirebaseAnalytics (~> 4.0)
+  - FirebaseInstanceID (2.0.0):
+    - FirebaseCore (~> 4.0)
+  - FirebaseMessaging (2.0.0):
+    - FirebaseAnalytics (~> 4.0)
+    - FirebaseCore (~> 4.0)
+    - FirebaseInstanceID (~> 2.0)
     - GoogleToolboxForMac/Logger (~> 2.1)
     - Protobuf (~> 3.1)
-  - FirebaseRemoteConfig (1.3.4):
-    - FirebaseAnalytics (~> 3.7)
-    - FirebaseInstanceID (~> 1.0)
+  - FirebaseRemoteConfig (2.0.0):
+    - FirebaseAnalytics (~> 4.0)
+    - FirebaseInstanceID (~> 2.0)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
     - Protobuf (~> 3.1)
   - GoogleToolboxForMac/DebugUtils (2.1.1):
@@ -66,11 +68,11 @@ PODS:
     - GoogleToolboxForMac/Defines (= 2.1.1)
     - GoogleToolboxForMac/NSString+URLArguments (= 2.1.1)
   - GoogleToolboxForMac/NSString+URLArguments (2.1.1)
-  - GTMSessionFetcher/Core (1.1.9)
+  - GTMSessionFetcher/Core (1.1.10)
   - HotlineSDK (1.3.3)
-  - Mixpanel (3.1.3)
-  - NewRelicAgent (5.12.2)
-  - Protobuf (3.2.1)
+  - Mixpanel (3.1.6)
+  - NewRelicAgent (5.13.0)
+  - Protobuf (3.3.0)
   - UXCam (2.5.8)
 
 DEPENDENCIES:
@@ -96,32 +98,32 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   Mixpanel:
-    :commit: d8ce4b03a5d7d6f306ba8276bc7b72a2adb5edc4
+    :commit: 02008544552f0863621174988983b958b35f2ed3
     :git: https://github.com/mixpanel/mixpanel-iphone.git
 
 SPEC CHECKSUMS:
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   Crashlytics: 79e236942ca1e7fc641df1feb9a275360a78ab6a
   Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
-  FBSDKCoreKit: 8a372ab194b5c7c26355c1920ef52dbeb44bc222
-  FBSDKLoginKit: a1a5f4b4ac445823a020fbeeaf5f03714a67ff9c
-  FBSDKShareKit: 649a7acfd01a3e056a33994c1bfbb997814cc8a2
-  Firebase: 2b1cdfba1cda8589f32904a697cc753322bff9d8
-  FirebaseAnalytics: 0d1b7d81d5021155be37702a94ba1ec16d45365d
-  FirebaseAuth: cc8a1824170adbd351edb7f994490a3fb5c18be6
-  FirebaseCore: a024587e43778508700af8c6b1209f7c4516ba02
-  FirebaseDatabase: 05c96d7b43a7368dc91c07791adb49683e1738d1
-  FirebaseInstanceID: 2d0518b1378fe9d685ef40cbdd63d2fdc1125339
-  FirebaseMessaging: df8267f378580a24174ce7861233aa11d5c90109
-  FirebaseRemoteConfig: af3003f4e8daa2bd1d5cf90d3cccc1fe224f8ed9
+  FBSDKCoreKit: d7829f5a69901cd7296105328e4c3c3fc7da6518
+  FBSDKLoginKit: 6b92bd65f319d669d2b0730e49db495ef1660566
+  FBSDKShareKit: 65751c3b9937ab9d594e6c37611ecc115ceeb448
+  Firebase: c7ad0731eab26d18a3fc547dd048b0f7cd9c63ae
+  FirebaseAnalytics: 4d7040fefc3cd8b291cde35f12cf063d7963f15d
+  FirebaseAuth: ebb6abcbabae00fc47446d690c19ce68d8484fde
+  FirebaseCore: 1a8bf6c795ad07d2918278657954ffd2552e9c17
+  FirebaseDatabase: d829b3a8c3e2ac7a16773c5df226966b0805dfc2
+  FirebaseInstanceID: 9fbf536668f4d3f0880e7438456dabd1376e294b
+  FirebaseMessaging: 227406c05b0dc9290702d2e9f18ab5528f0c2cf2
+  FirebaseRemoteConfig: b1bde8c572a1ca13558b5b179f4563cb877aa34b
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
-  GTMSessionFetcher: 5c046c76a1f859bc9c187e918f18e4fc7bb57b5e
+  GTMSessionFetcher: 30d874b96d0d76028f61fbd122801e3f030d47db
   HotlineSDK: a3c6e8689501de2c17c575c83752d751e915ad51
-  Mixpanel: 232acf98cecd94fbb58630ff8512a54ff8d99373
-  NewRelicAgent: 1d41d2f6fe7c4219c13819ef12a0fc0f8d6ecaa6
-  Protobuf: 2ccbaf193f6c65adc67745453ca0c13234c32796
+  Mixpanel: 55b7f2314316808e314876e0e2c36e81345e2b6b
+  NewRelicAgent: 2679737d3601fcac3a11bf69a8968302d9fee497
+  Protobuf: d582fecf68201eac3d79ed61369ef45734394b9c
   UXCam: 76cb857694b8f1776998028de985d737b6852bce
 
 PODFILE CHECKSUM: b4b08cbb5e6a172e1f02e6e05837025847a0992f
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.2.1
