@@ -82,7 +82,6 @@ class LocationPermissionsModal extends React.Component{
 }
 
 const mapStateToProps = (state, ownProps) => {
-
   return {
     ...ownProps,
     user: state.user,

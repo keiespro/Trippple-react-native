@@ -41,12 +41,13 @@ async function baseRequest(endpoint = '', payload = {}, resource = 'user'){
 
   if(__DEV__) console.log(`API REQUEST ---->>>>> ${url}`, params);
 
-  const res = await fetch(url, params)
+  const res = await fetch(url, params);
   __DEV__ && console.log(res, '<------------------------');
-  if(res.status == 504 || res.status == 502 || res.status == 500){
+
+  if (res.status == 504 || res.status == 502 || res.status == 500){
     Analytics.err(res)
     return res.status
-  }else if(res.status == 401){
+  } else if(res.status == 401){
     Analytics.err(res)
     return res.status
   }
