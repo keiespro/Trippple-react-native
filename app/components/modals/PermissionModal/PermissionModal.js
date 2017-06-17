@@ -251,7 +251,7 @@ class PermissionsModal extends Component {
                 style={[styles.rowtext, styles.bigtext, {
                   color: colors.white,
                   fontSize: 20,
-                  marginHorizontal: 50,
+                  marginHorizontal: 40,
                   marginVertical: 10
                 }]}
               >
@@ -261,7 +261,7 @@ class PermissionsModal extends Component {
                 style={[styles.rowtext, styles.bigtext, {
                   color: colors.white,
                   fontSize: 20,
-                  marginHorizontal: 80,
+                  marginHorizontal: 60,
                   marginVertical: 10
                 }]}
               >
@@ -321,7 +321,7 @@ class PermissionsModal extends Component {
                       alignSelf: 'stretch',
                       color: colors.white,
                       textAlign: 'center',
-                      marginTop: 40,
+                      marginTop: 10,
                       padding: MagicNumbers.is4s ? 0 : 10
                     }, styles.nothankstext]}
                   >No Thanks</Text>
