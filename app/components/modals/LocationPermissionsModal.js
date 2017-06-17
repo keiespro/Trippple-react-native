@@ -23,19 +23,19 @@ class LocationPermissionsModal extends Component {
               justifyContent: 'center',
               marginVertical: 10,
               position: 'relative',
-              width: 200,
-              height: 200
+              width: 260,
+              height: 260
             }}
           >
             <Image
               style={[{
-                borderRadius: 50,
+                borderRadius: 60,
                 left: 0,
                 top: 0,
-                margin: 50,
+                margin: 70,
                 position: 'absolute',
-                width: 100,
-                height: 100
+                width: 120,
+                height: 120
               }]}
               source={this.props.user.image_url ? {uri: this.props.user.image_url} : require('./assets/iconModalDenied@3x.png')}
             />
@@ -46,8 +46,8 @@ class LocationPermissionsModal extends Component {
                 marginVertical: 0,
                 padding: 0,
                 position: 'absolute',
-                width: 200,
-                height: 200,
+                width: 260,
+                height: 260,
               }}
               resizeMode="cover"
               source={require('./assets/localIcon@3x.png')}
