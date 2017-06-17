@@ -25,7 +25,7 @@ const VERSION = Device.app_version;
 const iOSversion = Device.version;
 
 
-class MaintenanceScreen extends Component{
+class MaintenanceScreen extends Component {
   constructor(props) {
     super();
     this.state = {
