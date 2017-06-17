@@ -1,10 +1,4 @@
 import React from 'react';
-import reactMixin from 'react-mixin';
-import colors from '../../utils/colors';
-import {
-  NavigationStyles,
-} from '@exponent/ex-navigation';
-import {connect} from 'react-redux'
 import {
   StyleSheet,
   Text,
@@ -21,6 +15,12 @@ import {
   Image,
   AsyncStorage,
 } from 'react-native'
+import reactMixin from 'react-mixin';
+import colors from '../../utils/colors';
+import {
+  NavigationStyles,
+} from '@exponent/ex-navigation';
+import {connect} from 'react-redux'
 import TrackKeyboardMixin from '../mixins/keyboardMixin'
 import {MagicNumbers} from '../../utils/DeviceConfig'
 import moment from 'moment'

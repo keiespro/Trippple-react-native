@@ -28,8 +28,8 @@ const DeviceWidth = Dimensions.get('window').width;
 const DeviceHeight = Dimensions.get('window').height;
 const PickerItem = Picker.Item;
 const currentyear = new Date().getFullYear();
-const MIN_DATE = new Date().setFullYear(currentyear - 18)
-const MAX_DATE = new Date().setFullYear(currentyear - 60)
+const MIN_DATE = new Date().setFullYear(currentyear - 18);
+const MAX_DATE = new Date().setFullYear(currentyear - 60);
 
 function getMaxLength(fieldName){
   let len = 20
@@ -134,28 +134,6 @@ class FieldModal extends Component {
     return { key: key, value: value };
   }
 
-  // onDateChange(date){
-  //
-   // var isLegal = moment(date).diff(moment(), 'years') < -18;
-  //   if(!isLegal){
-  //    this.setState({
-  //       error:true,
-  //       inputFieldValue: date,
-  //       date: date
-  //
-  //   })
-  //
-  //   }else{
-  //     this._root.setNativeProps({date:date})
-  //
-  //     this.setState({
-  //       error:false,
-  //       date: date,
-  //       canContinue:true
-  //     })
-  //   }
-  // }
-
   submit() {
     if (!this.state.canContinue) { return false; }
     if (this.props.field.field_type == 'date') {
@@ -195,7 +173,25 @@ class FieldModal extends Component {
     });
   }
 
-  renderButtons(){
+  renderCloseButton() {
+    return (
+      <TouchableOpacity onPress={() => this.props.cancel()}>
+        <Image
+          resizeMode={Image.resizeMode.contain}
+          style={{
+            alignItems: 'flex-start',
+            marginTop: 20,
+            marginLeft: 20,
+            width: 20,
+            height: 20
+          }}
+          source={require('../../assets/closeWithShadow@3x.png')}
+        />
+      </TouchableOpacity>
+    );
+  }
+
+  renderUpdateButton() {
     return (
       <View
         style={{
@@ -209,34 +205,11 @@ class FieldModal extends Component {
         }}
       >
         <TouchableHighlight
-          onPress={this.props.cancel}
-          style={{
-            borderTopWidth: 1,
-            borderColor: colors.rollingStone,
-            flex: 1,
-            paddingVertical: 20
-          }}
-          underlayColor={colors.dark}
-        >
-          <View>
-            <Text
-              style={{
-                color: colors.white,
-                fontSize: 20,
-                fontFamily: 'montserrat',
-                textAlign: 'center'
-              }}
-            >
-              CANCEL
-            </Text>
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight
           onPress={() => this.submit()}
           style={{
             alignItems:'center',
             borderTopWidth: 1,
-            backgroundColor: this.state.canContinue ? colors.mediumPurple20 : 'transparent',
+            backgroundColor: this.state.canContinue ? colors.brightPurple : 'transparent',
             borderColor: this.state.canContinue ? colors.mediumPurple : colors.rollingStone,
             borderLeftWidth: 1,
             flex: 1,
@@ -392,6 +365,7 @@ class FieldModal extends Component {
         case 'dropdown':
           return (
             <View style={{alignSelf: 'stretch'}}>
+              {this.renderCloseButton()}
               <View
                 style={{
                   alignItems: 'center',
@@ -400,7 +374,7 @@ class FieldModal extends Component {
                   justifyContent: 'center',
                   marginHorizontal: MagicNumbers.screenPadding,
                   width: MagicNumbers.screenWidth - MagicNumbers.screenPadding,
-                  height: DeviceHeight - 260,
+                  height: DeviceHeight - 300,
                 }}
               >
                 <View
@@ -442,7 +416,7 @@ class FieldModal extends Component {
                 </View>
               </View>
 
-              {this.renderButtons()}
+              {this.renderUpdateButton()}
 
               <View
                 style={{
@@ -484,6 +458,7 @@ class FieldModal extends Component {
                 }}
                 behavior={'padding'}
               >
+                {this.renderCloseButton()}
                 <View
                   style={{
                     alignItems: 'center',
@@ -563,7 +538,7 @@ class FieldModal extends Component {
                     </View>
                   </View>
                 </View>
-                {this.renderButtons()}
+                {this.renderUpdateButton()}
               </KeyboardAvoidingView>
             </View>
           )
@@ -577,6 +552,7 @@ class FieldModal extends Component {
                 justifyContent: 'space-between'
               }}
             >
+              {this.renderCloseButton()}
               <View
                 style={{
                   alignSelf: 'stretch',
@@ -597,19 +573,20 @@ class FieldModal extends Component {
                       handleInputChange:(value) => {
                         this.onChangePhone(value);
                       },
-                      renderButtons: this.renderButtons.bind(this),
+                      renderUpdateButton: this.renderUpdateButton.bind(this),
                       ref: (phoneField) => {this.phoneField = phoneField}
                     }
                   )}
                 </View>
               </View>
-              {this.renderButtons()}
+              {this.renderUpdateButton()}
             </View>
           )
         case 'birthday':
         case 'date':
           return (
             <View style={{alignSelf: 'stretch'}}>
+              {this.renderCloseButton()}
               <View
                 style={{
                   alignItems: 'center',
@@ -667,7 +644,7 @@ class FieldModal extends Component {
                   </View>
                 </View>
               </View>
-              {this.renderButtons()}
+              {this.renderUpdateButton()}
               <View
                 style={{
                   height:260,
@@ -695,6 +672,7 @@ class FieldModal extends Component {
                 height: DeviceHeight-this.state.keyboardSpace
               }}
             >
+              {this.renderCloseButton()}
               <ScrollView
                 style={{flex: 1}}
                 contentContainerStyle={{
@@ -735,7 +713,7 @@ class FieldModal extends Component {
                   </View>
                 </View>
               </ScrollView>
-              {this.renderButtons()}
+              {this.renderUpdateButton()}
             </View>
           )
       }
@@ -854,7 +832,7 @@ const styles = StyleSheet.create({
     height: 40,
   },
   formHeader: {
-    marginTop: 40
+    marginTop: 40,
   },
   formHeaderText: {
     color: colors.rollingStone,
