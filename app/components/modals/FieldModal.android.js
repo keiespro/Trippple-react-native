@@ -423,7 +423,6 @@ class FieldModal extends React.Component{
                       color: colors.rollingStone,
                       fontSize: 20,
                       textAlign: 'center',
-                      textAlign: 'center',
                       fontFamily: 'omnes',
                       alignSelf: 'stretch',
                       marginBottom: MagicNumbers.screenPadding,
