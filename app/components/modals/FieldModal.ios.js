@@ -77,10 +77,9 @@ class FieldModal extends Component {
   }
 
   componentDidMount() {
-    if(this.props.field.field_type == 'textarea' && this.refs._textArea){
+    if (this.props.field.field_type == 'textarea' && this.refs._textArea) {
       this.refs._textArea.focus()
       this.refs._textArea.setNativeProps({value: this.props.fieldValue ? this.props.fieldValue+'\n' : ''})
-      // this.refs._textArea.setSelectionRange((this.props.fieldValue ? this.props.fieldValue.length : this.state.value.length),(this.props.fieldValue ? this.props.fieldValue.length : this.state.value.length))
     }
   }
 
@@ -145,17 +144,7 @@ class FieldModal extends Component {
       this.props.dispatch(ActionMan.updateUser(payload));
       this.props.cancel && this.props.cancel() || this.props.kill && this.props.kill();
     } else if (this.props.field.field_type == 'phone_input') {
-      // this.props.navigator.push({
-      //   component: PinScreen,
-      //   title: '',
-      //   id:'pinupdate',
-      //   sceneConfig: CustomSceneConfigs.HorizontalSlide,
-      //   passProps: {
-      //     goBack: this.props.cancel,
-      //     phone: this.state.phoneValue,
-      //     initialKeyboardSpace: this.state.keyboardSpace
-      //   }
-      // })
+
     } else {
       var payload = {};
 
@@ -371,10 +360,11 @@ class FieldModal extends Component {
                   alignItems: 'center',
                   alignSelf: 'stretch',
                   flexDirection: 'column',
-                  justifyContent: 'center',
+                  justifyContent: 'flex-start',
                   marginHorizontal: MagicNumbers.screenPadding,
+                  paddingTop: 50,
                   width: MagicNumbers.screenWidth - MagicNumbers.screenPadding,
-                  height: DeviceHeight - 300,
+                  height: DeviceHeight - 320,
                 }}
               >
                 <View
@@ -403,7 +393,7 @@ class FieldModal extends Component {
                       borderBottomWidth: 1,
                       borderBottomColor: colors.rollingStone,
                       color: colors.white,
-                      fontFamily: 'montserrat',
+                      fontFamily: 'omnes',
                       fontSize: 30,
                       marginHorizontal: MagicNumbers.screenPadding/2,
                       padding: 8,
