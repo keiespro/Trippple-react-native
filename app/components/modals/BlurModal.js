@@ -1,67 +1,58 @@
-import { StyleSheet, Image, Platform, View, Dimensions, ScrollView } from 'react-native';
 import React from 'react';
-import { BlurView, VibrancyView } from 'react-native-blur'
-import colors from '../../utils/colors'
+import {
+  Dimensions,
+  Image,
+  ScrollView,
+  StyleSheet,
+  View
+} from 'react-native';
+import colors from '../../utils/colors';
 
-const iOS = Platform.OS == 'ios';
-const DeviceHeight = Dimensions.get('window').height
-const DeviceWidth = Dimensions.get('window').width
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 
-const BlurModal = ({children, backgroundColor = 'transparent'}) => (
-
+const BlurModal = ({children}) => (
   <View
     style={{flexGrow: 1}}
   >
-    {iOS && <VibrancyView blurType="dark" style={localstyles.blurstyle} />}
-
-
+    <View style={{flexGrow: 1, backgroundColor: colors.outerSpace}}>
+      <Image 
+        style={localstyles.backgroundStyle}
+        source={require('../../assets/locationMap@3x.png')}
+      />
+    </View>
     <ScrollView
-
       showsVerticalScrollIndicator={false}
-      style={[localstyles.modalscroll,{
-        backgroundColor
-      }]}
+      style={localstyles.modalscroll}
       contentContainerStyle={localstyles.modalscrollcontainer}
     >
       {children}
     </ScrollView>
-
-
   </View>
 )
 
-
-export default BlurModal
-
 const localstyles = StyleSheet.create({
-  blurstyle: {
-    flexGrow: 1,
-    position: 'absolute',
+  backgroundStyle: {
+    resizeMode: 'stretch',
     top: 0,
     width: DeviceWidth,
-    height: DeviceHeight,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column'
+    height: 0.6 * DeviceHeight,
   },
   modalscroll: {
-    // padding: 0,
+    backgroundColor: 'transparent',
+    flexGrow: 1,
+    position: 'absolute',
     width: DeviceWidth,
     height:DeviceHeight,
-
-    flexGrow: 1,
-    position: 'absolute'
   },
   modalscrollcontainer: {
-    // justifyContent:'center',
-    flexGrow: 1,
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
     flexDirection: 'column',
+    flexGrow: 1,
     width: DeviceWidth,
     height: DeviceHeight,
-    // position:'absolute'
-    // alignItems:'center',
-    // height:DeviceHeight,width:DeviceWidth
   }
 })
+
+export default BlurModal;

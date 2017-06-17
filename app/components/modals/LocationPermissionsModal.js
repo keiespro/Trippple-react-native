@@ -1,72 +1,65 @@
-import React from 'react';
-import {View, Image} from 'react-native';
-import {connect} from 'react-redux'
-import {withNavigation, NavigationStyles} from '@exponent/ex-navigation'
-import PermissionModal from './PermissionModal/PermissionModal'
+import React, { Component } from 'react';
+import { Image, View } from 'react-native';
+import { connect } from 'react-redux';
+import { withNavigation, NavigationStyles } from '@exponent/ex-navigation';
+import PermissionModal from './PermissionModal/PermissionModal';
 
-
-class LocationPermissionsModal extends React.Component{
-
-  render(){
+class LocationPermissionsModal extends Component {
+  render() {
     return (
-
       <PermissionModal
         {...this.props}
-        title={'LOCATION'}
-        subtitle={'Should we prioritize the matches nearest to you?'}
+        title={'PRIORITIZE LOCAL'}
+        firstSubtitle={'We have found some users we think you might like'}
+        secondSubtitle={'Should we prioritize the users closets to you?'}
         permissionKey={'location'}
-        buttonText={'USE MY LOCATION'}
+        buttonText={'YES PLEASE'}
         permissionLabel={'Location'}
-        onSuccess={()=>{this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_ON'})}}
+        onSuccess={() => {this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_ON'})}}
         renderImage={() => (
           <View
             style={{
-              width: 200,
-              height: 200,
+              alignItems: 'center',
+              justifyContent: 'center',
               marginVertical: 10,
               position: 'relative',
-              alignItems: 'center',
-              justifyContent: 'center'
+              width: 200,
+              height: 200
             }}
           >
             <Image
               style={[{
-                width: 100,
-                height: 100,
                 borderRadius: 50,
-                top: 0,
                 left: 0,
+                top: 0,
                 margin: 50,
-                borderRadius:50,
-                position: 'absolute'
+                position: 'absolute',
+                width: 100,
+                height: 100
               }]}
               source={this.props.user.image_url ? {uri: this.props.user.image_url} : require('./assets/iconModalDenied@3x.png')}
             />
             <Image
               style={{
+                left: 0,
+                top: 0,
+                marginVertical: 0,
+                padding: 0,
+                position: 'absolute',
                 width: 200,
                 height: 200,
-                marginVertical: 0,
-                top: 0,
-                left: 0,
-                padding: 0,
-                position: 'absolute'
               }}
               resizeMode="cover"
               source={require('./assets/localIcon@3x.png')}
             />
           </View>
-        )
-
-        }
+        )}
       />
     )
-
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-
   return {
     ...ownProps,
     user: state.user,
@@ -78,4 +71,4 @@ const mapDispatchToProps = (dispatch) => {
   return { dispatch };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)((LocationPermissionsModal));
+export default connect(mapStateToProps, mapDispatchToProps)(LocationPermissionsModal);

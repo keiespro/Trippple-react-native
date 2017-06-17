@@ -10,11 +10,9 @@ const purpleModalStyles = StyleSheet.create({
   modalButtonWrap: {
     borderRadius: 4,
     justifyContent: 'center',
-
     marginVertical: 5,
     alignSelf: 'stretch',
   },
-
   modalButton: {
     alignSelf: 'stretch',
     height: 60,
@@ -24,10 +22,7 @@ const purpleModalStyles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1,
     borderColor: colors.sushi,
-
-
     justifyContent: 'center',
-
   },
   modalButtonText: {
     color: colors.white,
@@ -40,30 +35,24 @@ const purpleModalStyles = StyleSheet.create({
     fontFamily: 'montserrat',
     marginVertical: 10,
     fontSize: 18,
-
     textAlign: 'center'
-
   },
   container: {
-
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     alignSelf: 'stretch',
     flexDirection: 'column',
     backgroundColor: 'transparent',
-
   },
   modalcontainer: {
     borderRadius: 4,
     backgroundColor: 'transparent',
     width: MagicNumbers.screenWidth,
-
     // marginVertical:MagicNumbers.isSmallDevice ? 0 : 20
   },
   fullWidth: {
     width: (MagicNumbers.screenWidth - MagicNumbers.screenPadding) / 2,
     // padding:MagicNumbers.screenPadding/2
-
   },
   row: {
     flexDirection: 'row',
@@ -81,7 +70,6 @@ const purpleModalStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'transparent',
-
   },
   text: {
     color: colors.white,
@@ -95,7 +83,6 @@ const purpleModalStyles = StyleSheet.create({
   bigtext: {
     textAlign: 'center',
     color: colors.white,
-
   },
   separator: {
     height: 1,
@@ -135,15 +122,11 @@ height: DeviceHeight,
     color: colors.white,
     fontSize: 22,
     alignItems: 'stretch',
-
     paddingHorizontal: 10,
     fontFamily: 'montserrat',
     height: 60,
     backgroundColor: 'transparent',
-
   },
-
-
   contactthumb: {
     borderRadius: 25,
     width: 50,
@@ -194,6 +177,5 @@ height: DeviceHeight,
     marginTop: MagicNumbers.screenPadding
   }
 })
-
 
 export default purpleModalStyles
