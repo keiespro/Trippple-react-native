@@ -199,7 +199,7 @@ class FieldModal extends Component {
     return (
       <View
         style={{
-          alignItems:'center',
+          alignItems: 'center',
           alignSelf: 'stretch',
           bottom: -3,
           flexDirection: 'row',
@@ -349,7 +349,7 @@ class FieldModal extends Component {
             selectedValue={this.state.selectedDropdown || theField.values[this.state.selectedDropdown] || null}
             style={{
               alignItems: 'stretch',
-              alignSelf:' center',
+              alignSelf: 'center',
               backgroundColor: 'transparent',
               marginHorizontal: 0,
               width: 330
@@ -405,11 +405,11 @@ class FieldModal extends Component {
               >
                 <View
                   style={{
-                    alignItems:'center',
-                    alignSelf:'stretch',
+                    alignItems: 'center',
+                    alignSelf: 'stretch',
                     borderBottomWidth: 1,
                     borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone,
-                    justifyContent:'center'
+                    justifyContent: 'center'
                   }}
                 >
                   <Text
@@ -654,7 +654,7 @@ class FieldModal extends Component {
                   >
                     <Text
                       style={{
-                        alignSelf:'stretch',
+                        alignSelf: 'stretch',
                         color: colors.white,
                         fontSize: 20,
                         textAlign: 'center',
@@ -697,7 +697,11 @@ class FieldModal extends Component {
             >
               <ScrollView
                 style={{flex: 1}}
-                contentContainerStyle={{flex: 1, justifyContent: 'space-around', padding: 20}}
+                contentContainerStyle={{
+                  flex: 1,
+                  justifyContent: 'space-around',
+                  padding: 20
+                }}
               >
                 <Text
                   style={{
@@ -738,7 +742,13 @@ class FieldModal extends Component {
     }
 
     return (
-      <View style={{flex: 1, left: 0, position: 'absolute'}}>
+      <View
+        style={{
+          flex: 1,
+          left: 0,
+          position: 'absolute'
+        }}
+      >
         <KeyboardAvoidingView 
           style={{flex: 1}}
           behavior={'padding'}
@@ -746,14 +756,14 @@ class FieldModal extends Component {
           <ScrollView
             keyboardShouldPersistTaps="always"
             keyboardDismissMode={'interactive'}
-            onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
-            onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
+            onKeyboardWillShow={() => this.updateKeyboardSpace()}
+            onKeyboardWillHide={() => this.resetKeyboardSpace()}
             scrollEnabled={false}
             style={{flex: 1}}
             contentContainerStyle={[styles.container, {
-              alignSelf:'stretch',
+              alignSelf: 'stretch',
               backgroundColor:colors.outerSpace,
-              padding:0,
+              padding: 0,
             }]}
           >
             {inside()}
@@ -789,7 +799,7 @@ class MultiLineInput extends Component {
         keyboardAppearance={'dark'}
         maxLength={300}
         multiline
-        onContentSizeChange={this.sizeChange.bind(this)}
+        onContentSizeChange={() => this.sizeChange()}
         onSubmitEditing={this.props.submit}
         placeholder={''}
         placeholderTextColor={colors.white}
