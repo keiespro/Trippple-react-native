@@ -60,13 +60,14 @@ class FieldModal extends Component {
 
   constructor(props) {
     super(props);
+  
     this.state = {
       timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 60,
       keyboardSpace: 0,
       birthday: props.fieldValue,
-      value:props.fieldValue,
-      phoneValue:props.fieldValue,
-      canContinue:props.field.field_type == 'dropdown' ? !!props.fieldValue : false
+      value: props.fieldValue,
+      phoneValue: props.fieldValue,
+      canContinue: props.field.field_type == 'dropdown' ? !!props.fieldValue : false
     }
   }
 
@@ -94,7 +95,7 @@ class FieldModal extends Component {
 
     if (val.length > 0 && isValid) {
       this.setState({
-        canContinue:true,
+        canContinue: true,
         error: false,
         value: val.trim()
       });
@@ -193,32 +194,34 @@ class FieldModal extends Component {
           zIndex: 9999
         }}
       >
-        <TouchableHighlight
-          onPress={() => this.submit()}
-          style={{
-            alignItems:'center',
-            borderTopWidth: 1,
-            backgroundColor: this.state.canContinue ? colors.brightPurple : 'transparent',
-            borderColor: this.state.canContinue ? colors.mediumPurple : colors.rollingStone,
-            borderLeftWidth: 1,
-            flex: 1,
-            paddingVertical: 20
-          }}
-          underlayColor={colors.mediumPurple}
-        >
-          <View>
-            <Text
-              style={{
-                color: this.state.canContinue ? colors.white : colors.rollingStone,
-                fontSize: 20,
-                fontFamily: 'montserrat',
-                textAlign: 'center'
-              }}
-            >
-              UPDATE
-            </Text>
-          </View>
-        </TouchableHighlight>
+        {(this.props.fieldValue != this.state.value) && (
+          <TouchableHighlight
+            onPress={() => this.submit()}
+            style={{
+              alignItems:'center',
+              borderTopWidth: 1,
+              backgroundColor: this.state.canContinue ? colors.brightPurple : 'transparent',
+              borderColor: this.state.canContinue ? colors.mediumPurple : colors.rollingStone,
+              borderLeftWidth: 1,
+              flex: 1,
+              paddingVertical: 20
+            }}
+            underlayColor={colors.mediumPurple}
+          >
+            <View>
+              <Text
+                style={{
+                  color: this.state.canContinue ? colors.white : colors.rollingStone,
+                  fontSize: 20,
+                  fontFamily: 'montserrat',
+                  textAlign: 'center'
+                }}
+              >
+                UPDATE
+              </Text>
+            </View>
+          </TouchableHighlight>
+        )}
       </View>
     )
   }
@@ -241,7 +244,7 @@ class FieldModal extends Component {
       selectedFieldLabel = this.getValueFromKey(field.values, selectedFieldValue).value || selectedFieldLabel;
     }
 
-    var displayStateFieldValue = selectedFieldLabel.toString().toUpperCase();
+    var displayStateFieldValue = selectedFieldLabel.toString();
     displayStateFieldValue = (field.labelPrefix || '') + displayStateFieldValue + (field.labelSuffix || '');
 
     let displayField = (theField) => {
