@@ -212,7 +212,7 @@ class PermissionsModal extends Component {
 
   render() {
     return (
-      <BlurModal>
+      <BlurModal showMap={this.props.showMap}>
         <View style={[styles.col, {}]}>
           {this.props.hasPermission == 'denied' ? this.renderFailed() :
             <View

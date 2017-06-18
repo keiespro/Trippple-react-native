@@ -31,6 +31,7 @@ class NotificationsPermissionsModal extends Component {
         onSuccess={() => {this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_ON'})}}
         imageSource={featuredImage ? {uri: featuredImage} : require('./assets/icon.png')}
         imageStyle={featuredImage ? {borderRadius: 30} : {}}
+        showMap={'false'}
       />
     )
   }

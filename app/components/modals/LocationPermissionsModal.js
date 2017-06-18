@@ -54,6 +54,7 @@ class LocationPermissionsModal extends Component {
             />
           </View>
         )}
+        showMap={"true"}
       />
     )
   }

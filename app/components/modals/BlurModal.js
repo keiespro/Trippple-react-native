@@ -11,15 +11,17 @@ import colors from '../../utils/colors';
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
-const BlurModal = ({children}) => (
+const BlurModal = ({children, showMap}) => (
   <View
     style={{flexGrow: 1}}
   >
     <View style={{flexGrow: 1, backgroundColor: colors.outerSpace}}>
-      <Image 
-        style={localstyles.backgroundStyle}
-        source={require('../../assets/locationMap@3x.png')}
-      />
+      {(showMap) && (
+        <Image 
+          style={localstyles.backgroundStyle}
+          source={require('./assets/locationMap@3x.png')}
+        />
+      )}
     </View>
     <ScrollView
       showsVerticalScrollIndicator={false}
