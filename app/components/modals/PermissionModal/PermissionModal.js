@@ -384,7 +384,7 @@ class PermissionsModal extends Component {
 }
 
 const ModalButton = ({btnText, onTap, loading}) => (
-  <Button
+  <TouchableOpacity
     onPress={onTap}
     style={{
       alignItems: 'center',
@@ -413,7 +413,7 @@ const ModalButton = ({btnText, onTap, loading}) => (
         {btnText}
       </Text>
     </View>
-  </Button>
+  </TouchableOpacity>
 );
 
 const buttonStyles = StyleSheet.create({
@@ -455,7 +455,6 @@ const mapStateToProps = (state, ownProps) => ({
   permissions: state.permissions,
   hasPermission: state.permissions[ownProps.permissionKey] && state.permissions[ownProps.permissionKey] != 'undetermined'
 })
-
 
 const mapDispatchToProps = (dispatch) => ({
   dispatch,
