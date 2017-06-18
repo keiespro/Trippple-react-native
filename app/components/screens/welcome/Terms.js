@@ -9,6 +9,7 @@ import {
   View,
   WebView
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import colors from '../../../utils/colors';
 import { MagicNumbers } from '../../../utils/DeviceConfig';
 
@@ -166,14 +167,14 @@ const WhyFacebook = ({kill, source}) => (
     <View style={styles.transparentBackground}>
 
     </View>
-    <View style={styles.closeContainer}>
+    <LinearGradient colors={['rgba(44,56,65,0.4)', 'rgb(44,56,65)']} style={styles.closeContainer}>
       <TouchableOpacity
         style={{backgroundColor: colors.transparent, bottom: 5, alignSelf: 'center'}}
         onPress={() => { kill() }}
       >
         <Image source={require('../../../assets/close.png')} style={{width: 35, height: 35}} />
       </TouchableOpacity>
-    </View>
+    </LinearGradient>
   </View>
 );
 
