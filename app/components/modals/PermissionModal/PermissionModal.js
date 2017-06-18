@@ -226,16 +226,54 @@ class PermissionsModal extends Component {
             >
               <View style={{alignItems: 'center'}}>
                 {this.props.renderImage ? this.props.renderImage() :
-                  <Image
-                    resizeMode={this.props.imageResizeMode || Image.resizeMode.contain}
-                    style={[{
-                      marginBottom: MagicNumbers.is4s ? 15 : 30,
-                      marginTop: MagicNumbers.is4s ? 10 : 20,
-                      width: MagicNumbers.is4s ? 100 : 150,
-                      height: MagicNumbers.is4s ? 100 : 150,
-                    }, this.props.imageStyle]}
-                    source={typeof this.props.imageSource == 'string' ? require(this.props.imageSource) : this.props.imageSource}
-                  />
+                  <View style={{flexDirection: 'column'}}>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <Image
+                        resizeMode={this.props.imageResizeMode || Image.resizeMode.contain}
+                        style={[{
+                          marginBottom: MagicNumbers.is4s ? 15 : 30,
+                          marginTop: MagicNumbers.is4s ? 10 : 20,
+                          width: MagicNumbers.is4s ? 40 : 60,
+                          height: MagicNumbers.is4s ? 40 : 60,
+                        }, this.props.imageStyle]}
+                        source={typeof this.props.imageSource == 'string' ? require(this.props.imageSource) : this.props.imageSource}
+                      />
+                      <Image
+                        resizeMode={this.props.imageResizeMode || Image.resizeMode.contain}
+                        style={{
+                          marginBottom: MagicNumbers.is4s ? 15 : 30,
+                          marginLeft: MagicNumbers.is4s ? 5 : 10,
+                          marginTop: MagicNumbers.is4s ? 10 : 20,
+                          width: MagicNumbers.is4s ? 139 : 212,
+                          height: MagicNumbers.is4s ? 33 : 50,
+                        }}
+                        source={require('../assets/alertsBubbleMatch@3x.png')}
+                      />
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <Image
+                        resizeMode={this.props.imageResizeMode || Image.resizeMode.contain}
+                        style={[{
+                          marginBottom: MagicNumbers.is4s ? 15 : 30,
+                          marginTop: MagicNumbers.is4s ? 10 : 20,
+                          width: MagicNumbers.is4s ? 40 : 60,
+                          height: MagicNumbers.is4s ? 40 : 60,
+                        }, this.props.imageStyle]}
+                        source={typeof this.props.imageSource == 'string' ? require(this.props.imageSource) : this.props.imageSource}
+                      />
+                      <Image
+                        resizeMode={this.props.imageResizeMode || Image.resizeMode.contain}
+                        style={{
+                          marginBottom: MagicNumbers.is4s ? 15 : 30,
+                          marginLeft: MagicNumbers.is4s ? 5 : 10,
+                          marginTop: MagicNumbers.is4s ? 10 : 20,
+                          width: MagicNumbers.is4s ? 51 : 82,
+                          height: MagicNumbers.is4s ? 25 : 40,
+                        }}
+                        source={require('../assets/alertsBubbleType@3x.png')}
+                      />
+                    </View>
+                  </View>
                 }
               </View>
               <Text
@@ -373,10 +411,10 @@ const buttonStyles = StyleSheet.create({
     height: 60,
   },
   innerWrapStyles: {
+    backgroundColor: colors.transparent,
     borderColor: colors.darkGreenBlue,
     borderWidth: 1,
     overflow: 'hidden',
-    backgroundColor: colors.transparent,
   },
   iconButtonOuter: {
     marginTop: 20
