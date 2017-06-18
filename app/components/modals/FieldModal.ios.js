@@ -727,8 +727,8 @@ class FieldModal extends Component {
           <ScrollView
             keyboardShouldPersistTaps="always"
             keyboardDismissMode={'interactive'}
-            onKeyboardWillShow={() => this.updateKeyboardSpace()}
-            onKeyboardWillHide={() => this.resetKeyboardSpace()}
+            onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
+            onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
             scrollEnabled={false}
             style={{flex: 1}}
             contentContainerStyle={[styles.container, {
@@ -770,7 +770,7 @@ class MultiLineInput extends Component {
         keyboardAppearance={'dark'}
         maxLength={300}
         multiline
-        onContentSizeChange={() => this.sizeChange()}
+        onContentSizeChange={this.sizeChange.bind(this)}
         onSubmitEditing={this.props.submit}
         placeholder={''}
         placeholderTextColor={colors.white}
