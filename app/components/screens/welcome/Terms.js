@@ -9,9 +9,8 @@ import {
   View,
   WebView
 } from 'react-native';
-
-import colors from '../../../utils/colors'
-import { MagicNumbers } from '../../../utils/DeviceConfig'
+import colors from '../../../utils/colors';
+import { MagicNumbers } from '../../../utils/DeviceConfig';
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
@@ -197,17 +196,17 @@ const styles = StyleSheet.create({
   },
   transparentBackground: {
     backgroundColor: colors.outerSpace,
-    justifyContent: 'center',
-    position: 'absolute',
     bottom: 0,
+    justifyContent: 'center',
+    opacity: 0.7,
+    position: 'absolute',
     width: DeviceWidth,
     height: 100,
-    opacity: 0.7,
   },
   closeContainer: {
+    bottom: 0,
     justifyContent: 'center',
     position: 'absolute',
-    bottom: 0,
     width: DeviceWidth,
     height: 100,
   },

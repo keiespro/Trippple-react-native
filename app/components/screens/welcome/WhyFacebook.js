@@ -9,8 +9,8 @@ import {
   View
 } from 'react-native';
 
-import colors from '../../../utils/colors'
-import { MagicNumbers } from '../../../utils/DeviceConfig'
+import colors from '../../../utils/colors';
+import { MagicNumbers } from '../../../utils/DeviceConfig';
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
