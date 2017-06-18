@@ -21,17 +21,17 @@ class NotificationsPermissionsModal extends Component {
 
     return (
       <PermissionModal
-        isModal={this.props.isModal}
-        title={'NOTIFICATIONS'}
-        firstSubtitle={'Would you like to be notified when ' + featuredUser.firstname + ' likes you back?'}
-        permissionKey={'notifications'}
         buttonText={'YES, ALERT ME'}
+        firstSubtitle={'Would you like to be notified when ' + featuredUser.firstname + ' likes you back?'}
         imageResizeMode={'cover'}
-        permissionLabel={'Notifications'}
-        onSuccess={() => {this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_ON'})}}
         imageSource={featuredImage ? {uri: featuredImage} : require('./assets/icon.png')}
         imageStyle={featuredImage ? {borderRadius: 30} : {}}
+        isModal={this.props.isModal}
+        onSuccess={() => {this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_NOTIFICATIONS_ON'})}}
+        permissionKey={'notifications'}
+        permissionLabel={'Notifications'}
         showMap={'false'}
+        title={'NOTIFICATIONS'}
       />
     )
   }

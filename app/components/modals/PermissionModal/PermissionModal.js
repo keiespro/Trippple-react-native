@@ -12,31 +12,30 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
-import colors from '../../../utils/colors';
-import BlurModal from '../BlurModal';
-import styles from '../purpleModalStyles';
-import BoxyButton from '../../controls/boxyButton';
 import ActionMan from '../../../actions';
-import { MagicNumbers } from '../../../utils/DeviceConfig';
+import BlurModal from '../BlurModal';
+import BoxyButton from '../../controls/boxyButton';
 import Button from '../../Btn';
+import colors from '../../../utils/colors';
 import FadeInContainer from '../../FadeInContainer';
+import { MagicNumbers } from '../../../utils/DeviceConfig';
+import styles from '../purpleModalStyles';
 
 const iOS = Platform.OS == 'ios';
-const DeviceHeight = Dimensions.get('window').height
-const DeviceWidth = Dimensions.get('window').width
+const DeviceWidth = Dimensions.get('window').width;
+const DeviceHeight = Dimensions.get('window').height;
 
 
 class PermissionsModal extends Component {
 
   static propTypes = {
     buttonText: PropTypes.string,
+    firstSubtitle: PropTypes.string,
     isPersistant: PropTypes.bool,
     onSuccess: PropTypes.func,
     permissionKey: PropTypes.string.isRequired,
     permissionLabel: PropTypes.string.isRequired,
     renderImage: PropTypes.func,
-    firstSubtitle: PropTypes.string,
     secondSubtitle: PropTypes.string,
     title: PropTypes.string.isRequired
   };
@@ -132,22 +131,25 @@ class PermissionsModal extends Component {
   renderFailed() {
     return (
       <FadeInContainer duration={800} delay={1200}>
-        <View style={{flexGrow: 1, alignItems: 'center'}}>
-          <View style={{alignItems: 'center', flexGrow: 1, backgroundColor: 'red'}}>
+        <View style={{ alignItems: 'center', flexGrow: 1}}>
+          <View style={{alignItems: 'center', backgroundColor: 'red', flexGrow: 1}}>
             <Image
               resizeMode={Image.resizeMode.contain}
               style={[{
                 width: 150,
                 height: MagicNumbers.is4s ? 100 : 150,
                 marginBottom: MagicNumbers.is4s ? 15 : 30,
-                marginTop: MagicNumbers.is4s ? 10 : 20
+                marginTop: MagicNumbers.is4s ? 10 : 20,
               }]}
               source={require('../assets/iconModalDenied@3x.png')}
             />
           </View>
           <Text
             style={[styles.rowtext, styles.bigtext, {
-              fontFamily: 'montserrat', fontWeight: '800', fontSize: 20, marginVertical: 0
+              fontFamily: 'montserrat',
+              fontWeight: '800',
+              fontSize: 20,
+              marginVertical: 0,
             }]}
           >
             CAN'T ACCESS {this.props.permissionLabel.toUpperCase()}
@@ -175,20 +177,28 @@ class PermissionsModal extends Component {
 
     return this.props.isPersistant ? (
       <BoxyButton
-        text={buttonText}
-        buttonText={buttonStyles.buttonText}
-        underlayColor={colors.white}
-        innerWrapStyles={[buttonStyles.innerWrapStyles, {overflow: 'hidden'}]}
-        stopLoading={hasPermission}
-        leftBoxStyles={buttonStyles.grayIconbuttonLeftBox}
         _onPress={() => this.handleTap()}
-        outerButtonStyle={{flexGrow: 1, backgroundColor: 'transparent', width: DeviceWidth - 60, maxHeight: 80}}
+        buttonText={buttonStyles.buttonText}
+        innerWrapStyles={[buttonStyles.innerWrapStyles, {overflow: 'hidden'}]}
+        leftBoxStyles={buttonStyles.grayIconbuttonLeftBox}
+        outerButtonStyle={{
+          backgroundColor: 'transparent',
+          flexGrow: 1,
+          width: DeviceWidth - 60,
+          maxHeight: 80,
+        }}
+        stopLoading={hasPermission}
+        text={buttonText}
+        underlayColor={colors.white}
       >
         {hasPermission ?
           <Image
             source={require('../assets/checkmarkWhiteSmall@3x.png')}
             resizeMode={Image.resizeMode.cover}
-            style={{width: 30, height: 21}}
+            style={{
+              width: 30,
+              height: 21,
+            }}
           /> :
           <View
             style={{
@@ -196,7 +206,7 @@ class PermissionsModal extends Component {
               backgroundColor: colors.white40,
               borderRadius: 10,
               width: 20,
-              height: 20
+              height: 20,
             }}
           />
         }
@@ -221,7 +231,7 @@ class PermissionsModal extends Component {
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 width: DeviceWidth,
-                height: 500
+                height: 500,
               }}
             >
               <View style={{alignItems: 'center'}}>
@@ -282,7 +292,7 @@ class PermissionsModal extends Component {
                   fontFamily: 'montserrat',
                   fontWeight: '800',
                   fontSize: 22,
-                  marginVertical: 0
+                  marginVertical: 0,
                 }]}
               >{this.props.title}</Text>
               <Text
@@ -290,7 +300,7 @@ class PermissionsModal extends Component {
                   color: colors.white,
                   fontSize: 20,
                   marginHorizontal: 40,
-                  marginVertical: 10
+                  marginVertical: 10,
                 }]}
               >
                 {this.props.firstSubtitle}
@@ -300,7 +310,7 @@ class PermissionsModal extends Component {
                   color: colors.white,
                   fontSize: 20,
                   marginHorizontal: 60,
-                  marginVertical: 10
+                  marginVertical: 10,
                 }]}
               >
                 {this.props.secondSubtitle}
@@ -326,7 +336,7 @@ class PermissionsModal extends Component {
                   style={[styles.cancelButton, {
                     alignSelf: 'center',
                     backgroundColor: 'transparent',
-                    flexDirection: 'row'
+                    flexDirection: 'row',
                   }]}
                 >
                   <Text
@@ -335,7 +345,7 @@ class PermissionsModal extends Component {
                       color: colors.white,
                       padding: 10,
                       paddingVertical: MagicNumbers.is4s ? 0 : 20,
-                      textAlign: 'center'
+                      textAlign: 'center',
                     }, styles.nothankstext]}
                   >
                     Continue
@@ -345,11 +355,11 @@ class PermissionsModal extends Component {
             ) : (
               <TouchableOpacity
                 style={{
-                  paddingHorizontal: 10,
-                  marginVertical: 10,
+                  alignItems: 'stretch',
                   alignSelf: 'stretch',
                   flexGrow: 1,
-                  alignItems: 'stretch'
+                  marginVertical: 10,
+                  paddingHorizontal: 10,
                 }}
                 onPress={this.cancel.bind(this)}
               >
@@ -360,7 +370,7 @@ class PermissionsModal extends Component {
                       color: colors.white,
                       textAlign: 'center',
                       marginTop: 10,
-                      padding: MagicNumbers.is4s ? 0 : 10
+                      padding: MagicNumbers.is4s ? 0 : 10,
                     }, styles.nothankstext]}
                   >No Thanks</Text>
                 </View>
@@ -386,7 +396,7 @@ const ModalButton = ({btnText, onTap, loading}) => (
       maxHeight: 55,
       paddingVertical: 15,
       overflow: 'hidden',
-      height: 85
+      height: 85,
     }}
     color={colors.mediumPurple}
   >
@@ -397,7 +407,7 @@ const ModalButton = ({btnText, onTap, loading}) => (
           fontSize: 18,
           fontFamily: 'montserrat',
           fontWeight: '800',
-          textAlign: 'center'
+          textAlign: 'center',
         }}
       >
         {btnText}
@@ -417,7 +427,7 @@ const buttonStyles = StyleSheet.create({
     overflow: 'hidden',
   },
   iconButtonOuter: {
-    marginTop: 20
+    marginTop: 20,
   },
   grayIconbuttonLeftBox: {
     backgroundColor: colors.darkGreenBlue40,
@@ -438,7 +448,7 @@ const buttonStyles = StyleSheet.create({
   },
 })
 
-PermissionsModal.displayName = 'PermissionsModal'
+PermissionsModal.displayName = 'PermissionsModal';
 
 const mapStateToProps = (state, ownProps) => ({
   ...ownProps,

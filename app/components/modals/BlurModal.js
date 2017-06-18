@@ -8,8 +8,8 @@ import {
 } from 'react-native';
 import colors from '../../utils/colors';
 
-const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
+const DeviceHeight = Dimensions.get('window').height;
 
 const BlurModal = ({children, showMap}) => (
   <View
