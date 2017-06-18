@@ -195,7 +195,7 @@ class FieldModal extends Component {
         }}
       >
         {(this.props.fieldValue != this.state.value) && (
-          <TouchableHighlight
+          <TouchableOpacity
             onPress={() => this.submit()}
             style={{
               alignItems:'center',
@@ -206,7 +206,6 @@ class FieldModal extends Component {
               flex: 1,
               paddingVertical: 20
             }}
-            underlayColor={colors.mediumPurple}
           >
             <View>
               <Text
@@ -220,7 +219,7 @@ class FieldModal extends Component {
                 UPDATE
               </Text>
             </View>
-          </TouchableHighlight>
+          </TouchableOpacity>
         )}
       </View>
     )
