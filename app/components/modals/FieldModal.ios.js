@@ -17,10 +17,10 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import { NavigationStyles } from '@exponent/ex-navigation';
 import reactMixin from 'react-mixin';
 import ActionMan from '../../actions/';
 import colors from '../../utils/colors';
-import { NavigationStyles } from '@exponent/ex-navigation';
 import TrackKeyboardMixin from '../mixins/keyboardMixin';
 import { MagicNumbers } from '../../utils/DeviceConfig';
 
@@ -31,7 +31,7 @@ const currentyear = new Date().getFullYear();
 const MIN_DATE = new Date().setFullYear(currentyear - 18);
 const MAX_DATE = new Date().setFullYear(currentyear - 60);
 
-function getMaxLength(fieldName){
+function getMaxLength(fieldName) {
   let len = 20
   switch (fieldName) {
     case 'firstname':
@@ -44,6 +44,7 @@ function getMaxLength(fieldName){
   return len;
 }
 
+
 class FieldModal extends Component {
 
   static route = {
@@ -51,9 +52,9 @@ class FieldModal extends Component {
     navigationBar: {
       visible:false,
       backgroundColor: colors.shuttleGrayAnimate,
-      title(params){
+      title(params) {
         const fieldLabel = params && params.title || (params.field && params.field.label) || '';
-        return fieldLabel.toUpperCase()
+        return fieldLabel.toUpperCase();
       }
     }
   };
@@ -79,8 +80,8 @@ class FieldModal extends Component {
 
   componentDidMount() {
     if (this.props.field.field_type == 'textarea' && this.refs._textArea) {
-      this.refs._textArea.focus()
-      this.refs._textArea.setNativeProps({value: this.props.fieldValue ? this.props.fieldValue+'\n' : ''})
+      this.refs._textArea.focus();
+      this.refs._textArea.setNativeProps({value: this.props.fieldValue ? this.props.fieldValue+'\n' : ''});
     }
   }
 
@@ -123,14 +124,12 @@ class FieldModal extends Component {
   }
 
   getValueFromKey(data, key) {
-    var value = null;
-  
+    let value = null;
     Object.keys(data).forEach((i) => {
-       if (i == key) {
-          value = data[i];
-       }
+      if (i == key) {
+        value = data[i];
+      }
     });
-
     return { key: key, value: value };
   }
 
@@ -226,13 +225,12 @@ class FieldModal extends Component {
   }
 
   render() {
-    let { fieldValue } = this.props;
-    const { field } = this.props;
+    let { field, fieldValue } = this.props;
   
-    let get_values = typeof this.props.field.values == 'object' && Object.keys(this.props.field.values).map(key => key) || this.props.field.values;
-    let get_key_vals = typeof this.props.field.values == 'object' && this.props.field.values || {};
-
-    const fieldLabel = (fieldValue.label || fieldValue);
+    const get_values = typeof this.props.field.values == 'object' && Object.keys(this.props.field.values).map(key => key) || this.props.field.values;
+    const get_key_vals = typeof this.props.field.values == 'object' && this.props.field.values || {};
+    let fieldLabel = (fieldValue.label || fieldValue);
+  
     fieldValue = (fieldValue.value || fieldValue);
     fieldValue = fieldValue ? field.field_type == 'textarea' ? fieldValue.toString() : fieldValue.toString().toUpperCase() : '';
 
@@ -255,7 +253,7 @@ class FieldModal extends Component {
             <TextInput
               autoCapitalize={'words'}
               autoCorrect={false}
-              autoFocus={true}
+              autoFocus
               clearButtonMode={'always'}
               keyboardType={this.props.fieldName == 'email' ? 'email-address' : 'default'}
               keyboardAppearance={'dark'}
@@ -339,7 +337,7 @@ class FieldModal extends Component {
 
     const inputField = displayField(this.props.field);
 
-    var purpleBorder;
+    let purpleBorder;
 
     if (field.field_type == 'phone_input') {
       purpleBorder =  this.state.canContinue || (this.state.phoneValue && this.state.phoneValue.length == 0);
@@ -541,7 +539,7 @@ class FieldModal extends Component {
               style={{
                 alignSelf: 'stretch',
                 flex: 1,
-                justifyContent: 'space-between'
+                justifyContent: 'space-between',
               }}
             >
               {this.renderCloseButton()}
@@ -551,7 +549,7 @@ class FieldModal extends Component {
                   alignItems: 'center',
                   flexDirection: 'column',
                   justifyContent: 'center',
-                  padding: 0
+                  padding: 0,
                 }}
               >
                 <View
@@ -587,7 +585,7 @@ class FieldModal extends Component {
                   justifyContent: 'center',
                   marginHorizontal: MagicNumbers.screenPadding,
                   width: MagicNumbers.screenWidth - MagicNumbers.screenPadding,
-                  height: DeviceHeight-260
+                  height: DeviceHeight - 260,
                 }}
               >
                 <View
@@ -597,7 +595,7 @@ class FieldModal extends Component {
                     flex: 1,
                     flexDirection: 'column',
                     justifyContent: 'center',
-                    padding: 20
+                    padding: 20,
                   }}
                 >
                   <Text
@@ -605,9 +603,9 @@ class FieldModal extends Component {
                       alignSelf: 'stretch',
                       color: colors.rollingStone,
                       fontSize: 20,
-                      textAlign: 'center',
                       fontFamily: 'omnes',
-                      marginBottom: 40
+                      marginBottom: 40,
+                      textAlign: 'center',
                     }}
                   >
                     {field.long_label ? field.long_label : field.label}
@@ -618,7 +616,7 @@ class FieldModal extends Component {
                       alignSelf: 'stretch',
                       borderBottomWidth: 1,
                       borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone,
-                      height: 50
+                      height: 50,
                     }}
                   >
                     <Text
@@ -626,9 +624,9 @@ class FieldModal extends Component {
                         alignSelf: 'stretch',
                         color: colors.white,
                         fontSize: 20,
-                        textAlign: 'center',
                         fontFamily: 'omnes',
-                        marginBottom: 40
+                        marginBottom: 40,
+                        textAlign: 'center',
                       }}
                     >
                       {moment(this.state.birthday).format('MM/DD/YYYY')}
@@ -647,7 +645,7 @@ class FieldModal extends Component {
                   {
                     date: new Date(this.state.birthday),
                     onDateChange: (date) => {
-                      this.setState({birthday: date,canContinue:true});
+                      this.setState({birthday: date, canContinue: true});
                     },
                     ref: (dateField) => { this.dateField = dateField }
                   }
@@ -661,7 +659,7 @@ class FieldModal extends Component {
               style={{
                 flex: 1,
                 flexDirection: 'column',
-                height: DeviceHeight-this.state.keyboardSpace
+                height: DeviceHeight - this.state.keyboardSpace
               }}
             >
               {this.renderCloseButton()}
@@ -700,8 +698,8 @@ class FieldModal extends Component {
                           this.onChange(value);
                         },
                         selectionColor: colors.mediumPurple
-                      })
-                    }
+                      }
+                    )}
                   </View>
                 </View>
               </ScrollView>
@@ -815,8 +813,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'stretch',
     flex: 1,
-    paddingTop: 0,
     paddingBottom: 40,
+    paddingTop: 0,
   },
   closebox: {
     backgroundColor: 'blue',
@@ -901,8 +899,8 @@ const styles = StyleSheet.create({
   },
   pinInputWrap: {
     alignSelf: 'stretch',
-    borderBottomWidth: 2,
     borderBottomColor: colors.rollingStone,
+    borderBottomWidth: 2,
     height: 60,
   },
   pinInputWrapSelected:{
