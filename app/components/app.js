@@ -1,40 +1,47 @@
-import { StatusBar, View, Dimensions, NativeModules, Text, Platform, ActivityIndicator } from 'react-native';
-import React from 'react';
+import React, { Component } from 'react';
+import {
+  ActivityIndicator,
+  Dimensions,
+  NativeModules,
+  Platform,
+  StatusBar,
+  Text,
+  View,
+} from 'react-native';
+import _ from 'lodash';
 import { connect } from 'react-redux';
+import { fireLogin } from '../fire';
 import { withNavigation} from '@exponent/ex-navigation';
-import SplashScreen from 'react-native-splash-screen'
+import pure from 'recompose/pure';
+import reactMixin from 'react-mixin';
+import SplashScreen from 'react-native-splash-screen';
 import TimerMixin from 'react-timer-mixin';
-import reactMixin from 'react-mixin'
-// import RC from '../RemoteConfig'
-import _ from 'lodash'
-import pure from 'recompose/pure'
-import AppNav from '../AppNav';
-import ModalDirector from './modals/ModalDirector';
-import Welcome from './screens/welcome/welcome';
-import AppState from '../utils/AppState'
-import ConnectionInfo from '../utils/ConnectionInfo'
-import Notifications from '../utils/Notifications';
-import colors from '../utils/colors'
-import Analytics from '../utils/Analytics'
 import ActionMan from '../actions/';
-import Onboard from './Onboard'
-import DeepLinkHandler from '../utils/DeepLinkHandler'
-import {fireLogin} from '../fire'
-import LikeSender from '../LikeSender'
-import Router from '../Router'
+import Analytics from '../utils/Analytics';
+import AppNav from '../AppNav';
+import AppState from '../utils/AppState';
+import colors from '../utils/colors';
+import ConnectionInfo from '../utils/ConnectionInfo';
+import DeepLinkHandler from '../utils/DeepLinkHandler';
+import LikeSender from '../LikeSender';
+import ModalDirector from './modals/ModalDirector';
+import Notifications from '../utils/Notifications';
+import Onboard from './Onboard';
+import Router from '../Router';
+import Welcome from './screens/welcome/welcome';
 
 const iOS = Platform.OS == 'ios';
-const {RNUXCam} = NativeModules
-const DeviceHeight = Dimensions.get('window').height
-const DeviceWidth = Dimensions.get('window').width
+const { RNUXCam } = NativeModules;
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 
 @reactMixin.decorate(TimerMixin)
-class App extends React.Component{
-  constructor(){
+class App extends Component {
+  constructor() {
     super()
 
     this.state = {
-      loading: true
+      loading: true,
     }
   }
 

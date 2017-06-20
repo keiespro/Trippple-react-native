@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
-import {Settings, View, Platform} from 'react-native'
-import TouchID from 'react-native-touch-id'
-import LockFailed from './components/LockFailed'
-import AppContainer from './AppContainer'
+import {
+  Platform,
+  Settings,
+  View
+} from 'react-native';
+import TouchID from 'react-native-touch-id';
+import AppContainer from './AppContainer';
 import configureStore from './store';
-import {sessionAuth} from './actions/facebook'
-
+import LockFailed from './components/LockFailed';
+import {sessionAuth} from './actions/facebook';
 
 const store = configureStore();
 const iOS = Platform.OS == 'ios';
 
-class NewBoot extends Component{
+class NewBoot extends Component {
 
   state = {
     booted: false,
@@ -18,41 +21,40 @@ class NewBoot extends Component{
     initialized: false
   };
 
-  componentWillMount(){
-    if(this.state.locked){
+  componentWillMount() {
+    if (this.state.locked) {
       this.checkTouchId()
     }
-    if(!this.state.initialized) this.initialize()
+    if (!this.state.initialized) this.initialize();
   }
 
   initialize(){
-    this.setState({initialized: true})
-    // store.dispatch(sessionAuth())
+    this.setState({initialized: true});
   }
 
-  checkTouchId(){
+  checkTouchId() {
     TouchID.authenticate('Access Trippple')
       .then(success => {
         __DEV__ && console.log(success, 'success');
 
         this.setState({
           lockFailed: false,
-          locked: false
-        })
+          locked: false,
+        });
       })
       .catch(error => {
         __DEV__ && console.log('error', error);
         this.setState({
           lockFailed: true
-        })
+        });
       });
   }
 
   render() {
-    if(this.state.lockFailed){ return <LockFailed retry={this.checkTouchId.bind(this)} /> }
+    if (this.state.lockFailed) { return <LockFailed retry={this.checkTouchId.bind(this)} /> }
 
     return this.state.locked || !this.state.initialized ? <View /> : <AppContainer store={store} />
   }
 }
 
-export default NewBoot
+export default NewBoot;

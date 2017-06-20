@@ -1,14 +1,14 @@
 import React from 'react';
-import ReactNative, {AppRegistry} from 'react-native';
-import NewBoot from './app/NewBoot'
+import ReactNative, { AppRegistry } from 'react-native';
+import NewBoot from './app/NewBoot';
 
-if(typeof window !== 'undefined' && (__DEV__) && process.env.NODE_ENV !== 'production'){
-  console.log('index.IOS.js');
+if (typeof window !== 'undefined' && (__DEV__) && process.env.NODE_ENV !== 'production') {
+  console.log('index.ios.js');
   global = window;
   window.ReactNative = ReactNative;
   window.React = React;
 }
-if(__DEV__){
+if (__DEV__) {
   console.ignoredYellowBox = [
     '{"line":',
     'jsSchedulingOverhead',
@@ -28,13 +28,12 @@ if(__DEV__){
   ];
   console.ignoredRedBox = [
     'Image source',
-    `console.error`
-
+    `console.error`,
   ];
 }
 
-const Trippple = (props) => (<NewBoot {...props}/>)
+const Trippple = (props) => (<NewBoot {...props}/>);
 
-AppRegistry.registerComponent('Trippple', () => Trippple)
+AppRegistry.registerComponent('Trippple', () => Trippple);
 
-export default Trippple
+export default Trippple;
