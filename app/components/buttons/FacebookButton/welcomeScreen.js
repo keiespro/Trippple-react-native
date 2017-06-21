@@ -1,15 +1,19 @@
-import { StyleSheet, Text, ActivityIndicator } from 'react-native';
-import React from 'react';
+import React, { Component } from 'react';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/EvilIcons';
-import {MagicNumbers} from '../../../utils/DeviceConfig'
-import colors from '../../../utils/colors'
-import Btn from '../../Btn'
+import { MagicNumbers } from '../../../utils/DeviceConfig';
+import Btn from '../../Btn';
+import colors from '../../../utils/colors';
 
-class FacebookButton extends React.Component {
+class FacebookButton extends Component {
 
   static defaultProps = {
     buttonText: 'FACEBOOK',
-    shouldLogoutOnTap: false
+    shouldLogoutOnTap: false,
   };
 
   constructor(props) {
@@ -21,34 +25,29 @@ class FacebookButton extends React.Component {
 
   onPress(e) {
     this.props.onPress ? this.props.onPress(e) : (this.props._onPress && this.props._onPress(e))
-
-      // this.props.dispatch(ActionMan.facebookAuth())
   }
 
   render() {
     return (
       <Btn
         color={colors.white}
+        disabled={this.props.busy}
         elevation={10}
         inStyle={[styles.iconButtonOuter]}
         onPress={this.onPress.bind(this)}
-        disabled={this.props.busy}
       >
         <Icon name="sc-facebook" size={40} color="#fff" style={styles.icon}/>
         <Text style={styles.btntext}>{this.props.buttonText || 'LOG IN WITH FACEBOOK'}</Text>
       </Btn>
-
     )
   }
 }
-export default FacebookButton
 
 const styles = StyleSheet.create({
   icon: {
     marginRight: 5
   },
-  LogoBox: {
-  },
+  LogoBox: { },
   btntext: {
     color: colors.white,
     fontFamily: 'montserrat',
@@ -56,33 +55,32 @@ const styles = StyleSheet.create({
     fontWeight: '800'
   },
   iconButtonOuter: {
-    backgroundColor: colors.cornFlower,
+    alignItems: 'center',
     alignSelf: 'stretch',
+    backgroundColor: colors.cornFlower,
     flexGrow: 0,
-    height: 70,
+    justifyContent: 'center',
     margin: 0,
     paddingHorizontal: 30,
-    alignItems: 'center',
     flexDirection: 'row',
-    justifyContent: 'center',
+    height: 70,
   },
   middleTextWrap: {
     alignItems: 'center',
     justifyContent: 'center',
     height: 50
   },
-
   button: {
     borderColor: colors.cornFlower,
     borderWidth: 1,
     height: MagicNumbers.is5orless ? 50 : 50,
-
   },
   buttonIcon: {
-    width: 40,
     borderRightColor: colors.cornFlower,
     borderRightWidth: 1,
     backgroundColor: colors.cornFlower20,
-
+    width: 40,
   },
 })
+
+export default FacebookButton;
