@@ -1,9 +1,9 @@
 import React from 'react';
-import {View, Image} from 'react-native';
-import {connect} from 'react-redux'
-import {withNavigation, NavigationStyles} from '@exponent/ex-navigation'
-import PermissionModal from './PermissionModal/PermissionModal'
-import Router from '../../Router'
+import { Image, View } from 'react-native';
+import { connect } from 'react-redux';
+import { withNavigation, NavigationStyles } from '@exponent/ex-navigation';
+import PermissionModal from './PermissionModal/PermissionModal';
+import Router from '../../Router';
 
 @withNavigation
 class LocationPermissionsModal extends React.Component{
@@ -15,10 +15,8 @@ class LocationPermissionsModal extends React.Component{
     }
   };
 
-
-  render(){
+  render() {
     return (
-
       <PermissionModal
         {...this.props}
         title={'LOCATION'}
@@ -26,14 +24,10 @@ class LocationPermissionsModal extends React.Component{
         permissionKey={'location'}
         buttonText={'USE MY LOCATION'}
         nextOnboardScreen={() => {
-          // if(!this.props.permissions.notifications){
-          //   this.props.navigator.push(Router.getRoute('NotificationsPermissions', {}))
-          // }else{
           this.props.navigator.immediatelyReplaceStack([Router.getRoute('Potentials', {})])
-          // }
         }}
         permissionLabel={'Location'}
-        onSuccess={()=>{this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_ON'})}}
+        onSuccess={() => {this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_ON'})}}
         renderImage={() => (
           <View
             style={{
@@ -53,7 +47,6 @@ class LocationPermissionsModal extends React.Component{
                 top: 0,
                 left: 0,
                 margin: 50,
-                borderRadius:50,
                 position: 'absolute'
               }]}
               source={this.props.user.image_url ? {uri: this.props.user.image_url} : require('./assets/iconModalDenied@3x.png')}
@@ -72,17 +65,13 @@ class LocationPermissionsModal extends React.Component{
               source={require('./assets/localIcon@3x.png')}
             />
           </View>
-        )
-
-        }
+        )}
       />
     )
-
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-
   return {
     ...ownProps,
     user: state.user,
@@ -91,7 +80,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return { dispatch };
+  return { dispatch }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)((LocationPermissionsModal));
+export default connect(mapStateToProps, mapDispatchToProps)(LocationPermissionsModal);

@@ -120,7 +120,7 @@
   #ifdef DEBUG
     NSLog(@"DEBUG");
     RCTBundleURLProvider *settings = [RCTBundleURLProvider sharedSettings];
-    settings.jsLocation = @"192.168.0.100";
+    settings.jsLocation = @"localhost";
     return [settings jsBundleURLForBundleRoot:@"index.ios" fallbackResource:[sourceURL absoluteString]];
   #else
     return sourceURL;

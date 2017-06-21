@@ -1,91 +1,79 @@
-import {StyleSheet, Dimensions, PixelRatio} from 'react-native'
+import {
+  Dimensions,
+  StyleSheet,
+  PixelRatio
+} from 'react-native';
+import colors from '../../utils/colors';
+import { MagicNumbers } from '../../utils/DeviceConfig';
 
-import colors from '../../utils/colors'
-import {MagicNumbers} from '../../utils/DeviceConfig'
-
-const DeviceHeight = Dimensions.get('window').height
-const DeviceWidth = Dimensions.get('window').width
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 
 const purpleModalStyles = StyleSheet.create({
   modalButtonWrap: {
+    alignSelf: 'stretch',
     borderRadius: 4,
     justifyContent: 'center',
-
     marginVertical: 5,
-    alignSelf: 'stretch',
   },
-
   modalButton: {
-    alignSelf: 'stretch',
-    height: 60,
-    // backgroundColor:colors.sushi,
     alignItems: 'center',
-    margin: 0,
+    alignSelf: 'stretch',
+    borderColor: colors.sushi,
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: colors.sushi,
-
-
     justifyContent: 'center',
-
+    margin: 0,
+    height: 60,
   },
   modalButtonText: {
     color: colors.white,
     fontFamily: 'montserrat',
     fontWeight: '800',
     fontSize: 18,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   nothankstext: {
     fontFamily: 'montserrat',
-    marginVertical: 10,
     fontSize: 18,
-
-    textAlign: 'center'
-
+    marginVertical: 10,
+    textAlign: 'center',
   },
   container: {
-
-    justifyContent: 'flex-start',
     alignItems: 'flex-start',
     alignSelf: 'stretch',
-    flexDirection: 'column',
     backgroundColor: 'transparent',
-
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
   },
   modalcontainer: {
     borderRadius: 4,
     backgroundColor: 'transparent',
     width: MagicNumbers.screenWidth,
-
-    // marginVertical:MagicNumbers.isSmallDevice ? 0 : 20
   },
   fullWidth: {
     width: (MagicNumbers.screenWidth - MagicNumbers.screenPadding) / 2,
-    // padding:MagicNumbers.screenPadding/2
-
   },
   row: {
-    flexDirection: 'row',
-    padding: 0,
-    alignSelf: 'stretch',
-    height: 70,
-    flex: 1,
-    backgroundColor: 'transparent',
     alignItems: 'center',
-    justifyContent: 'flex-start'
+    alignSelf: 'stretch',
+    backgroundColor: 'transparent',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    padding: 0,
+    height: 70,
   },
   col: {
-    flexDirection: 'column',
-    padding: 0,
     alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: 'transparent',
-
+    flexDirection: 'column',
+    justifyContent: 'center',
+    padding: 0,
   },
   text: {
     color: colors.white,
-    fontFamily: 'omnes'
+    fontFamily: 'omnes',
   },
   rowtext: {
     color: colors.white,
@@ -93,80 +81,73 @@ const purpleModalStyles = StyleSheet.create({
     fontFamily: 'omnes'
   },
   bigtext: {
-    textAlign: 'center',
     color: colors.white,
-
+    textAlign: 'center',
   },
   separator: {
-    height: 1,
     backgroundColor: colors.outerSpace,
+    height: 1,
   },
   rowtextwrapper: {
     flexDirection: 'column',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
   },
   insidemodalwrapper: {
-    // flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'stretch',
-    flex: 10,
-    // flexGrow: 10,
-    width:DeviceWidth,
-height: DeviceHeight,
-    marginTop: MagicNumbers.isSmallDevice ? 0 : 20,
     alignSelf: 'stretch',
+    justifyContent: 'space-between',
+    flex: 10,
+    marginTop: MagicNumbers.isSmallDevice ? 0 : 20,
+    width: DeviceWidth,
+    height: DeviceHeight,
   },
   rowSelected: {
     backgroundColor: colors.mediumPurple20,
     borderColor: colors.mediumPurple,
-    borderWidth: 1
+    borderWidth: 1,
   },
   searchwrap: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    height: 60,
     alignSelf: 'stretch',
     alignItems: 'center',
     borderBottomWidth: 2,
+    borderBottomColor: colors.mediumPurple,
+    flexDirection: 'row',
+    justifyContent: 'center',
     marginHorizontal: 10,
-    borderBottomColor: colors.mediumPurple
+    height: 60,
   },
   searchfield: {
-    color: colors.white,
-    fontSize: 22,
     alignItems: 'stretch',
-
-    paddingHorizontal: 10,
-    fontFamily: 'montserrat',
-    height: 60,
     backgroundColor: 'transparent',
-
+    color: colors.white,
+    fontFamily: 'montserrat',
+    fontSize: 22,
+    paddingHorizontal: 10,
+    height: 60,
   },
-
-
   contactthumb: {
     borderRadius: 25,
+    marginHorizontal: 10,
     width: 50,
     height: 50,
-    marginHorizontal: 10
   },
   searchicon: {
-    top: 20,
     left: 10,
+    top: 20,
     position: 'absolute',
     width: 20,
-    height: 20
+    height: 20,
   },
   cancelButton: {
-    borderColor: colors.mandy
+    borderColor: colors.mandy,
   },
   plainButton: {
-    borderColor: colors.rollingStone,
-    borderWidth: 1,
-    height: 70,
     alignSelf: 'stretch',
     alignItems: 'center',
+    borderColor: colors.rollingStone,
+    borderWidth: 1,
     justifyContent: 'center',
+    height: 70,
   },
   plainButtonText: {
     color: colors.rollingStone,
@@ -175,25 +156,24 @@ height: DeviceHeight,
     textAlign: 'center',
   },
   blurcontainer: {
+    backgroundColor: 'transparent',
     position: 'absolute',
     top: 0,
     width: DeviceWidth,
     height: DeviceHeight,
-    backgroundColor: 'transparent'
   },
   grayIconbuttonLeftBox: {
  // backgroundColor:colors.darkGreenBlue,
   },
   fullContainer: {
-    overflow: 'hidden',
-    width: MagicNumbers.screenWidth,
-    marginHorizontal: MagicNumbers.screenPadding / 2,
-    padding: MagicNumbers.screenPadding / 2,
     backgroundColor: 'transparent',
+    marginHorizontal: MagicNumbers.screenPadding / 2,
+    marginTop: MagicNumbers.screenPadding,
+    overflow: 'hidden',
+    padding: MagicNumbers.screenPadding / 2,
+    width: MagicNumbers.screenWidth,
     height: (DeviceHeight - MagicNumbers.screenPadding) * 2,
-    marginTop: MagicNumbers.screenPadding
   }
 })
-
 
 export default purpleModalStyles
