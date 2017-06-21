@@ -44,15 +44,25 @@ class FacebookButton extends Component {
 }
 
 const styles = StyleSheet.create({
-  icon: {
-    marginRight: 5
-  },
-  LogoBox: { },
   btntext: {
     color: colors.white,
     fontFamily: 'montserrat',
     fontSize: 17,
     fontWeight: '800'
+  },
+  button: {
+    borderColor: colors.cornFlower,
+    borderWidth: 1,
+    height: MagicNumbers.is5orless ? 50 : 50,
+  },
+  buttonIcon: {
+    borderRightColor: colors.cornFlower,
+    borderRightWidth: 1,
+    backgroundColor: colors.cornFlower20,
+    width: 40,
+  },
+  icon: {
+    marginRight: 5
   },
   iconButtonOuter: {
     alignItems: 'center',
@@ -65,21 +75,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 70,
   },
+  LogoBox: { },
   middleTextWrap: {
     alignItems: 'center',
     justifyContent: 'center',
     height: 50
-  },
-  button: {
-    borderColor: colors.cornFlower,
-    borderWidth: 1,
-    height: MagicNumbers.is5orless ? 50 : 50,
-  },
-  buttonIcon: {
-    borderRightColor: colors.cornFlower,
-    borderRightWidth: 1,
-    backgroundColor: colors.cornFlower20,
-    width: 40,
   },
 })
 
