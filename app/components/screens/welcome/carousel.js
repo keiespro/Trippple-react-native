@@ -10,8 +10,8 @@ import {
 import colors from '../../../utils/colors';
 import { MagicNumbers } from '../../../utils/DeviceConfig';
 
-const DeviceHeight = Dimensions.get('window').height
-const DeviceWidth = Dimensions.get('window').width
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 
 const theslides = [
   {
@@ -70,8 +70,8 @@ class Carousel extends Component {
   }
 
   render() {
-    const { slides } = this.state
-    const l = slides.length
+    const { slides } = this.state;
+    const l = slides.length;
     const welcomeSlides = [...slides, ...slides].map((slide, i) => (
       <View
         key={`${i}slide${i % l}`}
