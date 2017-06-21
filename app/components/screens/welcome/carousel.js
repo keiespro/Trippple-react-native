@@ -142,7 +142,7 @@ class Carousel extends Component {
           pointerEvents="none"
           style={{
             alignItems: 'center',
-            bottom: MagicNumbers.screenPadding / 2 - 10,
+            bottom: MagicNumbers.screenPadding,
             flexDirection: 'row',
             justifyContent: 'center',
             left: 0,
@@ -173,8 +173,8 @@ const styles = StyleSheet.create({
     height: 12,
   },
   activeDot: {
-    backgroundColor: colors.mediumPurple,
-    borderColor: colors.mediumPurple,
+    backgroundColor: colors.brightPurple,
+    borderColor: colors.brightPurple,
     borderWidth: 2,
     marginLeft: 4,
     marginRight: 4,
