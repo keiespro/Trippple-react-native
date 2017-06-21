@@ -1,239 +1,237 @@
-import React from "react";
-import reactMixin from 'react-mixin';
-import colors from '../../utils/colors';
+import React, { Component } from 'react';
 import {
-  NavigationStyles,
-} from '@exponent/ex-navigation';
-import {connect} from 'react-redux'
-import {
+  Animated,
+  AsyncStorage,
+  DatePickerIOS,
+  Dimensions,
+  Image,
+  KeyboardAvoidingView,
+  Picker,
+  ScrollView,
   StyleSheet,
   Text,
-  View,
+  TextInput,
   TouchableHighlight,
   TouchableOpacity,
-  Dimensions,
-  KeyboardAvoidingView,
-  ScrollView,
-  Animated,
-  TextInput,
-  Picker,
-  DatePickerIOS,
-  Image,
-  AsyncStorage,
-} from 'react-native'
-import TrackKeyboardMixin from '../mixins/keyboardMixin'
-import {MagicNumbers} from '../../utils/DeviceConfig'
-import moment from 'moment'
-const DeviceHeight = Dimensions.get('window').height
-const DeviceWidth = Dimensions.get('window').width
-import ActionMan from '../../actions/'
+  View
+} from 'react-native';
+import { connect } from 'react-redux';
+import moment from 'moment';
+import { NavigationStyles } from '@exponent/ex-navigation';
+import reactMixin from 'react-mixin';
+import ActionMan from '../../actions/';
+import colors from '../../utils/colors';
+import TrackKeyboardMixin from '../mixins/keyboardMixin';
+import { MagicNumbers } from '../../utils/DeviceConfig';
 
+const DeviceWidth = Dimensions.get('window').width;
+const DeviceHeight = Dimensions.get('window').height;
 const PickerItem = Picker.Item;
 const currentyear = new Date().getFullYear();
-const MIN_DATE = new Date().setFullYear(currentyear - 18)
-const MAX_DATE = new Date().setFullYear(currentyear - 60)
+const MIN_DATE = new Date().setFullYear(currentyear - 18);
+const MAX_DATE = new Date().setFullYear(currentyear - 60);
 
-function getMaxLength(fieldName){
+function getMaxLength(fieldName) {
   let len = 20
-  switch(fieldName){
+  switch (fieldName) {
     case 'firstname':
-      len = 10; break;
+      len = 10;
+      break;
     case 'email':
-      len = 30; break;
+      len = 30;
+      break;
   }
-  return len
+  return len;
 }
 
-class FieldModal extends React.Component{
+
+class FieldModal extends Component {
 
   static route = {
     styles: NavigationStyles.SlideVertical,
     navigationBar: {
       visible:false,
       backgroundColor: colors.shuttleGrayAnimate,
-      title(params){
+      title(params) {
         const fieldLabel = params && params.title || (params.field && params.field.label) || '';
-        return fieldLabel.toUpperCase()
+        return fieldLabel.toUpperCase();
       }
     }
   };
 
-  constructor(props){
+  constructor(props) {
     super(props);
+  
     this.state = {
       timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 60,
       keyboardSpace: 0,
       birthday: props.fieldValue,
-      value:props.fieldValue,
-      phoneValue:props.fieldValue,
-      canContinue:props.field.field_type == 'dropdown' ? !!props.fieldValue : false
+      value: props.fieldValue,
+      phoneValue: props.fieldValue,
+      canContinue: props.field.field_type == 'dropdown' ? !!props.fieldValue : false
     }
   }
-  componentWillMount(){
-    if(this.props.field.field_type == 'textarea'){
-      this.setState({value: this.props.fieldValue ? this.props.fieldValue+'\n' : ''})
+
+  componentWillMount() {
+    if (this.props.field.field_type == 'textarea') {
+      this.setState({value: this.props.fieldValue ? this.props.fieldValue + '\n' : ''});
     }
   }
-  componentDidMount(){
-    if(this.props.field.field_type == 'textarea' && this.refs._textArea){
 
-      this.refs._textArea.focus()
-      this.refs._textArea.setNativeProps({value: this.props.fieldValue ? this.props.fieldValue+'\n' : ''})
-      // this.refs._textArea.setSelectionRange((this.props.fieldValue ? this.props.fieldValue.length : this.state.value.length),(this.props.fieldValue ? this.props.fieldValue.length : this.state.value.length))
-
+  componentDidMount() {
+    if (this.props.field.field_type == 'textarea' && this.refs._textArea) {
+      this.refs._textArea.focus();
+      this.refs._textArea.setNativeProps({value: this.props.fieldValue ? this.props.fieldValue+'\n' : ''});
     }
   }
-  onChange(val){
 
-    if(!val) return
+  onChange(val) {
+    if (!val) return;
+  
     var isValid = true;
 
-    if(this.props.fieldName == 'email'){
-      isValid = (/.+\@.+\..+/.test(val))
+    if (this.props.fieldName == 'email') {
+      isValid = (/.+\@.+\..+/.test(val));
     }
-    if(val.length > 0 && isValid){
+
+    if (val.length > 0 && isValid) {
       this.setState({
-        canContinue:true,
+        canContinue: true,
         error: false,
         value: val.trim()
-      })
-    }else{
+      });
+    } else {
       this.setState({
         canContinue:false,
         error: true,
         value: val
-      })
+      });
     }
   }
-  onChangePhone({phone}){
-    if(phone.length == 10){
+
+  onChangePhone({phone}) {
+    if (phone.length == 10) {
       this.setState({
         canContinue:true,
         phoneValue: phone
-      })
-    }else{
+      });
+    } else {
       this.setState({
         canContinue:false,
         phoneValue: phone
-      })
+      });
     }
   }
 
   getValueFromKey(data, key) {
-    var value = null;
-    Object.keys(data).forEach((i) =>{
-       if (i == key) {
-          value = data[i];
-       }
+    let value = null;
+    Object.keys(data).forEach((i) => {
+      if (i == key) {
+        value = data[i];
+      }
     });
-
-    return { key: key, value: value};
+    return { key: key, value: value };
   }
 
-  // onDateChange(date){
-  //
-   // var isLegal = moment(date).diff(moment(), 'years') < -18;
-  //   if(!isLegal){
-  //    this.setState({
-  //       error:true,
-  //       inputFieldValue: date,
-  //       date: date
-  //
-  //   })
-  //
-  //   }else{
-  //     this._root.setNativeProps({date:date})
-  //
-  //     this.setState({
-  //       error:false,
-  //       date: date,
-  //       canContinue:true
-  //     })
-  //   }
-  // }
-  submit(){
-    if(!this.state.canContinue){return false}
-    if(this.props.field.field_type == 'date'){
+  submit() {
+    if (!this.state.canContinue) { return false; }
+    if (this.props.field.field_type == 'date') {
       var payload = {};
       const v = moment(this.state.birthday).format('MM/DD/YYYY');
       __DEV__ && console.log(v);
       payload[`${this.props.forPartner ? 'partner_' : ''}${this.props.fieldName}`] = v;
-      this.props.updateOutside && this.props.updateOutside(v)
-      this.props.dispatch(ActionMan.updateUser(payload))
-      this.props.cancel && this.props.cancel() || this.props.kill && this.props.kill()
+      this.props.updateOutside && this.props.updateOutside(v);
+      this.props.dispatch(ActionMan.updateUser(payload));
+      this.props.cancel && this.props.cancel() || this.props.kill && this.props.kill();
+    } else if (this.props.field.field_type == 'phone_input') {
 
-    }else if(this.props.field.field_type == 'phone_input'){
-      // this.props.navigator.push({
-      //   component: PinScreen,
-      //   title: '',
-      //   id:'pinupdate',
-      //   sceneConfig: CustomSceneConfigs.HorizontalSlide,
-      //   passProps: {
-      //     goBack: this.props.cancel,
-      //     phone: this.state.phoneValue,
-      //     initialKeyboardSpace: this.state.keyboardSpace
-      //   }
-      // })
-    }else{
+    } else {
       var payload = {};
 
       payload[`${this.props.forPartner ? 'partner_' : ''}${this.props.fieldName}`] = this.state.value;
-      this.props.updateOutside && this.props.updateOutside(this.state.value)
-      this.props.dispatch(ActionMan.updateUser(payload))
-      this.props.cancel && this.props.cancel() || this.props.kill && this.props.kill()
+      this.props.updateOutside && this.props.updateOutside(this.state.value);
+      this.props.dispatch(ActionMan.updateUser(payload));
+      this.props.cancel && this.props.cancel() || this.props.kill && this.props.kill();
     }
   }
 
-  onChangeDate(d){
+  onChangeDate(d) {
     this.setState({
       canContinue: strue,
       birthday: d
-    })
-
+    });
   }
 
-  renderButtons(){
+  renderCloseButton() {
     return (
-      <View style={{bottom:-3,zIndex:9999,flexDirection:'row',height:70,alignSelf:'stretch',alignItems:'center',width:DeviceWidth}}>
-        <TouchableHighlight underlayColor={colors.dark} onPress={this.props.cancel}
-          style={{ borderTopWidth: 1, borderColor: colors.rollingStone,flex:1,paddingVertical:20}}>
-          <View>
-            <Text style={{color:colors.white,fontSize:20,fontFamily:'montserrat',textAlign:'center'}}>
-              CANCEL
-            </Text>
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight underlayColor={colors.mediumPurple} onPress={this.submit.bind(this)}
+      <TouchableOpacity onPress={() => this.props.cancel()}>
+        <Image
+          resizeMode={Image.resizeMode.contain}
           style={{
-            borderTopWidth: 1,
-            flex:1,
-            backgroundColor: this.state.canContinue ? colors.mediumPurple20 : 'transparent',
-            borderColor: this.state.canContinue ? colors.mediumPurple : colors.rollingStone,
-            borderLeftWidth:1,
-            alignItems:'center',
-            paddingVertical:20
-          }}>
-          <View>
-            <Text style={{color: this.state.canContinue ? colors.white : colors.rollingStone,
-              fontSize:20,fontFamily:'montserrat',textAlign:'center'}}>
-              UPDATE
-            </Text>
-          </View>
-        </TouchableHighlight>
+            alignItems: 'flex-start',
+            marginTop: 20,
+            marginLeft: 20,
+            width: 20,
+            height: 20
+          }}
+          source={require('../../assets/closeWithShadow@3x.png')}
+        />
+      </TouchableOpacity>
+    );
+  }
+
+  renderUpdateButton() {
+    return (
+      <View
+        style={{
+          alignItems: 'center',
+          alignSelf: 'stretch',
+          bottom: -3,
+          flexDirection: 'row',
+          width: DeviceWidth,
+          height: 70,
+          zIndex: 9999
+        }}
+      >
+        {(this.props.fieldValue != this.state.value) && (
+          <TouchableOpacity
+            onPress={() => this.submit()}
+            style={{
+              alignItems:'center',
+              borderTopWidth: 1,
+              backgroundColor: this.state.canContinue ? colors.brightPurple : 'transparent',
+              borderColor: this.state.canContinue ? colors.mediumPurple : colors.rollingStone,
+              borderLeftWidth: 1,
+              flex: 1,
+              paddingVertical: 20
+            }}
+          >
+            <View>
+              <Text
+                style={{
+                  color: this.state.canContinue ? colors.white : colors.rollingStone,
+                  fontSize: 20,
+                  fontFamily: 'montserrat',
+                  textAlign: 'center'
+                }}
+              >
+                UPDATE
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )}
       </View>
     )
   }
 
-  render(){
-    let {fieldValue} = this.props;
-    const {field} = this.props
-    let get_values = typeof this.props.field.values == 'object' && Object.keys(this.props.field.values).map(key => key) || this.props.field.values;
-    let get_key_vals = typeof this.props.field.values == 'object' && this.props.field.values || {};
-
-
-    const fieldLabel = (fieldValue.label || fieldValue);
+  render() {
+    let { field, fieldValue } = this.props;
+  
+    const get_values = typeof this.props.field.values == 'object' && Object.keys(this.props.field.values).map(key => key) || this.props.field.values;
+    const get_key_vals = typeof this.props.field.values == 'object' && this.props.field.values || {};
+    let fieldLabel = (fieldValue.label || fieldValue);
+  
     fieldValue = (fieldValue.value || fieldValue);
-
     fieldValue = fieldValue ? field.field_type == 'textarea' ? fieldValue.toString() : fieldValue.toString().toUpperCase() : '';
 
     var selectedFieldLabel = (this.state.value || fieldLabel || '');
@@ -243,560 +241,702 @@ class FieldModal extends React.Component{
       selectedFieldLabel = this.getValueFromKey(field.values, selectedFieldValue).value || selectedFieldLabel;
     }
 
-    var displayStateFieldValue = selectedFieldLabel.toString().toUpperCase();
+    var displayStateFieldValue = selectedFieldLabel.toString();
     displayStateFieldValue = (field.labelPrefix || '') + displayStateFieldValue + (field.labelSuffix || '');
-
 
     let displayField = (theField) => {
       switch (theField.field_type) {
         case 'textarea':
-          return (<MultiLineInput submit={this.submit.bind(this)}/>)
-      case 'input':
-        return (
-             <TextInput
-                 style={[styles.textfield,{height:80, textAlign: 'center',fontSize: this.props.fieldName == 'email' ? 20 : 30 }]}
-                 onChangeText={(text) => this.setState({text})}
-                 placeholder={theField.placeholder ? theField.placeholder.toUpperCase() : fieldLabel.toUpperCase()}
-                 autoCapitalize={'words'}
-                 maxLength={10}
-                 placeholderTextColor={colors.white}
-                 autoCorrect={false}
-                 returnKeyType={'done'}
-                 autoFocus={true}
-                 keyboardType={this.props.fieldName == 'email' ? 'email-address' : 'default'}
-                 keyboardAppearance={'dark'}
-                 ref={component => this._textInput = component}
-                 clearButtonMode={'always'}
-             />
+          return (<MultiLineInput submit={() => this.submit()}/>);
+        case 'input':
+          return (
+            <TextInput
+              autoCapitalize={'words'}
+              autoCorrect={false}
+              autoFocus
+              clearButtonMode={'always'}
+              keyboardType={this.props.fieldName == 'email' ? 'email-address' : 'default'}
+              keyboardAppearance={'dark'}
+              maxLength={10}
+              onChangeText={(text) => this.setState({text})}
+              placeholder={theField.placeholder ? theField.placeholder.toUpperCase() : fieldLabel.toUpperCase()}
+              placeholderTextColor={colors.white}
+              returnKeyType={'done'}
+              ref={component => this._textInput = component}
+              style={[
+                styles.textfield,
+                {
+                  fontSize: this.props.fieldName == 'email' ? 20 : 30,
+                  height: 80,
+                  textAlign: 'center'
+                }
+              ]}
+            />
           );
       case 'phone_input':
         return (
             <PhoneNumberInput
-                key={'updatephone'}
-                style={styles.phoneInput}
+              key={'updatephone'}
+              style={styles.phoneInput}
             />
           )
       case 'birthday':
       case 'date':
-          // always add an empty option at the beginning of the array
-
+        // always add an empty option at the beginning of the array
         return (
-            <DatePickerIOS
-                key={'bdayf'}
-                label={'bday'}
-                autoFocus={true}
-                forPartner={this.props.forPartner}
-                mode={'date'}
-                style={[{position:'relative',bottom:0,width:DeviceWidth }]}
-                maximumDate={new Date(MAX_DATE)}
-                minimumDate={new Date(MIN_DATE)}
-            />
-
-              );
-
+          <DatePickerIOS
+            autoFocus={true}
+            forPartner={this.props.forPartner}
+            key={'bdayf'}
+            label={'bday'}
+            maximumDate={new Date(MAX_DATE)}
+            minimumDate={new Date(MIN_DATE)}
+            mode={'date'}
+            style={{
+              bottom: 0,
+              position: 'relative',
+              width: DeviceWidth
+            }}
+          />
+        );
       case 'dropdown':
-          // always add an empty option at the beginning of the array
-
+        // always add an empty option at the beginning of the array
         return (
-            <Picker
-                style={{alignSelf:'center',width:330,backgroundColor:'transparent',marginHorizontal:0,alignItems:'stretch'}}
-                itemStyle={{fontSize: 24, color: colors.white, textAlign: 'center'}}
-                selectedValue={this.state.selectedDropdown || theField.values[this.state.selectedDropdown] || null}
-            >
-              {get_values.map((val) => {
-
-                return ( <PickerItem
-                    key={val}
-                    value={get_key_vals[val] || val}
-                    label={(theField.labelPrefix || '') + (get_key_vals[val] || val) + (theField.labelSuffix || '')}
-                         />
-                )
-              }
+          <Picker
+            itemStyle={{
+              color: colors.white,
+              fontSize: 24,
+              textAlign: 'center'
+            }}
+            selectedValue={this.state.selectedDropdown || theField.values[this.state.selectedDropdown] || null}
+            style={{
+              alignItems: 'stretch',
+              alignSelf: 'center',
+              backgroundColor: 'transparent',
+              marginHorizontal: 0,
+              width: 330
+            }}
+          >
+            {get_values.map((val) => {
+              return (
+                <PickerItem
+                  key={val}
+                  label={(theField.labelPrefix || '') + (get_key_vals[val] || val) + (theField.labelSuffix || '')}
+                  value={get_key_vals[val] || val}
+                />
               )}
-            </Picker>
-          );
-
+            )}
+          </Picker>
+        );
       default:
         return (
-             null
-          );
+          null
+        );
       }
     }
-    const inputField = displayField(this.props.field)
 
+    const inputField = displayField(this.props.field);
 
-    var purpleBorder
-    if(field.field_type == 'phone_input'){
-      purpleBorder =  this.state.canContinue || (this.state.phoneValue && this.state.phoneValue.length == 0)
-    }else{
-      purpleBorder = this.state.canContinue ||  (this.state.value && this.state.value.length == 0)
+    let purpleBorder;
+
+    if (field.field_type == 'phone_input') {
+      purpleBorder =  this.state.canContinue || (this.state.phoneValue && this.state.phoneValue.length == 0);
+    } else {
+      purpleBorder = this.state.canContinue ||  (this.state.value && this.state.value.length == 0);
     }
-    var borderColor = purpleBorder ? colors.mediumPurple : colors.rollingStone
-    if(this.state.error) borderColor = colors.mandy
+  
+    var borderColor = purpleBorder ? colors.mediumPurple : colors.rollingStone;
+  
+    if (this.state.error) borderColor = colors.mandy;
 
-    //console.info('init fieldmodal render:', {state:this.state, field:field, fieldValue:fieldValue, inputField:inputField});
-
-    var inside = () =>{
-      switch(field.field_type ){
+    var inside = () => {
+      switch(field.field_type) {
         case 'dropdown':
-        return (
-          <View style={{ alignSelf:'stretch'}}>
-            <View style={{ alignSelf:'stretch',
-              width:MagicNumbers.screenWidth - MagicNumbers.screenPadding,
-              marginHorizontal:MagicNumbers.screenPadding,
-           height:DeviceHeight-260,alignItems:'center',justifyContent:'center',flexDirection:'column'}}>
-              <View style={{ borderBottomWidth: 1, borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone,alignItems:'center',justifyContent:'center',alignSelf:'stretch' }}>
-                <Text style={{
-                    color: colors.rollingStone,
-                    fontSize: 20,textAlign:'center',
-                    textAlign:'center',
-                    fontFamily:'omnes',alignSelf:'stretch',
-                    marginBottom:MagicNumbers.screenPadding,
-
-                }}>{field.long_label ? field.long_label : field.label}</Text>
-                <Text style={{
-                    padding: 8,
-                  fontSize: 30,
-                  width:MagicNumbers.screenWidth - MagicNumbers.screenPadding,
-                  marginHorizontal:MagicNumbers.screenPadding/2,
-                  borderBottomWidth: 1,
-                  borderBottomColor: colors.rollingStone,
-                  textAlign:'center',
-                  fontFamily:'montserrat',
-                  color: colors.white}}>{displayStateFieldValue}</Text>
-              </View>
-            </View>
-            {this.renderButtons()}
-            <View style={{backgroundColor:colors.dark,flexDirection:'column',alignItems:'center',height:240, width:DeviceWidth,justifyContent:'center',padding:0,paddingBottom:20}}>
-              {React.cloneElement(inputField,{
-                onValueChange: this.onChange.bind(this),
-                selectedValue: (selectedFieldValue || null),
-                ref: (dropdown) => { this.dropdown = dropdown }
-              }
-            )}
-
-            </View>
-          </View>
-        )
-
-    case 'input':
-      return (
-        <View style={{ alignSelf:'stretch',flexGrow:2,   height:DeviceHeight,}}>
-          <KeyboardAvoidingView
-            style={{ alignSelf:'stretch',flexGrow:1,justifyContent:'space-between',flexDirection:'column'}}
-            behavior={'padding'}
-          >
-            <View
-              style={{
-                alignSelf:'stretch',
-                width:MagicNumbers.screenWidth - MagicNumbers.screenPadding,
-                marginHorizontal:MagicNumbers.screenPadding,flex:1,
-                alignItems:'center',justifyContent:'center',flexDirection:'column'
-              }}
-            >
+          return (
+            <View style={{alignSelf: 'stretch'}}>
+              {this.renderCloseButton()}
               <View
-                style={{ alignSelf:'stretch',flex:1,justifyContent:'space-between',flexDirection:'column'}}
+                style={{
+                  alignItems: 'center',
+                  alignSelf: 'stretch',
+                  flexDirection: 'column',
+                  justifyContent: 'flex-start',
+                  marginHorizontal: MagicNumbers.screenPadding,
+                  paddingTop: 50,
+                  width: MagicNumbers.screenWidth - MagicNumbers.screenPadding,
+                  height: DeviceHeight - 320,
+                }}
               >
-                <View style={{
-                    alignSelf:'stretch',
-                    flex:1,alignItems:'center',justifyContent:'center',flexDirection:'column',
-                    paddingVertical:20
+                <View
+                  style={{
+                    alignItems: 'center',
+                    alignSelf: 'stretch',
+                    borderBottomWidth: 1,
+                    borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone,
+                    justifyContent: 'center'
                   }}
                 >
-                  <Text style={{
+                  <Text
+                    style={{
+                      alignSelf: 'stretch',
+                      color: colors.rollingStone,
+                      fontFamily: 'omnes',
+                      fontSize: 20,
+                      textAlign: 'center',
+                      marginBottom: MagicNumbers.screenPadding
+                    }}
+                  >
+                    {field.long_label ? field.long_label : field.label}
+                  </Text>
+                  <Text
+                    style={{
+                      borderBottomWidth: 1,
+                      borderBottomColor: colors.rollingStone,
+                      color: colors.white,
+                      fontFamily: 'omnes',
+                      fontSize: 30,
+                      marginHorizontal: MagicNumbers.screenPadding/2,
+                      padding: 8,
+                      textAlign: 'center',
+                      width: MagicNumbers.screenWidth - MagicNumbers.screenPadding,
+                    }}
+                  >
+                    {displayStateFieldValue}
+                  </Text>
+                </View>
+              </View>
+
+              {this.renderUpdateButton()}
+
+              <View
+                style={{
+                  alignItems: 'center',
+                  backgroundColor: colors.dark,
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  padding: 0,
+                  paddingBottom: 20,
+                  width: DeviceWidth,
+                  height: 240
+                }}
+              >
+                {React.cloneElement(inputField,
+                  {
+                    onValueChange: this.onChange.bind(this),
+                    ref: (dropdown) => { this.dropdown = dropdown },
+                    selectedValue: (selectedFieldValue || null)
+                  }
+                )}
+              </View>
+            </View>
+          )
+        case 'input':
+          return (
+            <View
+              style={{
+                alignSelf: 'stretch',
+                flexGrow: 2,
+                height: DeviceHeight
+              }}
+            >
+              <KeyboardAvoidingView
+                style={{
+                  alignSelf: 'stretch',
+                  flexDirection: 'column',
+                  flexGrow: 1,
+                  justifyContent: 'space-between'
+                }}
+                behavior={'padding'}
+              >
+                {this.renderCloseButton()}
+                <View
+                  style={{
+                    alignItems: 'center',
+                    alignSelf: 'stretch',
+                    flex: 1,
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    marginHorizontal: MagicNumbers.screenPadding,
+                    width: MagicNumbers.screenWidth - MagicNumbers.screenPadding,
+                  }}
+                >
+                  <View
+                    style={{
+                      alignSelf: 'stretch',
+                      flex: 1,
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <View
+                      style={{
+                        alignItems: 'center',
+                        alignSelf: 'stretch',
+                        flex: 1,
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        paddingVertical: 20
+                      }}
+                    >
+                      <Text
+                        style={{
+                          color: colors.rollingStone,
+                          fontSize: 20,
+                          fontFamily: 'omnes',
+                          marginBottom: MagicNumbers.is5orless ? 20 : 40,
+                          textAlign: 'center'
+                        }}
+                      >
+                        {field.long_label ? field.long_label : field.label}
+                      </Text>
+                      <View
+                        style={{
+                          borderBottomWidth: 1,
+                          borderBottomColor: borderColor,
+                          width: MagicNumbers.screenWidth
+                        }}
+                      >
+                        {
+                          React.cloneElement(inputField,
+                            {
+                              autoCapitalize: 'characters',
+                              defaultValue: this.props.fieldName == 'firstname' ? fieldValue ? fieldValue.slice(0,10) : '' : fieldValue,
+                              maxLength: getMaxLength(this.props.fieldName),
+                              onChangeText:(value) => {
+                                this.onChange(value.trim())
+                              },
+                              ref: (textField) => { this.textField = textField },
+                              selectionColor: colors.mediumPurple
+                            }
+                          )
+                        }
+                      </View>
+                      {field.sub_label ?
+                        <Text
+                          style={{
+                            color: colors.rollingStone,
+                            fontFamily: 'omnes',
+                            fontSize: MagicNumbers.is5orless ? 14 : 18,
+                            marginTop: 15,
+                            textAlign: 'center'
+                          }}
+                        >
+                          {field.sub_label}
+                        </Text>
+                        : null
+                      }
+                    </View>
+                  </View>
+                </View>
+                {this.renderUpdateButton()}
+              </KeyboardAvoidingView>
+            </View>
+          )
+
+        case 'phone_input':
+          return (
+            <View
+              style={{
+                alignSelf: 'stretch',
+                flex: 1,
+                justifyContent: 'space-between',
+              }}
+            >
+              {this.renderCloseButton()}
+              <View
+                style={{
+                  alignSelf: 'stretch',
+                  alignItems: 'center',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  padding: 0,
+                }}
+              >
+                <View
+                  style={{
+                    borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone,
+                    borderBottomWidth: 1,
+                  }}
+                >
+                  {React.cloneElement(inputField,
+                    {
+                      handleInputChange:(value) => {
+                        this.onChangePhone(value);
+                      },
+                      renderUpdateButton: this.renderUpdateButton.bind(this),
+                      ref: (phoneField) => {this.phoneField = phoneField}
+                    }
+                  )}
+                </View>
+              </View>
+              {this.renderUpdateButton()}
+            </View>
+          )
+        case 'birthday':
+        case 'date':
+          return (
+            <View style={{alignSelf: 'stretch'}}>
+              {this.renderCloseButton()}
+              <View
+                style={{
+                  alignItems: 'center',
+                  alignSelf: 'stretch',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  marginHorizontal: MagicNumbers.screenPadding,
+                  width: MagicNumbers.screenWidth - MagicNumbers.screenPadding,
+                  height: DeviceHeight - 260,
+                }}
+              >
+                <View
+                  style={{
+                    alignItems: 'center',
+                    alignSelf: 'stretch',
+                    flex: 1,
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    padding: 20,
+                  }}
+                >
+                  <Text
+                    style={{
+                      alignSelf: 'stretch',
                       color: colors.rollingStone,
                       fontSize: 20,
-                      fontFamily:'omnes',
-                      textAlign:'center',
-                      marginBottom:MagicNumbers.is5orless ? 20 : 40,
-                    }}>{field.long_label ? field.long_label : field.label}</Text>
+                      fontFamily: 'omnes',
+                      marginBottom: 40,
+                      textAlign: 'center',
+                    }}
+                  >
+                    {field.long_label ? field.long_label : field.label}
+                  </Text>
 
                   <View
-                    style={{ borderBottomWidth: 1, borderBottomColor: borderColor,width:MagicNumbers.screenWidth }}
+                    style={{
+                      alignSelf: 'stretch',
+                      borderBottomWidth: 1,
+                      borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone,
+                      height: 50,
+                    }}
                   >
-                    {
-                      React.cloneElement(inputField,{
-                        maxLength: getMaxLength(this.props.fieldName),
-                        selectionColor:colors.mediumPurple,
-                        defaultValue: this.props.fieldName == 'firstname' ? fieldValue ? fieldValue.slice(0,10) : '' : fieldValue,
-                        onChangeText:(value) => {
-                          this.onChange(value.trim())
+                    <Text
+                      style={{
+                        alignSelf: 'stretch',
+                        color: colors.white,
+                        fontSize: 20,
+                        fontFamily: 'omnes',
+                        marginBottom: 40,
+                        textAlign: 'center',
+                      }}
+                    >
+                      {moment(this.state.birthday).format('MM/DD/YYYY')}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              {this.renderUpdateButton()}
+              <View
+                style={{
+                  height:260,
+                  backgroundColor:colors.white
+                }}
+              >
+                {React.cloneElement(inputField,
+                  {
+                    date: new Date(this.state.birthday),
+                    onDateChange: (date) => {
+                      this.setState({birthday: date, canContinue: true});
+                    },
+                    ref: (dateField) => { this.dateField = dateField }
+                  }
+                )}
+              </View>
+            </View>
+          );
+        case 'textarea':
+          return (
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'column',
+                height: DeviceHeight - this.state.keyboardSpace
+              }}
+            >
+              {this.renderCloseButton()}
+              <ScrollView
+                style={{flex: 1}}
+                contentContainerStyle={{
+                  flex: 1,
+                  justifyContent: 'space-around',
+                  padding: 20
+                }}
+              >
+                <Text
+                  style={{
+                    color: colors.rollingStone,
+                    fontSize: MagicNumbers.is5orless ? 18 : 20,
+                    fontFamily: 'omnes',
+                    marginTop: MagicNumbers.screenPadding,
+                    textAlign: 'center'
+                  }}
+                >
+                  {field.long_label ? field.long_label : field.label}
+                </Text>
+                <View style={{minHeight: 200}}>
+                  <View
+                    style={{
+                      borderBottomWidth: 1,
+                      borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone,
+                      marginBottom: 20
+                    }}
+                  >
+                    {React.cloneElement(inputField,
+                      {
+                        autoFocus: true,
+                        defaultValue: fieldValue,
+                        onChangeText: (value) => {
+                          this.onChange(value);
                         },
-                        autoCapitalize:'characters',
-                        ref: (textField) => { this.textField = textField }
+                        selectionColor: colors.mediumPurple
                       }
                     )}
                   </View>
-                  {field.sub_label ? <Text  style={{
-                      color: colors.rollingStone,
-                      fontSize: MagicNumbers.is5orless ? 14 : 18,textAlign:'center',
-                      fontFamily:'omnes',
-                      marginTop:15,
-                    }}
-                  >{field.sub_label}</Text> : null}
                 </View>
-
-            {/*
-              this.state.error &&
-                <View style={styles.bottomErrorTextWrap}>
-                  <Text textAlign={'right'} style={[styles.bottomErrorText]}></Text>
-                </View>
-            */}
-
-
-
-              </View>
+              </ScrollView>
+              {this.renderUpdateButton()}
             </View>
-            {this.renderButtons()}
-          </KeyboardAvoidingView>
-        </View>
-
-      )
-
-    case 'phone_input':
-      return (
-        <View style={{ alignSelf:'stretch',flex:1,justifyContent:'space-between'}}>
-          <View style={{ alignSelf:'stretch',alignItems:'center', justifyContent:'center',flexDirection:'column',padding:0}}>
-            {/* <Text style={{
-                color: colors.rollingStone,
-                fontSize: 20,textAlign:'center',
-                fontFamily:'omnes',
-                marginBottom:40,alignSelf:'stretch',
-                marginHorizontal:10
-
-
-              }}>{'PHONE NUMBER'}</Text> */}
-            <View style={{ borderBottomWidth: 1, borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone }}>
-              {React.cloneElement(inputField,{
-                handleInputChange:(value) => {
-                  this.onChangePhone(value)
-                },
-                renderButtons:this.renderButtons.bind(this),
-                ref: (phoneField) => { this.phoneField = phoneField }
-              }
-            )}
-          </View>
-
-          </View>
-          {this.renderButtons()}
-
-        </View>
-      )
-
-      case 'birthday':
-      case 'date':
-        return (
-          <View style={{ alignSelf:'stretch',}}>
-            <View style={{ alignSelf:'stretch',
-              width:MagicNumbers.screenWidth - MagicNumbers.screenPadding,
-              marginHorizontal:MagicNumbers.screenPadding,
-           height:DeviceHeight-260,alignItems:'center',justifyContent:'center',flexDirection:'column'}}>
-        <View style={{ alignSelf:'stretch', flex:1,alignItems:'center',justifyContent:'center',flexDirection:'column',padding:20}}>
-                <Text style={{
-                  color: colors.rollingStone,
-                  fontSize: 20,textAlign:'center',
-                  fontFamily:'omnes',
-                  marginBottom:40,alignSelf:'stretch'
-
-                }}>{field.long_label ? field.long_label : field.label}</Text>
-
-                <View style={{  borderBottomWidth: 1,borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone,alignSelf:'stretch',height:50 }}>
-                <Text style={{
-                  color: colors.white,
-                  fontSize: 20,textAlign:'center',
-                  fontFamily:'omnes',
-                  marginBottom:40,alignSelf:'stretch'
-
-                }}>{moment(this.state.birthday).format('MM/DD/YYYY')}</Text>
-                </View>
-                </View>
-
-                </View>
-                {this.renderButtons()}
-
-              <View style={{  height:260,backgroundColor:colors.white }}>
-                {React.cloneElement(inputField,{
-                  onDateChange: (date) => {
-                    this.setState({birthday: date,canContinue:true});
-                  },
-                  date: new Date(this.state.birthday),
-                  ref: (dateField) => { this.dateField = dateField }
-                }
-            )}
-            </View>
-
-
-          </View>
-
-        );
-    case 'textarea':
-        return (
-          <View style={{flex:1,flexDirection:'column',height:DeviceHeight-this.state.keyboardSpace}}>
-            <ScrollView
-              style={{ flex:1}}
-              contentContainerStyle={{justifyContent:'space-around',flex:1,padding:20,}}
-            >
-              <Text  style={{
-                  color: colors.rollingStone,
-                  fontSize: MagicNumbers.is5orless ? 18 : 20,
-                  textAlign:'center',
-                  fontFamily:'omnes',
-                  marginTop:MagicNumbers.screenPadding,
-              }}>{field.long_label ? field.long_label : field.label}</Text>
-              <View style={{minHeight:200}}>
-                <View style={{marginBottom:20, borderBottomWidth: 1, borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone }}>
-
-                  {React.cloneElement(inputField,{
-                    defaultValue:fieldValue,
-                    selectionColor:colors.mediumPurple,
-                    autoFocus:true,
-                    onChangeText:(value) => {
-                      this.onChange(value)
-                    }
-                  })}
-                </View>
-
-
-              </View>
-
-            </ScrollView>
-            {this.renderButtons()}
-
-          </View>
-
-        )
-
+          )
       }
     }
+
     return (
-
-        <View style={{ position:'absolute',left:0,flex:1}}>
-          <KeyboardAvoidingView  style={{flex:1}} behavior={'padding'}>
-            <ScrollView
-              scrollEnabled={false}
-              keyboardShouldPersistTaps="always"
-        keyboardDismissMode={'interactive'}
-
-        onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
-        onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
-        style={{flex:1}}
-        contentContainerStyle={[styles.container,{
-          backgroundColor:colors.outerSpace,
-          padding:0,
-          alignSelf:'stretch',
-        }]}>
-
-        {inside()}
-
-      </ScrollView>
-    </KeyboardAvoidingView>
-  </View>
+      <View
+        style={{
+          flex: 1,
+          left: 0,
+          position: 'absolute'
+        }}
+      >
+        <KeyboardAvoidingView 
+          style={{flex: 1}}
+          behavior={'padding'}
+        >
+          <ScrollView
+            keyboardShouldPersistTaps="always"
+            keyboardDismissMode={'interactive'}
+            onKeyboardWillShow={this.updateKeyboardSpace.bind(this)}
+            onKeyboardWillHide={this.resetKeyboardSpace.bind(this)}
+            scrollEnabled={false}
+            style={{flex: 1}}
+            contentContainerStyle={[styles.container, {
+              alignSelf: 'stretch',
+              backgroundColor:colors.outerSpace,
+              padding: 0,
+            }]}
+          >
+            {inside()}
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </View>
     )
   }
 }
 
-reactMixin(FieldModal.prototype, TrackKeyboardMixin)
+class MultiLineInput extends Component {
+  constructor(props) {
+    super();
+    this.state = {
+      bioHeight: 65,
+    }
+  }
+
+  sizeChange(e) {
+    this.setState({bioHeight: e.nativeEvent.contentSize.height});
+  }
+
+  render() {
+    return (
+      <TextInput
+        {...this.props}
+        autoCapitalize={'sentences'}
+        autoCorrect
+        autofocus
+        autoGrow
+        blurOnSubmit={true}
+        clearButtonMode={'always'}
+        keyboardAppearance={'dark'}
+        maxLength={300}
+        multiline
+        onContentSizeChange={this.sizeChange.bind(this)}
+        onSubmitEditing={this.props.submit}
+        placeholder={''}
+        placeholderTextColor={colors.white}
+        returnKeyType={'done'}
+        ref={'_textArea'}
+        style={[
+          {
+            alignSelf: 'stretch',
+            color: colors.white,
+            fontSize: MagicNumbers.size18 - 2,
+            fontFamily: 'omnes',
+            padding: 0,
+            width:DeviceWidth - MagicNumbers.screenPadding
+          },
+          {
+            height: this.state.bioHeight,
+            marginTop: 15,
+            paddingVertical: 5
+          }
+        ]}
+      />
+    )
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'stretch',
+    alignSelf: 'stretch',
+    backgroundColor: colors.outerSpace,
+    flex: 1,
+    justifyContent: 'center',
+    position: 'relative',
+  },
+  inner: {
+    alignItems: 'stretch',
+    backgroundColor: colors.outerSpace,
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+  },
+  blur: {
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    flex: 1,
+    paddingBottom: 40,
+    paddingTop: 0,
+  },
+  closebox: {
+    backgroundColor: 'blue',
+    width: 40,
+    height: 40,
+  },
+  formHeader: {
+    marginTop: 40,
+  },
+  formHeaderText: {
+    color: colors.rollingStone,
+    fontFamily: 'omnes',
+  },
+  formRow: {
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    borderBottomWidth: 1,
+    borderBottomColor: colors.rollingStone,
+    flex:1,
+    flexDirection: 'row',
+    paddingTop: 0,
+    height:50,
+  },
+  tallFormRow: {
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    left: 0,
+    width: 250,
+    height: 220,
+  },
+  sliderFormRow: {
+    paddingLeft: 30,
+    paddingRight: 30,
+    height: 160,
+  },
+  picker: {
+    alignItems: 'stretch',
+    alignSelf: 'flex-end',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    height: 200,
+  },
+  halfcell: {
+    alignItems: 'center',
+    alignSelf:'center',
+    justifyContent:'space-around',
+    width:DeviceWidth / 2,
+  },
+  formLabel: {
+    flex: 8,
+    fontSize: 18,
+    fontFamily: 'omnes',
+  },
+  header: {
+    fontSize: 24,
+    fontFamily: 'omnes',
+  },
+  textfield: {
+    alignItems: 'stretch',
+    color: colors.white,
+    flexGrow: 1,
+    fontSize: 20,
+    fontFamily: 'montserrat',
+    textAlign: 'left',
+  },
+  bottomText: {
+    color: colors.rollingStone,
+    fontSize: 16,
+    fontFamily:'omnes',
+    marginTop: 0,
+  },
+  bottomErrorTextWrap: {
+
+  },
+  bottomErrorText: {
+    color: colors.mandy,
+    fontSize: 16,
+    fontFamily: 'omnes',
+    marginTop: 0,
+  },
+  pinInputWrap: {
+    alignSelf: 'stretch',
+    borderBottomColor: colors.rollingStone,
+    borderBottomWidth: 2,
+    height: 60,
+  },
+  pinInputWrapSelected:{
+    borderBottomColor: colors.mediumPurple,
+  },
+  pinInputWrapError:{
+    borderBottomColor: colors.mandy,
+  },
+  pinInput: {
+    color: colors.white,
+    fontSize: 30,
+    fontFamily: 'montserrat',
+    padding: 8,
+    height: 60,
+  },
+  middleTextWrap: {
+    alignItems:'center',
+    justifyContent:'center',
+    marginBottom:10,
+    height: 60,
+  },
+  middleText: {
+    color: colors.rollingStone,
+    fontSize: 20,
+    fontFamily:'omnes',
+  },
+});
+
+reactMixin(FieldModal.prototype, TrackKeyboardMixin);
 
 const mapStateToProps = (state, ownProps) => {
-  return {...ownProps }
+  return {...ownProps };
 }
 
 const mapDispatchToProps = (dispatch) => {
   return { dispatch };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FieldModal)
-
-
-
-class MultiLineInput extends React.Component{
-  constructor(props){
-    super()
-    this.state = {
-      bioHeight: 65,
-    }
-  }
-  sizeChange(e){
-    this.setState({bioHeight: e.nativeEvent.contentSize.height})
-  }
-
-  render(){
-    return (
-      <TextInput
-        {...this.props}
-        autofocus
-        style={[{
-            alignSelf: 'stretch',
-            padding: 0,
-            fontSize: MagicNumbers.size18-2,
-            fontFamily:'omnes',
-            color: colors.white,
-            width:DeviceWidth - MagicNumbers.screenPadding
-        }, {paddingVertical: 5,marginTop: 15, height: this.state.bioHeight}]}
-        placeholder={''}
-        autoGrow
-        autoCapitalize={'sentences'}
-        placeholderTextColor={colors.white}
-        maxLength={300}
-        autoCorrect
-        returnKeyType={'done'}
-        multiline
-        onSubmitEditing={this.props.submit}
-        blurOnSubmit={true}
-        keyboardAppearance={'dark'}
-        ref={'_textArea'}
-        clearButtonMode={'always'}
-        onContentSizeChange={this.sizeChange.bind(this)}
-      />
-    )
-  }
-}
-const styles = StyleSheet.create({
-
-
- container: {
-   flex: 1,
-   justifyContent: 'center',
-   alignItems: 'stretch',
-   position:'relative',
-   alignSelf: 'stretch',
-   backgroundColor:colors.outerSpace
-  //  overflow:'hidden'
- },
- inner:{
-   flex: 1,
-   alignItems: 'stretch',
-   backgroundColor:colors.outerSpace,
-   flexDirection:'column',
-   justifyContent:'flex-start'
- },
-
- blur:{
-   flex:1,
-   alignSelf:'stretch',
-   alignItems:'center',
-   paddingTop: 0,
-   paddingBottom: 40,
-
- },
- closebox:{
-   height:40,
-   width:40,
-   backgroundColor:'blue'
- },
-
- formHeader:{
-   marginTop:40
- },
- formHeaderText:{
-   color: colors.rollingStone,
-   fontFamily: 'omnes'
- },
- formRow: {
-   alignItems: 'center',
-   flexDirection: 'row',
-
-   alignSelf: 'stretch',
-   paddingTop:0,
-   height:50,
-   flex:1,
-   borderBottomWidth: 1,
-   borderBottomColor: colors.rollingStone
-
- },
- tallFormRow: {
-   width: 250,
-   left:0,
-   height:220,
-   alignSelf:'stretch',
-   alignItems: 'center',
-   flexDirection: 'row',
-   justifyContent: 'center'
- },
- sliderFormRow:{
-   height:160,
-   paddingLeft: 30,
-   paddingRight:30
- },
- picker:{
-   height:200,
-   alignItems: 'stretch',
-   flexDirection: 'column',
-   alignSelf:'flex-end',
-   justifyContent:'center',
- },
- halfcell:{
-   width:DeviceWidth / 2,
-   alignItems: 'center',
-   alignSelf:'center',
-   justifyContent:'space-around'
-
-
- },
-
- formLabel: {
-   flex: 8,
-   fontSize: 18,
-   fontFamily:'omnes'
- },
- header:{
-   fontSize:24,
-   fontFamily:'omnes'
-
- },
- textfield:{
-   color: colors.white,
-   fontSize:20,
-   alignItems: 'stretch',
-   flexGrow:1,
-   textAlign: 'left',
-   fontFamily:'montserrat',
- },
-
-   bottomText: {
-     marginTop: 0,
-     color: colors.rollingStone,
-     fontSize: 16,
-     fontFamily:'omnes',
-   },
-   bottomErrorTextWrap:{
-
-   },
-   bottomErrorText:{
-     marginTop: 0,
-     color: colors.mandy,
-     fontSize: 16,
-     fontFamily:'omnes',
-
-   },
-   pinInputWrap: {
-     borderBottomWidth: 2,
-     borderBottomColor: colors.rollingStone,
-     height: 60,
-     alignSelf: 'stretch'
-   },
-   pinInputWrapSelected:{
-     borderBottomColor: colors.mediumPurple,
-   },
-   pinInputWrapError:{
-     borderBottomColor: colors.mandy,
-   },
-   pinInput: {
-     height: 60,
-     padding: 8,
-     fontSize: 30,
-     fontFamily:'montserrat',
-     color: colors.white
-   },
-   middleTextWrap: {
-     alignItems:'center',
-     justifyContent:'center',
-     marginBottom:10,
-     height: 60
-   },
-   middleText: {
-     color: colors.rollingStone,
-     fontSize: 20,
-     fontFamily:'omnes',
-   },
-});
+export default connect(mapStateToProps, mapDispatchToProps)(FieldModal);

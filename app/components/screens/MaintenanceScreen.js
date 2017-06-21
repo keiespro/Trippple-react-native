@@ -1,47 +1,43 @@
-import React, {Component} from 'react';
-import {View, Dimensions, Animated, ActivityIndicator, Text, TouchableOpacity} from 'react-native';
-
-import {connect} from 'react-redux'
+import React, { Component } from 'react';
+import {
+  ActivityIndicator,
+  Animated,
+  Dimensions,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
+import { connect } from 'react-redux';
 import TimerMixin from 'react-timer-mixin';
-import reactMixin from 'react-mixin'
-
-import config from '../../../config'
-import {logOut} from '../../actions/appActions'
-import DeviceInfo from '../../utils/DeviceInfo'
-import colors from '../../utils/colors'
-import Analytics from '../../utils/Analytics'
+import reactMixin from 'react-mixin';
+import Analytics from '../../utils/Analytics';
+import colors from '../../utils/colors';
+import config from '../../../config';
+import DeviceInfo from '../../utils/DeviceInfo';
+import { logOut } from '../../actions/appActions';
 
 const { SERVER_URL } = config;
-
-const Device = DeviceInfo.get()
-
-const MAX_ATTEMPS_BEFORE_LOGOUT = 10
-
+const Device = DeviceInfo.get();
+const DeviceWidth = Dimensions.get('window').width;
+const DeviceHeight = Dimensions.get('window').height;
+const MAX_ATTEMPS_BEFORE_LOGOUT = 10;
 const VERSION = Device.app_version;
 const iOSversion = Device.version;
 
-const DeviceHeight = Dimensions.get('window').height;
-const DeviceWidth = Dimensions.get('window').width;
 
-
-class MaintenanceScreen extends Component{
-
-  constructor(props){
+class MaintenanceScreen extends Component {
+  constructor(props) {
     super();
     this.state = {
-      buttonOpacity: new Animated.Value(0),
       attempts: 0,
+      buttonOpacity: new Animated.Value(0),
       lastAttempt: null,
       mountedAt: Date.now()
     }
   }
-  componentWillMount(){
 
-  }
   componentDidMount() {
     __DEV__ && console.log(this.props);
-
-    // Analytics.event('Maintenance Screen', { label: '', action: '', eventData: {} })
 
     Animated.timing(
       this.state.buttonOpacity,
@@ -50,14 +46,12 @@ class MaintenanceScreen extends Component{
         delay: 2000,
         duration: 1000
       }
-      )
-      .start(() => {
+    ).start(() => {
 
-      })
-
+    });
   }
 
-  async healthCheck(){
+  async healthCheck() {
     return fetch(`${SERVER_URL}/user/info`, {
       method: 'post',
       headers: {
@@ -74,55 +68,52 @@ class MaintenanceScreen extends Component{
     .then(res => {
       const resjson = res.json();
       __DEV__ && console.log(resjson);
-      return resjson
+      return resjson;
     })
     .then(response => response)
   }
-  tryAgain(){
-    if(!this.state.attempting){
-      if(this.state.attempts > MAX_ATTEMPS_BEFORE_LOGOUT || !this.props.auth || !this.props.auth.user_id || !this.props.auth.api_key){
-        this.props.dispatch(logOut())
-        this.props.kill()
 
-        return
+  tryAgain() {
+    if (!this.state.attempting) {
+      if (this.state.attempts > MAX_ATTEMPS_BEFORE_LOGOUT || !this.props.auth || !this.props.auth.user_id || !this.props.auth.api_key) {
+        this.props.dispatch(logOut());
+        this.props.kill();
+        return;
       }
       this.setState({
         attempting: true,
-      })
+      });
       Animated.timing(
         this.state.buttonOpacity,
         {
-          toValue: 0.0,
           delay: 0,
-          duration: 1000
+          duration: 1000,
+          toValue: 0.0
         }
       ).start(() => {
-        if(!this.state.lastAttempt || this.state.lastAttempt + 30000 > Date.now()){
-
+        if(!this.state.lastAttempt || this.state.lastAttempt + 30000 > Date.now()) {
           this.healthCheck()
             .then(result => {
               __DEV__ && console.log(result);
-              if(result){
-                this.props.kill()
-              }else{
-                this.atteptFailed()
+              if (result) {
+                this.props.kill();
+              } else {
+                this.atteptFailed();
               }
-
             }).catch(err => {
               __DEV__ && console.log(err, 'failed');
-              this.attemptFailed()
+              this.attemptFailed();
             })
         }
-      })
+      });
     }
-
   }
-  attemptFailed(){
-    if(!this.props.auth || !this.props.auth.user_id || !this.props.auth.api_key){
-      this.props.dispatch(logOut())
-      this.props.kill()
 
-      return
+  attemptFailed() {
+    if (!this.props.auth || !this.props.auth.user_id || !this.props.auth.api_key) {
+      this.props.dispatch(logOut());
+      this.props.kill();
+      return;
     }
 
     Animated.timing(
@@ -133,181 +124,149 @@ class MaintenanceScreen extends Component{
         duration: 2000
       }
     ).start(() => {
-    })
+
+    });
+  
     this.setState({
       attempting: false,
       attempts: this.state.attempts + 1,
       lastAttempt: Date.now(),
-    })
+    });
   }
-  handleFeedback(){
+
+  handleFeedback() {
 
   }
 
-  render(){
+  render() {
     return (
-
       <View
         style={{
-          width: DeviceWidth,
-          height: DeviceHeight,
           alignItems: 'center',
-          flexDirection: 'column',
-          top: 0,
-          left: 0,
           backgroundColor: colors.dusk,
-          position: 'absolute',
+          flex: 1,
+          flexDirection: 'column',
           justifyContent: 'center',
-          flex: 1
+          left: 0,
+          top: 0,
+          position: 'absolute',
+          width: DeviceWidth,
+          height: DeviceHeight
         }}
       >
         <View
           style={{
             alignItems: 'center',
+            flex: 1,
             flexDirection: 'row',
             justifyContent: 'center',
-            flex: 1,
             maxHeight: 200
           }}
         >
-          <Text
-            style={{
-              fontSize: 100,
-            }}
-          >🔥</Text>
-
+          <Text style={{fontSize: 100}}>🔥</Text>
         </View>
         <Text
           style={{
+            color: colors.white,
+            fontFamily: 'montserrat',
             fontSize: 24,
             fontWeight: '700',
-            fontFamily: 'montserrat',
-            textAlign: 'center',
             marginTop: 20,
-            color: colors.white, }}
-        >SYSTEM MAINTENACE</Text>
-
+            textAlign: 'center'
+          }}
+        >
+          SYSTEM MAINTENACE
+        </Text>
         <Text
           style={{
-            fontSize: 20,
-            marginTop: 15,
-            fontWeight: '400',
-
+            color: colors.white,
             fontFamily: 'omnes',
-            textAlign: 'center',
-            color: colors.white, }}
-        >We're working on it. BRB!</Text>
+            fontSize: 20,
+            fontWeight: '400',
+            marginTop: 15,
+            textAlign: 'center'
+          }}
+        >
+          We're working on it. BRB!
+        </Text>
 
         <View style={{position: 'relative', alignSelf: 'stretch', flexGrow: 1}}>
           <Animated.View
             style={{
-              justifyContent: 'center',
-              opacity: this.state.buttonOpacity,
               alignSelf: 'center',
               alignItems: 'center',
-              height: 180,
+              justifyContent: 'center',
               left: 0,
               right: 0,
-              position: 'absolute',
               top: 0,
-
+              opacity: this.state.buttonOpacity,
+              position: 'absolute',
+              height: 180,
             }}
           >
             <TouchableOpacity
-              onPress={this.tryAgain.bind(this)}
+              onPress={() => this.tryAgain()}
               style={{
-                borderColor: '#fff',
+                alignSelf: 'center',
+                borderColor: colors.white,
                 borderWidth: 1,
                 borderRadius: 5,
-                width: 150,
-
                 marginVertical: 30,
                 paddingVertical: 13,
-                alignSelf: 'center'
+                width: 150,
               }}
             >
               <Text
                 style={{
+                  color: colors.white,
                   fontSize: 14,
                   fontFamily: 'montserrat',
                   fontWeight: '700',
-                  textAlign: 'center',
-                  color: colors.white, }}
-              >TRY AGAIN</Text>
+                  textAlign: 'center'
+                }}
+              >
+                TRY AGAIN
+              </Text>
             </TouchableOpacity>
           </Animated.View>
           <Animated.View
             pointerEvents={'none'}
             style={{
-              position: 'absolute',
-              top: 0,
-              height: 180,
+              alignItems: 'center',
+              alignSelf: 'center',
+              justifyContent: 'center',
               left: 0,
               right: 0,
-              alignItems: 'center',
-              justifyContent: 'center',
+              top: 0,
               opacity: this.state.buttonOpacity.interpolate({
                 inputRange: [0, 1],
                 outputRange: [1, 0],
               }),
-              alignSelf: 'center',
+              position: 'absolute',
+              height: 180
             }}
           >
             <ActivityIndicator
-              size="large"
-              color={colors.white}
               animating
-              style={{}}
+              color={colors.white}
+              size="large"
             />
           </Animated.View>
         </View>
-
-        {/* <View style={{
-            width:DeviceWidth,
-            height:100,
-            alignItems:'center',
-            flexDirection:'row',
-            bottom:0,
-            left:0,
-            position:'absolute',
-            justifyContent:'center',
-            flex:1
-          }}>
-            <Animated.View
-              style={{
-                justifyContent:'center',
-                flex:1,
-                flexDirection:'row',
-                opacity:this.state.buttonOpacity,
-            }}>
-              <Text style={{
-                fontSize:16,
-                fontFamily:'omnes',
-                backgroundColor:'transparent',
-                textAlign:'left',
-                color:colors.white,
-              }}>Questions? Comments? </Text>
-              <TouchableOpacity onPress={this.handleFeedback.bind(this)}>
-                <Text style={{
-                  fontSize:16,marginLeft:0.5,
-                  backgroundColor:'transparent',
-                  textAlign:'left',
-                  fontFamily:'omnes',
-                  color:colors.sushi,
-                }}>Contact Us<Text style={{ color:colors.white }}>.</Text></Text>
-              </TouchableOpacity>
-            </Animated.View>
-          </View> */}
       </View>
     )
   }
 }
 
-reactMixin(MaintenanceScreen.prototype, TimerMixin)
-MaintenanceScreen.displayName = 'MaintenanceScreen'
+reactMixin(MaintenanceScreen.prototype, TimerMixin);
+MaintenanceScreen.displayName = 'MaintenanceScreen';
 
-
-const mapStateToProps = (state, p) => ({...p, auth: state.auth})
-const mapDispatchToProps = (dispatch) => ({dispatch })
+const mapStateToProps = (state, p) => ({
+  ...p,
+  auth: state.auth
+});
+const mapDispatchToProps = (dispatch) => ({
+  dispatch
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(MaintenanceScreen);

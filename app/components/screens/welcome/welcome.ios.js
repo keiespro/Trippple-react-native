@@ -66,10 +66,11 @@ export class Welcome extends Component{
   whyFacebookModal(){
     this.props.dispatch(ActionMan.showInModal({component: 'WhyFacebook', passProps: {} }))
   }
+
   termsModal(){
     this.props.dispatch(ActionMan.showInModal({component: 'Terms', passProps: {} }))
-
   }
+
   login(){
     this.props.dispatch({type: 'LOADING_PENDING'})
 
