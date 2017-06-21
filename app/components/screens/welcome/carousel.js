@@ -192,9 +192,9 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     alignSelf: 'center',
+    color: colors.white,
     fontFamily: 'montserrat',
     fontSize: 22,
-    color: colors.white,
   },
   carousel: {
     marginTop: 0,
