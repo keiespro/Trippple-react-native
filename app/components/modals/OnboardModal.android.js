@@ -183,7 +183,7 @@ class OnboardModal extends Component {
           showsVerticalScrollIndicator={false}
           style={[
             styles.scrollView, {
-              flexGrow: 0,
+              flex: 0,
               height: DeviceHeight,
             }
           ]}
@@ -191,13 +191,13 @@ class OnboardModal extends Component {
         >
           <View
             style={[styles.col, {
-              flexGrow: 1,
+              flex: 1,
               top: 0,
             }]}
           >
             <View
               style={[styles.col, {
-                flexGrow: 0,
+                flex: 0,
                 marginTop: this.state.step == 0 ? 100 : 0,
                 paddingBottom: 160,
                 paddingTop: MagicNumbers.is5orless ? 40 : 140,
@@ -249,7 +249,7 @@ class OnboardModal extends Component {
                 <View
                   style={[{
                     alignItems: 'flex-start',
-                    flexGrow: 0,
+                    flex: 0,
                     justifyContent: 'space-between',
                     marginTop: 0,
                   }]}
@@ -259,7 +259,7 @@ class OnboardModal extends Component {
                       backgroundColor: colors.transparent,
                       borderBottomWidth: StyleSheet.hairlineWidth,
                       borderBottomColor: this.state.step == 1 ? colors.brightPurple : colors.steelGrey,
-                      flexGrow: 0,
+                      flex: 0,
                       justifyContent: 'center',
                       marginLeft: 30,
                       paddingLeft: 0,
@@ -275,7 +275,7 @@ class OnboardModal extends Component {
                       styles.rowtext,
                       styles.bigtext, {
                         flexDirection: 'row',
-                        flexGrow: 0,
+                        flex: 0,
                         justifyContent: 'space-between',
                         marginVertical: 10,
                         paddingRight: 15,
@@ -286,7 +286,8 @@ class OnboardModal extends Component {
                         style={{
                           color: colors.white,
                           fontFamily: 'montserrat',
-                          fontSize: 20,
+                          fontSize: 18,
+                          fontWeight: '600',
                           marginLeft: 0,
                           textAlign: 'left',
                         }}
@@ -306,7 +307,7 @@ class OnboardModal extends Component {
                       }
                       <View
                         style={{
-                          flexGrow: 1,
+                          flex: 1,
                           position: 'absolute',
                           marginLeft: 10,
                           right: 20,
@@ -328,7 +329,7 @@ class OnboardModal extends Component {
                       backgroundColor: colors.transparent,
                       borderBottomWidth: StyleSheet.hairlineWidth,
                       borderBottomColor: this.state.step == 2 ? colors.darkPurple : colors.steelGrey,
-                      flexGrow: 0,
+                      flex: 0,
                       justifyContent: 'center',
                       marginLeft: 30,
                       paddingLeft: 0,
@@ -344,7 +345,7 @@ class OnboardModal extends Component {
                   >
                     <View
                       style={[styles.rowtext, styles.bigtext, {
-                        flexGrow: 0,
+                        flex: 0,
                         flexDirection: 'row',
                         justifyContent: 'space-between',
                         marginVertical: 10,
@@ -354,15 +355,16 @@ class OnboardModal extends Component {
                         style={{
                           color: colors.white,
                           fontFamily: 'montserrat',
-                          fontSize: 20,
+                          fontSize: 18,
+                          fontWeight: '600',
                           textAlign: 'left',
                         }}
                       >
-                        SEEKING...
+                        LOOKING FOR...
                       </Text>
                       <View
                         style={{
-                          flexGrow: 1,
+                          flex: 1,
                           marginLeft: 10,
                           position: 'absolute',
                           right: 20,
@@ -393,7 +395,7 @@ class OnboardModal extends Component {
                   alignItems: 'center',
                   backgroundColor: colors.outerSpace,
                   bottom: 0,
-                  flexGrow: 1,
+                  flex: 1,
                   justifyContent: 'center',
                   position: 'absolute',
                   width: DeviceWidth,
@@ -406,7 +408,7 @@ class OnboardModal extends Component {
         </ScrollView>
 
         {this.state.step == 1 &&
-          <View style={{bottom: 24, flexGrow:1, position:'absolute'}}>
+          <View style={{bottom: 24, flex:1, position:'absolute'}}>
             {us_choices.map((item, i) => {
               return (
                 <View key={i} style={{width: DeviceWidth, backgroundColor: colors.dark}}>
@@ -422,7 +424,7 @@ class OnboardModal extends Component {
                       borderTopWidth: StyleSheet.hairlineWidth,
                       borderTopColor: colors.white20,
                       flexDirection: 'row',
-                      flexGrow: 1,
+                      flex: 1,
                       justifyContent: 'space-between',
                       overflow: 'hidden',
                       paddingHorizontal: 20,
@@ -444,7 +446,7 @@ class OnboardModal extends Component {
         <View
           style={{
             bottom: this.state.selected_ours && has_theirs ? 140 : 0,
-            flexGrow: 1,
+            flex: 1,
             left: 0,
             overflow: 'hidden',
             right: 0,
@@ -472,7 +474,7 @@ class OnboardModal extends Component {
                   borderTopWidth: StyleSheet.hairlineWidth,
                   borderTopColor: colors.white20,
                   flexDirection: 'row',
-                  flexGrow: 0,
+                  flex: 0,
                   justifyContent: 'space-between',
                   overflow: 'hidden',
                   paddingHorizontal: 20,
