@@ -1,224 +1,223 @@
-import React, {Component} from 'react'
-import {StyleSheet, BackHandler, Text, View, Dimensions, TouchableOpacity, ActivityIndicator} from 'react-native'
-import TimerMixin from 'react-timer-mixin'
-import reactMixin from 'react-mixin'
-import {connect} from 'react-redux'
-import {NavigationStyles, withNavigation} from '@exponent/ex-navigation'
-import colors from '../../../utils/colors'
-import Carousel from './carousel'
-import {MagicNumbers} from '../../../utils/DeviceConfig'
+import React, { Component } from 'react';
+import {
+  ActivityIndicator,
+  BackHandler,
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { connect } from 'react-redux';
+import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
+import TimerMixin from 'react-timer-mixin';
+import reactMixin from 'react-mixin';
+import { MagicNumbers } from '../../../utils/DeviceConfig';
+import ActionMan from '../../../actions/';
+import Carousel from './carousel';
+import colors from '../../../utils/colors';
 import FacebookButton from '../../buttons/FacebookButton/welcomeScreen';
-import ActionMan from '../../../actions/'
-import Loading from './Loading'
+import Loading from './Loading';
 
 const DeviceHeight = Dimensions.get('window').height
 const DeviceWidth = Dimensions.get('window').width
 
 
 @reactMixin.decorate(TimerMixin)
-export class Welcome extends Component{
+export class Welcome extends Component {
   static route = {
     styles: NavigationStyles.Fade,
     navigationBar: {
-      visible: false,
-      translucent: true,
       backgroundColor: colors.transparent,
-      renderRight(route, props){
-        return false
+      renderRight(route, props) {
+        return false;
       },
       renderLeft(route, props){
-        return false
-      }
+        return false;
+      },
+      translucent: true,
+      visible: false,
     },
-
     statusBar: {
-      translucent: false,
       backgroundColor: colors.dark70,
-
+      translucent: false,
     },
   };
+
   static displayName: 'Intro';
 
   constructor() {
-    super()
-    this.state = {isAnimating: false, busy: false}
+    super();
+  
+    this.state = {
+      busy: false,
+      isAnimating: false,
+    };
   }
 
   componentDidMount() {
-    this._BackHandler = BackHandler.addEventListener('hardwareBackPress', this.handleBackHandler)
+    this._BackHandler = BackHandler.addEventListener('hardwareBackPress', this.handleBackHandler);
   }
 
-  componentWillReceiveProps(nProps){
-    if(nProps.loggedIn && nProps.status != this.props.status){
-      if(nProps.status == 'onboarded'){
-        this.props.dispatch(ActionMan.resetRoute('Potentials'))
-      }else{
-        this.props.dispatch(ActionMan.resetRoute('Onboard'))
+  componentWillReceiveProps(nProps) {
+    if (nProps.loggedIn && nProps.status != this.props.status) {
+      if (nProps.status == 'onboarded') {
+        this.props.dispatch(ActionMan.resetRoute('Potentials'));
+      } else {
+        this.props.dispatch(ActionMan.resetRoute('Onboard'));
       }
     }
   }
 
-  componentWillUnmount(){
-    if(this._BackHandler){
-      this._BackHandler.remove()
-      // BackHandler.EventListener('hardwareBackPress', this.handleBackHandler)
+  componentWillUnmount() {
+    if (this._BackHandler) {
+      this._BackHandler.remove();
     }
   }
 
-  handleBackHandler(){
+  handleBackHandler() {
     this.props.navigator.pop();
     return true;
   }
 
-  whyFacebookModal(){
+  whyFacebookModal() {
     this.props.dispatch(ActionMan.showInModal({component: 'WhyFacebook', passProps: {} }))
   }
 
-
   login(){
-    this.setState({busy: true})
-    this.props.dispatch({type: 'LOADING_PENDING'})
+    this.setState({busy: true});
+    this.props.dispatch({type: 'LOADING_PENDING'});
     this.setTimeout(() => {
-      this.setState({busy: false})
+      this.setState({busy: false});
     }, 20000)
 
-    this.props.dispatch(ActionMan.loginWithFacebook())
+    this.props.dispatch(ActionMan.loginWithFacebook());
   }
 
-  render(){
+  render() {
     return (
       <View style={[styles.container]}>
-        <View style={{}}>
+        <View>
           <Carousel />
         </View>
 
-        <View style={{ marginHorizontal: 20}}>
+        <View style={{marginHorizontal: 20}}>
           <FacebookButton
-            shouldAuthenticate
-            buttonText={'LOG IN WITH FACEBOOK'}
-            onPress={this.login.bind(this)}
-            buttonStyles={{backgroundColor: colors.cornFlower, borderWidth: 0, height: 80}}
-            outerButtonStyle={{height: 80, marginVertical: 10}}
-            leftBoxStyles={{height: 80}}
-            iconTintColor={'#fff'}
             busy={this.state.busy}
+            buttonStyles={{
+              backgroundColor: colors.cornFlower,
+              borderWidth: 0,
+              height: 80
+            }}
+            buttonText={'LOG IN WITH FACEBOOK'}
+            iconTintColor={'#fff'}
+            leftBoxStyles={{height: 80}}
+            onPress={this.login.bind(this)}
+            outerButtonStyle={{height: 80, marginVertical: 10}}
+            shouldAuthenticate
           />
         </View>
         <TouchableOpacity
           onPress={this.whyFacebookModal.bind(this)}
         >
-          <View style={{ height: 50, alignSelf: 'center'}}>
+          <View style={{alignSelf: 'center', height: 50}}>
             <Text
               style={{
                 color: colors.rollingStone,
                 fontFamily: 'omnes',
                 fontSize: 12,
-                textDecorationLine: 'underline'
+                textDecorationLine: 'underline',
               }}
-            >Why Facebook?</Text>
+            >
+              Why Facebook?
+            </Text>
           </View>
         </TouchableOpacity>
         {this.state.busy && <Loading />}
-
       </View>
     )
   }
 }
 
-
-
-
-const mapStateToProps = (state, p) => ({...p, loggedIn: state.auth.api_key && state.auth.user_id, status: state.user.status})
-const mapDispatchToProps = (dispatch) => ({dispatch })
-
-export default connect(mapStateToProps, mapDispatchToProps)(Welcome);
-
-
 const styles = StyleSheet.create({
-
-
   container: {
-    width: DeviceWidth,
+    alignItems: 'stretch',
+    alignSelf: 'stretch',
+    backgroundColor: colors.outerSpace,
+    justifyContent: 'space-between',
     margin: 0,
     padding: 0,
+    width: DeviceWidth,
     height: DeviceHeight,
-    backgroundColor: colors.outerSpace,
-    alignItems: 'stretch',
-    justifyContent: 'space-between',
-    alignSelf: 'stretch',
-
   },
   textplain: {
-    color: colors.white,
     alignSelf: 'center',
+    color: colors.white,
     fontSize: 22,
     fontFamily: 'omnes',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   buttonText: {
-    fontSize: 22,
-    color: colors.white,
     alignSelf: 'center',
-    fontFamily: 'montserrat'
+    color: colors.white,
+    fontSize: 22,
+    fontFamily: 'montserrat',
   },
   carousel: {
     marginTop: 0,
     width: DeviceWidth,
     height: DeviceHeight - 200,
-
   },
   slide: {
-    width: DeviceWidth,
-    flexDirection: 'column',
-    height: DeviceHeight - 150,
-    justifyContent: 'flex-start',
     alignItems: 'center',
-    padding: MagicNumbers.screenPadding / 2
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    padding: MagicNumbers.screenPadding / 2,
+    width: DeviceWidth,
+    height: DeviceHeight - 150,
   },
-
-
   bottomarea: {
-    height: 140,
-    width: undefined,
     alignSelf: 'stretch',
-    bottom: 100
+    bottom: 100,
+    width: undefined,
+    height: 140,
   },
   textwrap: {
     alignItems: 'center',
-    height: 50,
     justifyContent: 'center',
+    height: 50,
   },
   imagebg: {
-    flex: 1,
     alignSelf: 'stretch',
+    backgroundColor: colors.outerSpace,
+    flex: 1,
     width: DeviceWidth,
     height: DeviceHeight,
-    backgroundColor: colors.outerSpace
   },
   button: {
-    height: 45,
-    flexDirection: 'row',
+    alignSelf: 'stretch',
     backgroundColor: 'transparent',
     borderColor: '#fff',
     borderWidth: 2,
     borderRadius: 8,
+    flexDirection: 'row',
+    justifyContent: 'center',
     marginBottom: 10,
     marginTop: 10,
-    alignSelf: 'stretch',
-    justifyContent: 'center'
+    height: 45,
   },
   bottomButton: {
-    height: 80,
-    flex: 1,
-    flexDirection: 'row',
+    alignSelf: 'stretch',
     backgroundColor: 'transparent',
     borderColor: '#fff',
     borderWidth: 0,
     borderRadius: 0,
+    justifyContent: 'center',
+    flex: 1,
+    flexDirection: 'row',
     marginBottom: 0,
     marginTop: 0,
-    alignSelf: 'stretch',
-    justifyContent: 'center'
+    height: 80,
   },
   loginButton: {
     backgroundColor: colors.shuttleGray,
@@ -230,43 +229,27 @@ const styles = StyleSheet.create({
     backgroundColor: colors.mediumPurple,
   },
   wrap: {
-    marginTop: 0,
     alignItems: 'center',
-    justifyContent: 'center',
     alignSelf: 'stretch',
+    justifyContent: 'center',
+    marginTop: 0,
     paddingBottom: 0
   },
   bottomButtons: {
-    height: 80,
     alignItems: 'center',
+    alignSelf: 'stretch',
+    bottom: 40,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    //
-    alignSelf: 'stretch',
     width: undefined,
-    bottom: 40
+    height: 80,
   },
-  // dot: {
-  //   backgroundColor: colors.shuttleGray,
-  //   width: 16,
-  //   height: 16,
-  //   borderRadius: 8,
-  //   marginLeft: 8,
-  //   marginRight: 8,
-  //   marginTop: 3,
-  //   marginBottom: 3,
-  //   borderColor: colors.shuttleGray
-  // },
-  // activeDot: {
-  //   backgroundColor: colors.mediumPurple20,
-  //   width: 16,
-  //   height: 16,
-  //   borderRadius: 8,
-  //   marginLeft: 8,
-  //   marginRight: 8,
-  //   marginTop: 3,
-  //   marginBottom: 3,
-  //   borderWidth: 2,
-  //   borderColor: colors.mediumPurple
-  // }
 });
+
+const mapStateToProps = (state, p) => ({
+  ...p,
+  loggedIn: state.auth.api_key && state.auth.user_id, status: state.user.status
+})
+const mapDispatchToProps = (dispatch) => ({dispatch })
+
+export default connect(mapStateToProps, mapDispatchToProps)(Welcome);
