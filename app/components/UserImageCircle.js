@@ -1,110 +1,115 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ReactNative, {
+  ActivityIndicator,
+  Alert,
+  Dimensions,
+  Image,
   StyleSheet,
   Text,
-  View,
   TouchableOpacity,
-  Alert,
-  ActivityIndicator,
-  Image,
-  Dimensions
+  View,
 } from 'react-native';
+import { connect } from 'react-redux';
 import { NavigationActions, withNavigation } from '@exponent/ex-navigation';
-import {connect} from 'react-redux'
-const DeviceHeight = Dimensions.get('window').height
-const DeviceWidth = Dimensions.get('window').width
-
 import colors from '../utils/colors';
 
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
+
+
 @withNavigation
-class UserImageCircle extends Component{
+class UserImageCircle extends Component {
 
   static defaultProps = {
     diameter: DeviceWidth / 2 - 20
   }
-  state = {loading:false}
-  render(){
 
-    const {id, thumbUrl, onPress,dispatch,overrideStyles = {}} = this.props
+  state = {loading: false}
 
+  render() {
+    const { id, thumbUrl, onPress, dispatch, overrideStyles = {} } = this.props;
     return (
       <TouchableOpacity
         onPress={() => {
           const nav = this.props.navigation.getNavigatorByUID(this.props.navState.currentNavigatorUID)
           nav.push('FBPhotoAlbums', {});
         }}
-        style={{marginTop: 0, }}
+        style={{marginTop: 0}}
       >
-        <View style={{height:this.props.diameter,width: this.props.diameter}}>
+        <View style={{width: this.props.diameter, height: this.props.diameter}}>
           <Image
-            style={[styles.userimage, overrideStyles]}
-            key={`${id}thumb`}
             defaultSource={require('./screens/settings/assets/placeholderUser@3x.png')}
-            resizeMode={Image.resizeMode.cover}
+            key={`${id}thumb`}
             onLoadStart={e => {
-              // console.log('image load',e)
               this.setState({loading:true})
             }}
             onLoadEnd={e => {
-              // console.log('image load END',e)
               this.setState({loading:false})
             }}
+            resizeMode={Image.resizeMode.cover}
             source={thumbUrl ? {uri: thumbUrl} : null}
+            style={[styles.userimage, overrideStyles]}
           />
           <View style={styles.circle}>
             <Image
-              style={{width: 18, height: 18}}
-              source={require('./screens/settings/assets/cog@3x.png')}
               resizeMode={Image.resizeMode.contain}
+              source={require('./screens/settings/assets/cog@3x.png')}
+              style={{width: 18, height: 18}}
             />
           </View>
-        {this.state.loading ? (
-          <View
-            style={{alignSelf: 'center', zIndex: 1999,height:this.props.diameter,width: this.props.diameter,position:'absolute',top:0,left:0,alignItems: 'center', flexGrow: 1, justifyContent: 'center'}}
-          >
-            <ActivityIndicator
-              animating
-              size="large"
-              color={colors.white}
-            />
-          </View>
-        ) : null
-        }
-      </View>
-
+          {this.state.loading ? (
+              <View
+                style={{
+                  alignItems: 'center',
+                  alignSelf: 'center',
+                  flexGrow: 1,
+                  justifyContent: 'center',
+                  position: 'absolute',
+                  left: 0,
+                  top: 0,
+                  width: this.props.diameter,
+                  height:this.props.diameter,
+                  zIndex: 1999,
+                }}
+              >
+                <ActivityIndicator
+                  animating
+                  color={colors.white}
+                  size="large"
+                />
+              </View>
+            ) : null
+          }
+        </View>
       </TouchableOpacity>
     )
   }
 }
 
+const styles = StyleSheet.create({
+  circle: {
+    alignItems: 'center',
+    borderRadius: 17.5,
+    backgroundColor: colors.mediumPurple,
+    justifyContent: 'center',
+    left: 8,
+    top: 8,
+    position: 'absolute',
+    width: 35,
+    height: 35,
+  },
+  userimage: {
+    alignItems: 'center',
+    borderRadius: ((DeviceWidth / 2 - 20) / 2),
+    overflow: 'hidden',
+    padding: 0,
+    width: DeviceWidth / 2 - 20,
+    height: DeviceWidth / 2 - 20,
+  },
+});
 
 const mapStateToProps = (state, ownProps) => ({ ...ownProps, navState: state.navigation })
-
 const mapDispatchToProps = (dispatch) => ({ dispatch })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserImageCircle);
 
-const styles = StyleSheet.create({
-
-
-  userimage: {
-    padding: 0,
-    width: DeviceWidth / 2 - 20,
-    height: DeviceWidth / 2 - 20,
-    alignItems: 'center',
-    borderRadius: ((DeviceWidth / 2 - 20) / 2),
-    overflow: 'hidden'
-  },
-  circle: {
-    width: 35,
-    height: 35,
-    borderRadius: 17.5,
-    backgroundColor: colors.mediumPurple,
-    position: 'absolute',
-    top: 8,
-    left: 8,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-
-})
