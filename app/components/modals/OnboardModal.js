@@ -78,6 +78,7 @@ const them_choices = {
 };
 const get_key_vals = (v) => v.toLowerCase();
 
+
 @withNavigation
 class OnboardModal extends Component {
 
@@ -116,9 +117,9 @@ class OnboardModal extends Component {
   }
 
   handleContinue() {
-    if(this.state.selected_relationship_status == 'single') {
-      this.onboardUser()
-    }else{
+    if (this.state.selected_relationship_status == 'single') {
+      this.onboardUser();
+    } else {
       const payload = {
         relationship_status: this.state.selected_relationship_status,
         genders: this.state.selected_genders,
@@ -227,7 +228,7 @@ class OnboardModal extends Component {
                 />
                 <Text
                   style={{
-                    color: colors.rollingStone,
+                    color: colors.white,
                     fontFamily: 'montserrat',
                     fontSize: 19,
                     fontWeight: '800',
@@ -239,7 +240,7 @@ class OnboardModal extends Component {
                 </Text>
                 <Text
                   style={{
-                    color: colors.white,
+                    color: colors.rollingStone,
                     fontFamily: 'omnes',
                     fontSize: 17,
                     justifyContent: 'space-between',
@@ -340,7 +341,7 @@ class OnboardModal extends Component {
                     <View
                       style={[ styles.rowtext, styles.bigtext, {
                         flexDirection: 'row',
-                        flexGrow:0,
+                        flexGrow: 0,
                         justifyContent: 'space-between',
                         marginVertical: 10,
                       }]}

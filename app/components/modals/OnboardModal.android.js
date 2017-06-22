@@ -78,6 +78,7 @@ const them_choices = {
 };
 const get_key_vals = (v) => v.toLowerCase();
 
+
 @withNavigation
 class OnboardModal extends Component {
 
@@ -236,7 +237,7 @@ class OnboardModal extends Component {
                 </Text>
                 <Text
                   style={{
-                    color: colors.white,
+                    color: colors.rollingStone,
                     fontFamily: 'omnes',
                     fontSize: 17,
                     justifyContent: 'space-between',
