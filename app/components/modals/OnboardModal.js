@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {
+  Animated,
   Dimensions,
+  Easing,
   Image,
   LayoutAnimation,
   Picker,
@@ -105,6 +107,10 @@ class OnboardModal extends Component {
       },
       selected_relationship_status: null
     };
+
+    this.boardScale = new Animated.Value(1);
+    this.boardMargin = new Animated.Value(0);
+    this.boardHeight = new Animated.Value(1.6 * DeviceHeight/3);
   }
 
   onboardUser() {
@@ -139,6 +145,38 @@ class OnboardModal extends Component {
     
     this.props.dispatch(ActionMan.updateUser(selected_theirs));
     this.setState({selected_theirs});
+  }
+
+  toggleAnimation() {
+    this.boardScale = new Animated.Value(1);
+    this.boardMargin = new Animated.Value(0);
+    this.boardHeight = new Animated.Value(1.6 * DeviceHeight/3);
+    Animated.parallel([
+      Animated.timing(
+        this.boardScale,
+        {
+          toValue: 0.8,
+          duration: 100,
+          easing: Easing.linear,
+        }
+      ),
+      Animated.timing(
+        this.boardMargin,
+        {
+          toValue: -100,
+          duration: 100,
+          easing: Easing.linear,
+        }
+      ),
+      Animated.timing(
+        this.boardHeight,
+        {
+          toValue: 2 * DeviceHeight / 3,
+          duration: 100,
+          easing: Easing.quad,
+        }
+      )
+    ]).start();
   }
 
   _pressNewImage() {
@@ -199,12 +237,13 @@ class OnboardModal extends Component {
               top: 0,
             }]}
           >
-            <View
+            <Animated.View
               style={[styles.col, {
                 flex: 0,
-                marginTop: this.state.step == 0 ? 100 : 0,
+                marginTop: this.boardMargin,
                 paddingBottom: 160,
                 paddingTop: MagicNumbers.is5orless ? 40 : 140,
+                transform: [{scale: this.boardScale}]
               }]}
             >
               <View
@@ -270,8 +309,8 @@ class OnboardModal extends Component {
                       height: 70,
                     }}
                     onPress={() => {
-                      LayoutAnimation.easeInEaseOut();
                       this.setState({step: 1});
+                      this.toggleAnimation();
                     }}
                   >
                     <View style={[
@@ -383,43 +422,61 @@ class OnboardModal extends Component {
                   </TouchableOpacity>
                 </View>
               </View>
-            </View>
+            </Animated.View>
             {this.state.step > 0 &&
-              <View
+              <Animated.View
                 style={{
-                  alignItems: 'center',
+                  alignItems: 'flex-start',
                   backgroundColor: colors.outerSpace,
-                  position: 'absolute',
                   bottom: 0,
                   flex: 1,
-                  justifyContent: 'center',
+                  flexDirection: 'column',
+                  position: 'absolute',
                   width: DeviceWidth,
-                  height: 200,
+                  height: this.boardHeight,
                 }}
               >
-                {this.state.step == 1 &&
-                  <Picker
-                    onValueChange={this.pickerValue.bind(this)}
+                <View
+                  style={{
+                    alignItems: 'center',
+                    backgroundColor: colors.dark,
+                    justifyContent: 'center',
+                    width: DeviceWidth,
+                    height: 50
+                  }}
+                >
+                  <Text
                     style={{
-                      alignItems: 'stretch',
-                      alignSelf: 'center',
-                      backgroundColor: colors.dark,
-                      marginHorizontal: 0,
-                      width: DeviceWidth,
-                    }}
-                    itemStyle={{
                       color: colors.white,
-                      fontSize: 22,
-                      textAlign: 'center',
+                      fontFamily: 'montserrat',
+                      fontSize: 18,
+                      fontWeight: '600',
                     }}
-                    selectedValue={this.state.selected_ours || null}
                   >
-                    <PickerItem key={'xn'} value={null} label={('')}/>
-                      {us_choices.map(item => {
-                        return (<PickerItem key={item.label.trim()} value={item.value} label={item.label} />);
-                      })}
-                  </Picker>}
-              </View>
+                    {this.state.selected_ours && this.state.selected_ours.length > 1 ? 'WE\'RE A' : 'I\'M A' }
+                  </Text>
+                </View>
+
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: 'column',
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: colors.white,
+                      fontFamily: 'montserrat',
+                      fontSize: 18,
+                      fontWeight: '600',
+                      textAlign: 'left',
+                    }}
+                  >
+                    Single Woman
+                  </Text>
+                  
+                </View>
+              </Animated.View>
             }
           </View>
         </ScrollView>
