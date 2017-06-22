@@ -33,11 +33,11 @@ export class Welcome extends Component {
     styles: NavigationStyles.Fade,
     navigationBar: {
       backgroundColor: colors.transparent,
-      renderLeft(route, props){
-        return false
+      renderLeft(route, props) {
+        return false;
       },
       renderRight(route, props) {
-        return false
+        return false;
       },
       translucent: true,
       visible: false,
