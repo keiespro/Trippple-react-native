@@ -41,10 +41,10 @@ class UserImageCircle extends Component {
             defaultSource={require('./screens/settings/assets/placeholderUser@3x.png')}
             key={`${id}thumb`}
             onLoadStart={e => {
-              this.setState({loading:true})
+              this.setState({loading: true})
             }}
             onLoadEnd={e => {
-              this.setState({loading:false})
+              this.setState({loading: false})
             }}
             resizeMode={Image.resizeMode.cover}
             source={thumbUrl ? {uri: thumbUrl} : null}
@@ -53,8 +53,8 @@ class UserImageCircle extends Component {
           <View style={styles.circle}>
             <Image
               resizeMode={Image.resizeMode.contain}
-              source={require('./screens/settings/assets/cog@3x.png')}
-              style={{width: 18, height: 18}}
+              source={require('./screens/settings/assets/edit@3x.png')}
+              style={{width: 14, height: 14}}
             />
           </View>
           {this.state.loading ? (
@@ -68,7 +68,7 @@ class UserImageCircle extends Component {
                   left: 0,
                   top: 0,
                   width: this.props.diameter,
-                  height:this.props.diameter,
+                  height: this.props.diameter,
                   zIndex: 1999,
                 }}
               >
@@ -89,14 +89,14 @@ class UserImageCircle extends Component {
 const styles = StyleSheet.create({
   circle: {
     alignItems: 'center',
-    borderRadius: 17.5,
-    backgroundColor: colors.mediumPurple,
+    borderRadius: 16,
+    backgroundColor: colors.brightPurple,
     justifyContent: 'center',
-    left: 8,
-    top: 8,
+    bottom: 2,
+    right: 2,
     position: 'absolute',
-    width: 35,
-    height: 35,
+    width: 32,
+    height: 32,
   },
   userimage: {
     alignItems: 'center',
@@ -112,4 +112,3 @@ const mapStateToProps = (state, ownProps) => ({ ...ownProps, navState: state.nav
 const mapDispatchToProps = (dispatch) => ({ dispatch })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserImageCircle);
-

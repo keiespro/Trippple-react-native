@@ -406,7 +406,7 @@ class OnboardModal extends Component {
         </ScrollView>
 
         {this.state.step == 1 &&
-          <View style={{flexGrow:1,position:'absolute',bottom:24,}}>
+          <View style={{bottom: 24, flexGrow:1, position:'absolute'}}>
             {us_choices.map((item, i) => {
               return (
                 <View key={i} style={{width: DeviceWidth, backgroundColor: colors.dark}}>
