@@ -23,6 +23,7 @@ const colors = {
   dark: 'rgb(36,49,56)',
   dark70: 'rgba(36,49,56,.7)',
   dark90: 'rgba(36,49,56,.9)',
+  darkCornFlower: 'rgb(40,95,205)',
   darkGreenBlue: 'rgb(25,105,66)',
   darkGreenBlue40: 'rgba(25, 104, 65, 0.40)',
   darkishPink20: 'rgba(232,73,107,0.20)',

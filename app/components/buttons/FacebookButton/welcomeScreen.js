@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   StyleSheet,
   Text,
+  View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import { MagicNumbers } from '../../../utils/DeviceConfig';
@@ -17,7 +18,8 @@ class FacebookButton extends Component {
   };
 
   constructor(props) {
-    super()
+    super();
+
     this.state = {
       fbUser: props.fbUser
     }
@@ -36,8 +38,12 @@ class FacebookButton extends Component {
         inStyle={[styles.iconButtonOuter]}
         onPress={this.onPress.bind(this)}
       >
-        <Icon name="sc-facebook" size={40} color="#fff" style={styles.icon}/>
-        <Text style={styles.btntext}>{this.props.buttonText || 'LOG IN WITH FACEBOOK'}</Text>
+        <View style={styles.iconContainer}>
+          <Icon name="sc-facebook" size={40} color="#fff" style={styles.icon}/>
+        </View>
+        <View style={styles.textContainer}>
+          <Text style={styles.btntext}>{this.props.buttonText || 'LOG IN WITH FACEBOOK'}</Text>
+        </View>
       </Btn>
     )
   }
@@ -65,21 +71,32 @@ const styles = StyleSheet.create({
     marginRight: 5
   },
   iconButtonOuter: {
-    alignItems: 'center',
-    alignSelf: 'stretch',
     backgroundColor: colors.cornFlower,
-    flexGrow: 0,
-    justifyContent: 'center',
-    margin: 0,
-    paddingHorizontal: 30,
+    borderRadius: 3,
+    flex: 0,
     flexDirection: 'row',
+    margin: 0,
+    width: 300,
     height: 70,
   },
-  LogoBox: { },
+  iconContainer: {
+    alignItems: 'center',
+    backgroundColor: colors.darkCornFlower,
+    borderRadius: 3,
+    flex: 1,
+    justifyContent: 'center',
+  },
   middleTextWrap: {
     alignItems: 'center',
     justifyContent: 'center',
     height: 50
+  },
+  textContainer: {
+    alignItems: 'center',
+    backgroundColor: colors.cornFlower,
+    borderRadius: 3,
+    flex: 4,
+    justifyContent: 'center',
   },
 })
 
