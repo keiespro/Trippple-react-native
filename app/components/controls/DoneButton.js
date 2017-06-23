@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
 import {
-    Dimensions,
     StyleSheet,
     Text,
     TouchableOpacity,
     View,
 } from 'react-native';
-import { MagicNumbers } from '../../utils/DeviceConfig';
+import { DeviceHeight, DeviceWidth, MagicNumbers } from '../../utils/DeviceConfig';
 import colors from '../../utils/colors';
 
-const DeviceHeight = Dimensions.get('window').height;
-const DeviceWidth = Dimensions.get('window').width;
 
 class DoneButton extends Component {
+
     static defaultProps = {
         ative: false,
         text: 'DONE',
@@ -37,6 +35,7 @@ class DoneButton extends Component {
             </TouchableOpacity>
         );
     }
+
 }
 
 const styles = StyleSheet.create({
