@@ -1,50 +1,63 @@
-
-import React from 'react'
-import {TouchableNativeFeedback, View, Text, Image} from 'react-native'
-import styles from '../screens/settings/settingsStyles';
-import {MagicNumbers} from '../../utils/DeviceConfig'
+import React, { Component } from 'react';
+import {
+  Image,
+  Text,
+  TouchableNativeFeedback,
+  View,
+} from 'react-native';
+import { MagicNumbers } from '../../utils/DeviceConfig';
 import colors from '../../utils/colors';
+import styles from '../screens/settings/settingsStyles';
 
 
-const Selectable = ({selected, onPress, isLast, label, field, moreStyle = {}, diameter = 30 }) => (
+const Selectable = ({
+  diameter = 30,
+  field,
+  isLast,
+  label,
+  moreStyle = {},
+  onPress,
+  selected,
+}) => (
   <TouchableNativeFeedback
-    
     background={TouchableNativeFeedback.SelectableBackground(colors.mediumPurple || colors.dark)}
     onPress={onPress}
   >
     <View
       style={[
+        isLast && { borderBottomWidth: 0 },
+        moreStyle,
         styles.insideSelectable,
         styles.formRow,
-        isLast && { borderBottomWidth: 0 },
-        moreStyle
       ]}
     >
       <Text
         style={{
           color: selected ? colors.white : colors.rollingStone,
+          fontFamily: 'montserrat',
           fontSize: MagicNumbers.size18,
-          fontFamily: 'montserrat'
         }}
-      >{label}</Text>
+      >
+        {label}
+      </Text>
 
       {selected ? (
         <Image
           style={{
+            width: diameter,
             height: diameter,
-            width: diameter
           }}
           source={require('./assets/ovalSelected@3x.png')}
         />
       ) : (
         <View
           style={{
-            height: diameter,
-            width: diameter,
-            borderWidth: 1.5,
             borderColor: colors.shuttleGray,
+            borderRadius: diameter/2,
             borderStyle: 'dashed',
-            borderRadius: diameter/2
+            borderWidth: 1.5,
+            width: diameter,
+            height: diameter,
           }}
         />
       )}
@@ -52,5 +65,6 @@ const Selectable = ({selected, onPress, isLast, label, field, moreStyle = {}, di
   </TouchableNativeFeedback>
 )
 
+Selectable.displayName = 'Selectable';
 
-export default Selectable
+export default Selectable;
