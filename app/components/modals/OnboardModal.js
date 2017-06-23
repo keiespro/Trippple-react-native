@@ -214,12 +214,14 @@ class OnboardModal extends Component {
       this.setState({pickers: looking_choices});
     } else {
       const { selected_theirs } = this.state;
+      let checked = false;
 
       selected_theirs[value] = !selected_theirs[value];
       this.setState({selected_theirs});
       _.each(selected_theirs, (selected) => {
-        if (selected) this.setState({isDoneActive: selected});
+        if (selected) checked=selected;
       });
+      this.setState({isDoneActive: checked})
     }
   }
 
