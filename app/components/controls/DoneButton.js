@@ -22,6 +22,7 @@ class DoneButton extends Component {
         return (
             <TouchableOpacity
                 disabled={!this.props.active}
+                onPress={this.props.onPress}
                 style={[styles.container, {
                     backgroundColor: this.props.active ? colors.brightPurple : colors.dark
                 }]}

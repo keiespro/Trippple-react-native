@@ -75,6 +75,14 @@ const looking_choices = [
     label: 'Male/Male Couples',
   },
 ];
+const types = ['f', 'm', 'mf', 'ff', 'mm'];
+const labels = {
+  'f': 'Single Women',
+  'm': 'Single Men',
+  'mf': 'M/F Couples',
+  'ff': 'F/F Couples',
+  'mm': 'M/M Couples',
+}
 const get_key_vals = (v) => v.toLowerCase();
 
 
@@ -94,6 +102,7 @@ class OnboardModal extends Component {
 
     this.state = {
       isDoneActive: false,
+      isDoneVisible: false,
       pickers: us_choices,
       step: 0,
       selected_ours: null,
@@ -122,18 +131,26 @@ class OnboardModal extends Component {
   }
 
   handleContinue() {
-    if (this.state.selected_relationship_status == 'single') {
-      this.onboardUser();
+    const { step } = this.state;
+
+    if (step == 2) {
+      this.setState({step: 0});
+      this.toggleThirdAnimation();
     } else {
-      const payload = {
-        relationship_status: this.state.selected_relationship_status,
-        genders: this.state.selected_genders,
-      };
-      this.props.dispatch(ActionMan.selectCoupleGenders(payload));
-      this.props.navigator.push(Router.getRoute('JoinCouple', {
-        ...this.state
-      }));
+      if (this.state.selected_relationship_status == 'single') {
+        this.onboardUser();
+      } else {
+        const payload = {
+          relationship_status: this.state.selected_relationship_status,
+          genders: this.state.selected_genders,
+        };
+        this.props.dispatch(ActionMan.selectCoupleGenders(payload));
+        this.props.navigator.push(Router.getRoute('JoinCouple', {
+          ...this.state
+        }));
+      }
     }
+    
   }
 
   togglePref(pref) {
@@ -147,10 +164,19 @@ class OnboardModal extends Component {
   }
 
   toggleFirstAnimation() {
-    this.boardScale = new Animated.Value(1);
-    this.boardMargin = new Animated.Value(0);
     this.boardHeight = new Animated.Value(1.6 * DeviceHeight / 3);
+    this.boardMargin = new Animated.Value(0);
+    this.boardOpacity = new Animated.Value(1);
+    this.boardScale = new Animated.Value(1);
     Animated.parallel([
+      Animated.timing(
+        this.boardOpacity,
+        {
+          toValue: 0.4,
+          duration: 100,
+          easing: Easing.linear,
+        }
+      ),
       Animated.timing(
         this.boardScale,
         {
@@ -178,16 +204,63 @@ class OnboardModal extends Component {
     ]).start();
   }
 
-  toggleSecondAnimation() {
+  toggleSecondAnimation(value) {
     this.boardHeight = new Animated.Value(2 * DeviceHeight / 3);
     Animated.timing(
       this.boardHeight,
       {
         toValue: 2.4 * DeviceHeight / 3,
+        delay: 1000,
         duration: 100,
         easing: Easing.quad
       }
-    ).start();
+    ).start(() => {
+      this.setState({step: 2});
+      this.setState({pickers: looking_choices});
+      this.setState({isDoneVisible: true});
+    });
+  }
+
+  toggleThirdAnimation() {
+    this.boardHeight = new Animated.Value(2.4 * DeviceHeight / 3);
+    this.boardMargin = new Animated.Value(-100);
+    this.boardOpacity = new Animated.Value(0.4);
+    this.boardScale = new Animated.Value(0.8);
+
+    Animated.parallel([
+      Animated.timing(
+        this.boardOpacity,
+        {
+          toValue: 1,
+          duration: 100,
+          easing: Easing.linear,
+        }
+      ),
+      Animated.timing(
+        this.boardScale,
+        {
+          toValue: 1,
+          duration: 100,
+          easing: Easing.linear,
+        }
+      ),
+      Animated.timing(
+        this.boardMargin,
+        {
+          toValue: 0,
+          duration: 100,
+          easing: Easing.linear,
+        }
+      ),
+      Animated.timing(
+        this.boardHeight,
+        {
+          toValue: 0,
+          duration: 100,
+          easing: Easing.quad,
+        }
+      )
+    ]).start();
   }
 
   _pressNewImage() {
@@ -208,10 +281,7 @@ class OnboardModal extends Component {
           f: false,
         },
       });
-
-      this.toggleSecondAnimation();
-      this.setState({step: 2});
-      this.setState({pickers: looking_choices});
+      this.toggleSecondAnimation(value);
     } else {
       const { selected_theirs } = this.state;
       let checked = false;
@@ -221,8 +291,23 @@ class OnboardModal extends Component {
       _.each(selected_theirs, (selected) => {
         if (selected) checked=selected;
       });
+  
       this.setState({isDoneActive: checked})
     }
+  }
+
+  renderLooking() {
+    let array = [];
+    _.each(types, (type) => {
+      if (this.state.selected_theirs[type]) {
+        array.push(
+          <Text style={{color: colors.white, fontFamily: 'montserrat', fontSize: 20, marginRight: 40}}>
+            {labels[type]}
+          </Text>
+        )
+      }
+    })
+    return array;
   }
 
   render() {
@@ -269,6 +354,7 @@ class OnboardModal extends Component {
                 marginTop: this.boardMargin,
                 paddingBottom: 160,
                 paddingTop: MagicNumbers.is5orless ? 40 : 140,
+                opacity: this.boardOpacity,
                 transform: [{scale: this.boardScale}]
               }]}
             >
@@ -359,7 +445,7 @@ class OnboardModal extends Component {
                         textAlign: 'left',
                       }}
                       >
-                        {this.state.selected_ours && this.state.selected_ours.length > 1 ? 'WE\'RE A...' : 'I\'M A...' }
+                        {this.state.selected_ours && this.state.selected_ours.length > 1 ? 'WE\'RE A' : 'I\'M A' }
                       </Text>
                       {this.state.selected_ours &&
                         <Text style={{color: colors.white, fontFamily: 'montserrat', fontSize: 20, marginRight: 40}}>
@@ -421,8 +507,13 @@ class OnboardModal extends Component {
                           textAlign: 'left',
                         }}
                       >
-                        LOOKING FOR...
+                        LOOKING FOR
                       </Text>
+                      {this.state.isDoneActive &&
+                        <View style={{flex: 1, flexDirection: 'column', alignItems: 'flex-end', paddingRight: 15}}>
+                          {this.renderLooking()}
+                        </View>
+                      }
                       <View
                         style={{
                           flex: 1,
@@ -479,7 +570,7 @@ class OnboardModal extends Component {
                       fontWeight: '600',
                     }}
                   >
-                    {this.state.selected_ours == null ? (
+                    {this.state.step == 1 ? (
                       'I\'M A'
                     ) : (
                       'LOOKING FOR'
@@ -526,10 +617,11 @@ class OnboardModal extends Component {
                     );
                   })}
 
-                  {(this.state.selected_ours) && (
+                  {(this.state.isDoneVisible) && (
                     <DoneButton
                       active={this.state.isDoneActive}
                       text="DONE"
+                      onPress={() => this.handleContinue()}
                     />
                   )}
                 </View>
