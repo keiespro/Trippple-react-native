@@ -181,12 +181,10 @@ class OnboardModal extends Component {
             height: DeviceHeight,
           }}
           showsVerticalScrollIndicator={false}
-          style={[
-            styles.scrollView, {
-              flex: 0,
-              height: DeviceHeight,
-            }
-          ]}
+          style={[styles.scrollView, {
+            flex: 0,
+            height: DeviceHeight,
+          }]}
           vertical
         >
           <View
@@ -222,7 +220,6 @@ class OnboardModal extends Component {
                   }}
                   thumbUrl={this.props.user.thumb_url}
                 />
-
                 <Text
                   style={{
                     color: colors.white,
@@ -271,16 +268,14 @@ class OnboardModal extends Component {
                       this.setState({step: 1});
                     }}
                   >
-                    <View style={[
-                      styles.rowtext,
-                      styles.bigtext, {
+                    <View
+                      style={[styles.rowtext, styles.bigtext, {
                         flexDirection: 'row',
                         flex: 0,
                         justifyContent: 'space-between',
                         marginVertical: 10,
                         paddingRight: 15,
-                      }
-                    ]}
+                      }]}
                     >
                       <Text
                         style={{
@@ -406,7 +401,6 @@ class OnboardModal extends Component {
             }
           </View>
         </ScrollView>
-
         {this.state.step == 1 &&
           <View style={{bottom: 24, flex: 1, position: 'absolute'}}>
             {us_choices.map((item, i) => {
@@ -442,7 +436,6 @@ class OnboardModal extends Component {
             })}
           </View>
         }
-
         <View
           style={{
             bottom: this.state.selected_ours && has_theirs ? 140 : 0,
