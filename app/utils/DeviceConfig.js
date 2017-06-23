@@ -1,4 +1,8 @@
-import { Dimensions, PixelRatio } from 'react-native'
+import {
+  Dimensions,
+  PixelRatio,
+  Platform,
+} from 'react-native';
 
 const screen = Dimensions.get('window');
 const keyboardHeightMapShort =  {
@@ -6,7 +10,7 @@ const keyboardHeightMapShort =  {
   568: 217, //5
   667: 215, //6
   736: 226, //6 Plus
-}
+};
 // 568: 224, //5
 // 667: 225, //6
 // 736: 236,
@@ -15,7 +19,7 @@ const keyboardHeightMap =  {
   568: 253, //5
   667: 258, //6
   736: 271, //6 Plus
-}
+};
 const keyboardHeight = keyboardHeightMapShort[screen.height];
 const MagicNumbers = {
     keyboardHeight,
@@ -26,6 +30,10 @@ const MagicNumbers = {
     screenPadding: screen.width > 360 ? 50 : 25,
     size18: screen.width > 360 ? 18 : 16,
     continueButtonHeight: screen.scale == 2 && screen.height <= 480 ? 60 : 80
-}
+};
 
-export {MagicNumbers}
+const DeviceWidth = Dimensions.get('window').width;
+const DeviceHeight = Dimensions.get('window').height;
+const iOS = Platform.OS == 'ios';
+
+export { DeviceHeight, DeviceWidth, iOS, MagicNumbers };

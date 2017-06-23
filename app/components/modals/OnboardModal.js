@@ -17,7 +17,7 @@ import _ from 'lodash';
 import { BlurView, VibrancyView } from 'react-native-blur';
 import { connect } from 'react-redux';
 import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
-import { MagicNumbers } from '../../utils/DeviceConfig';
+import { DeviceHeight, DeviceWidth, iOS, MagicNumbers } from '../../utils/DeviceConfig';
 import ActionMan from '../../actions';
 import DoneButton from '../controls/DoneButton';
 import colors from '../../utils/colors';
@@ -27,11 +27,7 @@ import styles from './purpleModalStyles';
 import UserImageCircle from '../UserImageCircle';
 import { sextypes, self_labels, self_sextypes, looking_labels, looking_sextypes } from '../../utils/constants';
 
-const DeviceHeight = Dimensions.get('window').height;
-const DeviceWidth = Dimensions.get('window').width;
 const TOP_DISTANCE = DeviceHeight - 160;
-const iOS = Platform.OS == 'ios';
-const get_key_vals = (v) => v.toLowerCase();
 
 
 @withNavigation
@@ -450,7 +446,14 @@ class OnboardModal extends Component {
                         LOOKING FOR
                       </Text>
                       {this.state.isDoneActive &&
-                        <View style={{flex: 1, flexDirection: 'column', alignItems: 'flex-end', paddingRight: 15}}>
+                        <View
+                          style={{
+                            alignItems: 'flex-end',
+                            flex: 1,
+                            flexDirection: 'column',
+                            paddingRight: 15,
+                          }}
+                        >
                           {this.renderLooking()}
                         </View>
                       }
