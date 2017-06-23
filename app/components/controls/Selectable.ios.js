@@ -1,52 +1,61 @@
-
-import React from 'react'
-import {TouchableHighlight, TouchableNativeFeedback, View, Text, Image} from 'react-native'
+import React, { Component } from 'react';
+import {
+  Dimensions,
+  Image,
+  Text,
+  TouchableHighlight,
+  TouchableNativeFeedback,
+  View,
+} from 'react-native';
 import styles from '../screens/settings/settingsStyles';
-import {MagicNumbers} from '../../utils/DeviceConfig'
+import { MagicNumbers } from '../../utils/DeviceConfig';
 import colors from '../../utils/colors';
 
 
-const Selectable = ({selected, onPress, isLast, label, field, underlayColor, moreStyle = {flexGrow:-1} }) => (
+const Selectable = ({
+  field,
+  innerStyle,
+  isLast,
+  label,
+  onPress,
+  outerStyle,
+  selected,
+  underlayColor,
+}) => (
   <TouchableHighlight
     underlayColor={underlayColor || colors.dark}
     onPress={() => onPress(field)}
-    style={[
-      isLast && { borderBottomWidth: 0 },
-      moreStyle,
-    ]}
+    style={outerStyle}
   >
-    <View
-      style={[
-      moreStyle, {
-        paddingHorizontal:15
-      }
-     ]}
-    >
+    <View style={[innerStyle,
+      isLast && {borderBottomWidth: 0}
+    ]}>
       <Text
         style={{
           color: selected ? colors.white : colors.rollingStone,
+          fontFamily: 'montserrat',
           fontSize: MagicNumbers.size18,
-          fontFamily: 'montserrat'
         }}
-      >{label}</Text>
+      >
+        {label}
+      </Text>
 
       {selected ? (
         <Image
           style={{
+            width: 30,
             height: 30,
-            width: 30
           }}
           source={require('./assets/ovalSelected@3x.png')}
         />
       ) : (
         <View
           style={{
-            height: 30,
-            width: 30,
-            borderWidth: 1.5,
             borderColor: colors.shuttleGray,
+            borderRadius: 15,
             borderStyle: 'dashed',
-            borderRadius: 15
+            width: 30,
+            height: 30,
           }}
         />
       )}
@@ -54,6 +63,6 @@ const Selectable = ({selected, onPress, isLast, label, field, underlayColor, mor
   </TouchableHighlight>
 )
 
-Selectable.displayName = 'Selectable'
+Selectable.displayName = 'Selectable';
 
-export default Selectable
+export default Selectable;

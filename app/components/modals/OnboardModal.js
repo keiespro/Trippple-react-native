@@ -105,12 +105,12 @@ class OnboardModal extends Component {
         m: false,
         f: false
       },
-      selected_relationship_status: null
+      selected_relationship_status: null,
     };
 
     this.boardScale = new Animated.Value(1);
     this.boardMargin = new Animated.Value(0);
-    this.boardHeight = new Animated.Value(1.6 * DeviceHeight/3);
+    this.boardHeight = new Animated.Value(1.6 * DeviceHeight / 3);
   }
 
   onboardUser() {
@@ -194,7 +194,7 @@ class OnboardModal extends Component {
         ff: false,
         mf: false,
         m: false,
-        f: false
+        f: false,
       },
     });
   }
@@ -202,7 +202,7 @@ class OnboardModal extends Component {
   render() {
     const has_theirs = Object.keys(this.state.selected_theirs).reduce((acc, el) => {
       if (this.state.selected_theirs[el]) {
-        acc = true
+        acc = true;
       }
       return acc;
     }, false);
@@ -220,7 +220,7 @@ class OnboardModal extends Component {
         <ScrollView
           contentContainerStyle={{
             backgroundColor: colors.outerSpace,
-            height: DeviceHeight ,
+            height: DeviceHeight,
           }}
           showsVerticalScrollIndicator={false}
           style={[
@@ -248,8 +248,8 @@ class OnboardModal extends Component {
             >
               <View
                 style={{
-                  alignItems:'center',
-                  justifyContent:'center',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   top: this.state.step == 0 ? -50 : -90,
                 }}
               >
@@ -258,7 +258,7 @@ class OnboardModal extends Component {
                   id={this.props.user.id}
                   overrideStyles={{
                     borderRadius: 60,
-                    marginBottom:30,
+                    marginBottom: 30,
                     position:'relative',
                     width:  120,
                     height: 120,
@@ -291,7 +291,7 @@ class OnboardModal extends Component {
                 <View
                   style={[{
                     alignItems: 'flex-start',
-                    flex:0,
+                    flex: 0,
                     justifyContent: 'space-between',
                     marginTop: 0,
                   }]}
@@ -379,7 +379,7 @@ class OnboardModal extends Component {
                     }}
                   >
                     <View
-                      style={[ styles.rowtext, styles.bigtext, {
+                      style={[styles.rowtext, styles.bigtext, {
                         flexDirection: 'row',
                         flex: 0,
                         justifyContent: 'space-between',
@@ -442,7 +442,7 @@ class OnboardModal extends Component {
                     backgroundColor: colors.dark,
                     justifyContent: 'center',
                     width: DeviceWidth,
-                    height: 50
+                    height: 50,
                   }}
                 >
                   <Text
@@ -463,18 +463,38 @@ class OnboardModal extends Component {
                     flexDirection: 'column',
                   }}
                 >
-                  <Text
-                    style={{
-                      color: colors.white,
-                      fontFamily: 'montserrat',
-                      fontSize: 18,
-                      fontWeight: '600',
-                      textAlign: 'left',
-                    }}
-                  >
-                    Single Woman
-                  </Text>
-                  
+                  {us_choices.map((item, i) => {
+                    return (
+                      <Selectable
+                        diameter={20}
+                        isLast={i == us_choices.length - 1}
+                        field={item}
+                        key={`${item.label.trim()}k`}
+                        label={item.label}
+                        outerStyle={{
+                          flex: 1,
+                          flexDirection: 'column',
+                          width: DeviceWidth,
+                        }}
+                        innerStyle={{
+                          alignItems: 'center',
+                          borderBottomWidth: StyleSheet.hairlineWidth,
+                          borderBottomColor: colors.white20,
+                          flex: 1,
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          marginLeft: 30,
+                          marginRight: 30,
+                          overflow: 'hidden',
+                        }}
+                        onPress={this.pickerValue.bind(this, item.value)}
+                        selected={this.state.selected_ours == item.value}
+                        underlayColor={colors.dark}
+                        value={item.value}
+                        values={us_choices}
+                      />
+                    );
+                  })}
                 </View>
               </Animated.View>
             }
