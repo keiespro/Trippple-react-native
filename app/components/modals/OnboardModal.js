@@ -25,71 +25,12 @@ import Router from '../../Router';
 import Selectable from '../controls/Selectable';
 import styles from './purpleModalStyles';
 import UserImageCircle from '../UserImageCircle';
+import { sextypes, self_labels, self_sextypes, looking_labels, looking_sextypes } from '../../utils/constants';
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
-const PickerItem = Picker.Item;
 const TOP_DISTANCE = DeviceHeight - 160;
 const iOS = Platform.OS == 'ios';
-const us_choices = [
-  {
-    value: 'm',
-    label: 'Single Woman',
-  },
-  {
-    value: 'f',
-    label: 'Single Man',
-  },
-  {
-    value: 'mf',
-    label: 'Male/Female Couple',
-  },
-  {
-    value: 'mm',
-    label: 'Female/Female Couple',
-  },
-  {
-    value: 'ff',
-    label: 'Male/Male Couple',
-  },
-];
-const looking_choices = [
-  {
-    value: 'f',
-    label: 'Single Women',
-  },
-  {
-    value: 'm',
-    label: 'Single Men',
-  },
-  {
-    value: 'mf',
-    label: 'Male/Female Couples',
-  },
-  {
-    value: 'ff',
-    label: 'Female/Female Couples',
-  },
-  {
-    value: 'mm',
-    label: 'Male/Male Couples',
-  },
-];
-const types = ['f', 'm', 'mf', 'ff', 'mm'];
-const labelUs = {
-  'f': 'Single Woman',
-  'm': 'Single Man',
-  'mf': 'M/F Couple',
-  'ff': 'F/F Couple',
-  'mm': 'M/M Couple',
-}
-const labelLooking = {
-  'f': 'Single Women',
-  'm': 'Single Men',
-  'mf': 'M/F Couples',
-  'ff': 'F/F Couples',
-  'mm': 'M/M Couples',
-}
 const get_key_vals = (v) => v.toLowerCase();
 
 
@@ -110,7 +51,7 @@ class OnboardModal extends Component {
     this.state = {
       isDoneActive: false,
       isDoneVisible: false,
-      pickers: us_choices,
+      pickers: self_sextypes,
       step: 0,
       selected_ours: null,
       selected_theirs: {
@@ -123,9 +64,10 @@ class OnboardModal extends Component {
       selected_relationship_status: null,
     };
 
-    this.boardScale = new Animated.Value(1);
-    this.boardMargin = new Animated.Value(0);
     this.boardHeight = new Animated.Value(1.6 * DeviceHeight / 3);
+    this.boardMargin = new Animated.Value(0);
+    this.boardOpacity = new Animated.Value(1);
+    this.boardScale = new Animated.Value(1);
   }
 
   onboardUser() {
@@ -138,10 +80,11 @@ class OnboardModal extends Component {
   }
 
   handleContinue() {
-    const { step } = this.state;
+    const { selected_theirs, step } = this.state;
 
     if (step == 2) {
       this.setState({step: 0});
+      this.props.dispatch(ActionMan.updateUser(selected_theirs));
       this.toggleThirdAnimation();
     } else {
       if (this.state.selected_relationship_status == 'single') {
@@ -157,17 +100,6 @@ class OnboardModal extends Component {
         }));
       }
     }
-    
-  }
-
-  togglePref(pref) {
-    const selected_theirs = { ...this.state.selected_theirs }
-
-    selected_theirs[pref] = !selected_theirs[pref];
-    LayoutAnimation.easeInEaseOut();
-    
-    this.props.dispatch(ActionMan.updateUser(selected_theirs));
-    this.setState({selected_theirs});
   }
 
   toggleFirstAnimation() {
@@ -223,7 +155,7 @@ class OnboardModal extends Component {
       }
     ).start(() => {
       this.setState({step: 2});
-      this.setState({pickers: looking_choices});
+      this.setState({pickers: looking_sextypes});
       this.setState({isDoneVisible: true});
     });
   }
@@ -305,11 +237,11 @@ class OnboardModal extends Component {
 
   renderLooking() {
     let array = [];
-    _.each(types, (type) => {
+    _.each(sextypes, (type) => {
       if (this.state.selected_theirs[type]) {
         array.push(
           <Text style={{color: colors.white, fontFamily: 'montserrat', fontSize: 20, marginRight: 40}}>
-            {labelLooking[type]}
+            {looking_labels[type]}
           </Text>
         )
       }
@@ -456,7 +388,7 @@ class OnboardModal extends Component {
                       </Text>
                       {this.state.selected_ours &&
                         <Text style={{color: colors.white, fontFamily: 'montserrat', fontSize: 20, marginRight: 40}}>
-                          {labelUs[this.state.selected_genders]}
+                          {self_labels[this.state.selected_genders]}
                         </Text>
                       }
                       <View
@@ -494,6 +426,7 @@ class OnboardModal extends Component {
                     onPress={() => {
                       if (this.state.selected_ours) {
                         this.setState({step: 2});
+                        this.toggleSecondAnimation();
                       }
                     }}
                   >
@@ -604,7 +537,7 @@ class OnboardModal extends Component {
                     return (
                       <Selectable
                         diameter={20}
-                        isLast={i == us_choices.length - 1}
+                        isLast={i == self_sextypes.length - 1}
                         field={item}
                         key={`${item.label.trim()}k`}
                         label={item.label}
@@ -628,7 +561,7 @@ class OnboardModal extends Component {
                         selected={this.state.step == 1 ? this.state.selected_ours == item.value : this.state.selected_theirs[item.value]}
                         underlayColor={colors.dark}
                         value={item.value}
-                        values={us_choices}
+                        values={self_sextypes}
                       />
                     );
                   })}
