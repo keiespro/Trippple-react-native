@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import {
-  Dimensions,
   Image,
   Text,
   TouchableHighlight,
-  TouchableNativeFeedback,
   View,
 } from 'react-native';
 import styles from '../screens/settings/settingsStyles';
@@ -27,9 +25,11 @@ const Selectable = ({
     onPress={() => onPress(field)}
     style={outerStyle}
   >
-    <View style={[innerStyle,
-      isLast && {borderBottomWidth: 0}
-    ]}>
+    <View
+      style={[innerStyle,
+        isLast && {borderBottomWidth: 0}
+      ]}
+    >
       <Text
         style={{
           color: selected ? colors.white : colors.rollingStone,

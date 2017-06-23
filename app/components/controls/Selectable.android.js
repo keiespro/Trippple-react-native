@@ -13,22 +13,22 @@ import styles from '../screens/settings/settingsStyles';
 const Selectable = ({
   diameter = 30,
   field,
+  innerStyle,
   isLast,
   label,
   moreStyle = {},
   onPress,
+  outerStyle,
   selected,
 }) => (
   <TouchableNativeFeedback
     background={TouchableNativeFeedback.SelectableBackground(colors.mediumPurple || colors.dark)}
     onPress={onPress}
+    style={outerStyle}
   >
     <View
-      style={[
-        isLast && { borderBottomWidth: 0 },
-        moreStyle,
-        styles.insideSelectable,
-        styles.formRow,
+      style={[innerStyle,
+        isLast && {borderBottomWidth: 0}
       ]}
     >
       <Text
@@ -54,7 +54,6 @@ const Selectable = ({
           style={{
             borderColor: colors.shuttleGray,
             borderRadius: diameter/2,
-            borderStyle: 'dashed',
             borderWidth: 1.5,
             width: diameter,
             height: diameter,
