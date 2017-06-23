@@ -119,6 +119,7 @@ class OnboardModal extends Component {
     super();
 
     this.state = {
+      pickers: us_choices,
       step: 0,
       selected_ours: null,
       selected_theirs: {
@@ -232,7 +233,11 @@ class OnboardModal extends Component {
       },
     });
 
-    this.toggleSecondAnimation();
+    if (this.state.step == 1) {
+      this.toggleSecondAnimation();
+      this.setState({step: 2});
+      this.setState({pickers: looking_choices});
+    }
   }
 
   render() {
@@ -503,7 +508,7 @@ class OnboardModal extends Component {
                     flexDirection: 'column',
                   }}
                 >
-                  {us_choices.map((item, i) => {
+                  {this.state.pickers.map((item, i) => {
                     return (
                       <Selectable
                         diameter={20}
@@ -536,61 +541,17 @@ class OnboardModal extends Component {
                     );
                   })}
 
-                  {/*{(this.state.selected_ours) && (
+                  {(this.state.selected_ours) && (
                     <DoneButton
-                      active="false"
+                      active={false}
                       text="DONE"
                     />
-                  )}*/}
+                  )}
                 </View>
               </Animated.View>
             }
           </View>
         </ScrollView>
-        <View
-          style={{
-            bottom: this.state.selected_ours && has_theirs ? 180 : 0,
-            flex: 1,
-            left: 0,
-            right: 0,
-            overflow: 'hidden',
-            width: DeviceWidth,
-            height: this.state.selected_ours && has_theirs ? 70 : 0,
-          }}
-        >
-          <ContinueButton
-            canContinue={this.state.selected_ours && has_theirs}
-            customText={'CONTINUE'}
-            handlePress={this.handleContinue.bind(this)}
-          />
-        </View>
-        <View style={{bottom: 0, position: 'absolute'}}>
-          {this.state.step == 2 && this.state.selected_ours && them_choices[this.state.selected_relationship_status].map((item, i) => (
-            <Selectable
-              field={item}
-              isLast={i == them_choices[this.state.selected_relationship_status].length - 1}
-              key={`${item.label.trim()}k`}
-              label={item.label}
-              moreStyle={{
-                alignItems: 'center',
-                backgroundColor: colors.dark,
-                borderTopWidth: StyleSheet.hairlineWidth,
-                borderTopColor: colors.white20,
-                flex: 0,
-                flexDirection: 'row',
-                justifyContent:'space-between',
-                overflow: 'hidden',
-                width: DeviceWidth,
-                height: them_choices[this.state.selected_relationship_status].length == 3 ? 60 : 90,
-              }}
-              onPress={this.togglePref.bind(this, item.value)}
-              selected={this.state.selected_theirs[item.value]}
-              underlayColor={colors.dark}
-              value={this.state.selected_theirs[item.value]}
-              values={them_choices[this.state.selected_relationship_status]}
-            />
-          ))}
-        </View>
       </View>
     )
   }

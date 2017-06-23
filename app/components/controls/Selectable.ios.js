@@ -53,7 +53,7 @@ const Selectable = ({
           style={{
             borderColor: colors.shuttleGray,
             borderRadius: 15,
-            borderStyle: 'dashed',
+            borderWidth: 2,
             width: 30,
             height: 30,
           }}
