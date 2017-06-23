@@ -1,7 +1,3 @@
-/**
- * @flow
- */
-
 import React, {Component} from 'react';
 
 import {Text, Easing, Animated, TextInput, Platform, View, TouchableHighlight, StyleSheet, ActivityIndicator, Dimensions} from 'react-native';
@@ -83,8 +79,6 @@ class ContinueButton extends Component{
               }]}
               >{this.props.customText || 'CONTINUE'}</Text>
             )}
-
-            {/* this.state.submitting ? <ActivityIndicator style={{alignSelf:'center',alignItems:'center',flex:1,height:60,width:60,justifyContent:'center'}} animating={true} size={'large'}/> : <Text style={styles.continueButtonText}>CONTINUE</Text>*/}
           </View>
         </TouchableHighlight>
       </Animated.View>

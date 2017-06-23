@@ -33,25 +33,48 @@ const iOS = Platform.OS == 'ios';
 const us_choices = [
   {
     value: 'm',
-    label: 'Single Male',
+    label: 'Single Woman',
   },
   {
     value: 'f',
-    label: 'Single Female',
+    label: 'Single Man',
   },
   {
     value: 'mf',
-    label: 'Couple (Male/Female)',
+    label: 'Male/Female Couple',
   },
   {
     value: 'mm',
-    label: 'Couple (Male/Male)',
+    label: 'Female/Female Couple',
   },
   {
     value: 'ff',
-    label: 'Couple (Female/Female)',
+    label: 'Male/Male Couple',
   },
 ];
+const looking_choices = [
+  {
+    value: 'f',
+    label: 'Single Women',
+  },
+  {
+    value: 'm',
+    label: 'Single Men',
+  },
+  {
+    value: 'mf',
+    label: 'Male/Female Couples',
+  },
+  {
+    value: 'ff',
+    label: 'Female/Female Couples',
+  },
+  {
+    value: 'mm',
+    label: 'Male/Male Couples',
+  },
+];
+
 const them_choices = {
   couple: [
     {
@@ -147,10 +170,10 @@ class OnboardModal extends Component {
     this.setState({selected_theirs});
   }
 
-  toggleAnimation() {
+  toggleFirstAnimation() {
     this.boardScale = new Animated.Value(1);
     this.boardMargin = new Animated.Value(0);
-    this.boardHeight = new Animated.Value(1.6 * DeviceHeight/3);
+    this.boardHeight = new Animated.Value(1.6 * DeviceHeight / 3);
     Animated.parallel([
       Animated.timing(
         this.boardScale,
@@ -179,16 +202,27 @@ class OnboardModal extends Component {
     ]).start();
   }
 
+  toggleSecondAnimation() {
+    this.boardHeight = new Animated.Value(2 * DeviceHeight / 3);
+    Animated.timing(
+      this.boardHeight,
+      {
+        toValue: 2.4 * DeviceHeight / 3,
+        duration: 100,
+        easing: Easing.quad
+      }
+    ).start();
+  }
+
   _pressNewImage() {
     this.props.navigator.push(this.props.navigation.router.getRoute('FBPhotoAlbums', {}));
   }
 
-  pickerValue(v, i) {
-    if (!v) { return false; }
+  pickerValue(value) {
     this.setState({
-      selected_ours: v,
-      selected_genders: v,
-      selected_relationship_status: v.length == 1 ? 'single' : 'couple',
+      selected_ours: value,
+      selected_genders: value,
+      selected_relationship_status: value.length == 1 ? 'single' : 'couple',
       selected_theirs: {
         mm: false,
         ff: false,
@@ -197,6 +231,8 @@ class OnboardModal extends Component {
         f: false,
       },
     });
+
+    this.toggleSecondAnimation();
   }
 
   render() {
@@ -310,7 +346,7 @@ class OnboardModal extends Component {
                     }}
                     onPress={() => {
                       this.setState({step: 1});
-                      this.toggleAnimation();
+                      this.toggleFirstAnimation();
                     }}
                   >
                     <View style={[
@@ -453,7 +489,11 @@ class OnboardModal extends Component {
                       fontWeight: '600',
                     }}
                   >
-                    {this.state.selected_ours && this.state.selected_ours.length > 1 ? 'WE\'RE A' : 'I\'M A' }
+                    {this.state.selected_ours == null ? (
+                      'I\'M A'
+                    ) : (
+                      'LOOKING FOR'
+                    )}
                   </Text>
                 </View>
 
@@ -487,7 +527,7 @@ class OnboardModal extends Component {
                           marginRight: 30,
                           overflow: 'hidden',
                         }}
-                        onPress={this.pickerValue.bind(this, item.value)}
+                        onPress={() => this.pickerValue(item.value)}
                         selected={this.state.selected_ours == item.value}
                         underlayColor={colors.dark}
                         value={item.value}
@@ -495,6 +535,8 @@ class OnboardModal extends Component {
                       />
                     );
                   })}
+
+                  
                 </View>
               </Animated.View>
             }
