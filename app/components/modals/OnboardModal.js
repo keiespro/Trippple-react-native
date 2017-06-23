@@ -76,7 +76,14 @@ const looking_choices = [
   },
 ];
 const types = ['f', 'm', 'mf', 'ff', 'mm'];
-const labels = {
+const labelUs = {
+  'f': 'Single Woman',
+  'm': 'Single Man',
+  'mf': 'M/F Couple',
+  'ff': 'F/F Couple',
+  'mm': 'M/M Couple',
+}
+const labelLooking = {
   'f': 'Single Women',
   'm': 'Single Men',
   'mf': 'M/F Couples',
@@ -210,7 +217,7 @@ class OnboardModal extends Component {
       this.boardHeight,
       {
         toValue: 2.4 * DeviceHeight / 3,
-        delay: 1000,
+        delay: 500,
         duration: 100,
         easing: Easing.quad
       }
@@ -302,7 +309,7 @@ class OnboardModal extends Component {
       if (this.state.selected_theirs[type]) {
         array.push(
           <Text style={{color: colors.white, fontFamily: 'montserrat', fontSize: 20, marginRight: 40}}>
-            {labels[type]}
+            {labelLooking[type]}
           </Text>
         )
       }
@@ -449,7 +456,7 @@ class OnboardModal extends Component {
                       </Text>
                       {this.state.selected_ours &&
                         <Text style={{color: colors.white, fontFamily: 'montserrat', fontSize: 20, marginRight: 40}}>
-                          {this.state.selected_ours.length > 1 ? 'COUPLE' : 'SINGLE '} ({this.state.selected_genders.toUpperCase()})
+                          {labelUs[this.state.selected_genders]}
                         </Text>
                       }
                       <View
@@ -538,6 +545,15 @@ class OnboardModal extends Component {
                     </View>
                   </TouchableOpacity>
                 </View>
+                {(this.state.isDoneVisible) && (
+                  <View style={{bottom: -230, position: 'absolute', width: DeviceWidth, height: 130}}>
+                    <DoneButton
+                      active={this.state.isDoneActive}
+                      text="CONFIRM"
+                      onPress={() => this.handleContinue()}
+                    />
+                  </View>
+                )}
               </View>
             </Animated.View>
             {this.state.step > 0 &&
