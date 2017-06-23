@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import _ from 'lodash';
 import { BlurView, VibrancyView } from 'react-native-blur';
 import { connect } from 'react-redux';
 import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
@@ -74,33 +75,6 @@ const looking_choices = [
     label: 'Male/Male Couples',
   },
 ];
-
-const them_choices = {
-  couple: [
-    {
-      label: 'SINGLE FEMALES',
-      value: 'f'
-    },
-    {
-      label: 'SINGLE MALES',
-      value: 'm'
-    }
-  ],
-  single: [
-    {
-      label: 'COUPLES (MALE/MALE)',
-      value: 'mm'
-    },
-    {
-      label: 'COUPLES (MALE/FEMALE)',
-      value: 'mf'
-    },
-    {
-      label: 'COUPLES (FEMALE/FEMALE)',
-      value: 'ff'
-    },
-  ]
-};
 const get_key_vals = (v) => v.toLowerCase();
 
 
@@ -119,6 +93,7 @@ class OnboardModal extends Component {
     super();
 
     this.state = {
+      isDoneActive: false,
       pickers: us_choices,
       step: 0,
       selected_ours: null,
@@ -220,23 +195,31 @@ class OnboardModal extends Component {
   }
 
   pickerValue(value) {
-    this.setState({
-      selected_ours: value,
-      selected_genders: value,
-      selected_relationship_status: value.length == 1 ? 'single' : 'couple',
-      selected_theirs: {
-        mm: false,
-        ff: false,
-        mf: false,
-        m: false,
-        f: false,
-      },
-    });
-
     if (this.state.step == 1) {
+      this.setState({
+        selected_ours: value,
+        selected_genders: value,
+        selected_relationship_status: value.length == 1 ? 'single' : 'couple',
+        selected_theirs: {
+          mm: false,
+          ff: false,
+          mf: false,
+          m: false,
+          f: false,
+        },
+      });
+
       this.toggleSecondAnimation();
       this.setState({step: 2});
       this.setState({pickers: looking_choices});
+    } else {
+      const { selected_theirs } = this.state;
+
+      selected_theirs[value] = !selected_theirs[value];
+      this.setState({selected_theirs});
+      _.each(selected_theirs, (selected) => {
+        if (selected) this.setState({isDoneActive: selected});
+      });
     }
   }
 
@@ -533,7 +516,7 @@ class OnboardModal extends Component {
                           overflow: 'hidden',
                         }}
                         onPress={() => this.pickerValue(item.value)}
-                        selected={this.state.selected_ours == item.value}
+                        selected={this.state.step == 1 ? this.state.selected_ours == item.value : this.state.selected_theirs[item.value]}
                         underlayColor={colors.dark}
                         value={item.value}
                         values={us_choices}
@@ -543,7 +526,7 @@ class OnboardModal extends Component {
 
                   {(this.state.selected_ours) && (
                     <DoneButton
-                      active={false}
+                      active={this.state.isDoneActive}
                       text="DONE"
                     />
                   )}
