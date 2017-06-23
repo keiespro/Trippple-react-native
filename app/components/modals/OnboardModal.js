@@ -18,7 +18,7 @@ import { connect } from 'react-redux';
 import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
 import { MagicNumbers } from '../../utils/DeviceConfig';
 import ActionMan from '../../actions';
-import ContinueButton from '../controls/ContinueButton';
+import DoneButton from '../controls/DoneButton';
 import colors from '../../utils/colors';
 import Router from '../../Router';
 import Selectable from '../controls/Selectable';
@@ -536,7 +536,12 @@ class OnboardModal extends Component {
                     );
                   })}
 
-                  
+                  {/*{(this.state.selected_ours) && (
+                    <DoneButton
+                      active="false"
+                      text="DONE"
+                    />
+                  )}*/}
                 </View>
               </Animated.View>
             }

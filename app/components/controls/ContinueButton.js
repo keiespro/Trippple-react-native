@@ -1,22 +1,30 @@
-import React, {Component} from 'react';
-
-import {Text, Easing, Animated, TextInput, Platform, View, TouchableHighlight, StyleSheet, ActivityIndicator, Dimensions} from 'react-native';
-
-import {MagicNumbers} from '../../utils/DeviceConfig'
+import React, { Component } from 'react';
+import {
+  ActivityIndicator,
+  Animated,
+  Dimensions,
+  Easing,
+  Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableHighlight,
+  View,
+} from 'react-native';
+import { MagicNumbers } from '../../utils/DeviceConfig';
+import colors from '../../utils/colors';
 
 const DeviceHeight = Dimensions.get('window').height;
 const DeviceWidth = Dimensions.get('window').width;
 
-import colors from '../../utils/colors'
 
-
-class ContinueButton extends Component{
+class ContinueButton extends Component {
 
   static defaultProps = {
     canContinue: false
   };
 
-  constructor(props){
+  constructor(props) {
     super();
 
     this.state = {
@@ -25,32 +33,32 @@ class ContinueButton extends Component{
     }
   }
 
-  componentWillReceiveProps(nProps){
-    if(nProps.canContinue != this.props.canContinue){
+  componentWillReceiveProps(nProps) {
+    if (nProps.canContinue != this.props.canContinue) {
       Animated.timing(this.state.yVal, {
         toValue: nProps.canContinue ? 1 : 0,
         duration: 200,
         useNativeDriver: Platform.select({ios: false, android: true})
-
-        // easing: Easing.in(Easing.easeInEase)
       }).start()
     }
   }
 
-  handleContinue(){
-    if(this.state.submitting) { return false }
-    this.setState({submitting: true})
-    this.props.handlePress()
+  handleContinue() {
+    if (this.state.submitting) { return false; }
+    this.setState({submitting: true});
+    this.props.handlePress();
   }
-  nothing(){}
-  render(){
+
+  nothing() {}
+
+  render() {
     return (
       <Animated.View style={[styles.continueButtonWrap,
         {
           bottom: 0,
           backgroundColor: this.props.canContinue ? colors.brightPurple : 'transparent',
-          position: this.props.absoluteContinue ? 'absolute' : null,
           left: 0,
+          position: this.props.absoluteContinue ? 'absolute' : null,
           opacity: this.state.yVal,
           transform: [
           {
@@ -63,8 +71,8 @@ class ContinueButton extends Component{
         }]}
       >
         <TouchableHighlight
-          style={[styles.continueButton]}
           onPress={this.props.handlePress}
+          style={[styles.continueButton]}
           underlayColor={colors.darkPurple}
         >
           <View>
@@ -118,5 +126,4 @@ const styles = StyleSheet.create({
   }
 });
 
-
-export default ContinueButton
+export default ContinueButton;
