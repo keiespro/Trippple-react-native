@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
     Image,
-    View
+    View,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation, NavigationStyles } from '@exponent/ex-navigation';
@@ -67,8 +67,8 @@ class LocationPermissionsModal extends Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         ...ownProps,
+        permissions: state.permissions,
         user: state.user,
-        permissions: state.permissions
     }
 }
 
