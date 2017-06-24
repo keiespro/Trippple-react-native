@@ -222,7 +222,7 @@ class PermissionsModal extends Component {
     render() {
         return (
             <BlurModal showMap={this.props.showMap}>
-                <View style={[styles.col, {}]}>
+                <View style={styles.col}>
                     {this.props.hasPermission == 'denied' ? this.renderFailed() :
                         <View
                             style={{
@@ -275,11 +275,11 @@ class PermissionsModal extends Component {
                                             <Image
                                                 resizeMode={this.props.imageResizeMode || Image.resizeMode.contain}
                                                 style={{
-                                                marginBottom: MagicNumbers.is4s ? 15 : 30,
-                                                marginLeft: MagicNumbers.is4s ? 5 : 10,
-                                                marginTop: MagicNumbers.is4s ? 10 : 20,
-                                                width: MagicNumbers.is4s ? 51 : 82,
-                                                height: MagicNumbers.is4s ? 25 : 40,
+                                                    marginBottom: MagicNumbers.is4s ? 15 : 30,
+                                                    marginLeft: MagicNumbers.is4s ? 5 : 10,
+                                                    marginTop: MagicNumbers.is4s ? 10 : 20,
+                                                    width: MagicNumbers.is4s ? 51 : 82,
+                                                    height: MagicNumbers.is4s ? 25 : 40,
                                                 }}
                                                 source={require('../assets/alertsBubbleType@3x.png')}
                                             />
@@ -415,64 +415,64 @@ const ModalButton = ({btnText, onTap, loading}) => (
         }}
     >
         <View style={{paddingHorizontal: 70}}>
-        <Text
-            style={{
-            color: colors.white,
-            fontSize: 18,
-            fontFamily: 'montserrat',
-            fontWeight: '800',
-            textAlign: 'center',
-            }}
-        >
-            {btnText}
-        </Text>
+            <Text
+                style={{
+                color: colors.white,
+                fontSize: 18,
+                fontFamily: 'montserrat',
+                fontWeight: '800',
+                textAlign: 'center',
+                }}
+            >
+                {btnText}
+            </Text>
         </View>
     </TouchableOpacity>
 );
 
 const buttonStyles = StyleSheet.create({
-  privacyStyle: {
-    height: 60,
-  },
-  innerWrapStyles: {
-    backgroundColor: colors.transparent,
-    borderColor: colors.darkGreenBlue,
-    borderWidth: 1,
-    overflow: 'hidden',
-  },
-  iconButtonOuter: {
-    marginTop: 20,
-  },
-  grayIconbuttonLeftBox: {
-    backgroundColor: colors.darkGreenBlue40,
-    borderRightColor: colors.darkGreenBlue,
-    borderRightWidth: 1,
-  },
-  iconButtonText: {
-    color: colors.white,
-    fontFamily: 'montserrat',
-    fontSize: 16,
-    textAlign: 'center',
-  },
-  buttonText: {
-    color: colors.white,
-    fontSize: 18,
-    fontFamily: 'montserrat',
-    fontWeight: '800',
-  },
+    privacyStyle: {
+        height: 60,
+    },
+    innerWrapStyles: {
+        backgroundColor: colors.transparent,
+        borderColor: colors.darkGreenBlue,
+        borderWidth: 1,
+        overflow: 'hidden',
+    },
+    iconButtonOuter: {
+        marginTop: 20,
+    },
+    grayIconbuttonLeftBox: {
+        backgroundColor: colors.darkGreenBlue40,
+        borderRightColor: colors.darkGreenBlue,
+        borderRightWidth: 1,
+    },
+    iconButtonText: {
+        color: colors.white,
+        fontFamily: 'montserrat',
+        fontSize: 16,
+        textAlign: 'center',
+    },
+    buttonText: {
+        color: colors.white,
+        fontSize: 18,
+        fontFamily: 'montserrat',
+        fontWeight: '800',
+    },
 })
 
 PermissionsModal.displayName = 'PermissionsModal';
 
 const mapStateToProps = (state, ownProps) => ({
-  ...ownProps,
-  permissions: state.permissions,
-  hasPermission: state.permissions[ownProps.permissionKey] && state.permissions[ownProps.permissionKey] != 'undetermined'
+    ...ownProps,
+    permissions: state.permissions,
+    hasPermission: state.permissions[ownProps.permissionKey] && state.permissions[ownProps.permissionKey] != 'undetermined'
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatch,
-  closeModal: () => { dispatch({ type: 'KILL_MODAL', payload: {}}) }
+    dispatch,
+    closeModal: () => { dispatch({ type: 'KILL_MODAL', payload: {}}) }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PermissionsModal);
