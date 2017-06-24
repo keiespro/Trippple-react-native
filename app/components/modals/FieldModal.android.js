@@ -137,8 +137,9 @@ class FieldModal extends Component {
 
     submit() {
         if (!this.state.canContinue) { return false; }
+
         if (this.props.field.field_type == 'date') {
-            const payload = {};
+            let payload = {};
             const v = moment(this.state.birthday).format('MM/DD/YYYY');
             payload[`${this.props.forPartner ? 'partner_' : ''}${this.props.fieldName}`] = v;
             this.props.updateOutside && this.props.updateOutside(v);
@@ -147,7 +148,7 @@ class FieldModal extends Component {
         } else if (this.props.field.field_type == 'phone_input') {
         
         } else {
-            const payload = {};
+            let payload = {};
 
             payload[`${this.props.forPartner ? 'partner_' : ''}${this.props.fieldName}`] = this.state.value;
             this.props.updateOutside && this.props.updateOutside(this.state.value);
