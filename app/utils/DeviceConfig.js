@@ -1,24 +1,24 @@
 import {
-  Dimensions,
-  PixelRatio,
-  Platform,
+    Dimensions,
+    PixelRatio,
+    Platform,
 } from 'react-native';
 
 const screen = Dimensions.get('window');
 const keyboardHeightMapShort =  {
-  480: 216, //4S
-  568: 217, //5
-  667: 215, //6
-  736: 226, //6 Plus
+    480: 216, //4S
+    568: 217, //5
+    667: 215, //6
+    736: 226, //6 Plus
 };
 // 568: 224, //5
 // 667: 225, //6
 // 736: 236,
 const keyboardHeightMap =  {
-  480: 224, //4S
-  568: 253, //5
-  667: 258, //6
-  736: 271, //6 Plus
+    480: 224, //4S
+    568: 253, //5
+    667: 258, //6
+    736: 271, //6 Plus
 };
 const keyboardHeight = keyboardHeightMapShort[screen.height];
 const MagicNumbers = {
