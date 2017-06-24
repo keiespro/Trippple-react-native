@@ -27,9 +27,7 @@ class LocationPermissionsModal extends Component {
                 subtitle={'Should we prioritize the matches nearest to you?'}
                 permissionKey={'location'}
                 buttonText={'USE MY LOCATION'}
-                nextOnboardScreen={() => {
-                    this.props.navigator.immediatelyReplaceStack([Router.getRoute('Potentials', {})])
-                }}
+                nextOnboardScreen={() => this.props.navigator.immediatelyReplaceStack([Router.getRoute('Potentials', {})])}
                 permissionLabel={'Location'}
                 onSuccess={() => {this.props.dispatch({type: 'TOGGLE_PERMISSION_SWITCH_LOCATION_ON'})}}
                 renderImage={() => (
