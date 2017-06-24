@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import {
   Animated,
-  Dimensions,
   Easing,
   Image,
-  LayoutAnimation,
-  Picker,
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -14,13 +10,12 @@ import {
   View,
 } from 'react-native';
 import _ from 'lodash';
-import { BlurView, VibrancyView } from 'react-native-blur';
 import { connect } from 'react-redux';
 import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
 import { DeviceHeight, DeviceWidth, iOS, MagicNumbers } from '../../utils/DeviceConfig';
 import ActionMan from '../../actions';
-import DoneButton from '../controls/DoneButton';
 import colors from '../../utils/colors';
+import DoneButton from '../controls/DoneButton';
 import Router from '../../Router';
 import Selectable from '../controls/Selectable';
 import styles from './purpleModalStyles';
@@ -233,6 +228,7 @@ class OnboardModal extends Component {
 
   renderLooking() {
     let array = [];
+  
     _.each(sextypes, (type) => {
       if (this.state.selected_theirs[type]) {
         array.push(
@@ -241,7 +237,8 @@ class OnboardModal extends Component {
           </Text>
         )
       }
-    })
+    });
+  
     return array;
   }
 
@@ -269,12 +266,10 @@ class OnboardModal extends Component {
             height: DeviceHeight,
           }}
           showsVerticalScrollIndicator={false}
-          style={[
-            styles.scrollView, {
-              flex: 0,
-              height: DeviceHeight,
-            }
-          ]}
+          style={[styles.scrollView, {
+            flex: 0,
+            height: DeviceHeight,
+          }]}
           vertical
         >
           <View
@@ -360,9 +355,8 @@ class OnboardModal extends Component {
                       this.toggleFirstAnimation();
                     }}
                   >
-                    <View style={[
-                      styles.rowtext,
-                      styles.bigtext, {
+                    <View
+                      style={[styles.rowtext, styles.bigtext, {
                         flexDirection: 'row',
                         flex: 0,
                         justifyContent: 'space-between',
@@ -383,7 +377,14 @@ class OnboardModal extends Component {
                         {this.state.selected_ours && this.state.selected_ours.length > 1 ? 'WE\'RE A' : 'I\'M A' }
                       </Text>
                       {this.state.selected_ours &&
-                        <Text style={{color: colors.white, fontFamily: 'montserrat', fontSize: 20, marginRight: 40}}>
+                        <Text
+                          style={{
+                            color: colors.white,
+                            fontFamily: 'montserrat',
+                            fontSize: 20,
+                            marginRight: 40
+                          }}
+                        >
                           {self_labels[this.state.selected_genders]}
                         </Text>
                       }
@@ -428,8 +429,8 @@ class OnboardModal extends Component {
                   >
                     <View
                       style={[styles.rowtext, styles.bigtext, {
-                        flexDirection: 'row',
                         flex: 0,
+                        flexDirection: 'row',
                         justifyContent: 'space-between',
                         marginVertical: 10,
                       }]}
@@ -482,7 +483,14 @@ class OnboardModal extends Component {
                   </TouchableOpacity>
                 </View>
                 {(this.state.isDoneVisible) && (
-                  <View style={{bottom: -230, position: 'absolute', width: DeviceWidth, height: 130}}>
+                  <View
+                    style={{
+                      bottom: -230,
+                      position: 'absolute',
+                      width: DeviceWidth,
+                      height: 130,
+                    }}
+                  >
                     <DoneButton
                       active={this.state.isDoneActive}
                       text="CONFIRM"
