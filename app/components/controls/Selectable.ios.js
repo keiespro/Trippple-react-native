@@ -32,9 +32,9 @@ const Selectable = ({
         >
             <Text
                 style={{
-                color: selected ? colors.white : colors.rollingStone,
-                fontFamily: 'montserrat',
-                fontSize: MagicNumbers.size18,
+                    color: selected ? colors.white : colors.rollingStone,
+                    fontFamily: 'montserrat',
+                    fontSize: MagicNumbers.size18,
                 }}
             >
                 {label}
