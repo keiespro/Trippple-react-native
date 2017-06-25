@@ -23,7 +23,6 @@ import UserDetails from './UserDetails';
 import VerifiedCoupleBadge from './Badge/VerifiedCoupleBadge';
 
 
-
 const CardLabel = props => (
     <View>
         <Text
@@ -132,8 +131,7 @@ class UserProfile extends Component {
         const verifiedCouple = hasPartner && potential.couple.verified;
 
         return (
-            <View style={{backgroundColor: '#000'}}
-            >
+            <View style={{backgroundColor: '#000'}}>
                 <Card
                     {...this.props}
                     isBrowse={true}

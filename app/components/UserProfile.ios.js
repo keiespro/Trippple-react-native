@@ -22,7 +22,6 @@ import UserDetails from './UserDetails';
 import VerifiedCoupleBadge from './Badge/VerifiedCoupleBadge';
 
 
-
 const CardLabel = props => (
     <View>
         <Text
