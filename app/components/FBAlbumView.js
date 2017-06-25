@@ -163,13 +163,12 @@ const styles = StyleSheet.create({
     photo_list_item: {
         alignItems: 'center',
         borderRadius: 6,
-        flexWrap: 'wrap',
         justifyContent: 'center',
         margin: 6,
         overflow: 'hidden',
         padding: 0,
-        width: DeviceWidth / 3 - 15,
-        height: DeviceWidth / 3 - 15,
+        width: DeviceWidth / 2 - 20,
+        height: DeviceWidth / 2 - 20,
     },
     list_album_container: {
         backgroundColor: colors.outerSpace,
@@ -194,9 +193,8 @@ const styles = StyleSheet.create({
     },
     pic: {
         borderRadius: 6,
-        flex: 1,
-        width: DeviceWidth / 3 - 15,
-        height: DeviceWidth / 3 - 15,
+        width: DeviceWidth / 2 - 40,
+        height: DeviceWidth / 2 - 40,
     },
     done_button: {
         alignItems: 'center',
