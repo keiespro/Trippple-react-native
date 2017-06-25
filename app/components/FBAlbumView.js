@@ -67,12 +67,13 @@ class AlbumView extends Component {
             }
         ).start();
         this.setState({photo: photo, selected: id});
+        this.setState({photoSource: this.ds.cloneWithRows(this.props.photos.map(p => p.images[0].source)),})
     }
 
     submit() {
         this.setState({submitting: true});
         this.props.dispatch(ActionMan.uploadFacebookPic(this.state.photo));
-        this.props.dispatch({type:'SET_DRAWER_OPEN'});
+        this.props.dispatch({type: 'SET_DRAWER_OPEN'});
         this.props.navigator.pop(2);
     }
 
@@ -95,19 +96,27 @@ class AlbumView extends Component {
         const id = rowID;
 
         return (
-            <TouchableOpacity
-                key={`${id}`}
-                onPress={() => {
-                    highlightRow(sectionID, rowID);
-                    this.selectPhoto(img, id);
-                }}
-                style={[styles.photo_list_item, {
-                    opacity: selected == id ? 0 : 1,
-                    transform: [{scale: selected == id ? 2.0 : 1.0 }],
-                }]}
-            >
-                <Image style={styles.pic} source={{ uri: rowData }}/>
-            </TouchableOpacity>
+            <View style={styles.photo_list_item}>
+                <TouchableOpacity
+                    key={`${id}`}
+                    onPress={() => {
+                        highlightRow(sectionID, rowID);
+                        this.selectPhoto(img, id);
+                    }}
+                >
+                    <Image style={[styles.pic, {borderWidth: selected == id ? 2 : 0}]} source={{ uri: rowData }}/>
+                </TouchableOpacity>
+                {(selected == id) &&
+                    <View style={styles.check_mark}>
+                        <Image
+                            source={{uri: 'assets/checkMarkWhiteSmall@3x.png'}}
+                            style={{width: 20, height: 15, tintColor: colors.outerSpace }}
+                            resizeMode={Image.resizeMode.stretch}
+                        />
+                    </View>
+                }
+                    
+            </View>
         );
     }
 
@@ -190,6 +199,7 @@ const styles = StyleSheet.create({
         height: 60,
     },
     pic: {
+        borderColor: colors.white,
         borderRadius: 6,
         width: DeviceWidth / 2 - 40,
         height: DeviceWidth / 2 - 40,
@@ -206,7 +216,18 @@ const styles = StyleSheet.create({
         color: colors.white,
         fontSize: 24,
         fontWeight: '800',
-    }
+    },
+    check_mark: {
+        alignItems: 'center',
+        backgroundColor: colors.white,
+        borderRadius: 15,
+        justifyContent: 'center',
+        position: 'absolute',
+        right: 0,
+        top: 0,
+        width: 30,
+        height: 30,
+    },
 });
 
 const mapStateToProps = (state, ownProps) => {
