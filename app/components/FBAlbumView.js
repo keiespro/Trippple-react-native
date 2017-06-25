@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
+    Animated,
+    Easing,
     Image,
-    LayoutAnimation,
     ListView,
     StyleSheet,
     Text,
@@ -45,6 +46,7 @@ class AlbumView extends Component {
         this.ds = ds;
         this.state = {
             paging: props.album.photos.paging,
+            photo: null,
             photoSource: this.ds.cloneWithRows(props.photos.map(p => p.images[0].source)),
             photos: props.photos,
             selected: null,
@@ -53,29 +55,26 @@ class AlbumView extends Component {
     }
 
     componentDidMount() {
-        this.doneAnimation = {
-            duration: 200,
-            create: {
-                type: LayoutAnimation.Types.linear,
-                property: LayoutAnimation.Properties.opacity,
-            },
-            update: {
-                type: LayoutAnimation.Types.easeInEaseOut,
-            }
-        }
+        this.doneHeight = new Animated.Value(0);
     }
 
     selectPhoto(photo, id) {
-        this.setState({selected: id});
-        console.log(this.doneAnimation)
-        LayoutAnimation.configureNext(this.doneAnimation);
+        Animated.timing(
+            this.doneHeight,
+            {
+                toValue: DeviceHeight / 10,
+                duration: 100,
+                easing: Easing.linear,
+            }
+        ).start();
+        this.setState({photo: photo, selected: id});
     }
 
     submit() {
-        // this.setState({submitting: true, selected: id});
-        // this.props.dispatch(ActionMan.uploadFacebookPic(photo));
-        // this.props.dispatch({type:'SET_DRAWER_OPEN'});
-        // this.props.navigator.pop(2);
+        this.setState({submitting: true});
+        this.props.dispatch(ActionMan.uploadFacebookPic(this.state.photo));
+        this.props.dispatch({type:'SET_DRAWER_OPEN'});
+        this.props.navigator.pop(2);
     }
 
     getMore() {
@@ -145,7 +144,7 @@ class AlbumView extends Component {
                 {selected && 
                     <TouchableOpacity
                         onPress={() => this.submit()}
-                        style={styles.done_button}
+                        style={[styles.done_button, {height: this.doneHeight}]}
                     >
                         <Text style={styles.done_text}>DONE</Text>
                     </TouchableOpacity>
@@ -206,7 +205,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         position: 'absolute',
         width: DeviceWidth,
-        height: DeviceHeight / 10,
     },
     done_text: {
         color: colors.white,
