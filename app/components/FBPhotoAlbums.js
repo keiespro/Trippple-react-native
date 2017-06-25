@@ -189,6 +189,7 @@ class PhotoAlbums extends Component {
                 style={{
                     backgroundColor: colors.outerSpace,
                     width: DeviceWidth,
+                    height: DeviceHeight,
                 }}
             >
                 {this.state.albums.length ? (
