@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
         shadowOffset: {
             width: 0,
             height: 5,
-        }
+        },
     },
     tab: {
         alignItems: 'center',
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
         top: 0,
     },
     absoluteTextBottom: {
-        bottom: 0
+        bottom: 0,
     },
     basicCard: {
         borderRadius: 6,
@@ -321,7 +321,6 @@ const styles = StyleSheet.create({
         flex: 1,
         overflow: 'hidden',
     },
-
     closeProfile: {
         alignItems: 'center',
         alignSelf: 'center',
