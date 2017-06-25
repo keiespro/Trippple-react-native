@@ -12,7 +12,9 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+@import FBSDKCoreKit;
 @import Firebase;
+
 
 #import "AppDelegate.h"
 
@@ -32,7 +34,6 @@
 #import <UXCam/UXCam.h>
 
 #import <Crashlytics/Answers.h>
-@import FBSDKCoreKit;
 #import <Bolts/Bolts.h>
 #import "RNFIRMessaging.h"
 #import "SplashScreen.h"
