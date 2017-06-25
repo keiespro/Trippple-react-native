@@ -6,7 +6,6 @@ import {
     ListView,
     StyleSheet,
     Text,
-    TouchableHighlight,
     TouchableOpacity,
     View,
 } from 'react-native';
@@ -96,8 +95,7 @@ class AlbumView extends Component {
         const id = rowID;
 
         return (
-            <TouchableHighlight
-                delayPressIn={200}
+            <TouchableOpacity
                 key={`${id}`}
                 onPress={() => {
                     highlightRow(sectionID, rowID);
@@ -109,7 +107,7 @@ class AlbumView extends Component {
                 }]}
             >
                 <Image style={styles.pic} source={{ uri: rowData }}/>
-            </TouchableHighlight>
+            </TouchableOpacity>
         );
     }
 
