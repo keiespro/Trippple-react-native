@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import {
     Image,
+    LayoutAnimation,
     ListView,
     StyleSheet,
     Text,
     TouchableHighlight,
+    TouchableOpacity,
     View,
 } from 'react-native';
 import FBSDK from 'react-native-fbsdk'
@@ -50,11 +52,30 @@ class AlbumView extends Component {
         }
     }
 
+    componentDidMount() {
+        this.doneAnimation = {
+            duration: 200,
+            create: {
+                type: LayoutAnimation.Types.linear,
+                property: LayoutAnimation.Properties.opacity,
+            },
+            update: {
+                type: LayoutAnimation.Types.easeInEaseOut,
+            }
+        }
+    }
+
     selectPhoto(photo, id) {
-        this.setState({submitting: true, selected: id});
-        this.props.dispatch(ActionMan.uploadFacebookPic(photo));
-        this.props.dispatch({type:'SET_DRAWER_OPEN'});
-        this.props.navigator.pop(2);
+        this.setState({selected: id});
+        console.log(this.doneAnimation)
+        LayoutAnimation.configureNext(this.doneAnimation);
+    }
+
+    submit() {
+        // this.setState({submitting: true, selected: id});
+        // this.props.dispatch(ActionMan.uploadFacebookPic(photo));
+        // this.props.dispatch({type:'SET_DRAWER_OPEN'});
+        // this.props.navigator.pop(2);
     }
 
     getMore() {
@@ -94,35 +115,52 @@ class AlbumView extends Component {
     }
 
     render() {
+        const { selected } = this.state;
+
         return (
-            <ListView
-                contentContainerStyle={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexDirection: 'row',
-                    flexGrow: 1,
-                    flexWrap: 'wrap',
-                    paddingBottom: 60,
-                    paddingTop: 20,
-                    width: DeviceWidth,
-                }}
-                dataSource={this.state.photoSource}
-                horizontal={false}
-                initialListSize={24}
-                onEndReached={this.getMore.bind(this)}
-                renderRow={this.renderSinglePhotos.bind(this)}
-                showsVerticalScrollIndicator={false}
-                style={{
-                    backgroundColor: colors.outerSpace,
-                    flexGrow: 1,
-                }}
-                vertical
-            />
+            <View style={styles.container}>
+                <ListView
+                    contentContainerStyle={{
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexDirection: 'row',
+                        flexGrow: 1,
+                        flexWrap: 'wrap',
+                        paddingBottom: 60,
+                        paddingTop: 20,
+                        width: DeviceWidth,
+                    }}
+                    dataSource={this.state.photoSource}
+                    horizontal={false}
+                    initialListSize={24}
+                    onEndReached={this.getMore.bind(this)}
+                    renderRow={this.renderSinglePhotos.bind(this)}
+                    showsVerticalScrollIndicator={false}
+                    style={{
+                        backgroundColor: colors.outerSpace,
+                        flexGrow: 1,
+                    }}
+                    vertical
+                />
+                {selected && 
+                    <TouchableOpacity
+                        onPress={() => this.submit()}
+                        style={styles.done_button}
+                    >
+                        <Text style={styles.done_text}>DONE</Text>
+                    </TouchableOpacity>
+                }
+            </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        width: DeviceWidth,
+        height: DeviceHeight,
+    },
     photo_list_item: {
         alignItems: 'center',
         borderRadius: 6,
@@ -161,6 +199,20 @@ const styles = StyleSheet.create({
         width: DeviceWidth / 3 - 15,
         height: DeviceWidth / 3 - 15,
     },
+    done_button: {
+        alignItems: 'center',
+        backgroundColor: colors.brightPurple,
+        bottom: 0,
+        justifyContent: 'center',
+        position: 'absolute',
+        width: DeviceWidth,
+        height: DeviceHeight / 10,
+    },
+    done_text: {
+        color: colors.white,
+        fontSize: 24,
+        fontWeight: '800',
+    }
 });
 
 const mapStateToProps = (state, ownProps) => {
