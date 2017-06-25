@@ -168,9 +168,9 @@ class CustomTabBar extends React.Component {
                 <View style={[styles.tab]}>
                     <Text
                         style={{
+                            color: isTabActive ? colors.white : colors.shuttleGray,
                             fontFamily: 'montserrat',
                             fontSize: 16,
-                            color: isTabActive ? colors.white : colors.shuttleGray
                         }}
                     >
                         {name.toUpperCase()}

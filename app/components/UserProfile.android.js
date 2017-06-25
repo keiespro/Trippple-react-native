@@ -160,12 +160,12 @@ class CustomTabBar extends React.Component {
                 key={`${name + page} ${isTabActive}`}
                 onPress={() => this.props.goToPage(page)}
             >
-                <View style={[styles.tab]}>
+                <View style={styles.tab}>
                     <Text
                         style={{
+                            color: isTabActive ? colors.white : colors.shuttleGray,
                             fontFamily: 'montserrat',
                             fontSize: 16,
-                            color: isTabActive ? colors.white : colors.shuttleGray
                         }}
                     >
                         {name.toUpperCase()}
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
         shadowOffset: {
             width: 0,
             height: 5,
-        }
+        },
     },
     tab: {
         alignItems: 'center',
@@ -219,7 +219,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         padding: 0,
         width: DeviceWidth,
-
     },
     singleTab: {
         alignItems: 'center',
