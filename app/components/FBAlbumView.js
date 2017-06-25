@@ -77,16 +77,16 @@ class AlbumView extends Component {
 
         return (
             <TouchableHighlight
-                key={`${id}`}
-                style={[styles.photo_list_item, {
-                    opacity: selected == id ? 0 : 1,
-                    transform: [{scale: selected == id ? 2.0 : 1.0 }],
-                }]}
                 delayPressIn={200}
+                key={`${id}`}
                 onPress={() => {
                     highlightRow(sectionID, rowID);
                     this.selectPhoto(img, id);
                 }}
+                style={[styles.photo_list_item, {
+                    opacity: selected == id ? 0 : 1,
+                    transform: [{scale: selected == id ? 2.0 : 1.0 }],
+                }]}
             >
                 <Image style={styles.pic} source={{ uri: rowData }}/>
             </TouchableHighlight>

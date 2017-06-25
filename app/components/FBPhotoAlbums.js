@@ -31,10 +31,10 @@ class PhotoAlbums extends Component {
             translucent: false,
             tintColor: colors.white,
             titleStyle: {
+                borderBottomWidth: 0,
                 color: colors.white,
                 fontFamily: 'montserrat',
-                borderBottomWidth: 0,
-                fontWeight: '800'
+                fontWeight: '800',
             },
             title: 'FACEBOOK ALBUMS',
             visible: true,
