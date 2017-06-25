@@ -96,7 +96,7 @@ class AlbumView extends Component {
         const id = rowID;
 
         return (
-            <View style={styles.photo_list_item}>
+            <View style={[styles.photo_list_item, {opacity: selected && selected != id ? 0.6 : 1}]}>
                 <TouchableOpacity
                     key={`${id}`}
                     onPress={() => {
@@ -115,7 +115,6 @@ class AlbumView extends Component {
                         />
                     </View>
                 }
-                    
             </View>
         );
     }
@@ -222,6 +221,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.white,
         borderRadius: 15,
         justifyContent: 'center',
+        opacity: 1,
         position: 'absolute',
         right: 0,
         top: 0,
