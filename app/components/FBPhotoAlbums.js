@@ -8,12 +8,14 @@ import {
     StyleSheet,
     Text,
     TouchableHighlight,
+    TouchableOpacity,
     View,
 } from 'react-native';
 import { NavigationStyles } from '@exponent/ex-navigation';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import FBSDK from 'react-native-fbsdk';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
 import { DeviceHeight, DeviceWidth, iOS } from '../utils/DeviceConfig';
 import ActionMan from '../actions/';
@@ -28,6 +30,17 @@ class PhotoAlbums extends Component {
         styles: iOS ? NavigationStyles.SlideHorizontal : NavigationStyles.FloatVertical,
         navigationBar: {
             backgroundColor: colors.shuttleGrayAnimate,
+            renderLeft(route, props) {
+                return (
+                    <TouchableOpacity style={styles.nav} onPress={() => route.params.navigator.pop()}>
+                        <Icon
+                            color={colors.white}
+                            name="caret-down"
+                            size={25}
+                        />
+                    </TouchableOpacity>
+                );
+            },
             translucent: false,
             tintColor: colors.white,
             titleStyle: {
@@ -123,6 +136,7 @@ class PhotoAlbums extends Component {
             albumTitle: album.name,
             key: 'fbalbumsz',
             name: 'FB Photos View',
+            navigator: this.props.navigator,
             photos: album.photos.data,
             view_loaded: 'list_album_photos',
         }));
@@ -246,7 +260,14 @@ const styles = StyleSheet.create({
         flex: 1,
         width: (DeviceWidth / 3) - 15,
         height: (DeviceWidth / 3) - 15,
-    }
+    },
+    nav: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginLeft: 15,
+        width: 40,
+        height: 40,
+    },
 });
 
 const mapStateToProps = (state, ownProps) => ({

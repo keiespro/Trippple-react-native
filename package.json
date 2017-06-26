@@ -70,7 +70,7 @@
     "react-native-swiper": "latest",
     "react-native-touch-id": "^3.0.0",
     "react-native-uxcam": "git+https://github.com/alehlopeh/react-native-uxcam.git",
-    "react-native-vector-icons": "4.2.0",
+    "react-native-vector-icons": "^4.2.0",
     "react-redux": "^5.0.5",
     "react-test-renderer": "^15.5.4",
     "react-timer-mixin": "^0.13.3",

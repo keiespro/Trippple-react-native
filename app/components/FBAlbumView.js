@@ -9,9 +9,10 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-import FBSDK from 'react-native-fbsdk'
 import { connect } from 'react-redux';
 import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
+import FBSDK from 'react-native-fbsdk'
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { DeviceHeight, DeviceWidth, iOS } from '../utils/DeviceConfig';
 import ActionMan from '../actions/';
 import colors from '../utils/colors';
@@ -24,6 +25,17 @@ class AlbumView extends Component {
         styles: NavigationStyles.FloatHorizontal,
         navigationBar: {
             backgroundColor: colors.shuttleGrayAnimate,
+            renderLeft(route, props) {
+                return (
+                    <TouchableOpacity style={styles.nav} onPress={() => route.params.navigator.pop()}>
+                        <Icon
+                            color={colors.white}
+                            name="caret-left"
+                            size={25}
+                        />
+                    </TouchableOpacity>
+                );
+            },
             translucent: false,
             titleStyle: {
                 color: colors.white,
@@ -67,7 +79,7 @@ class AlbumView extends Component {
             }
         ).start();
         this.setState({photo: photo, selected: id});
-        this.setState({photoSource: this.ds.cloneWithRows(this.props.photos.map(p => p.images[0].source)),})
+        this.setState({photoSource: this.ds.cloneWithRows(this.props.photos.map(p => p.images[0].source))});
     }
 
     submit() {
@@ -227,6 +239,13 @@ const styles = StyleSheet.create({
         top: 0,
         width: 30,
         height: 30,
+    },
+    nav: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginLeft: 5,
+        width: 40,
+        height: 40,
     },
 });
 

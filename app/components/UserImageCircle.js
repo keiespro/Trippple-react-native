@@ -32,7 +32,7 @@ class UserImageCircle extends Component {
       <TouchableOpacity
         onPress={() => {
           const nav = this.props.navigation.getNavigatorByUID(this.props.navState.currentNavigatorUID)
-          nav.push('FBPhotoAlbums', {});
+          nav.push('FBPhotoAlbums', {navigator: this.props.navigator});
         }}
         style={{marginTop: 0}}
       >
