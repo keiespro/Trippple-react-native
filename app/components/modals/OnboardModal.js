@@ -232,7 +232,7 @@ class OnboardModal extends Component {
         _.each(sextypes, (type) => {
         if (this.state.selected_theirs[type]) {
             array.push(
-                <Text style={{color: colors.white, fontFamily: 'montserrat', fontSize: 20, marginRight: 40}}>
+                <Text style={{color: colors.white, fontFamily: 'montserrat', fontSize: 16, marginRight: 40}}>
                     {looking_labels[type]}
                 </Text>
             );
@@ -373,7 +373,7 @@ class OnboardModal extends Component {
                                                     style={{
                                                         color: colors.white,
                                                         fontFamily: 'montserrat',
-                                                        fontSize: 20,
+                                                        fontSize: 16,
                                                         marginRight: 40,
                                                     }}
                                                 >
