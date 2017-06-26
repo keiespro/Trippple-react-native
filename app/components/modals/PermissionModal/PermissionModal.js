@@ -33,7 +33,7 @@ class PermissionsModal extends Component {
         permissionLabel: PropTypes.string.isRequired,
         renderImage: PropTypes.func,
         secondSubtitle: PropTypes.string,
-        title: PropTypes.string.isRequired
+        title: PropTypes.string.isRequired,
     };
 
     static defaultProps = {
@@ -85,7 +85,7 @@ class PermissionsModal extends Component {
         if (this.props.hasPermission == "denied") {
             this.openSettings();
         } else if (!this.props.hasPermission) {
-                this.requestPermission();
+            this.requestPermission();
         } else {
             this.success();
         }
@@ -131,12 +131,12 @@ class PermissionsModal extends Component {
                     <View style={{alignItems: 'center', backgroundColor: 'red', flexGrow: 1}}>
                         <Image
                             resizeMode={Image.resizeMode.contain}
-                            style={[{
+                            style={{
                                 marginBottom: MagicNumbers.is4s ? 15 : 30,
                                 marginTop: MagicNumbers.is4s ? 10 : 20,
                                 width: 150,
                                 height: MagicNumbers.is4s ? 100 : 150,
-                            }]}
+                            }}
                             source={require('../assets/iconModalDenied@3x.png')}
                         />
                     </View>
@@ -183,8 +183,8 @@ class PermissionsModal extends Component {
                 outerButtonStyle={{
                     backgroundColor: 'transparent',
                     flexGrow: 1,
-                    width: DeviceWidth - 60,
                     maxHeight: 80,
+                    width: DeviceWidth - 60,
                 }}
                 stopLoading={hasPermission}
                 text={buttonText}
@@ -239,23 +239,22 @@ class PermissionsModal extends Component {
                                         <View style={{alignItems: 'center', flexDirection: 'row'}}>
                                             <Image
                                                 resizeMode={this.props.imageResizeMode || Image.resizeMode.contain}
-                                                style={[{
+                                                style={[this.props.imageStyle, {
                                                     marginBottom: MagicNumbers.is4s ? 15 : 30,
                                                     marginTop: MagicNumbers.is4s ? 10 : 20,
                                                     width: MagicNumbers.is4s ? 40 : 60,
                                                     height: MagicNumbers.is4s ? 40 : 60,
-                                                    }, this.props.imageStyle,
-                                                ]}
+                                                }]}
                                                 source={typeof this.props.imageSource == 'string' ? require(this.props.imageSource) : this.props.imageSource}
                                             />
                                             <Image
                                                 resizeMode={this.props.imageResizeMode || Image.resizeMode.contain}
                                                 style={{
-                                                marginBottom: MagicNumbers.is4s ? 15 : 30,
-                                                marginLeft: MagicNumbers.is4s ? 5 : 10,
-                                                marginTop: MagicNumbers.is4s ? 10 : 20,
-                                                width: MagicNumbers.is4s ? 139 : 212,
-                                                height: MagicNumbers.is4s ? 33 : 50,
+                                                    marginBottom: MagicNumbers.is4s ? 15 : 30,
+                                                    marginLeft: MagicNumbers.is4s ? 5 : 10,
+                                                    marginTop: MagicNumbers.is4s ? 10 : 20,
+                                                    width: MagicNumbers.is4s ? 139 : 212,
+                                                    height: MagicNumbers.is4s ? 33 : 50,
                                                 }}
                                                 source={require('../assets/alertsBubbleMatch@3x.png')}
                                             />

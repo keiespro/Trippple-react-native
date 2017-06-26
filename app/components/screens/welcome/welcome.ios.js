@@ -129,7 +129,7 @@ export class Welcome extends Component {
                                         fontFamily: 'omnes',
                                         fontSize: 12,
                                         textDecorationLine: 'underline',
-                                        textAlign: 'right'
+                                        textAlign: 'right',
                                     }}
                                 >
                                     Why Facebook?
@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
         color: colors.white,
         fontSize: 22,
         fontFamily: 'omnes',
-        textAlign: 'center'
+        textAlign: 'center',
     },
     slide: {
         alignItems: 'center',

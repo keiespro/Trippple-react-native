@@ -93,7 +93,7 @@ export class Welcome extends Component {
 
     render() {
         return (
-            <View style={[styles.container]}>
+            <View style={styles.container}>
                 <View>
                     <Carousel />
                 </View>
@@ -104,7 +104,7 @@ export class Welcome extends Component {
                         buttonStyles={{
                             backgroundColor: colors.cornFlower,
                             borderWidth: 0,
-                            height: 80
+                            height: 80,
                         }}
                         buttonText={'LOG IN WITH FACEBOOK'}
                         iconTintColor={'#fff'}

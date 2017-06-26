@@ -172,7 +172,7 @@ class FieldModal extends Component {
                         marginTop: 20,
                         marginLeft: 20,
                         width: 20,
-                        height: 20
+                        height: 20,
                     }}
                 />
             </TouchableOpacity>
@@ -265,7 +265,7 @@ class FieldModal extends Component {
                             style={[styles.textfield, {
                                 fontSize: this.props.fieldName == 'email' ? 20 : 30,
                                 height: 80,
-                                textAlign: 'center'
+                                textAlign: 'center',
                             }]}
                         />
                     );
@@ -291,7 +291,7 @@ class FieldModal extends Component {
                             style={{
                                 bottom: 0,
                                 position: 'relative',
-                                width: DeviceWidth
+                                width: DeviceWidth,
                             }}
                         />
                     );
@@ -366,7 +366,7 @@ class FieldModal extends Component {
                                         alignSelf: 'stretch',
                                         borderBottomWidth: 1,
                                         borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone,
-                                        justifyContent: 'center'
+                                        justifyContent: 'center',
                                     }}
                                 >
                                     <Text
@@ -506,7 +506,7 @@ class FieldModal extends Component {
                                                         fontFamily: 'omnes',
                                                         fontSize: MagicNumbers.is5orless ? 14 : 18,
                                                         marginTop: 15,
-                                                        textAlign: 'center'
+                                                        textAlign: 'center',
                                                     }}
                                                 >
                                                     {field.sub_label}
@@ -622,8 +622,8 @@ class FieldModal extends Component {
                             {this.renderUpdateButton()}
                             <View
                                 style={{
+                                    backgroundColor:colors.white,
                                     height:260,
-                                    backgroundColor:colors.white
                                 }}
                             >
                                 {React.cloneElement(inputField, {
@@ -642,7 +642,7 @@ class FieldModal extends Component {
                             style={{
                                 flex: 1,
                                 flexDirection: 'column',
-                                height: DeviceHeight - this.state.keyboardSpace
+                                height: DeviceHeight - this.state.keyboardSpace,
                             }}
                         >
                             {this.renderCloseButton()}
@@ -762,12 +762,12 @@ class MultiLineInput extends Component {
                         fontSize: MagicNumbers.size18 - 2,
                         fontFamily: 'omnes',
                         padding: 0,
-                        width:DeviceWidth - MagicNumbers.screenPadding
+                        width:DeviceWidth - MagicNumbers.screenPadding,
                     },
                     {
                         height: this.state.bioHeight,
                         marginTop: 15,
-                        paddingVertical: 5
+                        paddingVertical: 5,
                     }
                 ]}
             />
