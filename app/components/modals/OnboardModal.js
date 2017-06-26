@@ -29,8 +29,8 @@ class OnboardModal extends Component {
     static route = {
         styles: NavigationStyles.SlideVertical,
         navigationBar: {
-        backgroundColor: colors.shuttleGrayAnimate,
-        visible: false,
+            backgroundColor: colors.shuttleGrayAnimate,
+            visible: false,
         },
     };
 
@@ -48,7 +48,7 @@ class OnboardModal extends Component {
                 ff: false,
                 mf: false,
                 m: false,
-                f: false
+                f: false,
             },
             selected_relationship_status: null,
         };
@@ -202,11 +202,11 @@ class OnboardModal extends Component {
                 selected_genders: value,
                 selected_relationship_status: value.length == 1 ? 'single' : 'couple',
                 selected_theirs: {
-                mm: false,
-                ff: false,
-                mf: false,
-                m: false,
-                f: false,
+                    mm: false,
+                    ff: false,
+                    mf: false,
+                    m: false,
+                    f: false,
                 },
             });
             this.toggleSecondAnimation(value);
@@ -534,15 +534,10 @@ class OnboardModal extends Component {
                                         return (
                                         <Selectable
                                             diameter={20}
-                                            isLast={i == self_sextypes.length - 1}
                                             field={item}
+                                            isLast={i == self_sextypes.length - 1}
                                             key={`${item.label.trim()}k`}
                                             label={item.label}
-                                            outerStyle={{
-                                                flex: 1,
-                                                flexDirection: 'column',
-                                                width: DeviceWidth,
-                                            }}
                                             innerStyle={{
                                                 alignItems: 'center',
                                                 borderBottomWidth: StyleSheet.hairlineWidth,
@@ -555,6 +550,11 @@ class OnboardModal extends Component {
                                                 overflow: 'hidden',
                                             }}
                                             onPress={() => this.pickerValue(item.value)}
+                                            outerStyle={{
+                                                flex: 1,
+                                                flexDirection: 'column',
+                                                width: DeviceWidth,
+                                            }}
                                             selected={this.state.step == 1 ? this.state.selected_ours == item.value : this.state.selected_theirs[item.value]}
                                             underlayColor={colors.dark}
                                             value={item.value}
