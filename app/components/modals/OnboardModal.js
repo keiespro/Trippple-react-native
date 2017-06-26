@@ -13,6 +13,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { NavigationStyles, withNavigation } from '@exponent/ex-navigation';
 import { DeviceHeight, DeviceWidth, iOS, MagicNumbers } from '../../utils/DeviceConfig';
+import { sextypes, self_labels, self_sextypes, looking_labels, looking_sextypes } from '../../utils/constants';
 import ActionMan from '../../actions';
 import colors from '../../utils/colors';
 import DoneButton from '../controls/DoneButton';
@@ -20,9 +21,6 @@ import Router from '../../Router';
 import Selectable from '../controls/Selectable';
 import styles from './purpleModalStyles';
 import UserImageCircle from '../UserImageCircle';
-import { sextypes, self_labels, self_sextypes, looking_labels, looking_sextypes } from '../../utils/constants';
-
-const TOP_DISTANCE = DeviceHeight - 160;
 
 
 @withNavigation
