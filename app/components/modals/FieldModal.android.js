@@ -24,8 +24,6 @@ import colors from '../../utils/colors';
 import TrackKeyboardMixin from '../mixins/keyboardMixin';
 import { DeviceHeight, DeviceWidth, MagicNumbers } from '../../utils/DeviceConfig';
 
-const DeviceWidth = Dimensions.get('window').width;
-const DeviceHeight = Dimensions.get('window').height;
 const PickerItem = Picker.Item;
 
 function getMaxLength(fieldName) {

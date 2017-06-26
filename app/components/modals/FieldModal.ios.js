@@ -30,7 +30,7 @@ const MIN_DATE = new Date().setFullYear(currentyear - 18);
 const MAX_DATE = new Date().setFullYear(currentyear - 60);
 
 function getMaxLength(fieldName) {
-    let len = 20
+    let len = 20;
     switch (fieldName) {
         case 'firstname':
             len = 10;
