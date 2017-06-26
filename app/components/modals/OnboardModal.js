@@ -288,217 +288,209 @@ class OnboardModal extends Component {
                                 transform: [{scale: this.boardScale}]
                             }]}
                         >
-                        <View
-                            style={{
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                top: this.state.step == 0 ? -50 : -90,
-                            }}
-                        >
-                            <UserImageCircle
-                                diameter={120}
-                                id={this.props.user.id}
-                                overrideStyles={{
-                                    borderRadius: 60,
-                                    marginBottom: 30,
-                                    position:'relative',
-                                    width:  120,
-                                    height: 120,
-                                }}
-                                thumbUrl={this.props.user.thumb_url}
-                            />
-                            <Text
-                                style={{
-                                    color: colors.white,
-                                    fontFamily: 'montserrat',
-                                    fontSize: 19,
-                                    fontWeight: '800',
-                                    justifyContent: 'space-between',
-                                    marginTop: 10,
-                                }}
-                            >
-                                WELCOME {this.props.user.firstname ? this.props.user.firstname.toUpperCase() : '' }
-                            </Text>
-                            <Text
-                                style={{
-                                    color: colors.rollingStone,
-                                    fontFamily: 'omnes',
-                                    fontSize: 17,
-                                    justifyContent: 'space-between',
-                                    marginBottom: 15,
-                                }}
-                            >
-                                Let's get started
-                            </Text>
                             <View
-                                style={[{
-                                    alignItems: 'flex-start',
-                                    flex: 0,
-                                    justifyContent: 'space-between',
-                                    marginTop: 0,
-                                }]}
-                            >
-                            <TouchableOpacity
                                 style={{
-                                    backgroundColor: colors.transparent,
-                                    borderBottomWidth: StyleSheet.hairlineWidth,
-                                    borderBottomColor: this.state.step == 1 ? colors.brightPurple : colors.steelGrey,
-                                    flex: 0,
+                                    alignItems: 'center',
                                     justifyContent: 'center',
-                                    marginLeft: 30,
-                                    paddingLeft: 0,
-                                    width: DeviceWidth - 20,
-                                    height: 70,
-                                }}
-                                onPress={() => {
-                                    this.setState({step: 1});
-                                    this.toggleFirstAnimation();
+                                    top: this.state.step == 0 ? -50 : -90,
                                 }}
                             >
-                                <View
-                                    style={[styles.rowtext, styles.bigtext, {
-                                        flexDirection: 'row',
-                                        flex: 0,
-                                        justifyContent: 'space-between',
-                                        marginVertical: 10,
-                                        paddingRight: 15,
-                                    }]}
-                                >
+                                <UserImageCircle
+                                    id={this.props.user.id}
+                                    thumbUrl={this.props.user.thumb_url}
+                                />
                                 <Text
                                     style={{
                                         color: colors.white,
                                         fontFamily: 'montserrat',
-                                        fontSize: 18,
-                                        fontWeight: '600',
-                                        marginLeft: 0,
-                                        textAlign: 'left',
+                                        fontSize: 19,
+                                        fontWeight: '800',
+                                        justifyContent: 'space-between',
+                                        marginTop: 10,
                                     }}
                                 >
-                                    {this.state.selected_ours && this.state.selected_ours.length > 1 ? 'WE\'RE A' : 'I\'M A' }
+                                    WELCOME {this.props.user.firstname ? this.props.user.firstname.toUpperCase() : '' }
                                 </Text>
-                                {this.state.selected_ours &&
-                                    <Text
+                                <Text
+                                    style={{
+                                        color: colors.rollingStone,
+                                        fontFamily: 'omnes',
+                                        fontSize: 17,
+                                        justifyContent: 'space-between',
+                                        marginBottom: 15,
+                                    }}
+                                >
+                                    Let's get started
+                                </Text>
+                                <View
+                                    style={{
+                                        alignItems: 'flex-start',
+                                        flex: 0,
+                                        justifyContent: 'space-between',
+                                        marginTop: 20,
+                                    }}
+                                >
+                                    <TouchableOpacity
                                         style={{
-                                            color: colors.white,
-                                            fontFamily: 'montserrat',
-                                            fontSize: 20,
-                                            marginRight: 40
+                                            backgroundColor: colors.transparent,
+                                            borderBottomWidth: StyleSheet.hairlineWidth,
+                                            borderBottomColor: this.state.step == 1 ? colors.brightPurple : colors.steelGrey,
+                                            flex: 0,
+                                            justifyContent: 'center',
+                                            marginLeft: 50,
+                                            paddingLeft: 0,
+                                            width: DeviceWidth - 40,
+                                            height: 70,
+                                        }}
+                                        onPress={() => {
+                                            this.setState({step: 1});
+                                            this.toggleFirstAnimation();
                                         }}
                                     >
-                                        {self_labels[this.state.selected_genders]}
-                                    </Text>
-                                }
-                                <View
-                                    style={{
-                                        flex: 1,
-                                        marginLeft: 10,
-                                        position: 'absolute',
-                                        right: 20,
-                                        top: 5,
-                                        width: 20,
-                                        height: 20,
-                                    }}
-                                >
-                                    <Image
-                                        resizeMode={Image.resizeMode.contain}
-                                        style={{width: 15, height: 15}}
-                                        source={require('./assets/edit@3x.png')}
-                                    />
+                                        <View
+                                            style={[styles.rowtext, styles.bigtext, {
+                                                flexDirection: 'row',
+                                                flex: 0,
+                                                justifyContent: 'space-between',
+                                                marginVertical: 10,
+                                                paddingRight: 15,
+                                            }]}
+                                        >
+                                            <Text
+                                                style={{
+                                                    color: colors.white,
+                                                    fontFamily: 'montserrat',
+                                                    fontSize: 18,
+                                                    fontWeight: '600',
+                                                    marginLeft: 0,
+                                                    textAlign: 'left',
+                                                }}
+                                            >
+                                                {this.state.selected_ours && this.state.selected_ours.length > 1 ? 'WE\'RE A' : 'I\'M A' }
+                                            </Text>
+                                            {this.state.selected_ours &&
+                                                <Text
+                                                    style={{
+                                                        color: colors.white,
+                                                        fontFamily: 'montserrat',
+                                                        fontSize: 20,
+                                                        marginRight: 40,
+                                                    }}
+                                                >
+                                                    {self_labels[this.state.selected_genders]}
+                                                </Text>
+                                            }
+                                            <View
+                                                style={{
+                                                    flex: 1,
+                                                    marginLeft: 10,
+                                                    position: 'absolute',
+                                                    right: 20,
+                                                    top: 5,
+                                                    width: 20,
+                                                    height: 20,
+                                                }}
+                                            >
+                                                <Image
+                                                    resizeMode={Image.resizeMode.contain}
+                                                    style={{width: 15, height: 15}}
+                                                    source={require('./assets/edit@3x.png')}
+                                                />
+                                            </View>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={{
+                                            backgroundColor: colors.transparent,
+                                            borderBottomWidth: StyleSheet.hairlineWidth,
+                                            borderBottomColor: this.state.step == 2 ? colors.darkPurple : colors.steelGrey,
+                                            flex: 0,
+                                            justifyContent: 'center',
+                                            marginLeft: 50,
+                                            paddingLeft: 0,
+                                            width: DeviceWidth - 40,
+                                            height: 70,
+                                            zIndex: 999,
+                                        }}
+                                        onPress={() => {
+                                            if (this.state.selected_ours) {
+                                                this.setState({step: 2});
+                                                this.toggleSecondAnimation();
+                                            }
+                                        }}
+                                    >
+                                        <View
+                                            style={[styles.rowtext, styles.bigtext, {
+                                                flex: 0,
+                                                flexDirection: 'row',
+                                                justifyContent: 'space-between',
+                                                marginVertical: 10,
+                                            }]}
+                                        >
+                                            <Text
+                                                style={{
+                                                    color: colors.white,
+                                                    fontFamily: 'montserrat',
+                                                    fontSize: 18,
+                                                    fontWeight: '600',
+                                                    textAlign: 'left',
+                                                }}
+                                            >
+                                                LOOKING FOR
+                                            </Text>
+                                            {this.state.isDoneActive &&
+                                                <View
+                                                    style={{
+                                                        alignItems: 'flex-end',
+                                                        flex: 1,
+                                                        flexDirection: 'column',
+                                                        paddingRight: 15,
+                                                    }}
+                                                >
+                                                    {this.renderLooking()}
+                                                </View>
+                                            }
+                                            <View
+                                                style={{
+                                                    flex: 1,
+                                                    marginLeft: 10,
+                                                    position: 'absolute',
+                                                    right: 20,
+                                                    top: 5,
+                                                    width: 20,
+                                                    height: 20,
+                                                }}
+                                            >
+                                                <Image
+                                                    resizeMode={Image.resizeMode.contain}
+                                                    style={{
+                                                        opacity: this.state.selected_ours ? 1 : 0.6,
+                                                        width: 15,
+                                                        height: 15,
+                                                    }}
+                                                    source={require('./assets/edit@3x.png')}
+                                                />
+                                            </View>
+                                        </View>
+                                    </TouchableOpacity>
                                 </View>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={{
-                                    backgroundColor: colors.transparent,
-                                    borderBottomWidth: StyleSheet.hairlineWidth,
-                                    borderBottomColor: this.state.step == 2 ? colors.darkPurple : colors.steelGrey,
-                                    flex: 0,
-                                    justifyContent: 'center',
-                                    marginLeft: 30,
-                                    paddingLeft: 0,
-                                    width: DeviceWidth - 20,
-                                    height: 70,
-                                    zIndex: 999,
-                                }}
-                                onPress={() => {
-                                    if (this.state.selected_ours) {
-                                        this.setState({step: 2});
-                                        this.toggleSecondAnimation();
-                                    }
-                                }}
-                            >
-                                <View
-                                    style={[styles.rowtext, styles.bigtext, {
-                                        flex: 0,
-                                        flexDirection: 'row',
-                                        justifyContent: 'space-between',
-                                        marginVertical: 10,
-                                    }]}
-                                >
-                                <Text
-                                    style={{
-                                        color: colors.white,
-                                        fontFamily: 'montserrat',
-                                        fontSize: 18,
-                                        fontWeight: '600',
-                                        textAlign: 'left',
-                                    }}
-                                >
-                                    LOOKING FOR
-                                </Text>
-                                {this.state.isDoneActive &&
+                                {(this.state.isDoneVisible) && (
                                     <View
                                         style={{
-                                            alignItems: 'flex-end',
-                                            flex: 1,
-                                            flexDirection: 'column',
-                                            paddingRight: 15,
+                                            bottom: -230,
+                                            position: 'absolute',
+                                            width: DeviceWidth,
+                                            height: 130,
                                         }}
                                     >
-                                        {this.renderLooking()}
+                                        <DoneButton
+                                            active={this.state.isDoneActive}
+                                            text="CONFIRM"
+                                            onPress={() => this.handleContinue()}
+                                        />
                                     </View>
-                                }
-                                <View
-                                    style={{
-                                        flex: 1,
-                                        marginLeft: 10,
-                                        position: 'absolute',
-                                        right: 20,
-                                        top: 5,
-                                        width: 20,
-                                        height: 20,
-                                    }}
-                                >
-                                    <Image
-                                        resizeMode={Image.resizeMode.contain}
-                                        style={{
-                                            opacity: this.state.selected_ours ? 1 : 0.6,
-                                            width: 15,
-                                            height: 15,
-                                        }}
-                                        source={require('./assets/edit@3x.png')}
-                                    />
-                                </View>
-                                </View>
-                            </TouchableOpacity>
+                                )}
                             </View>
-                            {(this.state.isDoneVisible) && (
-                                <View
-                                    style={{
-                                        bottom: -230,
-                                        position: 'absolute',
-                                        width: DeviceWidth,
-                                        height: 130,
-                                    }}
-                                >
-                                    <DoneButton
-                                        active={this.state.isDoneActive}
-                                        text="CONFIRM"
-                                        onPress={() => this.handleContinue()}
-                                    />
-                                </View>
-                            )}
-                        </View>
                         </Animated.View>
                         {this.state.step > 0 &&
                             <Animated.View
