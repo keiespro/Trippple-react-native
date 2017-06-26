@@ -28,6 +28,8 @@ import {
     MagicNumbers,
 } from '../../utils/DeviceConfig';
 
+const DeviceWidth = Dimensions.get('window').width;
+const DeviceHeight = Dimensions.get('window').height;
 const PickerItem = Picker.Item;
 
 function getMaxLength(fieldName) {
@@ -214,10 +216,10 @@ class FieldModal extends Component {
                     >
                         <Text
                             style={{
-                            color: this.state.canContinue ? colors.white : colors.rollingStone,
-                            fontSize: 20,
-                            fontFamily: 'montserrat',
-                            textAlign: 'center'
+                                color: this.state.canContinue ? colors.white : colors.rollingStone,
+                                fontSize: 20,
+                                fontFamily: 'montserrat',
+                                textAlign: 'center',
                             }}
                         >
                             UPDATE

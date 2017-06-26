@@ -262,14 +262,11 @@ class FieldModal extends Component {
                             placeholderTextColor={colors.white}
                             returnKeyType={'done'}
                             ref={component => this._textInput = component}
-                            style={[
-                                styles.textfield,
-                                {
+                            style={[styles.textfield, {
                                 fontSize: this.props.fieldName == 'email' ? 20 : 30,
                                 height: 80,
                                 textAlign: 'center'
-                                }
-                            ]}
+                            }]}
                         />
                     );
                 case 'phone_input':
@@ -456,10 +453,10 @@ class FieldModal extends Component {
                                 >
                                     <View
                                         style={{
-                                        alignSelf: 'stretch',
-                                        flex: 1,
-                                        flexDirection: 'column',
-                                        justifyContent: 'space-between',
+                                            alignSelf: 'stretch',
+                                            flex: 1,
+                                            flexDirection: 'column',
+                                            justifyContent: 'space-between',
                                         }}
                                     >
                                         <View
@@ -535,11 +532,11 @@ class FieldModal extends Component {
                         {this.renderCloseButton()}
                         <View
                             style={{
-                            alignSelf: 'stretch',
-                            alignItems: 'center',
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                            padding: 0,
+                                alignSelf: 'stretch',
+                                alignItems: 'center',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                padding: 0,
                             }}
                         >
                             <View
@@ -671,21 +668,19 @@ class FieldModal extends Component {
                                 <View style={{minHeight: 200}}>
                                     <View
                                         style={{
-                                        borderBottomWidth: 1,
-                                        borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone,
-                                        marginBottom: 20
+                                            borderBottomWidth: 1,
+                                            borderBottomColor: purpleBorder ? colors.mediumPurple : colors.rollingStone,
+                                            marginBottom: 20,
                                         }}
                                     >
-                                        {React.cloneElement(inputField,
-                                        {
+                                        {React.cloneElement(inputField, {
                                             autoFocus: true,
                                             defaultValue: fieldValue,
                                             onChangeText: (value) => {
                                             this.onChange(value);
                                             },
                                             selectionColor: colors.mediumPurple
-                                        }
-                                        )}
+                                        })}
                                     </View>
                                 </View>
                             </ScrollView>

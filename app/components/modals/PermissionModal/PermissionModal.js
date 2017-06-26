@@ -417,11 +417,11 @@ const ModalButton = ({btnText, onTap, loading}) => (
         <View style={{paddingHorizontal: 70}}>
             <Text
                 style={{
-                color: colors.white,
-                fontSize: 18,
-                fontFamily: 'montserrat',
-                fontWeight: '800',
-                textAlign: 'center',
+                    color: colors.white,
+                    fontSize: 18,
+                    fontFamily: 'montserrat',
+                    fontWeight: '800',
+                    textAlign: 'center',
                 }}
             >
                 {btnText}
