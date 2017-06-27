@@ -30,7 +30,7 @@ const MIN_DATE = new Date().setFullYear(currentyear - 18);
 const MAX_DATE = new Date().setFullYear(currentyear - 60);
 
 function getMaxLength(fieldName) {
-    let len = 20
+    let len = 20;
     switch (fieldName) {
         case 'firstname':
             len = 10;
@@ -246,7 +246,7 @@ class FieldModal extends Component {
         let displayField = (theField) => {
             switch (theField.field_type) {
                 case 'textarea':
-                    return (<MultiLineInput submit={() => this.submit()}/>);
+                    return (<MultiLineInput submit={() => this.submit()} />);
                 case 'input':
                     return (
                         <TextInput
@@ -487,8 +487,7 @@ class FieldModal extends Component {
                                                     width: MagicNumbers.screenWidth,
                                                 }}
                                             >
-                                                {
-                                                React.cloneElement(inputField, {
+                                                {React.cloneElement(inputField, {
                                                     autoCapitalize: 'characters',
                                                     defaultValue: this.props.fieldName == 'firstname' ? fieldValue ? fieldValue.slice(0,10) : '' : fieldValue,
                                                     maxLength: getMaxLength(this.props.fieldName),
@@ -648,7 +647,7 @@ class FieldModal extends Component {
                             {this.renderCloseButton()}
                             <ScrollView
                                 style={{flex: 1}}
-                                    contentContainerStyle={{
+                                contentContainerStyle={{
                                     flex: 1,
                                     justifyContent: 'space-around',
                                     padding: 20,
@@ -676,9 +675,7 @@ class FieldModal extends Component {
                                         {React.cloneElement(inputField, {
                                             autoFocus: true,
                                             defaultValue: fieldValue,
-                                            onChangeText: (value) => {
-                                            this.onChange(value);
-                                            },
+                                            onChangeText: (value) => { this.onChange(value); },
                                             selectionColor: colors.mediumPurple
                                         })}
                                     </View>

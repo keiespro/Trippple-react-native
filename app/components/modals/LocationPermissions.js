@@ -15,7 +15,7 @@ class LocationPermissionsModal extends Component {
     static route = {
         styles: NavigationStyles.SlideVertical,
         navigationBar: {
-        visible:false,
+            visible: false,
         }
     };
 

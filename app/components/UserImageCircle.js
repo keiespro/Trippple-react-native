@@ -19,7 +19,7 @@ import colors from '../utils/colors';
 class UserImageCircle extends Component {
 
     static defaultProps = {
-        diameter: DeviceWidth / 2 - 20
+        diameter: DeviceWidth / 2 - 40
     }
 
     state = {loading: false}
@@ -90,19 +90,19 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         backgroundColor: colors.brightPurple,
         justifyContent: 'center',
-        bottom: 2,
-        right: 2,
+        bottom: 5,
+        right: 5,
         position: 'absolute',
         width: 32,
         height: 32,
     },
     userimage: {
         alignItems: 'center',
-        borderRadius: ((DeviceWidth / 2 - 20) / 2),
+        borderRadius: ((DeviceWidth / 2 - 40) / 2),
         overflow: 'hidden',
         padding: 0,
-        width: DeviceWidth / 2 - 20,
-        height: DeviceWidth / 2 - 20,
+        width: DeviceWidth / 2 - 40,
+        height: DeviceWidth / 2 - 40,
     },
 });
 

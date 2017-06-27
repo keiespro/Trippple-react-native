@@ -1,145 +1,130 @@
-
-import { StyleSheet, Dimensions, PixelRatio } from 'react-native'
-const DeviceHeight = Dimensions.get('window').height;
-const DeviceWidth = Dimensions.get('window').width;
+import {
+    StyleSheet,
+    PixelRatio,
+} from 'react-native';
 import colors from '../../../utils/colors';
-import {MagicNumbers} from '../../../utils/DeviceConfig'
-
+import { DeviceHeight, DeviceWidth, MagicNumbers } from '../../../utils/DeviceConfig';
 
 
 const styles = StyleSheet.create({
- container: {
-   justifyContent: 'center',
-   alignItems: 'stretch',
-   position:'relative',
-   alignSelf: 'stretch',
-   backgroundColor:colors.outerSpace
-  //  overflow:'hidden'
- },
- inner:{
-   alignItems: 'stretch',
-  //  height:DeviceHeight,
-   backgroundColor:colors.outerSpace,
-   flexDirection:'column',
-   justifyContent:'flex-start'
- },
-
- blur:{
-   flex:1,
-   alignSelf:'stretch',
-   alignItems:'center',
-   paddingTop: 0,
-   paddingBottom: 40,
-
- },
-
-
- formHeader:{
-   marginTop:40
- },
- formHeaderText:{
-   color: colors.rollingStone,
-   fontFamily: 'omnes'
- },
- formRow: {
-   alignItems: 'center',
-   flexDirection: 'row',
-   alignSelf: 'stretch',
-   paddingTop:0,
-   flex:1,
-   borderBottomWidth:StyleSheet.hairlineWidth,
-   borderBottomColor: colors.rollingStone
-
- },
- tallFormRow: {
-   width: 250,
-   left:0,
-   height:220,
-   alignSelf:'stretch',
-   alignItems: 'center',
-   flexDirection: 'row',
-   justifyContent: 'center'
-},
-insideSelectable:{
-  height:60,
-  alignItems:'center',
-  justifyContent:'space-between',
-  flexDirection:'row'
-},
-bioText:{
-  color:colors.white,
-  height:50,
-  fontSize:18,
-  overflow:'hidden',
-  alignSelf:'stretch',
-  flexWrap:'wrap',
-  textAlign:'left',
-  fontFamily: 'omnes'
-
-},
- sliderFormRow:{
-   height:160,
-   paddingLeft: 30,
-   paddingRight:30
- },
- picker:{
-   height:200,
-   alignItems: 'stretch',
-   flexDirection: 'column',
-   alignSelf:'flex-end',
-   justifyContent:'center',
- },
- halfcell:{
-   width:DeviceWidth / 2,
-   alignItems: 'center',
-   alignSelf:'center',
-   justifyContent:'space-around'
-
-
- },
-
- formLabel: {
-   flex: 8,
-   fontSize: 18,
-   fontFamily:'omnes'
- },
- header:{
-   fontSize:24,
-   fontFamily:'omnes'
-
- },
- textfield:{
-   color: colors.white,
-   fontSize:20,
-   alignItems: 'stretch',
-   flex:1,
-   textAlign: 'left',
-   fontFamily:'montserrat',
- },
- paddedSpace:{
-   paddingHorizontal:MagicNumbers.screenPadding/2
- },
-
- autogrowTextinput:{
-     alignSelf: 'stretch',
-     padding: 0,
-     fontSize: MagicNumbers.size18 + 2,
-     fontFamily:'omnes',
-     color: colors.white,
-     width:DeviceWidth - MagicNumbers.screenPadding
- },
- textareaWrap:{
-   marginHorizontal:MagicNumbers.screenPadding/2,
-   height:70,
-   width:DeviceWidth - MagicNumbers.screenPadding,
-   flexWrap:'wrap',
-   alignItems:'center',
-   justifyContent:'center',
-   flexDirection:'column',
-   borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor:colors.shuttleGray
-  }
-
+    container: {
+        alignItems: 'stretch',
+        alignSelf: 'stretch',
+        backgroundColor: colors.outerSpace,
+        justifyContent: 'center',
+        position: 'relative',
+    },
+    inner: {
+        alignItems: 'stretch',
+        backgroundColor: colors.outerSpace,
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+    },
+    blur: {
+        alignSelf: 'stretch',
+        alignItems: 'center',
+        flex: 1,
+        paddingTop: 0,
+        paddingBottom: 40,
+    },
+    formHeader: {
+        marginTop: 40,
+    },
+    formHeaderText: {
+        color: colors.rollingStone,
+        fontFamily: 'omnes',
+    },
+    formRow: {
+        alignItems: 'center',
+        alignSelf: 'stretch',
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderBottomColor: colors.rollingStone,
+        flex: 1,
+        flexDirection: 'row',
+        paddingTop: 0,
+    },
+    tallFormRow: {
+        alignSelf: 'stretch',
+        alignItems: 'center',
+        left: 0,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        width: 250,
+        height: 220,
+    },
+    insideSelectable: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        height: 60,
+    },
+    bioText:{
+        alignSelf: 'stretch',
+        color: colors.white,
+        fontFamily: 'omnes',
+        fontSize: 18,
+        flexWrap: 'wrap',
+        overflow: 'hidden',
+        textAlign: 'left',
+        height: 50,
+    },
+    sliderFormRow: {
+        paddingLeft: 30,
+        paddingRight: 30,
+        height: 160,
+    },
+    picker: {
+        alignItems: 'stretch',
+        alignSelf: 'flex-end',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        height: 200,
+    },
+    halfcell: {
+        alignItems: 'center',
+        alignSelf: 'center',
+        justifyContent: 'space-around',
+        width: DeviceWidth / 2,
+    },
+    formLabel: {
+        flex: 8,
+        fontSize: 18,
+        fontFamily: 'omnes',
+    },
+    header: {
+        fontSize: 24,
+        fontFamily: 'omnes'
+    },
+    textfield: {
+        alignItems: 'stretch',
+        color: colors.white,
+        flex: 1,
+        fontFamily: 'montserrat',
+        fontSize: 20,
+        textAlign: 'left',
+    },
+    paddedSpace: {
+        paddingHorizontal: MagicNumbers.screenPadding/2
+    },
+    autogrowTextinput: {
+        alignSelf: 'stretch',
+        color: colors.white,
+        fontSize: MagicNumbers.size18 + 2,
+        fontFamily: 'omnes',
+        padding: 0,
+        width: DeviceWidth - MagicNumbers.screenPadding,
+    },
+    textareaWrap: {
+        alignItems: 'center',
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderColor: colors.shuttleGray,
+        flexWrap: 'wrap',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        marginHorizontal: MagicNumbers.screenPadding/2,
+        width: DeviceWidth - MagicNumbers.screenPadding,
+        height: 70,
+    },
 });
 
 export default styles
