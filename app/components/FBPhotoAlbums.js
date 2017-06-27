@@ -155,41 +155,61 @@ class PhotoAlbums extends Component {
                     onPress={() => this.openAlbum(album)}
                     underlayColor={colors.shuttleGray}
                 >
-                    <View
-                        style={[styles.album_list_row, {
-                            alignItems: 'center',
-                            borderBottomWidth: 1 / PixelRatio.get(),
-                            borderColor: colors.shuttleGray,
-                            flexDirection: 'row',
-                            justifyContent: 'flex-start',
-                            marginLeft: iOS ? 25 : 0,
-                            paddingRight: 25,
-                            height: 80,
-                        }]}
-                    >
-                        <Image
-                            style={styles.album_cover_thumbnail}
-                            source={{ uri: album.picture.data.url }}
-                        />
-                        <View style={{flexDirection: 'column'}}>
-                            <Text
-                                style={{
-                                    color: colors.white,
-                                    fontFamily: 'montserrat',
-                                    fontSize: 16,
-                                    fontWeight: '800',
-                                }}
+                    <View style={{flex: 1, flexDirection: 'row'}}>
+                        <View style={{flex: 5}}>
+                            <View
+                                style={[styles.album_list_row, {
+                                    alignItems: 'center',
+                                    borderBottomWidth: 1 / PixelRatio.get(),
+                                    borderColor: colors.shuttleGray,
+                                    flexDirection: 'row',
+                                    justifyContent: 'flex-start',
+                                    marginLeft: iOS ? 25 : 0,
+                                    paddingRight: 25,
+                                    height: 80,
+                                }]}
                             >
-                                {album && album.name ? album.name.toUpperCase() : ''}
-                            </Text>
-                            <Text
-                                style={{
-                                    color: colors.shuttleGray,
-                                    fontSize: 14,
-                                }}
-                            >
-                                {`${album.count} photos`}
-                            </Text>
+                                <Image
+                                    style={styles.album_cover_thumbnail}
+                                    source={{ uri: album.picture.data.url }}
+                                />
+                                <View style={{flexDirection: 'column'}}>
+                                    <Text
+                                        style={{
+                                            color: colors.white,
+                                            fontFamily: 'montserrat',
+                                            fontSize: 16,
+                                            fontWeight: '800',
+                                        }}
+                                    >
+                                        {album && album.name ? album.name.toUpperCase() : ''}
+                                    </Text>
+                                    <Text
+                                        style={{
+                                            color: colors.shuttleGray,
+                                            fontSize: 14,
+                                        }}
+                                    >
+                                        {`${album.count} photos`}
+                                    </Text>
+                                </View>
+                            </View>
+                        </View>
+                        <View
+                            style={{
+                                alignItems: 'center',
+                                borderBottomWidth: 1 / PixelRatio.get(),
+                                borderColor: colors.shuttleGray,
+                                flex: 1,
+                                justifyContent: 'center',
+                                marginRight: 25,
+                            }}
+                        >
+                            <Icon
+                                color={colors.rollingStone}
+                                name="caret-right"
+                                size={25}
+                            />
                         </View>
                     </View>
                 </TouchableHighlight>
