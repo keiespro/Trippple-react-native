@@ -189,7 +189,6 @@ class Settings extends Component {
                                 id={this.props.user.id}
                                 thumbUrl={this.props.user.thumb_url}
                             />
-
                             <TouchableOpacity
                                 onPress={this._openProfile.bind(this)}
                                 style={{alignSelf: 'stretch'}}
@@ -216,7 +215,6 @@ class Settings extends Component {
                                         {this.props.user.firstname && this.props.user.firstname.toUpperCase()}
                                     </Text>
                                 </View>
-
                                 <View
                                     style={{
                                         alignItems: 'stretch',
@@ -242,7 +240,6 @@ class Settings extends Component {
                         </View>
                     )}
                 >
-
                 <View
                     style={{
                         backgroundColor: colors.outerSpace,
@@ -250,7 +247,6 @@ class Settings extends Component {
                         width: iOS ? DeviceWidth : DeviceWidth * 0.91,
                     }}
                 >
-
                     <SettingsRow
                         pushScreen={() => {
                             this.props.dispatch({type: 'CLOSE_DRAWER'});
@@ -263,7 +259,6 @@ class Settings extends Component {
                         subtitle={'Edit your information'}
                         title={'PROFILE'}
                     />
-
                     {this.props.user.relationship_status == 'couple' || !this.props.user.relationship_status ?
                         <SettingsRow
                             pushScreen={(f) => {
@@ -278,7 +273,6 @@ class Settings extends Component {
                             title={'COUPLE'}
                         />
                     : null }
-
                     {this.props.user.relationship_status == 'single' ?
                         <SettingsRow
                             pushScreen={(f) => {
@@ -289,7 +283,6 @@ class Settings extends Component {
                             title={'JOIN COUPLE'}
                         /> : null
                     }
-
                     <SettingsRow
                         pushScreen={(f) => {
                             this.props.dispatch({type: 'CLOSE_DRAWER'});
@@ -302,7 +295,6 @@ class Settings extends Component {
                         subtitle={'What you\'re looking for'}
                         title={'PREFERENCES'}
                     />
-
                     <SettingsRow
                         pushScreen={(f) => {
                             this.props.dispatch({type: 'CLOSE_DRAWER'});
@@ -314,7 +306,6 @@ class Settings extends Component {
                         subtitle={'Privacy and more'}
                         title={'SETTINGS'}
                     />
-
                     <SettingsRow
                         pushScreen={(f) => {
                             this.props.dispatch({type: 'CLOSE_DRAWER'});
@@ -323,7 +314,6 @@ class Settings extends Component {
                         subtitle={'Answers to frequently asked questions'}
                         title={'FAQS'}
                     />
-
                     <SettingsRow
                         pushScreen={(f) => {
                             this.props.dispatch({type: 'CLOSE_DRAWER'});
@@ -332,7 +322,6 @@ class Settings extends Component {
                         subtitle={'Chat with us'}
                         title={'HELP & FEEDBACK'}
                     />
-
                     { __DEV__ &&
                         <SettingsRow
                             pushScreen={(f) => {
@@ -346,9 +335,7 @@ class Settings extends Component {
                             title={'DEBUG'}
                         />
                     }
-
                     <HideProfileSwitch />
-
                     <View style={styles.paddedSpace}>
                         {this.props.profileVisible ? null : (
                             <TouchableOpacity
@@ -372,12 +359,10 @@ class Settings extends Component {
                         )}
                         <LogoutButton dispatch={this.props.dispatch} />
                     </View>
-
-
                     <View
-                        style={[styles.paddedSpace,{
+                        style={[styles.paddedSpace, {
                             marginTop: 20,
-                            paddingVertical: 20
+                            paddingVertical: 20,
                         }]}
                     >
                         <Text
@@ -390,7 +375,6 @@ class Settings extends Component {
                         >
                             V {ReactNative.NativeModules.RNDeviceInfo.appVersion}:{ReactNative.NativeModules.RNDeviceInfo.buildNumber}
                         </Text>
-
                         {__DEV__ &&
                             <Text
                                 style={{
@@ -426,7 +410,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.outerSpace,
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
     },
     userimageContainer: {
         alignItems: 'center',
