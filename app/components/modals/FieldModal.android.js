@@ -225,7 +225,8 @@ class FieldModal extends Component {
     }
 
     render() {
-        const { field, fieldValue } = this.props;
+        const { field } = this.props;
+        let { fieldValue } = this.props;
     
         const get_values = (typeof this.props.field.values == 'object' && Object.keys(this.props.field.values).map(key => key)) || this.props.field.values;
         const get_key_vals = (typeof this.props.field.values == 'object' && this.props.field.values) || {};
@@ -483,7 +484,7 @@ class FieldModal extends Component {
                                                         marginTop: 15,
                                                     }}
                                                 >
-                                                {field.sub_label}
+                                                    {field.sub_label}
                                                 </Text> :
                                                 null
                                             }
@@ -636,7 +637,7 @@ class FieldModal extends Component {
                                     autoFocus: true,
                                     defaultValue: fieldValue,
                                     onChangeText: (value) => {
-                                    this.onChange(value)
+                                        this.onChange(value)
                                     },
                                     selectionColor: colors.mediumPurple,
                                 })}
