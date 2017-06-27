@@ -1,8 +1,8 @@
-import React from 'react'
-import {Provider as ReduxProvider} from 'react-redux'
-import {NavigationContext, NavigationProvider} from '@exponent/ex-navigation'
-import AppWrap from './components/appWrap'
-import Router from './Router'
+import React from 'react';
+import { Provider as ReduxProvider } from 'react-redux';
+import { NavigationContext, NavigationProvider } from '@exponent/ex-navigation';
+import AppWrap from './components/appWrap';
+import Router from './Router';
 
 const AppContainer = ({store}) => {
   const context = new NavigationContext({ store, router: Router })
@@ -16,4 +16,4 @@ const AppContainer = ({store}) => {
   )
 }
 
-export default AppContainer
+export default AppContainer;

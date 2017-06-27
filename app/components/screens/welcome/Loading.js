@@ -1,32 +1,33 @@
-import React from 'react'
-import {View, ActivityIndicator, Dimensions} from 'react-native'
-import colors from '../../../utils/colors'
-
-const DeviceHeight = Dimensions.get('window').height
-const DeviceWidth = Dimensions.get('window').width
+import React, { Component } from 'react';
+import {
+    ActivityIndicator,
+    Dimensions,
+    View,
+} from 'react-native';
+import colors from '../../../utils/colors';
+import { DeviceHeight, DeviceWidth } from '../../../utils/DeviceConfig';
 
 
 const Loading = () => (
-  <View
-    style={{
-      justifyContent: 'center',
-      alignItems: 'center',
-      flexGrow: 1,
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: DeviceWidth,
-      height: DeviceHeight,
-      backgroundColor: colors.outerSpace
-    }}
-  >
-    <ActivityIndicator
-      size="large"
-      color={colors.white}
-      animating
-      style={{}}
-    />
-  </View>
+    <View
+        style={{
+            alignItems: 'center',
+            backgroundColor: colors.outerSpace,
+            flexGrow: 1,
+            justifyContent: 'center',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: DeviceWidth,
+            height: DeviceHeight,
+        }}
+    >
+        <ActivityIndicator
+            animating
+            color={colors.white}
+            size="large"
+        />
+    </View>
 )
 
-export default Loading
+export default Loading;

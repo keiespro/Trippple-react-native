@@ -1,116 +1,111 @@
-import { StatusBar, View, Dimensions, NativeModules, Text, Platform, ActivityIndicator } from 'react-native';
-import React from 'react';
-import { connect } from 'react-redux';
-import { withNavigation} from '@exponent/ex-navigation';
-import SplashScreen from 'react-native-splash-screen'
+import React, { Component } from 'react';
+import {
+  ActivityIndicator,
+  Dimensions,
+  NativeModules,
+  Platform,
+  StatusBar,
+  Text,
+  View,
+} from 'react-native';
+import _ from 'lodash';
+import reactMixin from 'react-mixin';
 import TimerMixin from 'react-timer-mixin';
-import reactMixin from 'react-mixin'
-// import RC from '../RemoteConfig'
-import _ from 'lodash'
-import pure from 'recompose/pure'
-import AppNav from '../AppNav';
-import ModalDirector from './modals/ModalDirector';
-import Welcome from './screens/welcome/welcome';
-import AppState from '../utils/AppState'
-import ConnectionInfo from '../utils/ConnectionInfo'
-import Notifications from '../utils/Notifications';
-import colors from '../utils/colors'
-import Analytics from '../utils/Analytics'
+import { connect } from 'react-redux';
+import { fireLogin } from '../fire';
+import { withNavigation } from '@exponent/ex-navigation';
 import ActionMan from '../actions/';
-import Onboard from './Onboard'
-import DeepLinkHandler from '../utils/DeepLinkHandler'
-import {fireLogin} from '../fire'
-import LikeSender from '../LikeSender'
-import Router from '../Router'
+import Analytics from '../utils/Analytics';
+import AppNav from '../AppNav';
+import AppState from '../utils/AppState';
+import colors from '../utils/colors';
+import ConnectionInfo from '../utils/ConnectionInfo';
+import DeepLinkHandler from '../utils/DeepLinkHandler';
+import LikeSender from '../LikeSender';
+import ModalDirector from './modals/ModalDirector';
+import Notifications from '../utils/Notifications';
+import Onboard from './Onboard';
+import pure from 'recompose/pure';
+import Router from '../Router';
+import SplashScreen from 'react-native-splash-screen';
+import Welcome from './screens/welcome/welcome';
 
 const iOS = Platform.OS == 'ios';
-const {RNUXCam} = NativeModules
-const DeviceHeight = Dimensions.get('window').height
-const DeviceWidth = Dimensions.get('window').width
+const { RNUXCam } = NativeModules;
+const DeviceHeight = Dimensions.get('window').height;
+const DeviceWidth = Dimensions.get('window').width;
 
 @reactMixin.decorate(TimerMixin)
-class App extends React.Component{
-  constructor(){
+class App extends Component {
+
+  constructor() {
     super()
 
     this.state = {
-      loading: true
+      loading: true,
     }
   }
 
-  componentWillMount(){
-    if(this.props.loggedIn){
+  componentWillMount() {
+    if (this.props.loggedIn) {
       this.props.dispatch(ActionMan.getUserInfo());
-    }else if(!this.props.loggedIn && this.props.fbUser && this.props.fbUser.accessToken){
+    } else if (!this.props.loggedIn && this.props.fbUser && this.props.fbUser.accessToken) {
       // this.props.dispatch(ActionMan.loginWithSavedFbCreds(this.props.fbUser))
-
     }
-
   }
 
-  componentDidMount(){
+  componentDidMount() {
     SplashScreen.hide();
 
-    if(this.props.user.id && this.props.auth.firebaseUser){
-      this.props.dispatch(ActionMan.firebaseAuth(this.props.fbUser))
-
-      this.props.dispatch(ActionMan.sessionToFirebase())
+    if (this.props.user.id && this.props.auth.firebaseUser) {
+      this.props.dispatch(ActionMan.firebaseAuth(this.props.fbUser));
+      this.props.dispatch(ActionMan.sessionToFirebase());
     }
   }
 
-
-  componentWillReceiveProps(nProps){
-    if(nProps.loadedUser && !this.props.loadedUser){
-
-      this.props.dispatch(ActionMan.setHotlineUser(nProps.user))
-      Analytics.identifyUser(nProps.user)
-
+  componentWillReceiveProps(nProps) {
+    if (nProps.loadedUser && !this.props.loadedUser) {
+      this.props.dispatch(ActionMan.setHotlineUser(nProps.user));
+      Analytics.identifyUser(nProps.user);
     }
-     if(!this.state.initialized && nProps.booted){
-
-      this.initialize(nProps)
+    if (!this.state.initialized && nProps.booted) {
+      this.initialize(nProps);
     }
-    if(this.state.initialized && this.props.appState != 'active' && nProps.appState == 'active'){
+    if (this.state.initialized && this.props.appState != 'active' && nProps.appState == 'active') {
       SplashScreen.hide();
-
     }
    
-    if(this.props.loadedUser && nProps.onboarded && !this.props.onboarded){
-      this.props.dispatch(ActionMan.resetRoute('Potentials'))
-    }else if(this.props.loadedUser && nProps.loggedIn && !this.props.loggedIn){
-      this.props.dispatch(ActionMan.resetRoute('Onboard'))
+    if (this.props.loadedUser && nProps.onboarded && !this.props.onboarded) {
+      this.props.dispatch(ActionMan.resetRoute('Potentials'));
+    } else if(this.props.loadedUser && nProps.loggedIn && !this.props.loggedIn) {
+      this.props.dispatch(ActionMan.resetRoute('Onboard'));
     }
-
   }
 
-  componentDidUpdate(pProps, pState){
-    if(this.state.initialized && !pState.initialized){
+  componentDidUpdate(pProps, pState) {
+    if (this.state.initialized && !pState.initialized) {
       SplashScreen.hide();
       this.performInitActions()
       // Analytics.identifyUser(this.props.user)
-
     }
   }
 
-  initialize(nProps){
-    if(!this.state.initialized){
-      this.setState({initialized: true})
+  initialize(nProps) {
+    if(!this.state.initialized) {
+      this.setState({initialized: true});
     }
   }
 
-  performInitActions(){
-
+  performInitActions() {
     const initActions = this.props.onboarded ? [
       'getUserInfo',
       'getPotentials',
       'getMatches',
       'getNewMatches',
-      'getUsersLiked'
-
+      'getUsersLiked',
     ] : this.props.loggedIn ? ['getUserInfo'] : [];
 
-    const {permissions} = this.props;
-
+    const { permissions } = this.props;
 
     // if(permissions.notifications){
     //   initActions.push('getPushToken')
@@ -128,44 +123,43 @@ class App extends React.Component{
     //     .catch(err => {
 
     initActions.forEach(ac => {
-      this.props.dispatch(ActionMan[ac]())
+      this.props.dispatch(ActionMan[ac]());
     })
-        // })
-    if(permissions.location != 'soft-denied'){
-      this.props.dispatch(ActionMan.checkLocationPermission())
+    // })
+    if (permissions.location != 'soft-denied') {
+      this.props.dispatch(ActionMan.checkLocationPermission());
     }
-    if(permissions.notifications != 'soft-denied'){
-      this.props.dispatch(ActionMan.checkNotificationsPermission())
+    if (permissions.notifications != 'soft-denied') {
+      this.props.dispatch(ActionMan.checkNotificationsPermission());
     }
-    if(this.props.loggedIn && permissions.location && (iOS && permissions.location == 'authorized' || true)){
-      this.props.dispatch(ActionMan.getLocation())
+    if (this.props.loggedIn && permissions.location && (iOS && permissions.location == 'authorized' || true)) {
+      this.props.dispatch(ActionMan.getLocation());
     }
-    if(this.props.loggedIn && permissions.notifications && (iOS && permissions.notifications == 'authorized' || true)){
-      this.props.dispatch(ActionMan.getPushToken())
+    if (this.props.loggedIn && permissions.notifications && (iOS && permissions.notifications == 'authorized' || true)) {
+      this.props.dispatch(ActionMan.getPushToken());
     }
   }
 
-
-  render(){
+  render() {
     return (
-      <View style={{width: DeviceWidth, height: DeviceHeight, backgroundColor: colors.outerSpace}}>
-
+      <View style={{
+          backgroundColor: colors.outerSpace,
+          width: DeviceWidth,
+          height: DeviceHeight,
+        }}
+      >
         <ConnectionInfo
           handleChange={(connInfo,conn)=> this.props.dispatch({type: 'CONNECTION_CHANGE', payload: {conn, connInfo}})}
         />
-
         { this.props.user && this.props.user.id && <LikeSender />}
-
         <AppState dispatch={this.props.dispatch} />
-
         <DeepLinkHandler dispatch={this.props.dispatch} />
-
-        <AppNav onboarded={this.props.onboarded} initialRoute={Router.getRoute(this.props.loggedIn ? this.props.onboarded ? 'Potentials' : 'Onboard' : 'Welcome')} />
-
+        <AppNav
+          initialRoute={Router.getRoute(this.props.loggedIn ? this.props.onboarded ? 'Potentials' : 'Onboard' : 'Welcome')}
+          onboarded={this.props.onboarded}
+        />
         <ModalDirector />
-
         <Notifications />
-
       </View>
     )
   }
@@ -174,25 +168,26 @@ class App extends React.Component{
 const Loading = () => (
   <View
     style={{
-      justifyContent: 'center',
       alignItems: 'center',
+      backgroundColor: colors.outerSpace,
       flexGrow: 1,
-      position: 'absolute',
-      top: 0,
+      justifyContent: 'center',
       left: 0,
+      top: 0,
+      position: 'absolute',
       width: DeviceWidth,
       height: DeviceHeight,
-      backgroundColor: colors.outerSpace
     }}
   >
     <ActivityIndicator
-      size="large"
-      color={colors.white}
       animating
+      color={colors.white}
+      size="large"
       style={{}}
     />
   </View>
 )
+
 const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
   onboarded: state.user.status == 'onboarded',
@@ -214,4 +209,4 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch) => ({ dispatch })
 
-export default connect(mapStateToProps, mapDispatchToProps)((App));
+export default connect(mapStateToProps, mapDispatchToProps)(App);
