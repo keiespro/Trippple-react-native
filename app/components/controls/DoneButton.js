@@ -57,4 +57,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default DoneButton;;
+export default DoneButton;
