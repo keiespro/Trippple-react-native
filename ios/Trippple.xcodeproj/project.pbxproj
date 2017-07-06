@@ -14,7 +14,7 @@
 		57B30032AFF64C6A9DFA2BEA /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B033A9B8E4354EFFADB61AAD /* libRNVectorIcons.a */; };
 		596DAA431A5C4DAFB59F9145 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7B8DBC5D29F64D378FCC002F /* EvilIcons.ttf */; };
 		639E72F49F6D4F59A3C7437B /* libRNAppInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F3D9D7B0AC4E4DBFB500C1 /* libRNAppInfo.a */; };
-		6491D42D1F0EB8CF00DCA376 /* RCNconfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 6491D42C1F0EB8CF00DCA376 /* RCNconfig.m */; };
+		64D5A8D51F0EF61D008C278E /* RCNconfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 64D5A8D41F0EF61D008C278E /* RCNconfig.m */; };
 		87ECAA00B7684B1BB245C79E /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FEB11260512403DBCD615FC /* libBVLinearGradient.a */; };
 		954EAF3E9229448AB9E3B3FB /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FB697C489D024498A1660215 /* Ionicons.ttf */; };
 		AC04A5781D410CA100E00362 /* OnboardingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AC04A5771D410CA100E00362 /* OnboardingTests.m */; };
@@ -467,8 +467,8 @@
 		515999541FC441E78A1DD824 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		64606B931F0EA77A00A5F0FD /* ApikeysHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApikeysHeader.h; sourceTree = "<group>"; };
 		648DE30A1F05C1A100C6BF99 /* Configuration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Configuration.h; path = ../Configuration.h; sourceTree = "<group>"; };
-		6491D42B1F0EB8CF00DCA376 /* RCNconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCNconfig.h; sourceTree = "<group>"; };
-		6491D42C1F0EB8CF00DCA376 /* RCNconfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCNconfig.m; sourceTree = "<group>"; };
+		64D5A8D41F0EF61D008C278E /* RCNconfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCNconfig.m; sourceTree = "<group>"; };
+		64D5A8D61F0EF625008C278E /* RCNconfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCNconfig.h; sourceTree = "<group>"; };
 		6B90104648414AE3853A471D /* TouchID.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = TouchID.xcodeproj; path = "../node_modules/react-native-touch-id/TouchID.xcodeproj"; sourceTree = "<group>"; };
 		6FEB11260512403DBCD615FC /* libBVLinearGradient.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libBVLinearGradient.a; sourceTree = "<group>"; };
 		7B8DBC5D29F64D378FCC002F /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
@@ -1031,9 +1031,9 @@
 				ACC7DE971C5A41F30087476F /* UIColor+TRColors.h */,
 				ACC7DE981C5A41F30087476F /* UIColor+TRColors.m */,
 				AC11AC821CE7CE7B001B6FB3 /* Trippple-PrefixHeader.pch */,
+				64D5A8D61F0EF625008C278E /* RCNconfig.h */,
+				64D5A8D41F0EF61D008C278E /* RCNconfig.m */,
 				64606B931F0EA77A00A5F0FD /* ApikeysHeader.h */,
-				6491D42B1F0EB8CF00DCA376 /* RCNconfig.h */,
-				6491D42C1F0EB8CF00DCA376 /* RCNconfig.m */,
 			);
 			name = Trippple;
 			sourceTree = "<group>";
@@ -1944,7 +1944,7 @@
 				ACC7DE991C5A41F30087476F /* AppDelegate.m in Sources */,
 				ACC7DEAE1C5A41F30087476F /* main.m in Sources */,
 				ACC7DEB01C5A41F30087476F /* UIColor+TRColors.m in Sources */,
-				6491D42D1F0EB8CF00DCA376 /* RCNconfig.m in Sources */,
+				64D5A8D51F0EF61D008C278E /* RCNconfig.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2127,7 +2127,7 @@
 			};
 			name = Release;
 		};
-		64606C221F0EB30B00A5F0FD /* staging */ = {
+		64D5A8D11F0EF526008C278E /* Staging */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
@@ -2195,9 +2195,9 @@
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
-			name = staging;
+			name = Staging;
 		};
-		64606C231F0EB30B00A5F0FD /* staging */ = {
+		64D5A8D21F0EF526008C278E /* Staging */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 047E0A35175544B655D0D3BF /* Pods-Trippple.release.xcconfig */;
 			buildSettings = {
@@ -2270,9 +2270,9 @@
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
-			name = staging;
+			name = Staging;
 		};
-		64606C241F0EB30B00A5F0FD /* staging */ = {
+		64D5A8D31F0EF526008C278E /* Staging */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -2303,7 +2303,7 @@
 				SDKROOT = iphoneos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Trippple.app/Trippple";
 			};
-			name = staging;
+			name = Staging;
 		};
 		83CBBA201A601CBA00E9B192 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -2529,7 +2529,7 @@
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
 				13B07F951A680F5B00A75B9A /* Release */,
-				64606C231F0EB30B00A5F0FD /* staging */,
+				64D5A8D21F0EF526008C278E /* Staging */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2539,7 +2539,7 @@
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
 				83CBBA211A601CBA00E9B192 /* Release */,
-				64606C221F0EB30B00A5F0FD /* staging */,
+				64D5A8D11F0EF526008C278E /* Staging */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2549,7 +2549,7 @@
 			buildConfigurations = (
 				AC9D8D391D3F34FF009D4C78 /* Debug */,
 				AC9D8D3A1D3F34FF009D4C78 /* Release */,
-				64606C241F0EB30B00A5F0FD /* staging */,
+				64D5A8D31F0EF526008C278E /* Staging */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

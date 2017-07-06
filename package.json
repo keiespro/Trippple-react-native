@@ -35,6 +35,7 @@
     "google-libphonenumber": "2.0.18",
     "immutable": "^3.8.1",
     "lodash": "^4.17.4",
+    "marked": "^0.3.6",
     "moment": "^2.18.1",
     "navigation-experimental-fork": "^1.0.5",
     "prop-types": "^15.5.10",

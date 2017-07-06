@@ -119,12 +119,16 @@
 - (NSURL *)sourceURLForBridge:(__unused RCTBridge *)bridge
 {
   NSURL *sourceURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle" ];
+  
+  RCTBundleURLProvider *settings = [RCTBundleURLProvider sharedSettings];
+  settings.jsLocation = @"localhost";
 
   #ifdef DEBUG
-    NSLog(@"DEBUG");
-    RCTBundleURLProvider *settings = [RCTBundleURLProvider sharedSettings];
-    settings.jsLocation = @"localhost";
+  NSLog(@"DEBUG");
     return [settings jsBundleURLForBundleRoot:@"index.ios" fallbackResource:[sourceURL absoluteString]];
+  #elif Staging
+  NSLog(@"Staging");
+  return [settings jsBundleURLForBundleRoot:@"index.ios" fallbackResource:[sourceURL absoluteString]];
   #else
     return sourceURL;
   #endif
