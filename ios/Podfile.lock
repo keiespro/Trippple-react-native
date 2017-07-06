@@ -98,7 +98,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   Mixpanel:
-    :commit: 02008544552f0863621174988983b958b35f2ed3
+    :commit: '02008544552f0863621174988983b958b35f2ed3'
     :git: https://github.com/mixpanel/mixpanel-iphone.git
 
 SPEC CHECKSUMS:

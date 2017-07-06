@@ -23,6 +23,7 @@
 #import <React/RCTRootView.h>
 #import <React/RCTJavaScriptLoader.h>
 #import <React/RCTLinkingManager.h>
+#import "Configuration.h"
 
 #import <React/RCTPushNotificationManager.h>
 
@@ -37,6 +38,7 @@
 #import <Bolts/Bolts.h>
 #import "RNFIRMessaging.h"
 #import "SplashScreen.h"
+#import "ApikeysHeader.h"
 
 @interface AppDelegate() <RCTBridgeDelegate>
 @end
@@ -61,8 +63,8 @@
 
   // BEGIN HOTLINE
   HotlineConfig *config = [[HotlineConfig alloc]
-                           initWithAppID:@"f54bba2a-84fa-43c8-afa9-098f3c1aefae"
-                           andAppKey:@"fba1b915-fa8b-4c24-bdda-8bac99fcf92a"];
+                           initWithAppID:ApiKey
+                           andAppKey: AppKey];
   config.voiceMessagingEnabled = NO;
   config.pictureMessagingEnabled = YES;
   config.cameraCaptureEnabled = NO;

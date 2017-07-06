@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		15AF47D00C9F40189C5BE57C /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 515999541FC441E78A1DD824 /* Zocial.ttf */; };
 		2EE81FEBCAE146C6936CE0B9 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA1B48184CE1460FAC281224 /* FontAwesome.ttf */; };
@@ -13,6 +14,7 @@
 		57B30032AFF64C6A9DFA2BEA /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B033A9B8E4354EFFADB61AAD /* libRNVectorIcons.a */; };
 		596DAA431A5C4DAFB59F9145 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7B8DBC5D29F64D378FCC002F /* EvilIcons.ttf */; };
 		639E72F49F6D4F59A3C7437B /* libRNAppInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F3D9D7B0AC4E4DBFB500C1 /* libRNAppInfo.a */; };
+		6491D42D1F0EB8CF00DCA376 /* RCNconfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 6491D42C1F0EB8CF00DCA376 /* RCNconfig.m */; };
 		87ECAA00B7684B1BB245C79E /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FEB11260512403DBCD615FC /* libBVLinearGradient.a */; };
 		954EAF3E9229448AB9E3B3FB /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FB697C489D024498A1660215 /* Ionicons.ttf */; };
 		AC04A5781D410CA100E00362 /* OnboardingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AC04A5771D410CA100E00362 /* OnboardingTests.m */; };
@@ -463,6 +465,10 @@
 		13B07F961A680F5B00A75B9A /* Trippple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Trippple.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D62B1BBA6E77BCA8E6D76D0 /* libPods-Trippple.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Trippple.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		515999541FC441E78A1DD824 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
+		64606B931F0EA77A00A5F0FD /* ApikeysHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApikeysHeader.h; sourceTree = "<group>"; };
+		648DE30A1F05C1A100C6BF99 /* Configuration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Configuration.h; path = ../Configuration.h; sourceTree = "<group>"; };
+		6491D42B1F0EB8CF00DCA376 /* RCNconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCNconfig.h; sourceTree = "<group>"; };
+		6491D42C1F0EB8CF00DCA376 /* RCNconfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCNconfig.m; sourceTree = "<group>"; };
 		6B90104648414AE3853A471D /* TouchID.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = TouchID.xcodeproj; path = "../node_modules/react-native-touch-id/TouchID.xcodeproj"; sourceTree = "<group>"; };
 		6FEB11260512403DBCD615FC /* libBVLinearGradient.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libBVLinearGradient.a; sourceTree = "<group>"; };
 		7B8DBC5D29F64D378FCC002F /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
@@ -1025,6 +1031,9 @@
 				ACC7DE971C5A41F30087476F /* UIColor+TRColors.h */,
 				ACC7DE981C5A41F30087476F /* UIColor+TRColors.m */,
 				AC11AC821CE7CE7B001B6FB3 /* Trippple-PrefixHeader.pch */,
+				64606B931F0EA77A00A5F0FD /* ApikeysHeader.h */,
+				6491D42B1F0EB8CF00DCA376 /* RCNconfig.h */,
+				6491D42C1F0EB8CF00DCA376 /* RCNconfig.m */,
 			);
 			name = Trippple;
 			sourceTree = "<group>";
@@ -1032,6 +1041,7 @@
 		ACC7DEB61C5A43D90087476F /* fonts */ = {
 			isa = PBXGroup;
 			children = (
+				648DE30A1F05C1A100C6BF99 /* Configuration.h */,
 				ACCB6A7E1DC90AA200E735C1 /* Entypo.ttf */,
 				ACCB6A7F1DC90AA200E735C1 /* EvilIcons.ttf */,
 				ACCB6A811DC90AA200E735C1 /* Foundation.ttf */,
@@ -1934,6 +1944,7 @@
 				ACC7DE991C5A41F30087476F /* AppDelegate.m in Sources */,
 				ACC7DEAE1C5A41F30087476F /* main.m in Sources */,
 				ACC7DEB01C5A41F30087476F /* UIColor+TRColors.m in Sources */,
+				6491D42D1F0EB8CF00DCA376 /* RCNconfig.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1973,6 +1984,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon2017;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				BUILD_ENV = "";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Trippple/Trippple.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Hiroki Moto (M8B7UVCXHS)";
@@ -1990,6 +2002,7 @@
 					"~/Documents/FacebookSDK",
 					"$(PROJECT_DIR)/**",
 					"$(inherited)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Trippple-PrefixHeader.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2047,6 +2060,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon2017;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				BUILD_ENV = "";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Trippple/Trippple.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Hiroki Moto (M8B7UVCXHS)";
@@ -2063,6 +2077,7 @@
 					"~/Documents/FacebookSDK",
 					"$(PROJECT_DIR)/**",
 					"$(inherited)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Trippple-PrefixHeader.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2112,11 +2127,190 @@
 			};
 			name = Release;
 		};
+		64606C221F0EB30B00A5F0FD /* staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Hiroki Moto (M8B7UVCXHS)";
+				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 20;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "~/Documents/FacebookSDK";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../node_modules/react-native/React/**",
+					"$(SRCROOT)/../node_modules/react-native-reverse-geo/RNReverseGeo/**",
+					"$(SRCROOT)/../node_modules/react-native-userdefaults-ios/RNUserDefaultsIOS",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
+					"$(SRCROOT)/../node_modules/react-native-network-info/ios",
+					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-app-info/RNAppInfo",
+					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
+					"$(SRCROOT)/../node_modules/react-native-touch-id",
+					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+					"$(SRCROOT)/../node_modules/react-native-app-info/RNAppInfo",
+					"$(SRCROOT)/../node_modules/react-native-keychain/RNKeychainManager",
+					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = co.trippple;
+				PROVISIONING_PROFILE = "c2c89a8a-d577-42c5-9073-2d1cb69c56ac";
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0.1;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = staging;
+		};
+		64606C231F0EB30B00A5F0FD /* staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 047E0A35175544B655D0D3BF /* Pods-Trippple.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon2017;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				BUILD_ENV = "";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Trippple/Trippple.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Hiroki Moto (M8B7UVCXHS)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Hiroki Moto (M8B7UVCXHS)";
+				CURRENT_PROJECT_VERSION = 20;
+				DEVELOPMENT_TEAM = 3D5DY3UN4M;
+				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
+				ENABLE_BITCODE = YES;
+				ENABLE_ON_DEMAND_RESOURCES = NO;
+				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.framework *.gch *.xcode* *.xcassets (*) .DS_Store CVS .svn .git .hg *.pbproj *.pbxproj android";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/../node_modules/react-native/**",
+					"$(SRCROOT)/../lib/**",
+					"~/Documents/FacebookSDK",
+					"$(PROJECT_DIR)/**",
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Trippple-PrefixHeader.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../node_modules/react-native/React/**",
+					"$(SRCROOT)/../node_modules/react-native-fcm/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-app-info/RNAppInfo",
+					"$(SRCROOT)/../node_modules/react-native-keychain/RNKeychainManager",
+					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
+				);
+				INFOPLIST_FILE = Trippple/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/**",
+					"$(SRCROOT)/../node_modules/react-native/**",
+					"$(SRCROOT)/Trippple",
+					"\"$(SRCROOT)/Trippple\"",
+					"\"$(SRCROOT)/Trippple\"",
+					"\"$(SRCROOT)/Trippple\"",
+					"\"$(SRCROOT)/Trippple\"",
+				);
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
+				PRODUCT_NAME = Trippple;
+				PROVISIONING_PROFILE = "c2c89a8a-d577-42c5-9073-2d1cb69c56ac";
+				PROVISIONING_PROFILE_SPECIFIER = "Hiroki Ulises DEV Provision";
+				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "Trippple-Bridging-Header.h";
+				SWIFT_SUPPRESS_WARNINGS = YES;
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = staging;
+		};
+		64606C241F0EB30B00A5F0FD /* staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-app-info/RNAppInfo",
+					"$(SRCROOT)/../node_modules/react-native-keychain/RNKeychainManager",
+					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
+				);
+				INFOPLIST_FILE = TripppleSnapshotTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lc++",
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = trippple.TripppleSnapshotTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Trippple.app/Trippple";
+			};
+			name = staging;
+		};
 		83CBBA201A601CBA00E9B192 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -2192,6 +2386,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -2334,6 +2529,7 @@
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
 				13B07F951A680F5B00A75B9A /* Release */,
+				64606C231F0EB30B00A5F0FD /* staging */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2343,6 +2539,7 @@
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
 				83CBBA211A601CBA00E9B192 /* Release */,
+				64606C221F0EB30B00A5F0FD /* staging */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2352,6 +2549,7 @@
 			buildConfigurations = (
 				AC9D8D391D3F34FF009D4C78 /* Debug */,
 				AC9D8D3A1D3F34FF009D4C78 /* Release */,
+				64606C241F0EB30B00A5F0FD /* staging */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
